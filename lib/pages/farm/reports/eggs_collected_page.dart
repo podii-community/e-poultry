@@ -1,3 +1,4 @@
+import 'package:epoultry/models/batch_model.dart';
 import 'package:epoultry/pages/farm/reports/confirm_report_page.dart';
 import 'package:epoultry/theme/palette.dart';
 import 'package:flutter/material.dart';
@@ -6,14 +7,33 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../models/report_model.dart';
 import '../../../theme/colors.dart';
 import '../../../theme/spacing.dart';
 import '../../../widgets/gradient_widget.dart';
 
-class EggsCollectedPage extends StatelessWidget {
-  EggsCollectedPage({Key? key}) : super(key: key);
+class EggsCollectedPage extends StatefulWidget {
+  EggsCollectedPage(
+      {Key? key, required this.batchDetails, required this.report})
+      : super(key: key);
 
+  final Batches batchDetails;
+  final Report report;
+
+  @override
+  State<EggsCollectedPage> createState() => _EggsCollectedPageState();
+}
+
+class _EggsCollectedPageState extends State<EggsCollectedPage> {
   final _formKey = GlobalKey<FormState>();
+
+  final eggsCollected = TextEditingController();
+  final mediumEggs = TextEditingController();
+  final largeEggs = TextEditingController();
+  final fullyBroken = TextEditingController();
+  final partiallyBroken = TextEditingController();
+  final deformed = TextEditingController();
+  final comment = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +66,7 @@ class EggsCollectedPage extends StatelessWidget {
                     children: [
                       ListTile(
                         tileColor: Palette.kPrimary[100],
-                        title: Text("Batch 2"),
+                        title: Text("${widget.batchDetails.name}"),
                         trailing: Icon(
                           PhosphorIcons.caretDownFill,
                         ),
@@ -72,7 +92,7 @@ class EggsCollectedPage extends StatelessWidget {
                                         color: Colors.black, fontSize: 2.h),
                                   ),
                                   Text(
-                                    "Layers",
+                                    "${widget.batchDetails.type}",
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 3.5.h,
@@ -89,7 +109,7 @@ class EggsCollectedPage extends StatelessWidget {
                                         color: Colors.black, fontSize: 2.h),
                                   ),
                                   Text(
-                                    "2256",
+                                    "${widget.batchDetails.quantity}",
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 3.5.h,
@@ -106,7 +126,7 @@ class EggsCollectedPage extends StatelessWidget {
                                         color: Colors.black, fontSize: 2.h),
                                   ),
                                   Text(
-                                    "4 weeks",
+                                    "${widget.batchDetails.age + " " + widget.batchDetails.units}",
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 3.3.h,
@@ -148,6 +168,8 @@ class EggsCollectedPage extends StatelessWidget {
                         child: Column(
                           children: [
                             TextFormField(
+                              controller: eggsCollected,
+                              keyboardType: TextInputType.number,
                               decoration: InputDecoration(
                                   labelText: "Number of Good Eggs",
                                   labelStyle: TextStyle(
@@ -173,6 +195,8 @@ class EggsCollectedPage extends StatelessWidget {
                               childAspectRatio: 2,
                               children: [
                                 TextFormField(
+                                  controller: mediumEggs,
+                                  keyboardType: TextInputType.number,
                                   decoration: InputDecoration(
                                       labelText: "Medium Eggs",
                                       labelStyle: TextStyle(
@@ -188,6 +212,8 @@ class EggsCollectedPage extends StatelessWidget {
                                               color: CustomColors.secondary))),
                                 ),
                                 TextFormField(
+                                  controller: largeEggs,
+                                  keyboardType: TextInputType.number,
                                   decoration: InputDecoration(
                                       labelText: "Large Eggs",
                                       labelStyle: TextStyle(
@@ -214,6 +240,8 @@ class EggsCollectedPage extends StatelessWidget {
                               childAspectRatio: 2,
                               children: [
                                 TextFormField(
+                                  controller: fullyBroken,
+                                  keyboardType: TextInputType.number,
                                   decoration: InputDecoration(
                                       labelText: "Fully Broken",
                                       labelStyle: TextStyle(
@@ -229,6 +257,8 @@ class EggsCollectedPage extends StatelessWidget {
                                               color: CustomColors.secondary))),
                                 ),
                                 TextFormField(
+                                  controller: partiallyBroken,
+                                  keyboardType: TextInputType.number,
                                   decoration: InputDecoration(
                                       labelText: "Partially Broken",
                                       labelStyle: TextStyle(
@@ -244,6 +274,8 @@ class EggsCollectedPage extends StatelessWidget {
                                               color: CustomColors.secondary))),
                                 ),
                                 TextFormField(
+                                  controller: deformed,
+                                  keyboardType: TextInputType.number,
                                   decoration: InputDecoration(
                                       labelText: "Deformed",
                                       labelStyle: TextStyle(
@@ -264,6 +296,8 @@ class EggsCollectedPage extends StatelessWidget {
                               height: CustomSpacing.s2,
                             ),
                             TextFormField(
+                              controller: comment,
+                              keyboardType: TextInputType.text,
                               decoration: InputDecoration(
                                   labelText: "Comment on quality of Eggs",
                                   labelStyle: TextStyle(
@@ -286,10 +320,26 @@ class EggsCollectedPage extends StatelessWidget {
               GradientWidget(
                 child: ElevatedButton(
                     onPressed: () {
+                      Report _report = Report(
+                          reason: widget.report.reason,
+                          reduceBy: widget.report.reduceBy,
+                          typeOfFeed: widget.report.typeOfFeed,
+                          quantity: widget.report.quantity,
+                          measurement: widget.report.measurement,
+                          eggsCollected: eggsCollected.text,
+                          mediumEggs: mediumEggs.text,
+                          largeEggs: largeEggs.text,
+                          fullyBroken: fullyBroken.text,
+                          partiallyBroken: partiallyBroken.text,
+                          deformedEggs: deformed.text,
+                          comment: comment.text);
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ConfirmReportPage()),
+                            builder: (context) => ConfirmReportPage(
+                                  report: _report,
+                                  batch: widget.batchDetails,
+                                )),
                       );
                     },
                     child: Text('PROCEED'),

@@ -8,10 +8,18 @@ import 'package:sizer/sizer.dart';
 import '../theme/colors.dart';
 import '../theme/spacing.dart';
 
-class OtpPage extends StatelessWidget {
-  OtpPage({Key? key, required this.route}) : super(key: key);
+class OtpPage extends StatefulWidget {
+  OtpPage({Key? key, required this.route, required this.phone})
+      : super(key: key);
 
   final String route;
+  final String phone;
+
+  @override
+  State<OtpPage> createState() => _OtpPageState();
+}
+
+class _OtpPageState extends State<OtpPage> {
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -60,14 +68,14 @@ class OtpPage extends StatelessWidget {
             SizedBox(
               height: CustomSpacing.s2,
             ),
-           Container(
-             width: 80.w,
-             child:  Text(
-               'A 4-digit code has been sent to +254722000000',
-               style: TextStyle(fontSize: 2.h),
-               textAlign: TextAlign.center,
-             ),
-           ),
+            Container(
+              width: 80.w,
+              child: Text(
+                'A 4-digit code has been sent to +254${widget.phone}',
+                style: TextStyle(fontSize: 2.h),
+                textAlign: TextAlign.center,
+              ),
+            ),
             SizedBox(
               height: CustomSpacing.s3,
             ),
@@ -80,7 +88,9 @@ class OtpPage extends StatelessWidget {
                       focusedPinTheme: focusedPinTheme,
                       submittedPinTheme: submittedPinTheme,
                       validator: (s) {
-                        return s == '2222' ? null : 'Wrong code. Please try again';
+                        return s == '2222'
+                            ? null
+                            : 'Wrong code. Please try again';
                       },
                       pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
                       showCursor: true,
@@ -97,7 +107,14 @@ class OtpPage extends StatelessWidget {
             GradientWidget(
               child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(context,  MaterialPageRoute(builder: (context) => SuccessWidget(message: 'Your phone number has been verified', route: route,)));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => SuccessWidget(
+                                  message:
+                                      'Your phone number has been verified',
+                                  route: widget.route,
+                                )));
                   },
                   child: Text('VERIFY PHONE NUMBER'),
                   style: ElevatedButton.styleFrom(

@@ -1,3 +1,7 @@
+import 'dart:developer';
+
+import 'package:epoultry/models/batch_model.dart';
+import 'package:epoultry/services/batches_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -10,7 +14,10 @@ import '../../../widgets/gradient_widget.dart';
 import '../../../widgets/success_widget.dart';
 
 class ConfirmBatchPage extends StatelessWidget {
-  const ConfirmBatchPage({Key? key}) : super(key: key);
+  ConfirmBatchPage({Key? key, required this.newBatch}) : super(key: key);
+
+  final Batches newBatch;
+  BatchesService _batchesService = BatchesService();
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +64,7 @@ class ConfirmBatchPage extends StatelessWidget {
                                 color: CustomColors.secondary, fontSize: 2.4.h),
                           ),
                           Text(
-                            'Batch 1',
+                            '${newBatch.name}',
                             style: TextStyle(fontSize: 2.1.h),
                           )
                         ],
@@ -74,7 +81,7 @@ class ConfirmBatchPage extends StatelessWidget {
                                 color: CustomColors.secondary, fontSize: 2.4.h),
                           ),
                           Text(
-                            'Broilers',
+                            '${newBatch.type}',
                             style: TextStyle(fontSize: 2.1.h),
                           )
                         ],
@@ -91,7 +98,7 @@ class ConfirmBatchPage extends StatelessWidget {
                                 color: CustomColors.secondary, fontSize: 2.4.h),
                           ),
                           Text(
-                            '2000',
+                            '${newBatch.quantity}',
                             style: TextStyle(fontSize: 2.1.h),
                           )
                         ],
@@ -108,7 +115,7 @@ class ConfirmBatchPage extends StatelessWidget {
                                 color: CustomColors.secondary, fontSize: 2.4.h),
                           ),
                           Text(
-                            '4 weeks',
+                            '${newBatch.age + newBatch.units}',
                             style: TextStyle(fontSize: 2.1.h),
                           )
                         ],
@@ -125,7 +132,7 @@ class ConfirmBatchPage extends StatelessWidget {
                                 color: CustomColors.secondary, fontSize: 2.4.h),
                           ),
                           Text(
-                            '14th July 2022',
+                            '${newBatch.date}',
                             style: TextStyle(fontSize: 2.1.h),
                           )
                         ],
@@ -135,7 +142,8 @@ class ConfirmBatchPage extends StatelessWidget {
                 ),
                 GradientWidget(
                   child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
+                        await _batchesService.createItem(newBatch);
                         Navigator.push(
                             context,
                             MaterialPageRoute(

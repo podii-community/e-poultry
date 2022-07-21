@@ -1,17 +1,37 @@
+import 'dart:developer';
+
 import 'package:epoultry/pages/farm/farm_dashboard_page.dart';
+import 'package:epoultry/services/reports_service.dart';
 import 'package:epoultry/theme/palette.dart';
 import 'package:epoultry/theme/spacing.dart';
 import 'package:epoultry/widgets/gradient_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../models/batch_model.dart';
+import '../../../models/report_model.dart';
 import '../../../theme/colors.dart';
 
-class ConfirmReportPage extends StatelessWidget {
-  const ConfirmReportPage({Key? key}) : super(key: key);
+class ConfirmReportPage extends StatefulWidget {
+  const ConfirmReportPage({Key? key, required this.report, required this.batch})
+      : super(key: key);
+
+  final Report report;
+  final Batches batch;
+
+  @override
+  State<ConfirmReportPage> createState() => _ConfirmReportPageState();
+}
+
+class _ConfirmReportPageState extends State<ConfirmReportPage> {
+  ReportsService _reportsService = ReportsService();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    log("${widget.report}");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +121,7 @@ class ConfirmReportPage extends StatelessWidget {
                         style: TextStyle(color: Colors.black, fontSize: 2.2.h),
                       ),
                       Text(
-                        'Batch 2',
+                        '${widget.batch.name}',
                         style: TextStyle(fontSize: 2.1.h),
                       )
                     ],
@@ -117,7 +137,7 @@ class ConfirmReportPage extends StatelessWidget {
                         style: TextStyle(color: Colors.black, fontSize: 2.2.h),
                       ),
                       Text(
-                        '14th July 2022',
+                        '${widget.batch.date}',
                         style: TextStyle(fontSize: 2.1.h),
                       )
                     ],
@@ -180,7 +200,7 @@ class ConfirmReportPage extends StatelessWidget {
                                     color: Colors.black, fontSize: 2.h),
                               ),
                               Text(
-                                '-10',
+                                '-${widget.report.reduceBy}',
                                 style: TextStyle(
                                     fontSize: 2.h, color: CustomColors.red),
                               )
@@ -198,7 +218,7 @@ class ConfirmReportPage extends StatelessWidget {
                                     color: Colors.black, fontSize: 1.8.h),
                               ),
                               Text(
-                                '5',
+                                '${widget.report.reduceBy}',
                                 style: TextStyle(
                                     fontSize: 1.8.h, color: Colors.black),
                               )
@@ -285,7 +305,7 @@ class ConfirmReportPage extends StatelessWidget {
                                     color: Colors.black, fontSize: 2.h),
                               ),
                               Text(
-                                '+1003',
+                                '+${widget.report.eggsCollected}',
                                 style: TextStyle(
                                     fontSize: 2.h, color: CustomColors.green),
                               )
@@ -303,7 +323,7 @@ class ConfirmReportPage extends StatelessWidget {
                                     color: Colors.black, fontSize: 1.8.h),
                               ),
                               Text(
-                                '700',
+                                '${widget.report.largeEggs}',
                                 style: TextStyle(
                                     fontSize: 1.8.h, color: Colors.black),
                               )
@@ -321,7 +341,7 @@ class ConfirmReportPage extends StatelessWidget {
                                     color: Colors.black, fontSize: 1.8.h),
                               ),
                               Text(
-                                '300',
+                                '${widget.report.mediumEggs}',
                                 style: TextStyle(
                                     fontSize: 1.8.h, color: Colors.black),
                               )
@@ -339,7 +359,7 @@ class ConfirmReportPage extends StatelessWidget {
                                     color: Colors.black, fontSize: 1.8.h),
                               ),
                               Text(
-                                '2',
+                                '${widget.report.deformedEggs}',
                                 style: TextStyle(
                                     fontSize: 1.8.h, color: Colors.black),
                               )
@@ -357,7 +377,7 @@ class ConfirmReportPage extends StatelessWidget {
                                     color: Colors.black, fontSize: 1.8.h),
                               ),
                               Text(
-                                '1',
+                                '${widget.report.fullyBroken}',
                                 style: TextStyle(
                                     fontSize: 1.8.h, color: Colors.black),
                               )
@@ -390,7 +410,7 @@ class ConfirmReportPage extends StatelessWidget {
                                     color: Colors.black, fontSize: 2.h),
                               ),
                               Text(
-                                '-10Kg',
+                                '-${widget.report.quantity!}',
                                 style: TextStyle(
                                     fontSize: 2.h, color: CustomColors.red),
                               )
@@ -441,7 +461,8 @@ class ConfirmReportPage extends StatelessWidget {
             ),
             GradientWidget(
               child: ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
+                    await _reportsService.createItem(widget.report);
                     Navigator.push(
                       context,
                       MaterialPageRoute(

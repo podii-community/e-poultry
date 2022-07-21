@@ -1,16 +1,22 @@
+import 'dart:developer';
+
 import 'package:epoultry/pages/farm/reports/feeds_used_page.dart';
 import 'package:epoultry/theme/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../models/batch_model.dart';
+import '../../../models/report_model.dart';
 import '../../../theme/colors.dart';
 import '../../../theme/spacing.dart';
 import '../../../widgets/gradient_widget.dart';
 
 class NumberOfBirdsReportPage extends StatefulWidget {
-  NumberOfBirdsReportPage({Key? key}) : super(key: key);
+  NumberOfBirdsReportPage({Key? key, required this.batchDetails})
+      : super(key: key);
 
+  final Batches batchDetails;
   @override
   State<NumberOfBirdsReportPage> createState() =>
       _NumberOfBirdsReportPageState();
@@ -22,6 +28,14 @@ class _NumberOfBirdsReportPageState extends State<NumberOfBirdsReportPage> {
   var reasons = ["", "Sold", "Mortality", "Curled"];
 
   String initialReason = "";
+  final reduce = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    log("${widget.batchDetails}");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +68,7 @@ class _NumberOfBirdsReportPageState extends State<NumberOfBirdsReportPage> {
                     children: [
                       ListTile(
                         tileColor: Palette.kPrimary[100],
-                        title: Text("Batch 2"),
+                        title: Text("${widget.batchDetails.name}"),
                         trailing: Icon(
                           PhosphorIcons.caretDownFill,
                         ),
@@ -80,7 +94,7 @@ class _NumberOfBirdsReportPageState extends State<NumberOfBirdsReportPage> {
                                         color: Colors.black, fontSize: 2.h),
                                   ),
                                   Text(
-                                    "Layers",
+                                    "${widget.batchDetails.type}",
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 3.5.h,
@@ -97,7 +111,7 @@ class _NumberOfBirdsReportPageState extends State<NumberOfBirdsReportPage> {
                                         color: Colors.black, fontSize: 2.h),
                                   ),
                                   Text(
-                                    "2256",
+                                    "${widget.batchDetails.quantity}",
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 3.5.h,
@@ -114,7 +128,7 @@ class _NumberOfBirdsReportPageState extends State<NumberOfBirdsReportPage> {
                                         color: Colors.black, fontSize: 2.h),
                                   ),
                                   Text(
-                                    "4 weeks",
+                                    "${widget.batchDetails.age + " " + widget.batchDetails.units}",
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 3.3.h,
@@ -156,6 +170,8 @@ class _NumberOfBirdsReportPageState extends State<NumberOfBirdsReportPage> {
                         child: Column(
                           children: [
                             TextFormField(
+                              controller: reduce,
+                              keyboardType: TextInputType.number,
                               decoration: InputDecoration(
                                   labelText: "Reduce By",
                                   labelStyle: TextStyle(
@@ -215,10 +231,15 @@ class _NumberOfBirdsReportPageState extends State<NumberOfBirdsReportPage> {
               GradientWidget(
                 child: ElevatedButton(
                     onPressed: () {
+                      Report _report =
+                          Report(reason: initialReason, reduceBy: reduce.text);
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => FeedsUsedPage()),
+                            builder: (context) => FeedsUsedPage(
+                                  batchDetails: widget.batchDetails,
+                                  report: _report,
+                                )),
                       );
                     },
                     child: Text('PROCEED'),

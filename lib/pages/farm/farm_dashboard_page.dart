@@ -19,7 +19,7 @@ class FarmDashboardPage extends StatefulWidget {
 class _FarmDashboardPageState extends State<FarmDashboardPage> {
   int _selectedIndex = 0;
 
-  static const List<Widget> _pages = <Widget>[DashboardPage(), ListBatchPage()];
+  static List<Widget> _pages = <Widget>[DashboardPage(), ListBatchPage()];
 
   @override
   Widget build(BuildContext context) {

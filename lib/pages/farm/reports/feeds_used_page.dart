@@ -1,3 +1,5 @@
+import 'package:epoultry/models/batch_model.dart';
+import 'package:epoultry/models/report_model.dart';
 import 'package:epoultry/pages/farm/reports/eggs_collected_page.dart';
 import 'package:epoultry/theme/palette.dart';
 import 'package:flutter/material.dart';
@@ -9,8 +11,11 @@ import '../../../theme/spacing.dart';
 import '../../../widgets/gradient_widget.dart';
 
 class FeedsUsedPage extends StatefulWidget {
-  FeedsUsedPage({Key? key}) : super(key: key);
+  FeedsUsedPage({Key? key, required this.batchDetails, required this.report})
+      : super(key: key);
 
+  final Batches batchDetails;
+  final Report report;
   @override
   State<FeedsUsedPage> createState() => _FeedsUsedPageState();
 }
@@ -25,6 +30,8 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
   String initialFeed = "";
 
   String initialUnit = "";
+
+  final quantity = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +64,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                     children: [
                       ListTile(
                         tileColor: Palette.kPrimary[100],
-                        title: Text("Batch 2"),
+                        title: Text("${widget.batchDetails.name}"),
                         trailing: Icon(
                           PhosphorIcons.caretDownFill,
                         ),
@@ -83,7 +90,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                         color: Colors.black, fontSize: 2.h),
                                   ),
                                   Text(
-                                    "Layers",
+                                    "${widget.batchDetails.type}",
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 3.5.h,
@@ -100,7 +107,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                         color: Colors.black, fontSize: 2.h),
                                   ),
                                   Text(
-                                    "2256",
+                                    "${widget.batchDetails.quantity}",
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 3.5.h,
@@ -117,7 +124,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                         color: Colors.black, fontSize: 2.h),
                                   ),
                                   Text(
-                                    "4 weeks",
+                                    "${widget.batchDetails.age + " " + widget.batchDetails.units}",
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 3.3.h,
@@ -203,6 +210,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                     crossAxisSpacing: CustomSpacing.s1,
                                     children: [
                                       TextFormField(
+                                        controller: quantity,
                                         decoration: InputDecoration(
                                             labelText: "Quantity",
                                             labelStyle: TextStyle(
@@ -253,8 +261,6 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                             initialUnit = newValue!;
                                           });
                                         },
-                                        // After selecting the desired option,it will
-                                        // change button value to selected value
                                       ),
                                     ],
                                   ),
@@ -279,10 +285,19 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
               GradientWidget(
                 child: ElevatedButton(
                     onPressed: () {
+                      Report _report = Report(
+                          reason: widget.report.reason,
+                          reduceBy: widget.report.reduceBy,
+                          typeOfFeed: initialFeed,
+                          quantity: quantity.text,
+                          measurement: initialUnit);
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => EggsCollectedPage()),
+                            builder: (context) => EggsCollectedPage(
+                                  batchDetails: widget.batchDetails,
+                                  report: _report,
+                                )),
                       );
                     },
                     child: Text('PROCEED'),

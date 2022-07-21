@@ -5,18 +5,48 @@ import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../models/batch_model.dart';
+import '../../../services/batches_service.dart';
+import '../../../services/sqlite_service.dart';
 import '../../../theme/colors.dart';
 import '../../../widgets/gradient_widget.dart';
 
 class SelectBatchPage extends StatefulWidget {
-  const SelectBatchPage({Key? key}) : super(key: key);
-
+  SelectBatchPage({Key? key}) : super(key: key);
+  bool isSelected = false;
   @override
   State<SelectBatchPage> createState() => _SelectBatchPageState();
 }
 
 class _SelectBatchPageState extends State<SelectBatchPage> {
   final List<bool> _selected = List.generate(5, (i) => false);
+
+  BatchesService _batchesService = BatchesService();
+
+  List<Batches> _batches = [];
+  List<Batches> _selectedBatch = [];
+
+  late SqliteService _sqliteService;
+  bool _isSelected = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _sqliteService = SqliteService();
+    _sqliteService.initializeDB().whenComplete(() async {
+      await _getBatches();
+      setState(() {});
+    });
+    _isSelected = widget.isSelected;
+  }
+
+  _getBatches() async {
+    final data = await _batchesService.getItems();
+    setState(() {
+      _batches = data;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,26 +100,39 @@ class _SelectBatchPageState extends State<SelectBatchPage> {
             ),
             Expanded(
                 child: ListView.builder(
-                    itemCount: 5,
+                    itemCount: _batches.length,
                     itemBuilder: (context, index) {
                       return ListTile(
-                        onTap: () => setState(
-                            () => _selected[index] = !_selected[index]),
-                        tileColor: _selected[index]
+                        onTap: () {
+                          if (_selectedBatch.isEmpty) {
+                            _selectedBatch.add(_batches[index]);
+                          } else {
+                            _selectedBatch[0] = _batches[index];
+                          }
+
+                          setState(() {
+                            _isSelected = !_isSelected;
+                          });
+                        },
+                        tileColor: _isSelected
                             ? Palette.kPrimary[200]
                             : Palette.kPrimary[100],
-                        title: Text("Batch ${index + 1}"),
+                        title: Text("${_batches[index].name}"),
                       );
                     })),
             GradientWidget(
               child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => NumberOfBirdsReportPage()),
-                    );
-                  },
+                  onPressed: _selectedBatch.isEmpty
+                      ? null
+                      : () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => NumberOfBirdsReportPage(
+                                      batchDetails: _selectedBatch[0],
+                                    )),
+                          );
+                        },
                   child: Text('START REPORT'),
                   style: ElevatedButton.styleFrom(
                       primary: Colors.transparent,

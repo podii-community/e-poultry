@@ -6,9 +6,25 @@ import 'package:sizer/sizer.dart';
 
 import '../../theme/colors.dart';
 
-class FarmManagerRegistration extends StatelessWidget {
+class FarmManagerRegistration extends StatefulWidget {
   FarmManagerRegistration({Key? key}) : super(key: key);
+
+  @override
+  State<FarmManagerRegistration> createState() =>
+      _FarmManagerRegistrationState();
+}
+
+class _FarmManagerRegistrationState extends State<FarmManagerRegistration> {
+  final phoneNumber = TextEditingController();
+
   final _formKey = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    phoneNumber.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,7 +86,14 @@ class FarmManagerRegistration extends StatelessWidget {
             GradientWidget(
               child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => OtpPage(route: "register",)),);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => OtpPage(
+                                route: "register",
+                                phone: phoneNumber.text,
+                              )),
+                    );
                   },
                   child: Text('SIGN UP'),
                   style: ElevatedButton.styleFrom(
@@ -94,11 +117,10 @@ class FarmManagerRegistration extends StatelessWidget {
                     TextSpan(
                       text: "LOGIN",
                       style: TextStyle(
-                        color: CustomColors.secondary,
-                        fontSize: 2.2.h,
-                        fontWeight: FontWeight.w400,
-                        decoration: TextDecoration.underline
-                      ),
+                          color: CustomColors.secondary,
+                          fontSize: 2.2.h,
+                          fontWeight: FontWeight.w400,
+                          decoration: TextDecoration.underline),
                     )
                   ]),
             )

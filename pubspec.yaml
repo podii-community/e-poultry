@@ -37,6 +37,8 @@ dependencies:
   google_fonts: ^3.0.1
   sizer: ^2.0.15
   phosphor_flutter: ^1.4.0
+  sqflite: ^2.0.3
+  path: ^1.8.1
   
 
 dev_dependencies:

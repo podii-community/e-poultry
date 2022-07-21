@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:epoultry/widgets/gradient_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
@@ -6,10 +8,24 @@ import '../../theme/colors.dart';
 import '../../theme/spacing.dart';
 import '../otp_page.dart';
 
-class FarmManagerLogin extends StatelessWidget {
-   FarmManagerLogin({Key? key}) : super(key: key);
+class FarmManagerLogin extends StatefulWidget {
+  FarmManagerLogin({Key? key}) : super(key: key);
+
+  @override
+  State<FarmManagerLogin> createState() => _FarmManagerLoginState();
+}
+
+class _FarmManagerLoginState extends State<FarmManagerLogin> {
+  final phoneNumber = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    phoneNumber.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,12 +52,10 @@ class FarmManagerLogin extends StatelessWidget {
                 key: _formKey,
                 child: Column(
                   children: [
-
-
                     TextFormField(
+                      controller: phoneNumber,
                       decoration: InputDecoration(
                           labelText: "Phone Number",
-
                           labelStyle: TextStyle(fontSize: 2.2.h),
                           border: OutlineInputBorder(
                               borderSide: BorderSide(
@@ -59,7 +73,12 @@ class FarmManagerLogin extends StatelessWidget {
             GradientWidget(
               child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => OtpPage(route: "login",)),);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              OtpPage(route: "login", phone: phoneNumber.text)),
+                    );
                   },
                   child: Text('LOG IN'),
                   style: ElevatedButton.styleFrom(
@@ -86,8 +105,7 @@ class FarmManagerLogin extends StatelessWidget {
                           color: CustomColors.secondary,
                           fontSize: 2.2.h,
                           fontWeight: FontWeight.w400,
-                          decoration: TextDecoration.underline
-                      ),
+                          decoration: TextDecoration.underline),
                     )
                   ]),
             )
