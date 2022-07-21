@@ -1,3 +1,4 @@
+import 'package:epoultry/pages/farm/reports/select_batch_page.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
@@ -45,6 +46,7 @@ class DashboardPage extends StatelessWidget {
                           EdgeInsets.symmetric(horizontal: CustomSpacing.s1),
                       child: GridView.count(
                         crossAxisCount: 3,
+                        shrinkWrap: true,
                         children: [
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -129,6 +131,13 @@ class DashboardPage extends StatelessWidget {
                         children: [
                           GradientWidget(
                             child: ListTile(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => SelectBatchPage()),
+                                );
+                              },
                               leading: Icon(
                                 PhosphorIcons.plusCircleFill,
                                 color: CustomColors.background,

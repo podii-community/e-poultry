@@ -4,8 +4,8 @@ class Palette {
   static const MaterialColor kPrimary = MaterialColor(
     0xffFF0000, // 0% comes in here, this will be color picked if no shade is selected when defining a Color property which doesn’t require a swatch.
     <int, Color>{
-      100: Color(0xffF8E7E7), //20%
-      200: Color(0xffEF8F8F), //30%
+      100: Color(0xffFCF7F7), //20%
+      200: Color(0xffF8E7E7), //30%
       300: Color(0xffEF8F8F), //40%
       400: Color(0xffF35353), //50%
       500: Color(0xffD20F0F), //60%
