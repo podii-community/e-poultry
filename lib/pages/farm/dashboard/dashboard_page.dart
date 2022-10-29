@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:epoultry/controllers/farm_controller.dart';
 import 'package:epoultry/pages/farm/reports/all_reports_page.dart';
 import 'package:epoultry/pages/farm/reports/select_batch_page.dart';
@@ -8,7 +6,6 @@ import 'package:epoultry/pages/farm/reports/view_report_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:hive/hive.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
@@ -155,8 +152,6 @@ class DashboardPage extends StatelessWidget {
                         ],
                       )),
                 );
-
-                return Container();
               },
             ),
           ),
@@ -231,7 +226,7 @@ class DashboardPage extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => AllReportsPage()),
+                                builder: (context) => const AllReportsPage()),
                           );
                         },
                         child:

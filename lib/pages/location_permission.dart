@@ -1,9 +1,6 @@
 import 'package:epoultry/theme/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
 import '../widgets/gradient_widget.dart';
@@ -29,13 +26,13 @@ class LocationPermissionPage extends StatelessWidget {
         //     Navigator.pop(context);
         //   },
         // ),
-        title: Text(
+        title: const Text(
           "Location Permission",
           style: TextStyle(color: Colors.black),
         ),
       ),
       body: Container(
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         child: Center(
           child: GradientWidget(
             child: ElevatedButton(

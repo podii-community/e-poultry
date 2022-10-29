@@ -1,28 +1,14 @@
-import 'dart:developer';
-
-import 'package:epoultry/data/models/batch_model.dart';
 import 'package:epoultry/data/queries.dart';
-import 'package:epoultry/graphql/graphql-config.dart';
+import 'package:epoultry/graphql/graphql_config.dart';
 
 import 'package:epoultry/graphql/query_document_provider.dart';
-import 'package:epoultry/pages/farm/batch/create_batch_page.dart';
-import 'package:epoultry/pages/farm/reports/medication-used.dart';
-import 'package:epoultry/pages/farm/reports/received/briquettes-recieved.dart';
-import 'package:epoultry/pages/farm/reports/received/feed-received.dart';
-import 'package:epoultry/pages/farm/reports/received/sawdust-received.dart';
-import 'package:epoultry/pages/farm/reports/store/feeds-store.dart';
-import 'package:epoultry/pages/farm/reports/store/medication-store.dart';
 import 'package:epoultry/pages/landing_page.dart';
-import 'package:epoultry/pages/location_permission.dart';
 import 'package:epoultry/theme/custom_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:sizer/sizer.dart';
 
 void main() async {
@@ -129,7 +115,7 @@ class _MyAppState extends State<MyApp> {
                 //       farmId: ""),
                 //   report: null,
                 // )
-                // home: widget.page == 'login' ? const LandingPage() : const FarmDashboardPage(),
+
                 ),
           ),
         );

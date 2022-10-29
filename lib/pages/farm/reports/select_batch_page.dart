@@ -2,21 +2,14 @@ import 'dart:developer';
 
 import 'package:epoultry/data/data_export.dart';
 import 'package:epoultry/pages/farm/reports/number_birds_page.dart';
-import 'package:epoultry/graphql/query_document_provider.dart';
-import 'package:epoultry/theme/palette.dart';
 import 'package:epoultry/theme/spacing.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
-import 'package:string_extensions/string_extensions.dart';
 
 import '../../../controllers/farm_controller.dart';
 import '../../../theme/colors.dart';
-import '../../../widgets/error_widget.dart';
-import '../../../widgets/gradient_widget.dart';
-import '../../../widgets/loading_spinner.dart';
 import '../batch/create_batch_page.dart';
 
 class SelectBatchPage extends StatefulWidget {
@@ -91,7 +84,7 @@ class _SelectBatchPageState extends State<SelectBatchPage> {
                       borderSide: BorderSide(
                           width: 0.3.w, color: CustomColors.secondary)),
                   hintText: 'Search Batch name',
-                  hintStyle: TextStyle(
+                  hintStyle: const TextStyle(
                       fontWeight: FontWeight.w600, color: Colors.grey)),
             ),
             const SizedBox(
@@ -119,7 +112,7 @@ class _SelectBatchPageState extends State<SelectBatchPage> {
                           style: TextStyle(
                             fontSize: 2.2.h,
                           )),
-                      Icon(PhosphorIcons.plusCircleFill),
+                      const Icon(PhosphorIcons.plusCircleFill),
                     ],
                   ),
                 )
@@ -204,7 +197,7 @@ class _SelectBatchPageState extends State<SelectBatchPage> {
                                           style: TextStyle(
                                               fontSize: 1.5.h,
                                               color: CustomColors.tertiary)),
-                                      Icon(PhosphorIcons.arrowRight,
+                                      const Icon(PhosphorIcons.arrowRight,
                                           color: CustomColors.tertiary),
                                     ],
                                   )));

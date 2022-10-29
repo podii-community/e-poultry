@@ -1,7 +1,5 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 import 'package:string_extensions/string_extensions.dart';
@@ -50,7 +48,7 @@ class _FeedReceivedState extends State<FeedReceived> {
           ),
           title: Text(
             widget.batchDetails.name,
-            style: TextStyle(color: Colors.black),
+            style: const TextStyle(color: Colors.black),
           ),
         ),
         body: SingleChildScrollView(
@@ -60,11 +58,11 @@ class _FeedReceivedState extends State<FeedReceived> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: CustomSpacing.s3,
                   ),
                   Padding(
-                    padding: EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8.0),
                     child: Text(
                       "Update feeds received",
                       style: TextStyle(fontSize: 3.h),
@@ -181,6 +179,7 @@ class _FeedReceivedState extends State<FeedReceived> {
                                   if (value!.isEmpty) {
                                     return 'Layers mash in store';
                                   }
+                                  return null;
                                 },
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
@@ -211,6 +210,7 @@ class _FeedReceivedState extends State<FeedReceived> {
                                   if (value!.isEmpty) {
                                     return 'Broilers mash in store';
                                   }
+                                  return null;
                                 },
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
@@ -241,6 +241,7 @@ class _FeedReceivedState extends State<FeedReceived> {
                                   if (value!.isEmpty) {
                                     return 'Enter amount of chick mash in store';
                                   }
+                                  return null;
                                 },
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(

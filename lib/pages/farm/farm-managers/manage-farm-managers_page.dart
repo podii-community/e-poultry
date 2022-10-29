@@ -46,7 +46,7 @@ class _ManageFarmManagersState extends State<ManageFarmManagers> {
               height: CustomSpacing.s2,
             ),
             Padding(
-              padding: EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8.0),
               child: Text(
                 "Manage Farm Managers",
                 style: TextStyle(fontSize: 3.h),
@@ -83,7 +83,7 @@ class _ManageFarmManagersState extends State<ManageFarmManagers> {
               height: CustomSpacing.s3,
             ),
             Padding(
-              padding: EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8.0),
               child: Text(
                 "ALL FARM MANAGERS",
                 style: TextStyle(fontSize: 2.2.h),

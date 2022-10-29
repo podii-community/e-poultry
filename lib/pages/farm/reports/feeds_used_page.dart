@@ -67,7 +67,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
           ),
           title: Text(
             widget.batchDetails.name,
-            style: TextStyle(color: Colors.black),
+            style: const TextStyle(color: Colors.black),
           ),
         ),
         body: SingleChildScrollView(
@@ -77,11 +77,11 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: CustomSpacing.s3,
                   ),
                   Padding(
-                    padding: EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8.0),
                     child: Text(
                       "Update the feeds used",
                       style: TextStyle(fontSize: 3.h),
@@ -199,6 +199,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                   if (value!.isEmpty) {
                                     return 'Enter amount of layers mash used';
                                   }
+                                  return null;
                                 },
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
@@ -230,6 +231,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                   if (value!.isEmpty) {
                                     return 'Enter amount of broilers mash used';
                                   }
+                                  return null;
                                 },
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
@@ -261,6 +263,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                   if (value!.isEmpty) {
                                     return 'Enter amount of chick mash used';
                                   }
+                                  return null;
                                 },
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
@@ -327,7 +330,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                             }
                           };
 
-                          log("${report}");
+                          log("$report");
 
                           Navigator.push(
                             context,

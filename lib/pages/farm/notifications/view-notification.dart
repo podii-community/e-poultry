@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
@@ -32,7 +30,7 @@ class _ViewNotificationState extends State<ViewNotification> {
             Navigator.pop(context);
           },
         ),
-        title: Text(
+        title: const Text(
           "Notifications",
           style: TextStyle(color: Colors.black),
         ),

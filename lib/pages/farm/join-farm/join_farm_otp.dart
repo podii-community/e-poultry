@@ -83,7 +83,6 @@ class JoinFarmOtp extends StatelessWidget {
                       defaultPinTheme: defaultPinTheme,
                       focusedPinTheme: focusedPinTheme,
                       submittedPinTheme: submittedPinTheme,
-                      showCursor: true,
                     ),
                     const SizedBox(
                       height: CustomSpacing.s3,

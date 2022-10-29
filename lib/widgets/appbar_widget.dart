@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:epoultry/pages/farm/notifications/view-notification.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,7 +9,7 @@ import '../controllers/farm_controller.dart';
 import '../theme/colors.dart';
 
 class AppbarWidget extends StatelessWidget implements PreferredSizeWidget {
-  AppbarWidget({Key? key, @required this.drawerKey})
+  const AppbarWidget({Key? key, @required this.drawerKey})
       : preferredSize = const Size.fromHeight(60.0),
         super(key: key);
 
@@ -54,14 +52,14 @@ class AppbarWidget extends StatelessWidget implements PreferredSizeWidget {
                       builder: (context) => const ViewNotification()),
                 );
               },
-              icon: Icon(
+              icon: const Icon(
                 PhosphorIcons.bell,
                 color: CustomColors.secondary,
               ))
         ],
         title: Obx((() => Text(
               controller.farm.value['name'],
-              style: TextStyle(color: Colors.black),
+              style: const TextStyle(color: Colors.black),
             ))));
   }
 }

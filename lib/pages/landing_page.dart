@@ -20,7 +20,6 @@ class LandingPage extends StatelessWidget {
           // padding: const EdgeInsets.symmetric(horizontal: CustomSpacing.s2),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.max,
             children: [
               SizedBox(
                 height: 55.h,

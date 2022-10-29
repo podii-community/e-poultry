@@ -16,7 +16,10 @@ class FarmDashboardPage extends StatefulWidget {
 class _FarmDashboardPageState extends State<FarmDashboardPage> {
   int _selectedIndex = 0;
 
-  static final List<Widget> _pages = <Widget>[DashboardPage(), ListBatchPage()];
+  static final List<Widget> _pages = <Widget>[
+    DashboardPage(),
+    const ListBatchPage()
+  ];
   final GlobalKey<ScaffoldState> _dashboardkey = GlobalKey();
 
   @override

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:epoultry/data/data_export.dart';
 import 'package:epoultry/graphql/query_document_provider.dart';
 import 'package:epoultry/theme/palette.dart';
@@ -9,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
@@ -38,8 +35,6 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
 
   @override
   Widget build(BuildContext context) {
-    final box = Hive.box('appData');
-    final name = box.get('name');
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -79,7 +74,7 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
                       ),
                       Obx((() => Text(
                             controller.farm.value['name'],
-                            style: TextStyle(color: Colors.black),
+                            style: const TextStyle(color: Colors.black),
                           )))
                     ],
                   ),
@@ -170,13 +165,10 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
                     elevation: 0.4,
                     child: Container(
                       decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                              colors: [
-                            Palette.kPrimary[200]!,
-                            Palette.kSecondary[100]!
-                          ],
-                              begin: Alignment.centerLeft,
-                              end: Alignment.centerRight)),
+                          gradient: LinearGradient(colors: [
+                        Palette.kPrimary[200]!,
+                        Palette.kSecondary[100]!
+                      ])),
                       padding: const EdgeInsets.all(CustomSpacing.s2),
                       child: ListView(
                         children: [
@@ -226,13 +218,10 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
                     elevation: 0.4,
                     child: Container(
                       decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                              colors: [
-                            Palette.kPrimary[200]!,
-                            Palette.kSecondary[100]!
-                          ],
-                              begin: Alignment.centerLeft,
-                              end: Alignment.centerRight)),
+                          gradient: LinearGradient(colors: [
+                        Palette.kPrimary[200]!,
+                        Palette.kSecondary[100]!
+                      ])),
                       padding: const EdgeInsets.all(CustomSpacing.s2),
                       child: ListView(
                         children: [
@@ -286,13 +275,10 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
                           child: Container(
                             padding: const EdgeInsets.all(CustomSpacing.s2),
                             decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                    colors: [
-                                  Palette.kPrimary[200]!,
-                                  Palette.kSecondary[100]!
-                                ],
-                                    begin: Alignment.centerLeft,
-                                    end: Alignment.centerRight)),
+                                gradient: LinearGradient(colors: [
+                              Palette.kPrimary[200]!,
+                              Palette.kSecondary[100]!
+                            ])),
                             child: ListView(
                               children: [
                                 Row(

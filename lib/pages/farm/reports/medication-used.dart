@@ -1,7 +1,5 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 import 'package:string_extensions/string_extensions.dart';
@@ -53,7 +51,7 @@ class _MedicationUsedState extends State<MedicationUsed> {
           ),
           title: Text(
             widget.batchDetails.name,
-            style: TextStyle(color: Colors.black),
+            style: const TextStyle(color: Colors.black),
           ),
         ),
         body: SingleChildScrollView(
@@ -63,11 +61,11 @@ class _MedicationUsedState extends State<MedicationUsed> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: CustomSpacing.s3,
                   ),
                   Padding(
-                    padding: EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8.0),
                     child: Text(
                       "Update medication used",
                       style: TextStyle(fontSize: 3.h),
@@ -184,6 +182,7 @@ class _MedicationUsedState extends State<MedicationUsed> {
                                   if (value!.isEmpty) {
                                     return 'Enter amount';
                                   }
+                                  return null;
                                 },
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
@@ -214,6 +213,7 @@ class _MedicationUsedState extends State<MedicationUsed> {
                                   if (value!.isEmpty) {
                                     return 'Enter amount';
                                   }
+                                  return null;
                                 },
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(

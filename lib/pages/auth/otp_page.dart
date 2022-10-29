@@ -14,7 +14,7 @@ import 'package:sizer/sizer.dart';
 import '../../controllers/farm_controller.dart';
 import '../../controllers/user_controller.dart';
 import '../../data/models/error.dart';
-import '../../graphql/graphql-config.dart';
+import '../../graphql/graphql_config.dart';
 import '../../theme/colors.dart';
 import '../../theme/spacing.dart';
 import '../../widgets/loading_spinner.dart';
@@ -107,9 +107,6 @@ class _OtpPageState extends State<OtpPage> {
                           defaultPinTheme: defaultPinTheme,
                           focusedPinTheme: focusedPinTheme,
                           submittedPinTheme: submittedPinTheme,
-                          pinputAutovalidateMode:
-                              PinputAutovalidateMode.onSubmit,
-                          showCursor: true,
                           onCompleted: (pin) => log(pin),
                         ),
                         const SizedBox(
@@ -194,10 +191,10 @@ class _OtpPageState extends State<OtpPage> {
   Future<void> _onCompleted(data, BuildContext context) async {
     final box = Hive.box('appData');
 
-    /// If they do, move to home page. If not, take them to select artist page for them to select artists.
     if ((data['verifyOtp']['apiKey']).toString().isNotEmpty) {
       box.put('name',
-          "${data['verifyOtp']['user']['firstName']} ${data['verifyOtp']['user']['lastName']}");
+          "${data['verifyOtp']['user']['firstName']} 
+          ${data['verifyOtp']['user']['lastName']}");
       box.put('phone', data['verifyOtp']['user']['phoneNumber']);
 
       if (data['verifyOtp']['user']['farmer'] == null) {

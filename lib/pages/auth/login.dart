@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:epoultry/pages/auth/registration.dart';
 import 'package:epoultry/graphql/query_document_provider.dart';
 import 'package:epoultry/widgets/gradient_widget.dart';
@@ -71,6 +69,7 @@ class _LoginPageState extends State<LoginPage> {
                         if (value!.isEmpty) {
                           return 'Phone Number is required';
                         }
+                        return null;
                       },
                       decoration: InputDecoration(
                           labelText: "Phone Number",
@@ -170,9 +169,6 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _onCompleted(data, BuildContext context) {
-    /// If they do, move to home page. If not, take them to select artist page for them to select artists.
-    ///;
-
     var phone = phoneNumber.text.replaceFirst('0', '');
 
     if (data["requestLoginOtp"]) {
