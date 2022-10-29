@@ -1,50 +1,26 @@
-import 'dart:developer';
-
+import 'package:epoultry/data/data_export.dart';
 import 'package:epoultry/pages/farm/batch/create_batch_page.dart';
-import 'package:epoultry/services/batches_service.dart';
-import 'package:epoultry/services/sqlite_service.dart';
-import 'package:epoultry/theme/palette.dart';
-import 'package:epoultry/widgets/appbar_widget.dart';
+import 'package:epoultry/graphql/query_document_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../models/batch_model.dart';
 import '../../../theme/colors.dart';
 import '../../../theme/spacing.dart';
+import '../../../widgets/error_widget.dart';
 import '../../../widgets/gradient_widget.dart';
+import '../../../widgets/loading_spinner.dart';
 
 class ListBatchPage extends StatefulWidget {
-  ListBatchPage({Key? key}) : super(key: key);
+  const ListBatchPage({Key? key}) : super(key: key);
 
   @override
   State<ListBatchPage> createState() => _ListBatchPageState();
 }
 
 class _ListBatchPageState extends State<ListBatchPage> {
-  BatchesService _batchesService = BatchesService();
-
-  List<Batches> _batches = [];
-  late SqliteService _sqliteService;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _sqliteService = SqliteService();
-    _sqliteService.initializeDB().whenComplete(() async {
-      await _getBatches();
-      setState(() {});
-    });
-  }
-
-  _getBatches() async {
-    final data = await _batchesService.getItems();
-    log("$data");
-    setState(() {
-      _batches = data;
-    });
-  }
+  List<BatchModel> batches = [];
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +29,7 @@ class _ListBatchPageState extends State<ListBatchPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
+          const SizedBox(
             height: CustomSpacing.s2,
           ),
           Padding(
@@ -63,7 +39,7 @@ class _ListBatchPageState extends State<ListBatchPage> {
               style: TextStyle(fontSize: 3.h),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: CustomSpacing.s1,
           ),
           GradientWidget(
@@ -71,7 +47,8 @@ class _ListBatchPageState extends State<ListBatchPage> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => CreateBatchPage()),
+                  MaterialPageRoute(
+                      builder: (context) => const CreateBatchPage()),
                 );
               },
               leading: const Icon(
@@ -86,7 +63,7 @@ class _ListBatchPageState extends State<ListBatchPage> {
               textColor: CustomColors.background,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: CustomSpacing.s2,
           ),
           Padding(
@@ -96,25 +73,73 @@ class _ListBatchPageState extends State<ListBatchPage> {
               style: TextStyle(fontSize: 2.2.h),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: CustomSpacing.s1,
           ),
-          Expanded(
-            child: _batches.isEmpty
-                ? Center(
-                    child: Text('No batches'),
-                  )
-                : ListView.builder(
-                    itemCount: _batches.length,
-                    itemBuilder: (context, position) {
-                      return Card(
-                        elevation: 0.2,
-                        child: ListTile(
-                          title: Text("${_batches[position].name}"),
-                        ),
-                      );
-                    }),
-          )
+          Query(
+            options: QueryOptions(
+              document: gql(context.queries.listBatches()),
+              fetchPolicy: FetchPolicy.noCache,
+              pollInterval: const Duration(minutes: 2),
+            ),
+            builder: (QueryResult result,
+                {VoidCallback? refetch, FetchMore? fetchMore}) {
+              if (result.isLoading) {
+                return const LoadingSpinner();
+              }
+              if (result.hasException) {
+                return AppErrorWidget(
+                  error: ErrorModel.fromString(
+                    result.exception.toString(),
+                  ),
+                );
+              }
+
+              if ((result.data?['user']!["managingFarms"]).isNotEmpty) {
+                List batches =
+                    result.data?['user']?["managingFarms"][0]["batches"];
+
+                return batches.isEmpty
+                    ? const Center(
+                        child: Text("No Batch"),
+                      )
+                    : Expanded(
+                        child: ListView.builder(
+                            itemCount: batches.length,
+                            itemBuilder: (context, position) {
+                              return Card(
+                                elevation: 0.2,
+                                child: ListTile(
+                                  title: Text("${batches[position]["name"]}"),
+                                ),
+                              );
+                            }));
+              }
+
+              if ((result.data?['user']!["ownedFarms"]).isNotEmpty) {
+                List batches =
+                    result.data?['user']?["ownedFarms"][0]["batches"];
+
+                return batches.isEmpty
+                    ? const Center(
+                        child: Text("No Batch"),
+                      )
+                    : Expanded(
+                        child: ListView.builder(
+                            itemCount: batches.length,
+                            itemBuilder: (context, position) {
+                              return Card(
+                                elevation: 0.2,
+                                child: ListTile(
+                                  title: Text("${batches[position]["name"]}"),
+                                ),
+                              );
+                            }));
+              }
+
+              return Container();
+            },
+          ),
         ],
       ),
     );

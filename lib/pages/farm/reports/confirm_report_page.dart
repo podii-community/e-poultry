@@ -1,40 +1,38 @@
 import 'dart:developer';
 
-import 'package:epoultry/pages/farm/farm_dashboard_page.dart';
-import 'package:epoultry/services/reports_service.dart';
+import 'package:epoultry/data/data_export.dart';
+import 'package:epoultry/graphql/query_document_provider.dart';
 import 'package:epoultry/theme/palette.dart';
 import 'package:epoultry/theme/spacing.dart';
 import 'package:epoultry/widgets/gradient_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:hive/hive.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../models/batch_model.dart';
-import '../../../models/report_model.dart';
 import '../../../theme/colors.dart';
+import '../../../widgets/loading_spinner.dart';
+import '../../../widgets/success_widget.dart';
 
 class ConfirmReportPage extends StatefulWidget {
-  const ConfirmReportPage({Key? key, required this.report, required this.batch})
+  const ConfirmReportPage(
+      {Key? key, required this.report, required this.batchDetails})
       : super(key: key);
 
-  final Report report;
-  final Batches batch;
+  final report;
+  final BatchModel batchDetails;
 
   @override
   State<ConfirmReportPage> createState() => _ConfirmReportPageState();
 }
 
 class _ConfirmReportPageState extends State<ConfirmReportPage> {
-  ReportsService _reportsService = ReportsService();
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    log("${widget.report}");
-  }
-
   @override
   Widget build(BuildContext context) {
+    final box = Hive.box('appData');
+    final name = box.get('name');
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -43,7 +41,7 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
         centerTitle: true,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             PhosphorIcons.arrowLeft,
             color: Colors.black,
           ),
@@ -57,7 +55,7 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
         ),
       ),
       body: Container(
-        padding: EdgeInsets.symmetric(horizontal: CustomSpacing.s2),
+        padding: const EdgeInsets.symmetric(horizontal: CustomSpacing.s2),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -73,12 +71,12 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
                         style: TextStyle(color: Colors.black, fontSize: 2.2.h),
                       ),
                       Text(
-                        'Odongos Vihiga Farm',
+                        '${name} Farm',
                         style: TextStyle(fontSize: 2.1.h),
                       )
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: CustomSpacing.s1,
                   ),
                   Row(
@@ -94,7 +92,7 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
                       )
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: CustomSpacing.s1,
                   ),
                   Row(
@@ -105,12 +103,12 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
                         style: TextStyle(color: Colors.black, fontSize: 2.2.h),
                       ),
                       Text(
-                        'Sophia',
+                        name,
                         style: TextStyle(fontSize: 2.1.h),
                       )
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: CustomSpacing.s1,
                   ),
                   Row(
@@ -121,12 +119,12 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
                         style: TextStyle(color: Colors.black, fontSize: 2.2.h),
                       ),
                       Text(
-                        '${widget.batch.name}',
+                        widget.batchDetails.name,
                         style: TextStyle(fontSize: 2.1.h),
                       )
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: CustomSpacing.s1,
                   ),
                   Row(
@@ -137,12 +135,12 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
                         style: TextStyle(color: Colors.black, fontSize: 2.2.h),
                       ),
                       Text(
-                        '${widget.batch.date}',
+                        '${widget.report!["data"]['reportDate']}',
                         style: TextStyle(fontSize: 2.1.h),
                       )
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: CustomSpacing.s1,
                   ),
                   Row(
@@ -161,7 +159,7 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
                 ],
               ),
             ),
-            SizedBox(height: CustomSpacing.s1),
+            const SizedBox(height: CustomSpacing.s1),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
@@ -199,190 +197,36 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
                                 style: TextStyle(
                                     color: Colors.black, fontSize: 2.h),
                               ),
-                              Text(
-                                '-${widget.report.reduceBy}',
-                                style: TextStyle(
-                                    fontSize: 2.h, color: CustomColors.red),
-                              )
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: CustomSpacing.s2,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Mortality",
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 1.8.h),
-                              ),
-                              Text(
-                                '${widget.report.reduceBy}',
-                                style: TextStyle(
-                                    fontSize: 1.8.h, color: Colors.black),
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                            height: CustomSpacing.s2,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Sold",
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 1.8.h),
-                              ),
-                              Text(
-                                '2',
-                                style: TextStyle(
-                                    fontSize: 1.8.h, color: Colors.black),
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                            height: CustomSpacing.s2,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Curled",
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 1.8.h),
-                              ),
-                              Text(
-                                '2',
-                                style: TextStyle(
-                                    fontSize: 1.8.h, color: Colors.black),
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                            height: CustomSpacing.s2,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Stolen",
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 1.8.h),
-                              ),
-                              Text(
-                                '1',
-                                style: TextStyle(
-                                    fontSize: 1.8.h, color: Colors.black),
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Card(
-                    elevation: 0.4,
-                    child: Container(
-                      padding: const EdgeInsets.all(CustomSpacing.s2),
-                      decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                              colors: [
-                            Palette.kPrimary[200]!,
-                            Palette.kSecondary[100]!
-                          ],
-                              begin: Alignment.centerLeft,
-                              end: Alignment.centerRight)),
-                      child: ListView(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Eggs",
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 2.h),
-                              ),
-                              Text(
-                                '+${widget.report.eggsCollected}',
-                                style: TextStyle(
-                                    fontSize: 2.h, color: CustomColors.green),
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                            height: CustomSpacing.s2,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Large",
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 1.8.h),
-                              ),
-                              Text(
-                                '${widget.report.largeEggs}',
-                                style: TextStyle(
-                                    fontSize: 1.8.h, color: Colors.black),
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                            height: CustomSpacing.s2,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Medium",
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 1.8.h),
-                              ),
-                              Text(
-                                '${widget.report.mediumEggs}',
-                                style: TextStyle(
-                                    fontSize: 1.8.h, color: Colors.black),
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                            height: CustomSpacing.s2,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Deformed",
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 1.8.h),
-                              ),
-                              Text(
-                                '${widget.report.deformedEggs}',
-                                style: TextStyle(
-                                    fontSize: 1.8.h, color: Colors.black),
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                            height: CustomSpacing.s2,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Broken",
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 1.8.h),
-                              ),
-                              Text(
-                                '${widget.report.fullyBroken}',
-                                style: TextStyle(
-                                    fontSize: 1.8.h, color: Colors.black),
-                              )
-                            ],
-                          ),
+                          ListView.builder(
+                              shrinkWrap: true,
+                              itemCount:
+                                  widget.report!["data"]['birdCounts'].length,
+                              itemBuilder: (context, index) {
+                                return Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      widget.report!["data"]['birdCounts']
+                                          [index]?['reason'],
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 1.8.h),
+                                    ),
+                                    Text(
+                                      widget.report!["data"]['birdCounts']
+                                              [index]['quantity']
+                                          .toString(),
+                                      style: TextStyle(
+                                          fontSize: 1.8.h, color: Colors.black),
+                                    )
+                                  ],
+                                );
+                              })
                         ],
                       ),
                     ),
@@ -409,80 +253,221 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
                                 style: TextStyle(
                                     color: Colors.black, fontSize: 2.h),
                               ),
-                              Text(
-                                '-${widget.report.quantity!}',
-                                style: TextStyle(
-                                    fontSize: 2.h, color: CustomColors.red),
-                              )
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: CustomSpacing.s2,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Layers Mash",
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 1.8.h),
-                              ),
-                              Text(
-                                '5kg',
-                                style: TextStyle(
-                                    fontSize: 1.8.h, color: Colors.black),
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                            height: CustomSpacing.s2,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Chicken Mash",
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 1.8.h),
-                              ),
-                              Text(
-                                '0',
-                                style: TextStyle(
-                                    fontSize: 1.8.h, color: Colors.black),
-                              )
-                            ],
-                          ),
+                          ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: widget
+                                  .report!["data"]['feedsUsageReports'].length,
+                              itemBuilder: (context, index) {
+                                return Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      widget.report!["data"]
+                                              ['feedsUsageReports'][index]
+                                          ['feedType'],
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 1.4.h),
+                                    ),
+                                    Text(
+                                      widget.report!["data"]
+                                              ['feedsUsageReports'][index]
+                                              ['quantity']
+                                          .toString(),
+                                      style: TextStyle(
+                                          fontSize: 1.8.h, color: Colors.black),
+                                    )
+                                  ],
+                                );
+                              })
                         ],
                       ),
                     ),
-                  )
+                  ),
+                  widget.report!["data"]['eggCollection'] != null
+                      ? Card(
+                          elevation: 0.4,
+                          child: Container(
+                            padding: const EdgeInsets.all(CustomSpacing.s2),
+                            decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                    colors: [
+                                  Palette.kPrimary[200]!,
+                                  Palette.kSecondary[100]!
+                                ],
+                                    begin: Alignment.centerLeft,
+                                    end: Alignment.centerRight)),
+                            child: ListView(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Eggs",
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 2.h),
+                                    ),
+                                    Text(
+                                      '+${widget.batchDetails.type!.name == "LAYERS" ? widget.report!["data"]['eggCollection']["eggCount"] : 0}',
+                                      style: TextStyle(
+                                          fontSize: 2.h,
+                                          color: CustomColors.green),
+                                    )
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: CustomSpacing.s2,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Large",
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 1.8.h),
+                                    ),
+                                    Text(
+                                      '${widget.batchDetails.type!.name == "LAYERS" ? widget.report!["data"]['eggCollection']["largeCount"] : 0}',
+                                      style: TextStyle(
+                                          fontSize: 1.8.h, color: Colors.black),
+                                    )
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: CustomSpacing.s2,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Small",
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 1.8.h),
+                                    ),
+                                    Text(
+                                      '${widget.batchDetails.type!.name == "LAYERS" ? widget.report!["data"]['eggCollection']["smallCount"] : 0}',
+                                      style: TextStyle(
+                                          fontSize: 1.8.h, color: Colors.black),
+                                    )
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: CustomSpacing.s2,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Deformed",
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 1.8.h),
+                                    ),
+                                    Text(
+                                      '${widget.batchDetails.type!.name == "LAYERS" ? widget.report!["data"]['eggCollection']["deformedCount"] : 0}',
+                                      style: TextStyle(
+                                          fontSize: 1.8.h, color: Colors.black),
+                                    )
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: CustomSpacing.s2,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Broken",
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 1.8.h),
+                                    ),
+                                    Text(
+                                      '${widget.batchDetails.type!.name == "LAYERS" ? widget.report!["data"]['eggCollection']["brokenCount"] : 0}',
+                                      style: TextStyle(
+                                          fontSize: 1.8.h, color: Colors.black),
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      : Container(),
                 ],
               ),
             ),
-            GradientWidget(
-              child: ElevatedButton(
-                  onPressed: () async {
-                    await _reportsService.createItem(widget.report);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => FarmDashboardPage()),
-                    );
-                  },
-                  child: Text('SEND UPDATE'),
-                  style: ElevatedButton.styleFrom(
-                      primary: Colors.transparent,
-                      onSurface: Colors.transparent,
-                      shadowColor: Colors.transparent,
-                      onPrimary: CustomColors.background,
-                      fixedSize: Size(100.w, 6.h))),
+            Mutation(
+              options: MutationOptions(
+                document: gql(context.queries.createBatchReport()),
+                onCompleted: (data) => _onCompleted(data, context),
+              ),
+              builder: (RunMutation runMutation, QueryResult? result) {
+                if (result != null) {
+                  if (result.isLoading) {
+                    return const LoadingSpinner();
+                  }
+
+                  if (result.hasException) {
+                    Fluttertoast.showToast(
+                        msg: "The report has already been submitted");
+                  }
+                }
+
+                return GradientWidget(
+                  child: ElevatedButton(
+                      onPressed: () => _submitReport(context, runMutation),
+                      style: ElevatedButton.styleFrom(
+                          primary: Colors.transparent,
+                          onSurface: Colors.transparent,
+                          shadowColor: Colors.transparent,
+                          onPrimary: CustomColors.background,
+                          fixedSize: Size(100.w, 6.h)),
+                      child: const Text('SEND UPDATE')),
+                );
+              },
             ),
-            SizedBox(
+            const SizedBox(
               height: CustomSpacing.s1,
             ),
           ],
         ),
       ),
     );
+  }
+
+  Future<void> _submitReport(
+      BuildContext context, RunMutation runMutation) async {
+    runMutation({
+      "data": {
+        'batchId': widget.report["data"]["batchId"],
+        "birdCounts": widget.report["data"]["birdCounts"],
+        "feedsUsageReports": widget.report["data"]["feedsUsageReports"],
+        "eggCollection": widget.report["data"]["eggCollection"],
+        "reportDate": widget.report["data"]["reportDate"]
+      }
+    });
+  }
+
+  Future<void> _onCompleted(data, BuildContext context) async {
+    /// If they do, move to home page. If not, take them to select artist page for them to select artists.
+    ///
+    if ((data['createBatchReport']['id'] != null)) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => const SuccessWidget(
+                    message: 'You have updated the report',
+                    route: 'dashboard',
+                  )));
+    }
   }
 }

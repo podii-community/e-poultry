@@ -1,24 +1,23 @@
-import 'package:epoultry/models/batch_model.dart';
-import 'package:epoultry/pages/farm/reports/confirm_report_page.dart';
-import 'package:epoultry/theme/palette.dart';
+import 'dart:developer';
+
+import 'package:epoultry/data/data_export.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
+import 'package:string_extensions/string_extensions.dart';
 
-import '../../../models/report_model.dart';
 import '../../../theme/colors.dart';
 import '../../../theme/spacing.dart';
 import '../../../widgets/gradient_widget.dart';
+import 'feeds_used_page.dart';
 
 class EggsCollectedPage extends StatefulWidget {
-  EggsCollectedPage(
+  const EggsCollectedPage(
       {Key? key, required this.batchDetails, required this.report})
       : super(key: key);
 
-  final Batches batchDetails;
-  final Report report;
+  final BatchModel batchDetails;
+  final report;
 
   @override
   State<EggsCollectedPage> createState() => _EggsCollectedPageState();
@@ -28,24 +27,24 @@ class _EggsCollectedPageState extends State<EggsCollectedPage> {
   final _formKey = GlobalKey<FormState>();
 
   final eggsCollected = TextEditingController();
-  final mediumEggs = TextEditingController();
   final largeEggs = TextEditingController();
-  final fullyBroken = TextEditingController();
-  final partiallyBroken = TextEditingController();
-  final deformed = TextEditingController();
-  final comment = TextEditingController();
+  final smallEggs = TextEditingController();
+  final brokenEggs = TextEditingController();
+  final deformedEggs = TextEditingController();
+
+  String gradeEggs = "";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          backgroundColor: CustomColors.background,
           centerTitle: true,
-          elevation: 0,
+          toolbarHeight: 8.h,
+          backgroundColor: CustomColors.white,
+          elevation: 0.5,
           leading: IconButton(
-            icon: Icon(
+            icon: const Icon(
               PhosphorIcons.arrowLeft,
               color: Colors.black,
             ),
@@ -53,256 +52,118 @@ class _EggsCollectedPageState extends State<EggsCollectedPage> {
               Navigator.pop(context);
             },
           ),
+          title: Text(
+            widget.batchDetails.name,
+            style: TextStyle(color: Colors.black),
+          ),
         ),
-        body: Container(
-          padding: EdgeInsets.symmetric(horizontal: CustomSpacing.s2),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                height: 20.h,
-                child: Card(
-                  child: Column(
-                    children: [
-                      ListTile(
-                        tileColor: Palette.kPrimary[100],
-                        title: Text("${widget.batchDetails.name}"),
-                        trailing: Icon(
-                          PhosphorIcons.caretDownFill,
-                        ),
-                      ),
-                      SizedBox(
-                        height: CustomSpacing.s2,
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: CustomSpacing.s2),
-                          child: GridView.count(
-                            shrinkWrap: true,
-                            crossAxisCount: 3,
-                            crossAxisSpacing: CustomSpacing.s1,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "Type of Birds",
-                                    style: TextStyle(
-                                        color: Colors.black, fontSize: 2.h),
-                                  ),
-                                  Text(
-                                    "${widget.batchDetails.type}",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 3.5.h,
-                                        fontWeight: FontWeight.w500),
-                                  )
-                                ],
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "No of Birds",
-                                    style: TextStyle(
-                                        color: Colors.black, fontSize: 2.h),
-                                  ),
-                                  Text(
-                                    "${widget.batchDetails.quantity}",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 3.5.h,
-                                        fontWeight: FontWeight.w500),
-                                  )
-                                ],
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "Age of Birds",
-                                    style: TextStyle(
-                                        color: Colors.black, fontSize: 2.h),
-                                  ),
-                                  Text(
-                                    "${widget.batchDetails.age + " " + widget.batchDetails.units}",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 3.3.h,
-                                        fontWeight: FontWeight.w500),
-                                  )
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      )
-                    ],
+        body: SingleChildScrollView(
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: CustomSpacing.s2),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: CustomSpacing.s3,
+                ),
+                Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text(
+                    "Update Eggs in store",
+                    style: TextStyle(fontSize: 3.h),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: CustomSpacing.s2,
-              ),
-              Container(
-                height: 60.h,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: CustomSpacing.s2,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        "Update Eggs Collected",
-                        style: TextStyle(fontSize: 3.h),
-                      ),
-                    ),
-                    SizedBox(
-                      height: CustomSpacing.s3,
-                    ),
-                    Form(
-                        key: _formKey,
-                        child: Column(
-                          children: [
-                            TextFormField(
-                              controller: eggsCollected,
-                              keyboardType: TextInputType.number,
-                              decoration: InputDecoration(
-                                  labelText: "Number of Good Eggs",
-                                  labelStyle: TextStyle(
-                                      fontSize: 2.2.h,
-                                      color: CustomColors.secondary),
-                                  border: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          width: 0.3.w,
-                                          color: CustomColors.secondary)),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          width: 0.3.w,
-                                          color: CustomColors.secondary))),
-                            ),
-                            SizedBox(
-                              height: CustomSpacing.s3,
-                            ),
-                            GridView.count(
+                SizedBox(
+                  height: 10.h,
+                  child: Card(
+                    elevation: 0,
+                    child: Column(
+                      children: [
+                        const SizedBox(
+                          height: CustomSpacing.s2,
+                        ),
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: CustomSpacing.s2),
+                            child: GridView.count(
                               shrinkWrap: true,
                               crossAxisCount: 2,
                               crossAxisSpacing: CustomSpacing.s1,
-                              mainAxisSpacing: CustomSpacing.s1,
-                              childAspectRatio: 2,
                               children: [
-                                TextFormField(
-                                  controller: mediumEggs,
-                                  keyboardType: TextInputType.number,
-                                  decoration: InputDecoration(
-                                      labelText: "Medium Eggs",
-                                      labelStyle: TextStyle(
-                                          fontSize: 2.2.h,
-                                          color: CustomColors.secondary),
-                                      border: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              width: 0.3.w,
-                                              color: CustomColors.secondary)),
-                                      focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              width: 0.3.w,
-                                              color: CustomColors.secondary))),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Type of Birds",
+                                      style: TextStyle(
+                                          color: CustomColors.secondary,
+                                          fontSize: 2.h),
+                                    ),
+                                    Text(
+                                      (widget.batchDetails.type!.name!)
+                                          .capitalize!,
+                                      style: TextStyle(
+                                          color: CustomColors.secondary,
+                                          fontSize: 3.5.h,
+                                          fontWeight: FontWeight.w500),
+                                    )
+                                  ],
                                 ),
-                                TextFormField(
-                                  controller: largeEggs,
-                                  keyboardType: TextInputType.number,
-                                  decoration: InputDecoration(
-                                      labelText: "Large Eggs",
-                                      labelStyle: TextStyle(
-                                          fontSize: 2.2.h,
-                                          color: CustomColors.secondary),
-                                      border: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              width: 0.3.w,
-                                              color: CustomColors.secondary)),
-                                      focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              width: 0.3.w,
-                                              color: CustomColors.secondary))),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      "No of Birds",
+                                      style: TextStyle(
+                                          color: CustomColors.secondary,
+                                          fontSize: 2.h),
+                                    ),
+                                    Text(
+                                      "${widget.batchDetails.birdCount}",
+                                      style: TextStyle(
+                                          color: CustomColors.secondary,
+                                          fontSize: 3.5.h,
+                                          fontWeight: FontWeight.w500),
+                                    )
+                                  ],
                                 ),
                               ],
                             ),
-                            SizedBox(
-                              height: CustomSpacing.s1,
-                            ),
-                            GridView.count(
-                              shrinkWrap: true,
-                              crossAxisCount: 3,
-                              crossAxisSpacing: CustomSpacing.s1,
-                              childAspectRatio: 2,
-                              children: [
-                                TextFormField(
-                                  controller: fullyBroken,
-                                  keyboardType: TextInputType.number,
-                                  decoration: InputDecoration(
-                                      labelText: "Fully Broken",
-                                      labelStyle: TextStyle(
-                                          fontSize: 2.2.h,
-                                          color: CustomColors.secondary),
-                                      border: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              width: 0.3.w,
-                                              color: CustomColors.secondary)),
-                                      focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              width: 0.3.w,
-                                              color: CustomColors.secondary))),
-                                ),
-                                TextFormField(
-                                  controller: partiallyBroken,
-                                  keyboardType: TextInputType.number,
-                                  decoration: InputDecoration(
-                                      labelText: "Partially Broken",
-                                      labelStyle: TextStyle(
-                                          fontSize: 2.2.h,
-                                          color: CustomColors.secondary),
-                                      border: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              width: 0.3.w,
-                                              color: CustomColors.secondary)),
-                                      focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              width: 0.3.w,
-                                              color: CustomColors.secondary))),
-                                ),
-                                TextFormField(
-                                  controller: deformed,
-                                  keyboardType: TextInputType.number,
-                                  decoration: InputDecoration(
-                                      labelText: "Deformed",
-                                      labelStyle: TextStyle(
-                                          fontSize: 2.2.h,
-                                          color: CustomColors.secondary),
-                                      border: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              width: 0.3.w,
-                                              color: CustomColors.secondary)),
-                                      focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              width: 0.3.w,
-                                              color: CustomColors.secondary))),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: CustomSpacing.s2,
-                            ),
-                            TextFormField(
-                              controller: comment,
-                              keyboardType: TextInputType.text,
-                              decoration: InputDecoration(
-                                  labelText: "Comment on quality of Eggs",
-                                  labelStyle: TextStyle(
-                                      fontSize: 2.2.h,
-                                      color: CustomColors.secondary),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: CustomSpacing.s2,
+                ),
+                SizedBox(
+                  height: 60.h,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(
+                        height: CustomSpacing.s2,
+                      ),
+                      const SizedBox(
+                        height: CustomSpacing.s3,
+                      ),
+                      Form(
+                          key: _formKey,
+                          child: Column(
+                            children: [
+                              TextFormField(
+                                controller: eggsCollected,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Enter number of eggs collected';
+                                  }
+                                },
+                                keyboardType: TextInputType.number,
+                                decoration: InputDecoration(
+                                  prefixStyle: TextStyle(fontSize: 1.8.h),
                                   border: OutlineInputBorder(
                                       borderSide: BorderSide(
                                           width: 0.3.w,
@@ -310,50 +171,255 @@ class _EggsCollectedPageState extends State<EggsCollectedPage> {
                                   focusedBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
                                           width: 0.3.w,
-                                          color: CustomColors.secondary))),
-                            ),
-                          ],
-                        ))
-                  ],
+                                          color: CustomColors.secondary)),
+                                  labelText:
+                                      "How many Eggs have you collected today?",
+                                  labelStyle: TextStyle(
+                                      fontSize: 2.2.h,
+                                      color: CustomColors.secondary),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: CustomSpacing.s3,
+                              ),
+                              TextFormField(
+                                controller: brokenEggs,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Enter number of broken eggs';
+                                  }
+                                },
+                                keyboardType: TextInputType.number,
+                                decoration: InputDecoration(
+                                  prefixStyle: TextStyle(fontSize: 1.8.h),
+                                  border: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          width: 0.3.w,
+                                          color: CustomColors.secondary)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          width: 0.3.w,
+                                          color: CustomColors.secondary)),
+                                  labelText: "How many Eggs were broken?",
+                                  labelStyle: TextStyle(
+                                      fontSize: 2.2.h,
+                                      color: CustomColors.secondary),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: CustomSpacing.s3,
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Would you like to grade the good eggs ?",
+                                    style: TextStyle(
+                                      fontSize: 2.2.h,
+                                    ),
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: 40.w,
+                                        child: ListTile(
+                                          title: const Text('Yes'),
+                                          leading: Radio<String>(
+                                            value: "yes",
+                                            groupValue: gradeEggs,
+                                            onChanged: (value) {
+                                              setState(() {
+                                                gradeEggs = value.toString();
+                                              });
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 40.w,
+                                        child: ListTile(
+                                          title: const Text('No'),
+                                          leading: Radio<String>(
+                                            value: "no",
+                                            groupValue: gradeEggs,
+                                            onChanged: (value) {
+                                              setState(() {
+                                                gradeEggs = value.toString();
+                                              });
+                                              largeEggs.clear();
+                                              deformedEggs.clear();
+                                              smallEggs.clear();
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                              gradeEggs == 'yes'
+                                  ? Column(
+                                      children: [
+                                        const SizedBox(
+                                          height: CustomSpacing.s2,
+                                        ),
+                                        TextFormField(
+                                          controller: deformedEggs,
+                                          validator: (value) {
+                                            if (value!.isEmpty) {
+                                              return 'Enter number of deformed eggs';
+                                            }
+                                          },
+                                          keyboardType: TextInputType.number,
+                                          decoration: InputDecoration(
+                                            prefixStyle:
+                                                TextStyle(fontSize: 1.8.h),
+                                            border: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    width: 0.3.w,
+                                                    color: CustomColors
+                                                        .secondary)),
+                                            focusedBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    width: 0.3.w,
+                                                    color: CustomColors
+                                                        .secondary)),
+                                            labelText:
+                                                "How many Eggs out of  the collected were deformed?",
+                                            labelStyle: TextStyle(
+                                                fontSize: 1.6.h,
+                                                color: CustomColors.secondary),
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: CustomSpacing.s2,
+                                        ),
+                                        TextFormField(
+                                          controller: smallEggs,
+                                          validator: (value) {
+                                            if (value!.isEmpty) {
+                                              return 'Enter number of small eggs';
+                                            }
+                                          },
+                                          keyboardType: TextInputType.number,
+                                          decoration: InputDecoration(
+                                            prefixStyle:
+                                                TextStyle(fontSize: 1.8.h),
+                                            border: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    width: 0.3.w,
+                                                    color: CustomColors
+                                                        .secondary)),
+                                            focusedBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    width: 0.3.w,
+                                                    color: CustomColors
+                                                        .secondary)),
+                                            labelText:
+                                                "How many eggs out of the remaining were small?",
+                                            labelStyle: TextStyle(
+                                                fontSize: 1.6.h,
+                                                color: CustomColors.secondary),
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: CustomSpacing.s2,
+                                        ),
+                                        TextFormField(
+                                          controller: largeEggs,
+                                          validator: (value) {
+                                            if (value!.isEmpty) {
+                                              return 'Enter number of large eggs';
+                                            }
+                                          },
+                                          keyboardType: TextInputType.number,
+                                          decoration: InputDecoration(
+                                            border: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    width: 0.3.w,
+                                                    color: CustomColors
+                                                        .secondary)),
+                                            focusedBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    width: 0.3.w,
+                                                    color: CustomColors
+                                                        .secondary)),
+                                            labelText:
+                                                "How many Eggs out of the remaining  were large?",
+                                            labelStyle: TextStyle(
+                                                fontSize: 1.6.h,
+                                                color: CustomColors.secondary),
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  : Container()
+                            ],
+                          ))
+                    ],
+                  ),
                 ),
-              ),
-              GradientWidget(
-                child: ElevatedButton(
-                    onPressed: () {
-                      Report _report = Report(
-                          reason: widget.report.reason,
-                          reduceBy: widget.report.reduceBy,
-                          typeOfFeed: widget.report.typeOfFeed,
-                          quantity: widget.report.quantity,
-                          measurement: widget.report.measurement,
-                          eggsCollected: eggsCollected.text,
-                          mediumEggs: mediumEggs.text,
-                          largeEggs: largeEggs.text,
-                          fullyBroken: fullyBroken.text,
-                          partiallyBroken: partiallyBroken.text,
-                          deformedEggs: deformed.text,
-                          comment: comment.text);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ConfirmReportPage(
-                                  report: _report,
-                                  batch: widget.batchDetails,
-                                )),
-                      );
-                    },
-                    child: Text('PROCEED'),
-                    style: ElevatedButton.styleFrom(
-                        primary: Colors.transparent,
-                        onSurface: Colors.transparent,
-                        shadowColor: Colors.transparent,
-                        onPrimary: CustomColors.background,
-                        fixedSize: Size(100.w, 6.h))),
-              ),
-              SizedBox(
-                height: CustomSpacing.s1,
-              ),
-            ],
+                GradientWidget(
+                  child: ElevatedButton(
+                      onPressed: () {
+                        var payload = {
+                          "brokenCount": brokenEggs.text.isEmpty
+                              ? 0
+                              : int.parse(brokenEggs.text),
+                          "deformedCount": deformedEggs.text.isEmpty
+                              ? 0
+                              : int.parse(deformedEggs.text),
+                          "eggCount": eggsCollected.text.isEmpty
+                              ? 0
+                              : int.parse(eggsCollected.text),
+                          "largeCount": largeEggs.text.isEmpty
+                              ? 0
+                              : int.parse(largeEggs.text),
+                          "smallCount": smallEggs.text.isEmpty
+                              ? 0
+                              : int.parse(smallEggs.text),
+                        };
+
+                        var report = {
+                          "data": {
+                            "birdCounts": widget.report["data"]["birdCounts"],
+                            "eggCollection": payload
+                          }
+                        };
+
+                        if (_formKey.currentState!.validate()) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => FeedsUsedPage(
+                                      batchDetails: widget.batchDetails,
+                                      report: report,
+                                    )),
+                          );
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                          primary: Colors.transparent,
+                          onSurface: Colors.transparent,
+                          shadowColor: Colors.transparent,
+                          onPrimary: CustomColors.background,
+                          fixedSize: Size(100.w, 6.h)),
+                      child: Text(
+                        'SAVE & CONTINUE',
+                        style: TextStyle(
+                            fontSize: 4.w, fontWeight: FontWeight.w700),
+                      )),
+                ),
+                const SizedBox(
+                  height: CustomSpacing.s1,
+                ),
+              ],
+            ),
           ),
         ));
   }

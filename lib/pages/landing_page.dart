@@ -1,8 +1,9 @@
-import 'package:epoultry/pages/farm_manager/farm_manager_login.dart';
-import 'package:epoultry/pages/farm_manager/farm_manager_registration.dart';
+import 'package:epoultry/pages/auth/login.dart';
+import 'package:epoultry/pages/auth/registration.dart';
 import 'package:epoultry/theme/colors.dart';
 import 'package:epoultry/theme/spacing.dart';
 import 'package:epoultry/widgets/gradient_widget.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
@@ -12,91 +13,105 @@ class LandingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: CustomColors.background,
-        centerTitle: true,
-        title: Image.asset(
-          'assets/logo.png',
-          scale: 2,
-        ),
-      ),
+      extendBodyBehindAppBar: true,
       body: SingleChildScrollView(
-        child: Container(
+        child: SizedBox(
           width: double.infinity,
-          padding: EdgeInsets.symmetric(horizontal: CustomSpacing.s2),
+          // padding: const EdgeInsets.symmetric(horizontal: CustomSpacing.s2),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: [
-              SizedBox(height: 6.h,),
-              Container(
+              SizedBox(
                 height: 55.h,
-                child: Stack(
-                  children: [
-                    Align(
-                      child: Image.asset(
-                        'assets/landing.png',
-                        scale: 0.2,
+                width: 100.w,
+                child: Image.asset(
+                  'assets/landing.png',
+                  scale: 0.1,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              const SizedBox(
+                height: CustomSpacing.s2,
+              ),
+              Image.asset(
+                'assets/logo.png',
+                scale: 1.5,
+              ),
+              const SizedBox(
+                height: CustomSpacing.s2,
+              ),
+               Text("Welcome to Epoultry!", style: TextStyle(
+                fontSize: 2.8.h,
+                 fontWeight: FontWeight.w600
+              ),),
+              const SizedBox(
+                height: CustomSpacing.s2,
+              ),
+               Text(
+                "Farmer or Farm Manager, \n  there is something for everyone.",
+                style: TextStyle(
+                    fontSize: 2.1.h,
+
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(
+                height: CustomSpacing.s3,
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: CustomSpacing.s2),
+                child: GradientWidget(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const RegistrationPage()),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                        primary: Colors.transparent,
+                        onSurface: Colors.transparent,
+                        shadowColor: Colors.transparent,
+                        onPrimary: CustomColors.background,
+                        fixedSize: Size(100.w, 6.h)),
+                    child: Text(
+                      'GET STARTED',
+                      style: TextStyle(
+                        fontSize: 1.8.h,
                       ),
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Purchase.",
-                          style: TextStyle(
-                              fontSize: 4.h, fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          "Manage.",
-                          style: TextStyle(
-                              fontSize: 4.h, fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          "Sell.",
-                          style: TextStyle(
-                              fontSize: 4.h, fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    )
-                  ],
+                  ),
                 ),
               ),
-              GradientWidget(
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => FarmManagerRegistration()),
-                    );
-                  },
-                  child: Text('SIGN UP'),
-                  style: ElevatedButton.styleFrom(
-                      primary: Colors.transparent,
-                      onSurface: Colors.transparent,
-                      shadowColor: Colors.transparent,
-                      onPrimary: CustomColors.background,
-                      fixedSize: Size(100.w, 6.h)),
-                ),
+              const SizedBox(
+                height: CustomSpacing.s3,
               ),
-              SizedBox(
-                height: CustomSpacing.s1,
-              ),
-              OutlinedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => FarmManagerLogin()),
-                  );
-                },
-                child: Text('LOG IN'),
-                style: OutlinedButton.styleFrom(
-                    side: BorderSide(width: 0.1.w, color: CustomColors.primary),
-                    primary: CustomColors.primary,
-                    fixedSize: Size(100.w, 6.h)),
+              RichText(
+                text: TextSpan(
+                    text: "Have an existing account? ",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 1.8.h,
+                    ),
+                    children: [
+                      TextSpan(
+                          text: "LOGIN",
+                          style: TextStyle(
+                              color: CustomColors.secondary,
+                              fontSize: 1.8.h,
+                              fontWeight: FontWeight.w400,
+                              decoration: TextDecoration.underline),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const LoginPage()));
+                            })
+                    ]),
               )
             ],
           ),
