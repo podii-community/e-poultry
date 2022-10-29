@@ -1,15 +1,11 @@
-import 'dart:developer';
-
 import 'package:epoultry/data/models/batch_model.dart';
 import 'package:epoultry/graphql/query_document_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../controllers/farm_controller.dart';
 import '../../../data/models/error.dart';
 import '../../../theme/colors.dart';
 import '../../../theme/spacing.dart';
@@ -18,7 +14,7 @@ import '../../../widgets/loading_spinner.dart';
 import '../../../widgets/success_widget.dart';
 
 class ConfirmBatchPage extends StatelessWidget {
-  ConfirmBatchPage({Key? key, required this.newBatch}) : super(key: key);
+  const ConfirmBatchPage({Key? key, required this.newBatch}) : super(key: key);
 
   final BatchModel newBatch;
 

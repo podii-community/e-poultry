@@ -33,7 +33,7 @@ class ViewReportPage extends StatelessWidget {
         ),
       ),
       body: Container(
-        padding: EdgeInsets.symmetric(horizontal: CustomSpacing.s2),
+        padding: const EdgeInsets.symmetric(horizontal: CustomSpacing.s2),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -161,9 +161,7 @@ class ViewReportPage extends StatelessWidget {
                               colors: [
                             Palette.kPrimary[200]!,
                             Palette.kSecondary[100]!
-                          ],
-                              begin: Alignment.centerLeft,
-                              end: Alignment.centerRight)),
+                          ])),
                       padding: const EdgeInsets.all(CustomSpacing.s2),
                       child: ListView(
                         children: [
@@ -216,9 +214,7 @@ class ViewReportPage extends StatelessWidget {
                                     colors: [
                                   Palette.kPrimary[200]!,
                                   Palette.kSecondary[100]!
-                                ],
-                                    begin: Alignment.centerLeft,
-                                    end: Alignment.centerRight)),
+                                ])),
                             child: ListView(
                               children: [
                                 Row(

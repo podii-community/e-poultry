@@ -70,7 +70,6 @@ class _SuccessWidgetState extends State<SuccessWidget> {
         body: Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
            Icon(PhosphorIcons.checkCircle, color: CustomColors.green, size: 10.5.h,),
           const SizedBox(

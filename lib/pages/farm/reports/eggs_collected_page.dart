@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:epoultry/data/data_export.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -54,7 +52,7 @@ class _EggsCollectedPageState extends State<EggsCollectedPage> {
           ),
           title: Text(
             widget.batchDetails.name,
-            style: TextStyle(color: Colors.black),
+            style: const TextStyle(color: Colors.black),
           ),
         ),
         body: SingleChildScrollView(
@@ -63,11 +61,11 @@ class _EggsCollectedPageState extends State<EggsCollectedPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
+                const SizedBox(
                   height: CustomSpacing.s3,
                 ),
                 Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: Text(
                     "Update Eggs in store",
                     style: TextStyle(fontSize: 3.h),
@@ -158,6 +156,7 @@ class _EggsCollectedPageState extends State<EggsCollectedPage> {
                                 if (value!.isEmpty) {
                                   return 'Enter number of eggs collected';
                                 }
+                                return null;
                               },
                               keyboardType: TextInputType.number,
                               decoration: InputDecoration(
@@ -186,6 +185,7 @@ class _EggsCollectedPageState extends State<EggsCollectedPage> {
                                 if (value!.isEmpty) {
                                   return 'Enter number of broken eggs';
                                 }
+                                return null;
                               },
                               keyboardType: TextInputType.number,
                               decoration: InputDecoration(
@@ -208,7 +208,6 @@ class _EggsCollectedPageState extends State<EggsCollectedPage> {
                               height: CustomSpacing.s3,
                             ),
                             Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
@@ -271,6 +270,7 @@ class _EggsCollectedPageState extends State<EggsCollectedPage> {
                                           if (value!.isEmpty) {
                                             return 'Enter number of deformed eggs';
                                           }
+                                          return null;
                                         },
                                         keyboardType: TextInputType.number,
                                         decoration: InputDecoration(
@@ -302,6 +302,7 @@ class _EggsCollectedPageState extends State<EggsCollectedPage> {
                                           if (value!.isEmpty) {
                                             return 'Enter number of small eggs';
                                           }
+                                          return null;
                                         },
                                         keyboardType: TextInputType.number,
                                         decoration: InputDecoration(
@@ -333,6 +334,7 @@ class _EggsCollectedPageState extends State<EggsCollectedPage> {
                                           if (value!.isEmpty) {
                                             return 'Enter number of large eggs';
                                           }
+                                          return null;
                                         },
                                         keyboardType: TextInputType.number,
                                         decoration: InputDecoration(

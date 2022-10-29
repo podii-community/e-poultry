@@ -63,7 +63,7 @@ class _NumberOfBirdsReportPageState extends State<NumberOfBirdsReportPage> {
           ),
           title: Text(
             widget.batchDetails.name,
-            style: TextStyle(color: Colors.black),
+            style: const TextStyle(color: Colors.black),
           ),
         ),
         body: SingleChildScrollView(
@@ -72,11 +72,11 @@ class _NumberOfBirdsReportPageState extends State<NumberOfBirdsReportPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: CustomSpacing.s3,
                   ),
                   Padding(
-                    padding: EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8.0),
                     child: Text(
                       "Update Number of Birds",
                       style: TextStyle(fontSize: 3.h),
@@ -151,7 +151,6 @@ class _NumberOfBirdsReportPageState extends State<NumberOfBirdsReportPage> {
                   ),
 
                   Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
@@ -261,6 +260,7 @@ class _NumberOfBirdsReportPageState extends State<NumberOfBirdsReportPage> {
                                         if (value!.isEmpty) {
                                           return 'Enter number of dead birds';
                                         }
+                                        return null;
                                       },
                                       decoration: InputDecoration(
                                         border: OutlineInputBorder(
@@ -288,6 +288,7 @@ class _NumberOfBirdsReportPageState extends State<NumberOfBirdsReportPage> {
                                         if (value!.isEmpty) {
                                           return 'Enter number of sold birds';
                                         }
+                                        return null;
                                       },
                                       keyboardType: TextInputType.number,
                                       decoration: InputDecoration(
@@ -316,6 +317,7 @@ class _NumberOfBirdsReportPageState extends State<NumberOfBirdsReportPage> {
                                         if (value!.isEmpty) {
                                           return 'Enter price per bird';
                                         }
+                                        return null;
                                       },
                                       keyboardType: TextInputType.number,
                                       decoration: InputDecoration(
@@ -347,6 +349,7 @@ class _NumberOfBirdsReportPageState extends State<NumberOfBirdsReportPage> {
                                         if (value!.isEmpty) {
                                           return 'Enter number of curled birds';
                                         }
+                                        return null;
                                       },
                                       keyboardType: TextInputType.number,
                                       decoration: InputDecoration(
@@ -376,6 +379,7 @@ class _NumberOfBirdsReportPageState extends State<NumberOfBirdsReportPage> {
                                         if (value!.isEmpty) {
                                           return 'Enter number of stolen birds';
                                         }
+                                        return null;
                                       },
                                       keyboardType: TextInputType.number,
                                       decoration: InputDecoration(

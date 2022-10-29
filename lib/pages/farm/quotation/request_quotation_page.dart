@@ -47,7 +47,7 @@ class _RequestQuotationPageState extends State<RequestQuotationPage> {
         ),
       ),
       body: Container(
-          padding: EdgeInsets.symmetric(horizontal: CustomSpacing.s2),
+          padding: const EdgeInsets.symmetric(horizontal: CustomSpacing.s2),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             const SizedBox(

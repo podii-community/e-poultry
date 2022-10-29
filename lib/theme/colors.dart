@@ -15,7 +15,5 @@ class CustomColors {
       primary,
       yellow,
     ],
-    begin: Alignment.centerLeft,
-    end: Alignment.centerRight,
   );
 }

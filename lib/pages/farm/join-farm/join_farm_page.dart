@@ -56,8 +56,6 @@ class _JoinFarmPageState extends State<JoinFarmPage> {
                   return SizedBox(
                     height: 50.h,
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
                           "What would you like to do ?",

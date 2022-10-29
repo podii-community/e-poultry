@@ -1,23 +1,15 @@
 import 'dart:developer';
 
-import 'package:epoultry/graphql/query_document_provider.dart';
 import 'package:epoultry/pages/farm/reports/view_report_page.dart';
 import 'package:epoultry/theme/spacing.dart';
 import 'package:epoultry/widgets/gradient_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../controllers/farm_controller.dart';
-import '../../../data/models/error.dart';
 import '../../../theme/colors.dart';
-import '../../../widgets/error_widget.dart';
-import '../../../widgets/gradient_widget.dart';
-import '../../../widgets/loading_spinner.dart';
 
 class AllReportsPage extends StatefulWidget {
   const AllReportsPage({Key? key}) : super(key: key);

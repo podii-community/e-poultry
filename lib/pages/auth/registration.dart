@@ -83,6 +83,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             if (value!.isEmpty) {
                               return 'First Name is required';
                             }
+                            return null;
                           },
                           decoration: InputDecoration(
                               labelText: "First Name",
@@ -108,6 +109,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             if (value!.isEmpty) {
                               return 'Last Name is required';
                             }
+                            return null;
                           },
                           decoration: InputDecoration(
                               labelText: "Last Name",
@@ -133,6 +135,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             if (value!.isEmpty) {
                               return 'Phone Number is required';
                             }
+                            return null;
                           },
                           decoration: InputDecoration(
                               labelText: "Phone Number",
@@ -159,6 +162,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             if (value!.isEmpty) {
                               return 'Password is required';
                             }
+                            return null;
                           },
                           decoration: InputDecoration(
                               labelText: "Password",
@@ -193,6 +197,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             if (value != password.text) {
                               return "Passwords must match";
                             }
+                            return null;
                           },
                           decoration: InputDecoration(
                               labelText: "Confirm Password",

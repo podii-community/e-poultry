@@ -1,8 +1,6 @@
 import 'package:epoultry/theme/colors.dart';
 import 'package:epoultry/widgets/gradient_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 import 'package:string_extensions/string_extensions.dart';
@@ -48,7 +46,7 @@ class _SawdustReceivedState extends State<SawdustReceived> {
           ),
           title: Text(
             widget.batchDetails.name,
-            style: TextStyle(color: Colors.black),
+            style: const TextStyle(color: Colors.black),
           ),
         ),
         body: SingleChildScrollView(
@@ -57,11 +55,11 @@ class _SawdustReceivedState extends State<SawdustReceived> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: CustomSpacing.s3,
                   ),
                   Padding(
-                    padding: EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8.0),
                     child: Text(
                       "Sawdust",
                       style: TextStyle(fontSize: 3.h),
@@ -136,7 +134,6 @@ class _SawdustReceivedState extends State<SawdustReceived> {
                   ),
 
                   Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
@@ -145,7 +142,7 @@ class _SawdustReceivedState extends State<SawdustReceived> {
                           fontSize: 2.2.h,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: CustomSpacing.s3,
                       ),
                       TextFormField(
@@ -155,6 +152,7 @@ class _SawdustReceivedState extends State<SawdustReceived> {
                           if (value!.isEmpty) {
                             return 'Enter amount';
                           }
+                          return null;
                         },
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
@@ -227,7 +225,6 @@ class _SawdustReceivedState extends State<SawdustReceived> {
                       ? Form(
                           key: _formKey,
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
@@ -246,6 +243,7 @@ class _SawdustReceivedState extends State<SawdustReceived> {
                                   if (value!.isEmpty) {
                                     return 'Enter quantity';
                                   }
+                                  return null;
                                 },
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(

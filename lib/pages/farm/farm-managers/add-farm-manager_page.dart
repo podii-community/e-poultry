@@ -47,7 +47,7 @@ class _AddFarmManagerPageState extends State<AddFarmManagerPage> {
               height: CustomSpacing.s2,
             ),
             Padding(
-              padding: EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8.0),
               child: Text(
                 "Select Farm",
                 style: TextStyle(fontSize: 3.h),

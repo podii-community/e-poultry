@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 import 'package:string_extensions/string_extensions.dart';
@@ -46,7 +44,7 @@ class _MedicationStoreState extends State<MedicationStore> {
           ),
           title: Text(
             widget.batchDetails.name,
-            style: TextStyle(color: Colors.black),
+            style: const TextStyle(color: Colors.black),
           ),
         ),
         body: SingleChildScrollView(
@@ -56,11 +54,11 @@ class _MedicationStoreState extends State<MedicationStore> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: CustomSpacing.s3,
                   ),
                   Padding(
-                    padding: EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8.0),
                     child: Text(
                       "Update medication in store",
                       style: TextStyle(fontSize: 3.h),
@@ -147,6 +145,7 @@ class _MedicationStoreState extends State<MedicationStore> {
                             if (value!.isEmpty) {
                               return 'Name of medication';
                             }
+                            return null;
                           },
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(
@@ -173,6 +172,7 @@ class _MedicationStoreState extends State<MedicationStore> {
                             if (value!.isEmpty) {
                               return 'Quantity';
                             }
+                            return null;
                           },
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(

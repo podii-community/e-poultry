@@ -1,11 +1,8 @@
 import 'dart:developer';
 
 import 'package:epoultry/graphql/query_document_provider.dart';
-import 'package:epoultry/pages/farm/dashboard/farm_dashboard_page.dart';
 import 'package:epoultry/widgets/gradient_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hive/hive.dart';
@@ -71,7 +68,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               Navigator.pop(context);
             },
           ),
-          title: Text(
+          title: const Text(
             "Edit Profile",
             style: TextStyle(color: Colors.black),
           ),
@@ -80,119 +77,117 @@ class _EditProfilePageState extends State<EditProfilePage> {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: CustomSpacing.s2),
             child: Column(children: [
-              Container(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Form(
-                      key: _formKey,
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: CustomSpacing.s3,
-                          ),
-                          TextFormField(
-                            controller: firstName,
-                            keyboardType: TextInputType.name,
-                            decoration: InputDecoration(
-                                labelText: "First Name",
-                                labelStyle: TextStyle(
-                                    fontSize: 2.2.h,
-                                    color: CustomColors.secondary),
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        width: 0.3.w,
-                                        color: CustomColors.secondary)),
-                                focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        width: 0.3.w,
-                                        color: CustomColors.secondary))),
-                          ),
-                          const SizedBox(
-                            height: CustomSpacing.s3,
-                          ),
-                          TextFormField(
-                            controller: lastName,
-                            keyboardType: TextInputType.name,
-                            decoration: InputDecoration(
-                                labelText: "Last Name",
-                                labelStyle: TextStyle(
-                                    fontSize: 2.2.h,
-                                    color: CustomColors.secondary),
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        width: 0.3.w,
-                                        color: CustomColors.secondary)),
-                                focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        width: 0.3.w,
-                                        color: CustomColors.secondary))),
-                          ),
-                          const SizedBox(
-                            height: CustomSpacing.s3,
-                          ),
-                          TextFormField(
-                            controller: phoneNumber,
-                            keyboardType: TextInputType.phone,
-                            decoration: InputDecoration(
-                                labelText: "Phone Number",
-                                labelStyle: TextStyle(
-                                    fontSize: 2.2.h,
-                                    color: CustomColors.secondary),
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        width: 0.3.w,
-                                        color: CustomColors.secondary)),
-                                focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        width: 0.3.w,
-                                        color: CustomColors.secondary))),
-                          ),
-                          const SizedBox(
-                            height: CustomSpacing.s3,
-                          ),
-                          TextFormField(
-                            enabled: false,
-                            controller: recoveryPhoneNumber,
-                            keyboardType: TextInputType.phone,
-                            decoration: InputDecoration(
-                                labelText: "Recovery Phone Number",
-                                labelStyle: TextStyle(
-                                    fontSize: 2.2.h,
-                                    color: CustomColors.secondary),
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        width: 0.3.w,
-                                        color: CustomColors.secondary)),
-                                focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        width: 0.3.w,
-                                        color: CustomColors.secondary))),
-                          ),
-                          const SizedBox(
-                            height: CustomSpacing.s3,
-                          ),
-                          TextFormField(
-                            enabled: false,
-                            controller: title,
-                            keyboardType: TextInputType.text,
-                            readOnly: true,
-                            decoration: InputDecoration(
-                                labelText: "Title",
-                                labelStyle: TextStyle(
-                                    fontSize: 2.2.h,
-                                    color: CustomColors.secondary),
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        width: 0.3.w,
-                                        color: CustomColors.secondary)),
-                                focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        width: 0.3.w,
-                                        color: CustomColors.secondary))),
-                          ),
-                        ],
-                      )),
-                ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        const SizedBox(
+                          height: CustomSpacing.s3,
+                        ),
+                        TextFormField(
+                          controller: firstName,
+                          keyboardType: TextInputType.name,
+                          decoration: InputDecoration(
+                              labelText: "First Name",
+                              labelStyle: TextStyle(
+                                  fontSize: 2.2.h,
+                                  color: CustomColors.secondary),
+                              border: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      width: 0.3.w,
+                                      color: CustomColors.secondary)),
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      width: 0.3.w,
+                                      color: CustomColors.secondary))),
+                        ),
+                        const SizedBox(
+                          height: CustomSpacing.s3,
+                        ),
+                        TextFormField(
+                          controller: lastName,
+                          keyboardType: TextInputType.name,
+                          decoration: InputDecoration(
+                              labelText: "Last Name",
+                              labelStyle: TextStyle(
+                                  fontSize: 2.2.h,
+                                  color: CustomColors.secondary),
+                              border: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      width: 0.3.w,
+                                      color: CustomColors.secondary)),
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      width: 0.3.w,
+                                      color: CustomColors.secondary))),
+                        ),
+                        const SizedBox(
+                          height: CustomSpacing.s3,
+                        ),
+                        TextFormField(
+                          controller: phoneNumber,
+                          keyboardType: TextInputType.phone,
+                          decoration: InputDecoration(
+                              labelText: "Phone Number",
+                              labelStyle: TextStyle(
+                                  fontSize: 2.2.h,
+                                  color: CustomColors.secondary),
+                              border: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      width: 0.3.w,
+                                      color: CustomColors.secondary)),
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      width: 0.3.w,
+                                      color: CustomColors.secondary))),
+                        ),
+                        const SizedBox(
+                          height: CustomSpacing.s3,
+                        ),
+                        TextFormField(
+                          enabled: false,
+                          controller: recoveryPhoneNumber,
+                          keyboardType: TextInputType.phone,
+                          decoration: InputDecoration(
+                              labelText: "Recovery Phone Number",
+                              labelStyle: TextStyle(
+                                  fontSize: 2.2.h,
+                                  color: CustomColors.secondary),
+                              border: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      width: 0.3.w,
+                                      color: CustomColors.secondary)),
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      width: 0.3.w,
+                                      color: CustomColors.secondary))),
+                        ),
+                        const SizedBox(
+                          height: CustomSpacing.s3,
+                        ),
+                        TextFormField(
+                          enabled: false,
+                          controller: title,
+                          keyboardType: TextInputType.text,
+                          readOnly: true,
+                          decoration: InputDecoration(
+                              labelText: "Title",
+                              labelStyle: TextStyle(
+                                  fontSize: 2.2.h,
+                                  color: CustomColors.secondary),
+                              border: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      width: 0.3.w,
+                                      color: CustomColors.secondary)),
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      width: 0.3.w,
+                                      color: CustomColors.secondary))),
+                        ),
+                      ],
+                    )),
               ),
               Mutation(
                 options: MutationOptions(

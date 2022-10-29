@@ -16,7 +16,6 @@ import '../../../widgets/error_widget.dart';
 import '../../../widgets/gradient_widget.dart';
 import '../../../widgets/loading_spinner.dart';
 import '../../../widgets/success_widget.dart';
-import '../dashboard/farm_dashboard_page.dart';
 
 class CreateFarmPage extends StatefulWidget {
   const CreateFarmPage({Key? key}) : super(key: key);
@@ -89,7 +88,6 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
           child: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(
@@ -114,6 +112,7 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
                             if (value!.isEmpty) {
                               return 'Farm Name is required';
                             }
+                            return null;
                           },
                           decoration: InputDecoration(
                               labelText: "Farm Name",
@@ -139,6 +138,7 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
                             if (value!.isEmpty) {
                               return 'Location is required';
                             }
+                            return null;
                           },
                           decoration: InputDecoration(
                               labelText: "Select the location of your farm",
@@ -173,7 +173,6 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
                           height: CustomSpacing.s3,
                         ),
                         Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(

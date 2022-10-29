@@ -1,9 +1,6 @@
 import 'package:epoultry/pages/farm/farm-managers/edit-profile_page.dart';
 import 'package:epoultry/theme/spacing.dart';
-import 'package:epoultry/widgets/gradient_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -44,7 +41,7 @@ class _ProfilePageState extends State<ProfilePage> {
               Navigator.pop(context);
             },
           ),
-          title: Text(
+          title: const Text(
             "Profile",
             style: TextStyle(color: Colors.black),
           ),
@@ -52,14 +49,12 @@ class _ProfilePageState extends State<ProfilePage> {
         body: Container(
           padding: const EdgeInsets.symmetric(horizontal: CustomSpacing.s2),
           child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
                     child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const SizedBox(
@@ -69,7 +64,6 @@ class _ProfilePageState extends State<ProfilePage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
@@ -96,7 +90,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             },
                             child: Wrap(
                               children: [
-                                Icon(
+                                const Icon(
                                   PhosphorIcons.pencilFill,
                                   color: CustomColors.secondary,
                                 ),

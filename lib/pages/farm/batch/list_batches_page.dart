@@ -1,20 +1,13 @@
-import 'dart:developer';
-
-import 'package:epoultry/data/data_export.dart';
 import 'package:epoultry/pages/farm/batch/create_batch_page.dart';
-import 'package:epoultry/graphql/query_document_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../controllers/farm_controller.dart';
 import '../../../theme/colors.dart';
 import '../../../theme/spacing.dart';
-import '../../../widgets/error_widget.dart';
 import '../../../widgets/gradient_widget.dart';
-import '../../../widgets/loading_spinner.dart';
 
 class ListBatchPage extends StatefulWidget {
   const ListBatchPage({Key? key}) : super(key: key);
@@ -84,20 +77,18 @@ class _ListBatchPageState extends State<ListBatchPage> {
               ? const Center(
                   child: Text("No Batch"),
                 )
-              : Container(
-                  child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: controller.batchesList.length,
-                      itemBuilder: (context, position) {
-                        return Card(
-                          elevation: 0.2,
-                          child: ListTile(
-                            title: Text(
-                                "${controller.batchesList[position]["name"]}"),
-                          ),
-                        );
-                      }),
-                )),
+              : ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: controller.batchesList.length,
+                  itemBuilder: (context, position) {
+                    return Card(
+                      elevation: 0.2,
+                      child: ListTile(
+                        title:
+                            Text("${controller.batchesList[position]["name"]}"),
+                      ),
+                    );
+                  })),
         ],
       ),
     );
