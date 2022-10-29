@@ -1,16 +1,17 @@
 import 'dart:async';
 
 import 'package:epoultry/pages/farm/batch/list_batches_page.dart';
-import 'package:epoultry/pages/farm/farm_dashboard_page.dart';
-import 'package:epoultry/pages/farm/join_farm_page.dart';
+import 'package:epoultry/pages/farm/dashboard/farm_dashboard_page.dart';
+import 'package:epoultry/pages/farm/join-farm/join_farm_page.dart';
+import 'package:epoultry/theme/colors.dart';
 import 'package:epoultry/theme/spacing.dart';
 import 'package:flutter/material.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
-import '../pages/otp_page.dart';
 
 class SuccessWidget extends StatefulWidget {
-  SuccessWidget({Key? key, required this.message, required this.route})
+  const SuccessWidget({Key? key, required this.message, required this.route})
       : super(key: key);
   final String message;
   final String route;
@@ -30,7 +31,7 @@ class _SuccessWidgetState extends State<SuccessWidget> {
         case "login":
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => FarmDashboardPage()),
+            MaterialPageRoute(builder: (context) => const FarmDashboardPage()),
           );
           break;
         case "register":
@@ -43,14 +44,14 @@ class _SuccessWidgetState extends State<SuccessWidget> {
         case "dashboard":
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => FarmDashboardPage()),
+            MaterialPageRoute(builder: (context) => const FarmDashboardPage()),
           );
           break;
 
         case "batches":
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => ListBatchPage()),
+            MaterialPageRoute(builder: (context) => const ListBatchPage()),
           );
           break;
       }
@@ -71,16 +72,13 @@ class _SuccessWidgetState extends State<SuccessWidget> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Image.asset(
-            "assets/thumbsup.png",
-            scale: 1.7,
-          ),
-          SizedBox(
+           Icon(PhosphorIcons.checkCircle, color: CustomColors.green, size: 10.5.h,),
+          const SizedBox(
             height: CustomSpacing.s2,
           ),
           widget.message.isNotEmpty
               ? Text(
-                  "${widget.message}",
+                  widget.message,
                   style: TextStyle(fontSize: 5.w),
                   textAlign: TextAlign.center,
                 )

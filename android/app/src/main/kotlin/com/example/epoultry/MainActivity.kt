@@ -1,4 +1,4 @@
-package com.example.epoultry
+package com.infilabs.epoultry
 
 import io.flutter.embedding.android.FlutterActivity
 
