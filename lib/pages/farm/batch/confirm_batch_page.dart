@@ -21,7 +21,6 @@ class ConfirmBatchPage extends StatelessWidget {
   ConfirmBatchPage({Key? key, required this.newBatch}) : super(key: key);
 
   final BatchModel newBatch;
-  final FarmsController controller = Get.put(FarmsController());
 
   @override
   Widget build(BuildContext context) {
@@ -207,7 +206,6 @@ class ConfirmBatchPage extends StatelessWidget {
     final DateFormat formatter = DateFormat('yyyy-MM-dd');
     DateTime now = DateTime.now();
     DateTime date = DateTime(now.year, now.month, now.day);
-    final FarmsController controller = Get.put(FarmsController());
 
     runMutation({
       "data": {

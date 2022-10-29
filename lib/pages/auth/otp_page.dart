@@ -12,6 +12,7 @@ import 'package:pinput/pinput.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../controllers/farm_controller.dart';
+import '../../controllers/user_controller.dart';
 import '../../data/models/error.dart';
 import '../../graphql/graphql-config.dart';
 import '../../theme/colors.dart';
@@ -35,6 +36,7 @@ class _OtpPageState extends State<OtpPage> {
   final pinController = TextEditingController();
 
   final FarmsController controller = Get.put(FarmsController());
+  final UserController userController = Get.put(UserController());
 
   @override
   Widget build(BuildContext context) {
@@ -191,21 +193,29 @@ class _OtpPageState extends State<OtpPage> {
 
   Future<void> _onCompleted(data, BuildContext context) async {
     final box = Hive.box('appData');
-    box.put('name',
-        "${data['verifyOtp']['user']['firstName']} ${data['verifyOtp']['user']['lastName']}");
-    box.put('phone', data['verifyOtp']['user']['phoneNumber']);
-
-    if (data['verifyOtp']['user']['farmer'] == null) {
-      box.put('role', 'manager');
-    } else {
-      box.put('role', 'farmer');
-    }
 
     /// If they do, move to home page. If not, take them to select artist page for them to select artists.
     if ((data['verifyOtp']['apiKey']).toString().isNotEmpty) {
+      box.put('name',
+          "${data['verifyOtp']['user']['firstName']} ${data['verifyOtp']['user']['lastName']}");
+      box.put('phone', data['verifyOtp']['user']['phoneNumber']);
+
+      if (data['verifyOtp']['user']['farmer'] == null) {
+        box.put('role', 'manager');
+      } else {
+        box.put('role', 'farmer');
+      }
+
       context.cacheToken(data['verifyOtp']['apiKey']);
       box.put('token', data['verifyOtp']['apiKey']);
       GraphQLConfiguration.setToken(data['verifyOtp']['apiKey']);
+
+      final name = data['verifyOtp']['user']["firstName"] +
+          " " +
+          data['verifyOtp']['user']["lastName"];
+
+      userController.updateName(name);
+
       if (data['verifyOtp']['user']['managingFarms'].isNotEmpty ||
           data['verifyOtp']['user']['ownedFarms'].isNotEmpty) {
         List managingFarms = data['verifyOtp']['user']!["managingFarms"];

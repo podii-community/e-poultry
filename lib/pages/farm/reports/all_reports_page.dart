@@ -46,7 +46,7 @@ class _AllReportsPageState extends State<AllReportsPage> {
             Navigator.pop(context);
           },
         ),
-        title: Text(
+        title: const Text(
           'Reports',
           style: TextStyle(color: Colors.black),
         ),
@@ -86,7 +86,7 @@ class _AllReportsPageState extends State<AllReportsPage> {
                       borderSide: BorderSide(
                           width: 0.3.w, color: CustomColors.secondary)),
                   hintText: 'Search date/batch name/farm manager',
-                  hintStyle: TextStyle(
+                  hintStyle: const TextStyle(
                       fontWeight: FontWeight.w600, color: Colors.grey)),
             ),
             const SizedBox(
