@@ -27,8 +27,6 @@ class DashboardPage extends StatelessWidget {
 
   final FarmsController controller = Get.put(FarmsController());
 
-  // List reports = [];
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -61,9 +59,14 @@ class DashboardPage extends StatelessWidget {
                 }
 
                 final data = result.data?['getFarm'];
+                List reports = [];
+                for (var batch in data["batches"]) {
+                  reports.addAll(batch["reports"]);
+                }
 
                 WidgetsBinding.instance.addPostFrameCallback((_) {
                   controller.batchesList(data["batches"]);
+                  controller.reportsList(reports);
                 });
 
                 return SizedBox(
