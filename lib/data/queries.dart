@@ -1,3 +1,5 @@
+import 'package:get/state_manager.dart';
+
 class EpoultryQueries {
   // Auth
   String register() {
@@ -33,10 +35,72 @@ class EpoultryQueries {
                   lastName,
                   phoneNumber,
                   managingFarms{
+                    id,
                     name
+                    batches{
+                        id,
+                name,
+                birdType,
+                birdAge,
+                birdCount,
+                ageType
+                      reports{
+                        id,
+                        reportDate,
+                        eggCollection{
+                          id,
+                          badCount,
+                          badCountClassification{
+                            broken,
+                            deformed
+                          },
+                          goodCount,
+                          goodCountClassification{
+                            large,
+                            small
+                          },
+                       },
+                        birdCounts{
+                          id,
+                          quantity,
+                          reason
+                       }
+                     }
+                    }
                   },
                   ownedFarms{
-                    name
+                    id,
+                    name,
+                      batches{
+                          id,
+                name,
+                birdType,
+                birdAge,
+                birdCount,
+                ageType
+                      reports{
+                        id,
+                        reportDate,
+                        eggCollection{
+                          id,
+                          badCount,
+                          badCountClassification{
+                            broken,
+                            deformed
+                          },
+                          goodCount,
+                          goodCountClassification{
+                            large,
+                            small
+                          },
+                       },
+                        birdCounts{
+                          id,
+                          quantity,
+                          reason
+                       }
+                     }
+                    }
                   }
              }
          }
@@ -119,9 +183,8 @@ class EpoultryQueries {
               }
             }
           },
-
-           ownedFarms{
-             batches{
+          ownedFarms{
+            batches{
               reports{
                 id,
                 reportDate,
@@ -145,11 +208,9 @@ class EpoultryQueries {
                 }
               }
             }
-            }
+          }
 	      }
     }
-
-    
     """;
   }
 
@@ -307,6 +368,50 @@ class EpoultryQueries {
       }
     }
     }
+    """;
+  }
+
+  String getFarm() {
+    return """
+        query GetFarm(\$farmId: UUID!){
+          getFarm(farmId: \$farmId){  
+              id,
+              name,
+              birdCount,
+              eggCount,
+              feedsUsage,
+               batches{
+                id,
+                name,
+                birdType,
+                birdAge,
+                birdCount,
+                ageType,
+                reports{
+                id,
+                reportDate,
+                eggCollection{
+                     id,
+                     badCount,
+                     badCountClassification{
+                          broken,
+                          deformed
+                      },
+                     goodCount,
+                     goodCountClassification{
+                          large,
+                          small
+                      },
+                },
+                birdCounts{
+                    id,
+                    quantity,
+                    reason
+                }
+              }
+             }
+          }
+        }
     """;
   }
 }

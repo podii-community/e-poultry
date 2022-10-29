@@ -7,10 +7,12 @@ import 'package:epoultry/widgets/gradient_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../controllers/farm_controller.dart';
 import '../../../data/models/error.dart';
 import '../../../theme/colors.dart';
 import '../../../widgets/error_widget.dart';
@@ -25,6 +27,7 @@ class AllReportsPage extends StatefulWidget {
 }
 
 class _AllReportsPageState extends State<AllReportsPage> {
+  final FarmsController controller = Get.put(FarmsController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,133 +51,119 @@ class _AllReportsPageState extends State<AllReportsPage> {
           style: TextStyle(color: Colors.black),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          height: 100.h,
-          padding: const EdgeInsets.symmetric(horizontal: CustomSpacing.s2),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(
-                height: CustomSpacing.s3,
-              ),
-              Text(
-                "Find a specific report",
-                style: TextStyle(fontSize: 3.h),
-              ),
-              const SizedBox(
-                height: CustomSpacing.s3,
-              ),
-              const SizedBox(
-                height: CustomSpacing.s1,
-              ),
-              TextField(
-                decoration: InputDecoration(
-                    isDense: true,
-                    contentPadding: EdgeInsets.symmetric(vertical: 5.w),
-                    prefixIcon: Icon(
-                      PhosphorIcons.magnifyingGlass,
-                      color: CustomColors.secondary,
-                      size: 7.w,
-                    ),
-                    border: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            width: 0.3.w, color: CustomColors.secondary)),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            width: 0.3.w, color: CustomColors.secondary)),
-                    hintText: 'Search date/batch name/farm manager',
-                    hintStyle: TextStyle(
-                        fontWeight: FontWeight.w600, color: Colors.grey)),
-              ),
-              const SizedBox(
-                height: CustomSpacing.s3,
-              ),
-              Query(
-                  options: QueryOptions(
-                    document: gql(context.queries.dashboardReports()),
-                    fetchPolicy: FetchPolicy.noCache,
-                    pollInterval: const Duration(minutes: 2),
+      body: Container(
+        height: 100.h,
+        padding: const EdgeInsets.symmetric(horizontal: CustomSpacing.s2),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(
+              height: CustomSpacing.s3,
+            ),
+            Text(
+              "Find a specific report",
+              style: TextStyle(fontSize: 3.h),
+            ),
+            const SizedBox(
+              height: CustomSpacing.s3,
+            ),
+            const SizedBox(
+              height: CustomSpacing.s1,
+            ),
+            TextField(
+              decoration: InputDecoration(
+                  isDense: true,
+                  contentPadding: EdgeInsets.symmetric(vertical: 5.w),
+                  prefixIcon: Icon(
+                    PhosphorIcons.magnifyingGlass,
+                    color: CustomColors.secondary,
+                    size: 7.w,
                   ),
-                  builder: (QueryResult result,
-                      {VoidCallback? refetch, FetchMore? fetchMore}) {
-                    if (result.isLoading) {
-                      return const LoadingSpinner();
-                    }
-                    if (result.hasException) {
-                      return AppErrorWidget(
-                        error: ErrorModel.fromString(
-                          result.exception.toString(),
-                        ),
-                      );
-                    }
-
-                    List reports = [];
-
-                    List managingFarms = result.data?['user']!["managingFarms"];
-
-                    for (var farm in managingFarms) {
-                      List farmBatches = farm["batches"];
-                      for (var batch in farmBatches) {
-                        List batchReport = batch["reports"];
-                        for (var report in batchReport) {
-                          reports.add(report);
-                        }
-                      }
-                    }
-
-                    List ownedFarms = result.data?['user']!["ownedFarms"];
-
-                    for (var farm in ownedFarms) {
-                      List farmBatches = farm["batches"];
-                      for (var batch in farmBatches) {
-                        List batchReport = batch["reports"];
-                        for (var report in batchReport) {
-                          reports.add(report);
-                        }
-                      }
-                    }
-
-                    if (reports.isNotEmpty) {
-                      return ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: reports.length,
-                          itemBuilder: ((context, index) {
-                            return ListTile(
-                              trailing: const Icon(
-                                PhosphorIcons.arrowRightBold,
-                                color: Colors.black,
+                  border: OutlineInputBorder(
+                      borderSide: BorderSide(
+                          width: 0.3.w, color: CustomColors.secondary)),
+                  focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                          width: 0.3.w, color: CustomColors.secondary)),
+                  hintText: 'Search date/batch name/farm manager',
+                  hintStyle: TextStyle(
+                      fontWeight: FontWeight.w600, color: Colors.grey)),
+            ),
+            const SizedBox(
+              height: CustomSpacing.s3,
+            ),
+            controller.reportsList.isEmpty
+                ? Card(
+                    elevation: 4,
+                    shadowColor: CustomColors.secondary,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 4.w, vertical: 1.5.h),
+                      child: Row(
+                        children: [
+                          Icon(
+                            PhosphorIcons.info,
+                            size: 8.w,
+                          ),
+                          SizedBox(
+                            width: 2.w,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'What is a report?',
+                                style: TextStyle(fontSize: 4.w),
                               ),
-                              title: Text("Farm Report",
-                                  style: TextStyle(fontSize: 1.9.h)),
-                              subtitle: Text("${reports[index]["reportDate"]}"),
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => ViewReportPage(
-                                            report: reports[index],
-                                          )),
-                                );
-                              },
-                              tileColor: CustomColors.background,
-                              textColor: Colors.black,
-                            );
-                          }));
-                    }
-                    return Container();
-                  }),
-              Align(
-                  alignment: Alignment.bottomRight,
-                  child: OutlinedButton(
-                      onPressed: () {},
-                      style:
-                          OutlinedButton.styleFrom(fixedSize: Size(50.w, 6.h)),
-                      child: GradientText("EXPORT REPORTS",
-                          style: TextStyle(fontSize: 2.h),
-                          gradient: CustomColors.primaryGradient)))
-            ],
-          ),
+                              Text(
+                                'A general overview of the farm',
+                                style: TextStyle(
+                                    fontSize: 3.w, color: Colors.grey),
+                              )
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  )
+                : Expanded(
+                    child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: controller.reportsList.length,
+                        itemBuilder: ((context, index) {
+                          return ListTile(
+                            trailing: const Icon(
+                              PhosphorIcons.arrowRightBold,
+                              color: Colors.black,
+                            ),
+                            title: Text("Farm Report",
+                                style: TextStyle(fontSize: 1.9.h)),
+                            subtitle: Text(
+                                "${controller.reportsList[index]["reportDate"]}"),
+                            onTap: () {
+                              log("${controller.reportsList[index]}");
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ViewReportPage(
+                                          report: controller.reportsList[index],
+                                        )),
+                              );
+                            },
+                            tileColor: CustomColors.background,
+                            textColor: Colors.black,
+                          );
+                        })),
+                  ),
+            Align(
+                alignment: Alignment.bottomRight,
+                child: OutlinedButton(
+                    onPressed: () {},
+                    style: OutlinedButton.styleFrom(fixedSize: Size(50.w, 6.h)),
+                    child: GradientText("EXPORT REPORTS",
+                        style: TextStyle(fontSize: 2.h),
+                        gradient: CustomColors.primaryGradient)))
+          ],
         ),
       ),
     );

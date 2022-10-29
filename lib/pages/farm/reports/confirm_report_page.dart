@@ -7,11 +7,15 @@ import 'package:epoultry/theme/spacing.dart';
 import 'package:epoultry/widgets/gradient_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hive/hive.dart';
+import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../controllers/farm_controller.dart';
+import '../../../controllers/user_controller.dart';
 import '../../../theme/colors.dart';
 import '../../../widgets/loading_spinner.dart';
 import '../../../widgets/success_widget.dart';
@@ -29,6 +33,9 @@ class ConfirmReportPage extends StatefulWidget {
 }
 
 class _ConfirmReportPageState extends State<ConfirmReportPage> {
+  final UserController userController = Get.put(UserController());
+  final FarmsController controller = Get.put(FarmsController());
+
   @override
   Widget build(BuildContext context) {
     final box = Hive.box('appData');
@@ -70,26 +77,10 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
                         "Farm Name",
                         style: TextStyle(color: Colors.black, fontSize: 2.2.h),
                       ),
-                      Text(
-                        '${name} Farm',
-                        style: TextStyle(fontSize: 2.1.h),
-                      )
-                    ],
-                  ),
-                  const SizedBox(
-                    height: CustomSpacing.s1,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Contractor ",
-                        style: TextStyle(color: Colors.black, fontSize: 2.2.h),
-                      ),
-                      Text(
-                        'Chicken Basket',
-                        style: TextStyle(fontSize: 2.1.h),
-                      )
+                      Obx((() => Text(
+                            controller.farm.value['name'],
+                            style: TextStyle(color: Colors.black),
+                          )))
                     ],
                   ),
                   const SizedBox(
@@ -103,7 +94,7 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
                         style: TextStyle(color: Colors.black, fontSize: 2.2.h),
                       ),
                       Text(
-                        name,
+                        userController.userName.value,
                         style: TextStyle(fontSize: 2.1.h),
                       )
                     ],
@@ -135,7 +126,7 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
                         style: TextStyle(color: Colors.black, fontSize: 2.2.h),
                       ),
                       Text(
-                        '${widget.report!["data"]['reportDate']}',
+                        DateFormat('yyyy-MM-dd').format(DateTime.now()),
                         style: TextStyle(fontSize: 2.1.h),
                       )
                     ],
@@ -151,7 +142,7 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
                         style: TextStyle(color: Colors.black, fontSize: 2.2.h),
                       ),
                       Text(
-                        '12:00 PM',
+                        DateFormat.jm().format(DateTime.now()),
                         style: TextStyle(fontSize: 2.1.h),
                       )
                     ],
@@ -452,7 +443,7 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
         "birdCounts": widget.report["data"]["birdCounts"],
         "feedsUsageReports": widget.report["data"]["feedsUsageReports"],
         "eggCollection": widget.report["data"]["eggCollection"],
-        "reportDate": widget.report["data"]["reportDate"]
+        "reportDate": DateFormat('yyyy-MM-dd').format(DateTime.now())
       }
     });
   }

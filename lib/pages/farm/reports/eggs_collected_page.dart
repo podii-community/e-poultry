@@ -101,7 +101,7 @@ class _EggsCollectedPageState extends State<EggsCollectedPage> {
                                           fontSize: 2.h),
                                     ),
                                     Text(
-                                      (widget.batchDetails.type!.name!)
+                                      (widget.batchDetails.type!.name)
                                           .capitalize!,
                                       style: TextStyle(
                                           color: CustomColors.secondary,
@@ -139,230 +139,229 @@ class _EggsCollectedPageState extends State<EggsCollectedPage> {
                 const SizedBox(
                   height: CustomSpacing.s2,
                 ),
-                SizedBox(
-                  height: 60.h,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(
-                        height: CustomSpacing.s2,
-                      ),
-                      const SizedBox(
-                        height: CustomSpacing.s3,
-                      ),
-                      Form(
-                          key: _formKey,
-                          child: Column(
-                            children: [
-                              TextFormField(
-                                controller: eggsCollected,
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Enter number of eggs collected';
-                                  }
-                                },
-                                keyboardType: TextInputType.number,
-                                decoration: InputDecoration(
-                                  prefixStyle: TextStyle(fontSize: 1.8.h),
-                                  border: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          width: 0.3.w,
-                                          color: CustomColors.secondary)),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          width: 0.3.w,
-                                          color: CustomColors.secondary)),
-                                  labelText:
-                                      "How many Eggs have you collected today?",
-                                  labelStyle: TextStyle(
-                                      fontSize: 2.2.h,
-                                      color: CustomColors.secondary),
-                                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: CustomSpacing.s2,
+                    ),
+                    const SizedBox(
+                      height: CustomSpacing.s3,
+                    ),
+                    Form(
+                        key: _formKey,
+                        child: Column(
+                          children: [
+                            TextFormField(
+                              controller: eggsCollected,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Enter number of eggs collected';
+                                }
+                              },
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                prefixStyle: TextStyle(fontSize: 1.8.h),
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        width: 0.3.w,
+                                        color: CustomColors.secondary)),
+                                focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        width: 0.3.w,
+                                        color: CustomColors.secondary)),
+                                labelText:
+                                    "How many Eggs have you collected today?",
+                                labelStyle: TextStyle(
+                                    fontSize: 2.2.h,
+                                    color: CustomColors.secondary),
                               ),
-                              const SizedBox(
-                                height: CustomSpacing.s3,
+                            ),
+                            const SizedBox(
+                              height: CustomSpacing.s3,
+                            ),
+                            TextFormField(
+                              controller: brokenEggs,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Enter number of broken eggs';
+                                }
+                              },
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                prefixStyle: TextStyle(fontSize: 1.8.h),
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        width: 0.3.w,
+                                        color: CustomColors.secondary)),
+                                focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        width: 0.3.w,
+                                        color: CustomColors.secondary)),
+                                labelText: "How many Eggs were broken?",
+                                labelStyle: TextStyle(
+                                    fontSize: 2.2.h,
+                                    color: CustomColors.secondary),
                               ),
-                              TextFormField(
-                                controller: brokenEggs,
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Enter number of broken eggs';
-                                  }
-                                },
-                                keyboardType: TextInputType.number,
-                                decoration: InputDecoration(
-                                  prefixStyle: TextStyle(fontSize: 1.8.h),
-                                  border: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          width: 0.3.w,
-                                          color: CustomColors.secondary)),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          width: 0.3.w,
-                                          color: CustomColors.secondary)),
-                                  labelText: "How many Eggs were broken?",
-                                  labelStyle: TextStyle(
-                                      fontSize: 2.2.h,
-                                      color: CustomColors.secondary),
-                                ),
-                              ),
-                              const SizedBox(
-                                height: CustomSpacing.s3,
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Would you like to grade the good eggs ?",
-                                    style: TextStyle(
-                                      fontSize: 2.2.h,
-                                    ),
+                            ),
+                            const SizedBox(
+                              height: CustomSpacing.s3,
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Would you like to grade the good eggs ?",
+                                  style: TextStyle(
+                                    fontSize: 2.2.h,
                                   ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        width: 40.w,
-                                        child: ListTile(
-                                          title: const Text('Yes'),
-                                          leading: Radio<String>(
-                                            value: "yes",
-                                            groupValue: gradeEggs,
-                                            onChanged: (value) {
-                                              setState(() {
-                                                gradeEggs = value.toString();
-                                              });
-                                            },
-                                          ),
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(
+                                      width: 40.w,
+                                      child: ListTile(
+                                        title: const Text('Yes'),
+                                        leading: Radio<String>(
+                                          value: "yes",
+                                          groupValue: gradeEggs,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              gradeEggs = value.toString();
+                                            });
+                                          },
                                         ),
                                       ),
-                                      SizedBox(
-                                        width: 40.w,
-                                        child: ListTile(
-                                          title: const Text('No'),
-                                          leading: Radio<String>(
-                                            value: "no",
-                                            groupValue: gradeEggs,
-                                            onChanged: (value) {
-                                              setState(() {
-                                                gradeEggs = value.toString();
-                                              });
-                                              largeEggs.clear();
-                                              deformedEggs.clear();
-                                              smallEggs.clear();
-                                            },
-                                          ),
+                                    ),
+                                    SizedBox(
+                                      width: 40.w,
+                                      child: ListTile(
+                                        title: const Text('No'),
+                                        leading: Radio<String>(
+                                          value: "no",
+                                          groupValue: gradeEggs,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              gradeEggs = value.toString();
+                                            });
+                                            largeEggs.clear();
+                                            deformedEggs.clear();
+                                            smallEggs.clear();
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                            gradeEggs == 'yes'
+                                ? Column(
+                                    children: [
+                                      const SizedBox(
+                                        height: CustomSpacing.s2,
+                                      ),
+                                      TextFormField(
+                                        controller: deformedEggs,
+                                        validator: (value) {
+                                          if (value!.isEmpty) {
+                                            return 'Enter number of deformed eggs';
+                                          }
+                                        },
+                                        keyboardType: TextInputType.number,
+                                        decoration: InputDecoration(
+                                          prefixStyle:
+                                              TextStyle(fontSize: 1.8.h),
+                                          border: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  width: 0.3.w,
+                                                  color:
+                                                      CustomColors.secondary)),
+                                          focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  width: 0.3.w,
+                                                  color:
+                                                      CustomColors.secondary)),
+                                          labelText:
+                                              "How many Eggs out of  the collected were deformed?",
+                                          labelStyle: TextStyle(
+                                              fontSize: 1.6.h,
+                                              color: CustomColors.secondary),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: CustomSpacing.s2,
+                                      ),
+                                      TextFormField(
+                                        controller: smallEggs,
+                                        validator: (value) {
+                                          if (value!.isEmpty) {
+                                            return 'Enter number of small eggs';
+                                          }
+                                        },
+                                        keyboardType: TextInputType.number,
+                                        decoration: InputDecoration(
+                                          prefixStyle:
+                                              TextStyle(fontSize: 1.8.h),
+                                          border: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  width: 0.3.w,
+                                                  color:
+                                                      CustomColors.secondary)),
+                                          focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  width: 0.3.w,
+                                                  color:
+                                                      CustomColors.secondary)),
+                                          labelText:
+                                              "How many eggs out of the remaining were small?",
+                                          labelStyle: TextStyle(
+                                              fontSize: 1.6.h,
+                                              color: CustomColors.secondary),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: CustomSpacing.s2,
+                                      ),
+                                      TextFormField(
+                                        controller: largeEggs,
+                                        validator: (value) {
+                                          if (value!.isEmpty) {
+                                            return 'Enter number of large eggs';
+                                          }
+                                        },
+                                        keyboardType: TextInputType.number,
+                                        decoration: InputDecoration(
+                                          border: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  width: 0.3.w,
+                                                  color:
+                                                      CustomColors.secondary)),
+                                          focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  width: 0.3.w,
+                                                  color:
+                                                      CustomColors.secondary)),
+                                          labelText:
+                                              "How many Eggs out of the remaining  were large?",
+                                          labelStyle: TextStyle(
+                                              fontSize: 1.6.h,
+                                              color: CustomColors.secondary),
                                         ),
                                       ),
                                     ],
                                   )
-                                ],
-                              ),
-                              gradeEggs == 'yes'
-                                  ? Column(
-                                      children: [
-                                        const SizedBox(
-                                          height: CustomSpacing.s2,
-                                        ),
-                                        TextFormField(
-                                          controller: deformedEggs,
-                                          validator: (value) {
-                                            if (value!.isEmpty) {
-                                              return 'Enter number of deformed eggs';
-                                            }
-                                          },
-                                          keyboardType: TextInputType.number,
-                                          decoration: InputDecoration(
-                                            prefixStyle:
-                                                TextStyle(fontSize: 1.8.h),
-                                            border: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    width: 0.3.w,
-                                                    color: CustomColors
-                                                        .secondary)),
-                                            focusedBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    width: 0.3.w,
-                                                    color: CustomColors
-                                                        .secondary)),
-                                            labelText:
-                                                "How many Eggs out of  the collected were deformed?",
-                                            labelStyle: TextStyle(
-                                                fontSize: 1.6.h,
-                                                color: CustomColors.secondary),
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          height: CustomSpacing.s2,
-                                        ),
-                                        TextFormField(
-                                          controller: smallEggs,
-                                          validator: (value) {
-                                            if (value!.isEmpty) {
-                                              return 'Enter number of small eggs';
-                                            }
-                                          },
-                                          keyboardType: TextInputType.number,
-                                          decoration: InputDecoration(
-                                            prefixStyle:
-                                                TextStyle(fontSize: 1.8.h),
-                                            border: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    width: 0.3.w,
-                                                    color: CustomColors
-                                                        .secondary)),
-                                            focusedBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    width: 0.3.w,
-                                                    color: CustomColors
-                                                        .secondary)),
-                                            labelText:
-                                                "How many eggs out of the remaining were small?",
-                                            labelStyle: TextStyle(
-                                                fontSize: 1.6.h,
-                                                color: CustomColors.secondary),
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          height: CustomSpacing.s2,
-                                        ),
-                                        TextFormField(
-                                          controller: largeEggs,
-                                          validator: (value) {
-                                            if (value!.isEmpty) {
-                                              return 'Enter number of large eggs';
-                                            }
-                                          },
-                                          keyboardType: TextInputType.number,
-                                          decoration: InputDecoration(
-                                            border: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    width: 0.3.w,
-                                                    color: CustomColors
-                                                        .secondary)),
-                                            focusedBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    width: 0.3.w,
-                                                    color: CustomColors
-                                                        .secondary)),
-                                            labelText:
-                                                "How many Eggs out of the remaining  were large?",
-                                            labelStyle: TextStyle(
-                                                fontSize: 1.6.h,
-                                                color: CustomColors.secondary),
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                  : Container()
-                            ],
-                          ))
-                    ],
-                  ),
+                                : Container(),
+                            const SizedBox(
+                              height: CustomSpacing.s3,
+                            ),
+                          ],
+                        ))
+                  ],
                 ),
                 GradientWidget(
                   child: ElevatedButton(

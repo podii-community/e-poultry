@@ -7,7 +7,7 @@ import '../../../theme/palette.dart';
 import '../../../theme/spacing.dart';
 
 class ViewReportPage extends StatelessWidget {
-  const ViewReportPage({Key? key,required this.report}) : super(key: key);
+  const ViewReportPage({Key? key, required this.report}) : super(key: key);
   final report;
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class ViewReportPage extends StatelessWidget {
         ),
       ),
       body: Container(
-        padding:  EdgeInsets.symmetric(horizontal: CustomSpacing.s2),
+        padding: EdgeInsets.symmetric(horizontal: CustomSpacing.s2),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -159,9 +159,9 @@ class ViewReportPage extends StatelessWidget {
                       decoration: BoxDecoration(
                           gradient: LinearGradient(
                               colors: [
-                                Palette.kPrimary[200]!,
-                                Palette.kSecondary[100]!
-                              ],
+                            Palette.kPrimary[200]!,
+                            Palette.kSecondary[100]!
+                          ],
                               begin: Alignment.centerLeft,
                               end: Alignment.centerRight)),
                       padding: const EdgeInsets.all(CustomSpacing.s2),
@@ -175,7 +175,6 @@ class ViewReportPage extends StatelessWidget {
                                 style: TextStyle(
                                     color: Colors.black, fontSize: 2.h),
                               ),
-
                             ],
                           ),
                           const SizedBox(
@@ -183,145 +182,142 @@ class ViewReportPage extends StatelessWidget {
                           ),
                           ListView.builder(
                               shrinkWrap: true,
-                              itemCount:
-                              report!['birdCounts'].length,
+                              itemCount: report!['birdCounts'].length,
                               itemBuilder: (context, index) {
                                 return Row(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      report!['birdCounts']
-                                      [index]['reason'],
+                                      report!['birdCounts'][index]['reason'],
                                       style: TextStyle(
                                           color: Colors.black, fontSize: 1.8.h),
                                     ),
                                     Text(
-                                      report!['birdCounts']
-                                      [index]['quantity'].toString(),
+                                      report!['birdCounts'][index]['quantity']
+                                          .toString(),
                                       style: TextStyle(
                                           fontSize: 1.8.h, color: Colors.black),
                                     )
                                   ],
                                 );
                               })
-
                         ],
                       ),
                     ),
                   ),
                   report!['eggCollection'].isNotEmpty
                       ? Card(
-                    elevation: 0.4,
-                    child: Container(
-                      padding: const EdgeInsets.all(CustomSpacing.s2),
-                      decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                              colors: [
-                                Palette.kPrimary[200]!,
-                                Palette.kSecondary[100]!
+                          elevation: 0.4,
+                          child: Container(
+                            padding: const EdgeInsets.all(CustomSpacing.s2),
+                            decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                    colors: [
+                                  Palette.kPrimary[200]!,
+                                  Palette.kSecondary[100]!
+                                ],
+                                    begin: Alignment.centerLeft,
+                                    end: Alignment.centerRight)),
+                            child: ListView(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Eggs",
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 2.h),
+                                    ),
+                                    Text(
+                                      '+${report!['eggCollection']["goodCount"]}',
+                                      style: TextStyle(
+                                          fontSize: 2.h,
+                                          color: CustomColors.green),
+                                    )
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: CustomSpacing.s2,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Large",
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 1.8.h),
+                                    ),
+                                    Text(
+                                      '${report!['eggCollection']["goodCountClassification"]['large']}',
+                                      style: TextStyle(
+                                          fontSize: 1.8.h, color: Colors.black),
+                                    )
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: CustomSpacing.s2,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Small",
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 1.8.h),
+                                    ),
+                                    Text(
+                                      '${report!['eggCollection']["goodCountClassification"]['small']}',
+                                      style: TextStyle(
+                                          fontSize: 1.8.h, color: Colors.black),
+                                    )
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: CustomSpacing.s2,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Deformed",
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 1.8.h),
+                                    ),
+                                    Text(
+                                      '${report!['eggCollection']["badCountClassification"]['deformed']}',
+                                      style: TextStyle(
+                                          fontSize: 1.8.h, color: Colors.black),
+                                    )
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: CustomSpacing.s2,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Broken",
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 1.8.h),
+                                    ),
+                                    Text(
+                                      '${report!['eggCollection']["badCountClassification"]['broken']}',
+                                      style: TextStyle(
+                                          fontSize: 1.8.h, color: Colors.black),
+                                    )
+                                  ],
+                                ),
                               ],
-                              begin: Alignment.centerLeft,
-                              end: Alignment.centerRight)),
-                      child: ListView(
-                        children: [
-                          Row(
-                            mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Eggs",
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 2.h),
-                              ),
-                              Text(
-                                '+${report!['eggCollection']["eggCount"]}',
-                                style: TextStyle(
-                                    fontSize: 2.h,
-                                    color: CustomColors.green),
-                              )
-                            ],
+                            ),
                           ),
-                          const SizedBox(
-                            height: CustomSpacing.s2,
-                          ),
-                          Row(
-                            mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Large",
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 1.8.h),
-                              ),
-                              Text(
-                                '${report!['eggCollection']["largeCount"]}',
-                                style: TextStyle(
-                                    fontSize: 1.8.h, color: Colors.black),
-                              )
-                            ],
-                          ),
-                          const SizedBox(
-                            height: CustomSpacing.s2,
-                          ),
-                          Row(
-                            mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Small",
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 1.8.h),
-                              ),
-                              Text(
-                                '${report!['eggCollection']["smallCount"]}',
-                                style: TextStyle(
-                                    fontSize: 1.8.h, color: Colors.black),
-                              )
-                            ],
-                          ),
-                          const SizedBox(
-                            height: CustomSpacing.s2,
-                          ),
-                          Row(
-                            mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Deformed",
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 1.8.h),
-                              ),
-                              Text(
-                                '${report!['eggCollection']["deformedCount"] }',
-                                style: TextStyle(
-                                    fontSize: 1.8.h, color: Colors.black),
-                              )
-                            ],
-                          ),
-                          const SizedBox(
-                            height: CustomSpacing.s2,
-                          ),
-                          Row(
-                            mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Broken",
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 1.8.h),
-                              ),
-                              Text(
-                                '${report!['eggCollection']["brokenCount"]}',
-                                style: TextStyle(
-                                    fontSize: 1.8.h, color: Colors.black),
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  )
+                        )
                       : Container(),
                   // Card(
                   //   elevation: 0.4,
@@ -383,7 +379,6 @@ class ViewReportPage extends StatelessWidget {
                 ],
               ),
             ),
-
             const SizedBox(
               height: CustomSpacing.s1,
             ),

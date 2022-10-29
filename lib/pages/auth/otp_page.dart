@@ -5,11 +5,13 @@ import 'package:epoultry/widgets/gradient_widget.dart';
 import 'package:epoultry/widgets/success_widget.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hive/hive.dart';
 import 'package:pinput/pinput.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../controllers/farm_controller.dart';
 import '../../data/models/error.dart';
 import '../../graphql/graphql-config.dart';
 import '../../theme/colors.dart';
@@ -31,6 +33,8 @@ class OtpPage extends StatefulWidget {
 class _OtpPageState extends State<OtpPage> {
   final _formKey = GlobalKey<FormState>();
   final pinController = TextEditingController();
+
+  final FarmsController controller = Get.put(FarmsController());
 
   @override
   Widget build(BuildContext context) {
@@ -197,8 +201,6 @@ class _OtpPageState extends State<OtpPage> {
       box.put('role', 'farmer');
     }
 
-    log("$data");
-
     /// If they do, move to home page. If not, take them to select artist page for them to select artists.
     if ((data['verifyOtp']['apiKey']).toString().isNotEmpty) {
       context.cacheToken(data['verifyOtp']['apiKey']);
@@ -206,6 +208,14 @@ class _OtpPageState extends State<OtpPage> {
       GraphQLConfiguration.setToken(data['verifyOtp']['apiKey']);
       if (data['verifyOtp']['user']['managingFarms'].isNotEmpty ||
           data['verifyOtp']['user']['ownedFarms'].isNotEmpty) {
+        List managingFarms = data['verifyOtp']['user']!["managingFarms"];
+        List ownedFarms = data['verifyOtp']['user']!["ownedFarms"];
+
+        List farms = managingFarms + ownedFarms;
+
+        controller.updateFarms(farms);
+        controller.updateFarm(farms[0]);
+        controller.updateBatches(farms[0]['batches']);
         Navigator.push(
             context,
             MaterialPageRoute(

@@ -1,55 +1,41 @@
-import 'dart:developer';
-
 import 'package:dropdown_search/dropdown_search.dart';
-import 'package:epoultry/data/data_export.dart';
-
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter/src/foundation/key.dart';
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 import 'package:string_extensions/string_extensions.dart';
 
+import '../../../data/models/batch_model.dart';
 import '../../../theme/colors.dart';
 import '../../../theme/spacing.dart';
 import '../../../widgets/gradient_widget.dart';
-import 'confirm_report_page.dart';
 
-class FeedsUsedPage extends StatefulWidget {
-  const FeedsUsedPage(
+class MedicationUsed extends StatefulWidget {
+  const MedicationUsed(
       {Key? key, required this.batchDetails, required this.report})
       : super(key: key);
 
   final BatchModel batchDetails;
   final report;
+
   @override
-  State<FeedsUsedPage> createState() => _FeedsUsedPageState();
+  State<MedicationUsed> createState() => _MedicationUsedState();
 }
 
-enum FEED_TYPE {
-  // ignore: constant_identifier_names
-  CHICKEN_DUCK_MASH,
-  FINISHER_PELLETS,
-  GROWERS_MASH,
-  KIENYEJI_GROWERS_MASH,
-  LAYERS_MASH,
-  STARTER_CRUMBS
-}
+class _MedicationUsedState extends State<MedicationUsed> {
+  var typeOfMedication = [
+    "New Castle",
+    "Gumboro",
+  ];
+  List _selectedMedication = [];
 
-class _FeedsUsedPageState extends State<FeedsUsedPage> {
-  final _formKey = GlobalKey<FormState>();
-  final layersMashUsed = TextEditingController();
-  final broilersMashUsed = TextEditingController();
-  final chickMashUsed = TextEditingController();
-
-  var typeOfFeeds = ["Layers Mash", "Broilers Mash", "Chick Mash"];
-  List _selectedFeeds = [];
-
-  final quantity = TextEditingController();
+  final newCastleUsed = TextEditingController();
+  final gumboroUsed = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        // resizeToAvoidBottomInset: false,
         appBar: AppBar(
           automaticallyImplyLeading: false,
           centerTitle: true,
@@ -83,7 +69,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                   Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Text(
-                      "Update the feeds used",
+                      "Update medication used",
                       style: TextStyle(fontSize: 3.h),
                     ),
                   ),
@@ -166,8 +152,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                           dropdownDecoratorProps: DropDownDecoratorProps(
                               dropdownSearchDecoration: InputDecoration(
                                   hintText: "--select--",
-                                  labelText:
-                                      "What feeds have you used for your birds?",
+                                  labelText: "What medication have you used?",
                                   labelStyle: TextStyle(
                                       fontSize: 2.0.h,
                                       color: CustomColors.secondary),
@@ -179,30 +164,30 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                       borderSide: BorderSide(
                                           width: 0.3.w,
                                           color: CustomColors.secondary)))),
-                          items: typeOfFeeds,
+                          items: typeOfMedication,
                           popupProps: const PopupPropsMultiSelection.menu(
                             showSelectedItems: true,
                           ),
                           onChanged: (val) {
                             setState(() {
-                              _selectedFeeds = val;
+                              _selectedMedication = val;
                             });
                           },
                         ),
                         const SizedBox(
                           height: CustomSpacing.s3,
                         ),
-                        _selectedFeeds.contains("Layers Mash")
+                        _selectedMedication.contains("New Castle")
                             ? TextFormField(
-                                controller: layersMashUsed,
+                                controller: newCastleUsed,
                                 validator: (value) {
                                   if (value!.isEmpty) {
-                                    return 'Enter amount of layers mash used';
+                                    return 'Enter amount';
                                   }
                                 },
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
-                                  prefixText: 'Kgs',
+                                  prefixText: 'L',
                                   prefixStyle: TextStyle(fontSize: 1.8.h),
                                   border: OutlineInputBorder(
                                       borderSide: BorderSide(
@@ -212,8 +197,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                       borderSide: BorderSide(
                                           width: 0.3.w,
                                           color: CustomColors.secondary)),
-                                  labelText:
-                                      "How many Kgs of layers mash were used today?",
+                                  labelText: "How many litres were used",
                                   labelStyle: TextStyle(
                                       fontSize: 2.2.h,
                                       color: CustomColors.secondary),
@@ -223,17 +207,17 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                         const SizedBox(
                           height: CustomSpacing.s3,
                         ),
-                        _selectedFeeds.contains("Broilers Mash")
+                        _selectedMedication.contains("Gumboro")
                             ? TextFormField(
-                                controller: broilersMashUsed,
+                                controller: gumboroUsed,
                                 validator: (value) {
                                   if (value!.isEmpty) {
-                                    return 'Enter amount of broilers mash used';
+                                    return 'Enter amount';
                                   }
                                 },
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
-                                  prefixText: 'Kgs',
+                                  prefixText: 'L',
                                   prefixStyle: TextStyle(fontSize: 1.8.h),
                                   border: OutlineInputBorder(
                                       borderSide: BorderSide(
@@ -243,8 +227,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                       borderSide: BorderSide(
                                           width: 0.3.w,
                                           color: CustomColors.secondary)),
-                                  labelText:
-                                      "How many Kgs of broilers mash were used today?",
+                                  labelText: "How many litres were used",
                                   labelStyle: TextStyle(
                                       fontSize: 2.2.h,
                                       color: CustomColors.secondary),
@@ -254,34 +237,6 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                         const SizedBox(
                           height: CustomSpacing.s3,
                         ),
-                        _selectedFeeds.contains("Chick Mash")
-                            ? TextFormField(
-                                controller: chickMashUsed,
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Enter amount of chick mash used';
-                                  }
-                                },
-                                keyboardType: TextInputType.number,
-                                decoration: InputDecoration(
-                                  prefixText: 'Kgs',
-                                  prefixStyle: TextStyle(fontSize: 1.8.h),
-                                  border: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          width: 0.3.w,
-                                          color: CustomColors.secondary)),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          width: 0.3.w,
-                                          color: CustomColors.secondary)),
-                                  labelText:
-                                      "How many Kgs of chick mash were used today?",
-                                  labelStyle: TextStyle(
-                                      fontSize: 2.2.h,
-                                      color: CustomColors.secondary),
-                                ),
-                              )
-                            : Container(),
                       ],
                     ),
                   ),
@@ -291,52 +246,9 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                   GradientWidget(
                     child: ElevatedButton(
                         onPressed: () {
-                          final DateFormat formatter = DateFormat('yyyy-MM-dd');
                           DateTime now = DateTime.now();
                           DateTime date =
                               DateTime(now.year, now.month, now.day);
-                          var feedsUsageReports = [
-                            {
-                              "feedType": "CHICKEN_DUCK_MASH",
-                              "quantity": chickMashUsed.text.isEmpty
-                                  ? 0
-                                  : int.parse(chickMashUsed.text)
-                            },
-                            {
-                              "feedType": "GROWERS_MASH",
-                              "quantity": broilersMashUsed.text.isEmpty
-                                  ? 0
-                                  : int.parse(broilersMashUsed.text)
-                            },
-                            {
-                              "feedType": "LAYERS_MASH",
-                              "quantity": layersMashUsed.text.isEmpty
-                                  ? 0
-                                  : int.parse(layersMashUsed.text)
-                            },
-                          ];
-
-                          var report = {
-                            "data": {
-                              "batchId": widget.batchDetails.id,
-                              "birdCounts": widget.report['data']['birdCounts'],
-                              "eggCollection": widget.report['data']
-                                  ['eggCollection'],
-                              "feedsUsageReports": feedsUsageReports,
-                              "reportDate": formatter.format(DateTime.now())
-                            }
-                          };
-
-                          log("${report}");
-
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ConfirmReportPage(
-                                      batchDetails: widget.batchDetails,
-                                      report: report,
-                                    )),
-                          );
                         },
                         style: ElevatedButton.styleFrom(
                             primary: Colors.transparent,

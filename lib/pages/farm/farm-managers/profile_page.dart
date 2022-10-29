@@ -4,10 +4,12 @@ import 'package:epoultry/widgets/gradient_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../controllers/user_controller.dart';
 import '../../../theme/colors.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -18,6 +20,8 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  final UserController userController = Get.put(UserController());
+
   @override
   Widget build(BuildContext context) {
     final box = Hive.box('appData');
@@ -76,7 +80,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 height: CustomSpacing.s1,
                               ),
                               Text(
-                                name,
+                                userController.userName.value,
                                 style: TextStyle(fontSize: 2.h),
                               ),
                             ],
