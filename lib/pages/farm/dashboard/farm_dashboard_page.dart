@@ -16,16 +16,19 @@ class FarmDashboardPage extends StatefulWidget {
 class _FarmDashboardPageState extends State<FarmDashboardPage> {
   int _selectedIndex = 0;
 
-  static final List<Widget> _pages = <Widget>[const DashboardPage(), const ListBatchPage()];
-  final GlobalKey<ScaffoldState> _key = GlobalKey();
+  static final List<Widget> _pages = <Widget>[DashboardPage(), ListBatchPage()];
+  final GlobalKey<ScaffoldState> _dashboardkey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _key,
-      appBar:  AppbarWidget(drawerKey: _key,),
+      key: _dashboardkey,
+      appBar: AppbarWidget(
+        drawerKey: _dashboardkey,
+      ),
       drawer: const DrawerPage(),
       body: IndexedStack(
+        key: UniqueKey(),
         index: _selectedIndex,
         children: _pages,
       ),

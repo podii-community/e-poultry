@@ -3,10 +3,12 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../controllers/farm_controller.dart';
 import '../../../data/models/error.dart';
 import '../../../theme/colors.dart';
 import '../../../theme/spacing.dart';
@@ -37,6 +39,8 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
     'Vihiga',
     'Kisumu',
   ];
+
+  final FarmsController controller = Get.put(FarmsController());
 
   var contractors = ["", "Chicken Basket", "Contractors 1"];
 
@@ -332,10 +336,7 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
   Future<void> _onCompleted(data, BuildContext context) async {
     /// If they do, move to home page. If not, take them to select artist page for them to select artists.
     if ((data['createFarm']['id'] != null)) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const FarmDashboardPage()),
-      );
+      controller.farm(data['createFarm']);
       Navigator.push(
           context,
           MaterialPageRoute(

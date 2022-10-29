@@ -110,7 +110,7 @@ class _NumberOfBirdsReportPageState extends State<NumberOfBirdsReportPage> {
                                             fontSize: 2.h),
                                       ),
                                       Text(
-                                        (widget.batchDetails.type!.name!)
+                                        (widget.batchDetails.type!.name)
                                             .capitalize!,
                                         style: TextStyle(
                                             color: CustomColors.secondary,

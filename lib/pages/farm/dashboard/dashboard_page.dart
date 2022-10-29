@@ -1,10 +1,12 @@
 import 'dart:developer';
 
+import 'package:epoultry/controllers/farm_controller.dart';
 import 'package:epoultry/pages/farm/reports/all_reports_page.dart';
 import 'package:epoultry/pages/farm/reports/select_batch_page.dart';
 import 'package:epoultry/graphql/query_document_provider.dart';
 import 'package:epoultry/pages/farm/reports/view_report_page.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hive/hive.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -19,9 +21,13 @@ import '../../../widgets/gradient_widget.dart';
 import '../../../widgets/loading_spinner.dart';
 
 class DashboardPage extends StatelessWidget {
-  const DashboardPage({
+  DashboardPage({
     Key? key,
   }) : super(key: key);
+
+  final FarmsController controller = Get.put(FarmsController());
+
+  // List reports = [];
 
   @override
   Widget build(BuildContext context) {
@@ -33,30 +39,33 @@ class DashboardPage extends StatelessWidget {
           const SizedBox(
             height: CustomSpacing.s2,
           ),
-          Query(
-            options: QueryOptions(
-              document: gql(context.queries.dashboardData()),
-              fetchPolicy: FetchPolicy.noCache,
-              pollInterval: const Duration(minutes: 2),
-            ),
-            builder: (QueryResult result,
-                {VoidCallback? refetch, FetchMore? fetchMore}) {
-              if (result.isLoading) {
-                return const LoadingSpinner();
-              }
-              if (result.hasException) {
-                return AppErrorWidget(
-                  error: ErrorModel.fromString(
-                    result.exception.toString(),
-                  ),
-                );
-              }
+          Obx(
+            () => Query(
+              options: QueryOptions(
+                document: gql(context.queries.getFarm()),
+                variables: {'farmId': controller.farm.value['id']},
+                fetchPolicy: FetchPolicy.noCache,
+                pollInterval: const Duration(seconds: 2),
+              ),
+              builder: (QueryResult result,
+                  {VoidCallback? refetch, FetchMore? fetchMore}) {
+                if (result.isLoading) {
+                  return const LoadingSpinner();
+                }
+                if (result.hasException) {
+                  return AppErrorWidget(
+                    error: ErrorModel.fromString(
+                      result.exception.toString(),
+                    ),
+                  );
+                }
 
-              final box = Hive.box('appData');
+                final data = result.data?['getFarm'];
 
-              if ((result.data?['user']!["managingFarms"]).isNotEmpty) {
-                var data = result.data?['user']!["managingFarms"][0];
-                box.put('farmId', data["id"]);
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  controller.batchesList(data["batches"]);
+                });
+
                 return SizedBox(
                   height: 15.h,
                   child: Card(
@@ -122,12 +131,12 @@ class DashboardPage extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Feeds in Store",
+                                      "Feeds Used",
                                       style: TextStyle(
                                           color: Colors.black, fontSize: 2.h),
                                     ),
                                     GradientText(
-                                      "${data["eggCount"] ?? 0} Kgs",
+                                      "${data["feedsUsage"] ?? 0} Kgs",
                                       style: TextStyle(
                                           color: CustomColors.primary,
                                           fontSize: 3.5.h,
@@ -143,100 +152,10 @@ class DashboardPage extends StatelessWidget {
                         ],
                       )),
                 );
-              }
 
-              if ((result.data?['user']!["ownedFarms"]).isNotEmpty) {
-                var data = result.data?['user']!["ownedFarms"][0];
-                box.put('farmId', data["id"]);
-                return SizedBox(
-                  height: 15.h,
-                  child: Card(
-                      elevation: 0,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              "OVERVIEW",
-                              style: TextStyle(fontSize: 2.2.h),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 1.h,
-                          ),
-                          Container(
-                            height: 8.h,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: CustomSpacing.s1),
-                            child: GridView.count(
-                              crossAxisCount: 3,
-                              shrinkWrap: true,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "No of Birds",
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 2.h),
-                                    ),
-                                    GradientText(
-                                      "${data["birdCount"] ?? 0}",
-                                      style: TextStyle(
-                                          color: CustomColors.primary,
-                                          fontSize: 3.5.h,
-                                          fontWeight: FontWeight.w600),
-                                      gradient: CustomColors.primaryGradient,
-                                    )
-                                  ],
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Eggs in Store",
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 2.h),
-                                    ),
-                                    GradientText(
-                                      "${data["eggCount"] ?? 0}",
-                                      style: TextStyle(
-                                          color: CustomColors.primary,
-                                          fontSize: 3.5.h,
-                                          fontWeight: FontWeight.w600),
-                                      gradient: CustomColors.primaryGradient,
-                                    )
-                                  ],
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Feeds in Store",
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 2.h),
-                                    ),
-                                    GradientText(
-                                      "${data["eggCount"] ?? 0} Kgs",
-                                      style: TextStyle(
-                                          color: CustomColors.primary,
-                                          fontSize: 3.5.h,
-                                          fontWeight: FontWeight.w600),
-                                      gradient: CustomColors.primaryGradient,
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      )),
-                );
-              }
-
-              return Container();
-            },
+                return Container();
+              },
+            ),
           ),
           const SizedBox(
             height: CustomSpacing.s2,
@@ -320,90 +239,49 @@ class DashboardPage extends StatelessWidget {
                   SizedBox(
                     height: 2.h,
                   ),
-                  Query(
-                      options: QueryOptions(
-                        document: gql(context.queries.dashboardReports()),
-                        fetchPolicy: FetchPolicy.noCache,
-                        pollInterval: const Duration(minutes: 2),
-                      ),
-                      builder: (QueryResult result,
-                          {VoidCallback? refetch, FetchMore? fetchMore}) {
-                        if (result.isLoading) {
-                          return const LoadingSpinner();
-                        }
-                        if (result.hasException) {
-                          return AppErrorWidget(
-                            error: ErrorModel.fromString(
-                              result.exception.toString(),
+                  Obx(
+                    () => controller.reportsList.isEmpty
+                        ? Card(
+                            elevation: 4,
+                            shadowColor: CustomColors.secondary,
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 4.w, vertical: 1.5.h),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    PhosphorIcons.info,
+                                    size: 8.w,
+                                  ),
+                                  SizedBox(
+                                    width: 2.w,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'What is a report?',
+                                        style: TextStyle(fontSize: 4.w),
+                                      ),
+                                      Text(
+                                        'A general overview of the farm',
+                                        style: TextStyle(
+                                            fontSize: 3.w, color: Colors.grey),
+                                      )
+                                    ],
+                                  )
+                                ],
+                              ),
                             ),
-                          );
-                        }
-
-                        if ((result.data?['user']!["managingFarms"])
-                            .isNotEmpty) {
-                          return ListView.builder(
+                          )
+                        : ListView.builder(
                             shrinkWrap: true,
-                            itemCount: (result.data!["user"]!["managingFarms"]
-                                            [0]!["batches"][0]["reports"])
-                                        .length <
-                                    3
-                                ? (result.data!["user"]!["managingFarms"]
-                                        [0]!["batches"][0]["reports"])
-                                    .length
+                            itemCount: controller.reportsList.length < 3
+                                ? controller.reportsList.length
                                 : 3,
-                            itemBuilder: (context, index) {
+                            itemBuilder: ((context, index) {
                               return ListTile(
-                                trailing: const Icon(
-                                  PhosphorIcons.arrowRightBold,
-                                  color: Colors.black,
-                                ),
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ViewReportPage(
-                                              report: result.data!["user"]![
-                                                          "managingFarms"]
-                                                      [0]!["batches"][0]
-                                                  ["reports"][index],
-                                            )),
-                                  );
-                                },
-                                title: Text("Farm Report",
-                                    style: TextStyle(fontSize: 1.9.h)),
-                                subtitle: Text(
-                                    "${(result.data!["user"]!["managingFarms"][0]!["batches"][index]["reports"]).isNotEmpty ? (result.data!["user"]!["managingFarms"][0]!["batches"][index]["reports"][0]["reportDate"]) : ""}"),
-                                tileColor: CustomColors.background,
-                                textColor: Colors.black,
-                              );
-                            },
-                          );
-                        } else if ((result.data?['user']!["ownedFarms"])
-                            .isNotEmpty) {
-                          return ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: (result.data!["user"]!["ownedFarms"]
-                                            [0]!["batches"][0]["reports"])
-                                        .length <
-                                    3
-                                ? (result.data!["user"]!["ownedFarms"]
-                                        [0]!["batches"][0]["reports"])
-                                    .length
-                                : 3,
-                            itemBuilder: (context, index) {
-                              return ListTile(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ViewReportPage(
-                                              report: result.data!["user"]![
-                                                          "ownedFarms"]
-                                                      [0]!["batches"][0]
-                                                  ["reports"][index],
-                                            )),
-                                  );
-                                },
                                 trailing: const Icon(
                                   PhosphorIcons.arrowRightBold,
                                   color: Colors.black,
@@ -411,16 +289,22 @@ class DashboardPage extends StatelessWidget {
                                 title: Text("Farm Report",
                                     style: TextStyle(fontSize: 1.9.h)),
                                 subtitle: Text(
-                                    "${(result.data!["user"]!["ownedFarms"][0]!["batches"][0]["reports"]).isNotEmpty ? (result.data!["user"]!["ownedFarms"][0]!["batches"][0]["reports"][0]["reportDate"]) : ""}"),
+                                    "${controller.reportsList[index]["reportDate"]}"),
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ViewReportPage(
+                                              report:
+                                                  controller.reportsList[index],
+                                            )),
+                                  );
+                                },
                                 tileColor: CustomColors.background,
                                 textColor: Colors.black,
                               );
-                            },
-                          );
-                        }
-
-                        return Container();
-                      }),
+                            })),
+                  )
                 ],
               )),
         ],

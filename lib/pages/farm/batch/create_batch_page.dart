@@ -1,10 +1,12 @@
 import 'package:epoultry/data/data_export.dart';
 import 'package:epoultry/pages/farm/batch/confirm_batch_page.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../controllers/farm_controller.dart';
 import '../../../theme/colors.dart';
 import '../../../theme/spacing.dart';
 import '../../../widgets/gradient_widget.dart';
@@ -28,6 +30,7 @@ class _CreateBatchPageState extends State<CreateBatchPage> {
   final day = TextEditingController();
   final year = TextEditingController();
   final box = Hive.box('appData');
+  final FarmsController controller = Get.put(FarmsController());
 
   var months = [
     "",
@@ -235,7 +238,7 @@ class _CreateBatchPageState extends State<CreateBatchPage> {
                           birdCount: int.parse(number.text),
                           ageType: ageType!,
                           date: ("${day.text}-$s-${year.text}"),
-                          farmId: box.get('farmId'));
+                          farmId: controller.farm.value['id']);
                       Navigator.push(
                         context,
                         MaterialPageRoute(

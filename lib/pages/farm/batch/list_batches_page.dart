@@ -1,11 +1,15 @@
+import 'dart:developer';
+
 import 'package:epoultry/data/data_export.dart';
 import 'package:epoultry/pages/farm/batch/create_batch_page.dart';
 import 'package:epoultry/graphql/query_document_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../controllers/farm_controller.dart';
 import '../../../theme/colors.dart';
 import '../../../theme/spacing.dart';
 import '../../../widgets/error_widget.dart';
@@ -20,7 +24,7 @@ class ListBatchPage extends StatefulWidget {
 }
 
 class _ListBatchPageState extends State<ListBatchPage> {
-  List<BatchModel> batches = [];
+  final FarmsController controller = Get.put(FarmsController());
 
   @override
   Widget build(BuildContext context) {
@@ -76,70 +80,24 @@ class _ListBatchPageState extends State<ListBatchPage> {
           const SizedBox(
             height: CustomSpacing.s1,
           ),
-          Query(
-            options: QueryOptions(
-              document: gql(context.queries.listBatches()),
-              fetchPolicy: FetchPolicy.noCache,
-              pollInterval: const Duration(minutes: 2),
-            ),
-            builder: (QueryResult result,
-                {VoidCallback? refetch, FetchMore? fetchMore}) {
-              if (result.isLoading) {
-                return const LoadingSpinner();
-              }
-              if (result.hasException) {
-                return AppErrorWidget(
-                  error: ErrorModel.fromString(
-                    result.exception.toString(),
-                  ),
-                );
-              }
-
-              if ((result.data?['user']!["managingFarms"]).isNotEmpty) {
-                List batches =
-                    result.data?['user']?["managingFarms"][0]["batches"];
-
-                return batches.isEmpty
-                    ? const Center(
-                        child: Text("No Batch"),
-                      )
-                    : Expanded(
-                        child: ListView.builder(
-                            itemCount: batches.length,
-                            itemBuilder: (context, position) {
-                              return Card(
-                                elevation: 0.2,
-                                child: ListTile(
-                                  title: Text("${batches[position]["name"]}"),
-                                ),
-                              );
-                            }));
-              }
-
-              if ((result.data?['user']!["ownedFarms"]).isNotEmpty) {
-                List batches =
-                    result.data?['user']?["ownedFarms"][0]["batches"];
-
-                return batches.isEmpty
-                    ? const Center(
-                        child: Text("No Batch"),
-                      )
-                    : Expanded(
-                        child: ListView.builder(
-                            itemCount: batches.length,
-                            itemBuilder: (context, position) {
-                              return Card(
-                                elevation: 0.2,
-                                child: ListTile(
-                                  title: Text("${batches[position]["name"]}"),
-                                ),
-                              );
-                            }));
-              }
-
-              return Container();
-            },
-          ),
+          Obx(() => controller.batchesList.isEmpty
+              ? const Center(
+                  child: Text("No Batch"),
+                )
+              : Container(
+                  child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: controller.batchesList.length,
+                      itemBuilder: (context, position) {
+                        return Card(
+                          elevation: 0.2,
+                          child: ListTile(
+                            title: Text(
+                                "${controller.batchesList[position]["name"]}"),
+                          ),
+                        );
+                      }),
+                )),
         ],
       ),
     );

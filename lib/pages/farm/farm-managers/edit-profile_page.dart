@@ -6,11 +6,13 @@ import 'package:epoultry/widgets/gradient_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hive/hive.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../controllers/user_controller.dart';
 import '../../../data/models/error.dart';
 import '../../../theme/colors.dart';
 import '../../../theme/spacing.dart';
@@ -32,21 +34,18 @@ class _EditProfilePageState extends State<EditProfilePage> {
   TextEditingController recoveryPhoneNumber = TextEditingController();
   TextEditingController title = TextEditingController();
   final box = Hive.box('appData');
-  // final name = box.get('name');
-  // final phone = box.get('phone');
-  // final role = box.get('role');
+
+  final UserController userController = Get.put(UserController());
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    String names = box.get('name');
+    String names = userController.userName.value;
     int idx = names.indexOf(" ");
     List parts = [
       names.substring(0, idx).trim(),
       names.substring(idx + 1).trim()
     ];
-    log("${parts}");
     firstName = TextEditingController(text: parts[0]);
     lastName = TextEditingController(text: parts[1]);
     phoneNumber = TextEditingController(text: box.get('phone'));

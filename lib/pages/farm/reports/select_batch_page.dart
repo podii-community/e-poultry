@@ -1,18 +1,23 @@
+import 'dart:developer';
+
 import 'package:epoultry/data/data_export.dart';
 import 'package:epoultry/pages/farm/reports/number_birds_page.dart';
 import 'package:epoultry/graphql/query_document_provider.dart';
 import 'package:epoultry/theme/palette.dart';
 import 'package:epoultry/theme/spacing.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 import 'package:string_extensions/string_extensions.dart';
 
+import '../../../controllers/farm_controller.dart';
 import '../../../theme/colors.dart';
 import '../../../widgets/error_widget.dart';
 import '../../../widgets/gradient_widget.dart';
 import '../../../widgets/loading_spinner.dart';
+import '../batch/create_batch_page.dart';
 
 class SelectBatchPage extends StatefulWidget {
   const SelectBatchPage({Key? key}) : super(key: key);
@@ -27,10 +32,7 @@ class _SelectBatchPageState extends State<SelectBatchPage> {
 
   final bool isSelected = false;
 
-  @override
-  void initState() {
-    super.initState();
-  }
+  final FarmsController controller = Get.put(FarmsController());
 
   @override
   Widget build(BuildContext context) {
@@ -104,15 +106,22 @@ class _SelectBatchPageState extends State<SelectBatchPage> {
                     fontSize: 2.4.h,
                   ),
                 ),
-                Wrap(
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  children: [
-                    Text('add new batch',
-                        style: TextStyle(
-                          fontSize: 2.2.h,
-                        )),
-                    Icon(PhosphorIcons.plusCircleFill),
-                  ],
+                InkWell(
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const CreateBatchPage()),
+                  ),
+                  child: Wrap(
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    children: [
+                      Text('add new batch',
+                          style: TextStyle(
+                            fontSize: 2.2.h,
+                          )),
+                      Icon(PhosphorIcons.plusCircleFill),
+                    ],
+                  ),
                 )
               ],
             ),
@@ -123,185 +132,263 @@ class _SelectBatchPageState extends State<SelectBatchPage> {
             const SizedBox(
               height: CustomSpacing.s3,
             ),
-            Query(
-              options: QueryOptions(
-                document: gql(context.queries.listBatches()),
-                fetchPolicy: FetchPolicy.noCache,
-                pollInterval: const Duration(minutes: 2),
-              ),
-              builder: (QueryResult result,
-                  {VoidCallback? refetch, FetchMore? fetchMore}) {
-                if (result.isLoading) {
-                  return const LoadingSpinner();
-                }
-                if (result.hasException) {
-                  return AppErrorWidget(
-                    error: ErrorModel.fromString(
-                      result.exception.toString(),
+            Obx(() => controller.batchesList.isEmpty
+                ? Card(
+                    elevation: 4,
+                    shadowColor: CustomColors.secondary,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 4.w, vertical: 1.5.h),
+                      child: Row(
+                        children: [
+                          Icon(
+                            PhosphorIcons.info,
+                            size: 8.w,
+                          ),
+                          SizedBox(
+                            width: 2.w,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'What is a batch?',
+                                style: TextStyle(fontSize: 4.w),
+                              ),
+                              Text(
+                                'A group of birds of the same age?',
+                                style: TextStyle(
+                                    fontSize: 3.w, color: Colors.grey),
+                              )
+                            ],
+                          )
+                        ],
+                      ),
                     ),
-                  );
-                }
+                  )
+                : Expanded(
+                    child: ListView.builder(
+                        itemCount: controller.batchesList.length,
+                        itemBuilder: (context, position) {
+                          String title =
+                              controller.batchesList[position]["name"];
+                          String birdType =
+                              controller.batchesList[position]["birdType"]!;
+                          int birdCount =
+                              controller.batchesList[position]["birdCount"];
+                          return Card(
+                              elevation: 0,
+                              child: ListTile(
+                                  onTap: () {
+                                    log("Batch Id,${controller.batchesList[position]}");
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              NumberOfBirdsReportPage(
+                                                  batchDetails:
+                                                      BatchModel.fromMap(
+                                                          controller
+                                                                  .batchesList[
+                                                              position]))),
+                                    );
+                                  },
+                                  title: Text(title),
+                                  subtitle: Text(
+                                      "${birdType.capitalize!},$birdCount Birds"),
+                                  trailing: Wrap(
+                                    crossAxisAlignment:
+                                        WrapCrossAlignment.center,
+                                    children: [
+                                      Text('Start Report',
+                                          style: TextStyle(
+                                              fontSize: 1.5.h,
+                                              color: CustomColors.tertiary)),
+                                      Icon(PhosphorIcons.arrowRight,
+                                          color: CustomColors.tertiary),
+                                    ],
+                                  )));
+                        }))),
+            // Query(
+            //   options: QueryOptions(
+            //     document: gql(context.queries.listBatches()),
+            //     fetchPolicy: FetchPolicy.noCache,
+            //     pollInterval: const Duration(minutes: 2),
+            //   ),
+            //   builder: (QueryResult result,
+            //       {VoidCallback? refetch, FetchMore? fetchMore}) {
+            //     if (result.isLoading) {
+            //       return const LoadingSpinner();
+            //     }
+            //     if (result.hasException) {
+            //       return AppErrorWidget(
+            //         error: ErrorModel.fromString(
+            //           result.exception.toString(),
+            //         ),
+            //       );
+            //     }
 
-                if ((result.data?['user']!["managingFarms"]).isNotEmpty) {
-                  List batches =
-                      result.data?['user']?["managingFarms"][0]["batches"];
+            //     if ((result.data?['user']!["managingFarms"]).isNotEmpty) {
+            //       List batches =
+            //           result.data?['user']?["managingFarms"][0]["batches"];
 
-                  return batches.isEmpty
-                      ? Card(
-                          elevation: 4,
-                          shadowColor: CustomColors.secondary,
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 4.w, vertical: 1.5.h),
-                            child: Row(
-                              children: [
-                                Icon(
-                                  PhosphorIcons.info,
-                                  size: 8.w,
-                                ),
-                                SizedBox(
-                                  width: 2.w,
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'What is a batch?',
-                                      style: TextStyle(fontSize: 4.w),
-                                    ),
-                                    Text(
-                                      'A group of birds of the same age?',
-                                      style: TextStyle(
-                                          fontSize: 3.w, color: Colors.grey),
-                                    )
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
-                        )
-                      : Expanded(
-                          child: ListView.builder(
-                              itemCount: batches.length,
-                              itemBuilder: (context, position) {
-                                String title = batches[position]["name"];
-                                String birdType =
-                                    batches[position]["birdType"]!;
-                                int birdCount = batches[position]["birdCount"];
-                                return Card(
-                                    elevation: 0,
-                                    child: ListTile(
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    NumberOfBirdsReportPage(
-                                                        batchDetails: BatchModel
-                                                            .fromMap(batches[
-                                                                position]))),
-                                          );
-                                        },
-                                        title: Text(title),
-                                        subtitle: Text(
-                                            "${birdType.capitalize!},$birdCount Birds"),
-                                        trailing: Wrap(
-                                          crossAxisAlignment:
-                                              WrapCrossAlignment.center,
-                                          children: [
-                                            Text('Start Report',
-                                                style: TextStyle(
-                                                    fontSize: 1.5.h,
-                                                    color:
-                                                        CustomColors.tertiary)),
-                                            Icon(PhosphorIcons.arrowRight,
-                                                color: CustomColors.tertiary),
-                                          ],
-                                        )));
-                              }));
-                }
+            // return batches.isEmpty
+            //     ? Card(
+            //         elevation: 4,
+            //         shadowColor: CustomColors.secondary,
+            //         child: Padding(
+            //           padding: EdgeInsets.symmetric(
+            //               horizontal: 4.w, vertical: 1.5.h),
+            //           child: Row(
+            //             children: [
+            //               Icon(
+            //                 PhosphorIcons.info,
+            //                 size: 8.w,
+            //               ),
+            //               SizedBox(
+            //                 width: 2.w,
+            //               ),
+            //               Column(
+            //                 crossAxisAlignment: CrossAxisAlignment.start,
+            //                 children: [
+            //                   Text(
+            //                     'What is a batch?',
+            //                     style: TextStyle(fontSize: 4.w),
+            //                   ),
+            //                   Text(
+            //                     'A group of birds of the same age?',
+            //                     style: TextStyle(
+            //                         fontSize: 3.w, color: Colors.grey),
+            //                   )
+            //                 ],
+            //               )
+            //             ],
+            //           ),
+            //         ),
+            //       )
+            //     : Expanded(
+            //         child: ListView.builder(
+            //             itemCount: batches.length,
+            //             itemBuilder: (context, position) {
+            //               String title = batches[position]["name"];
+            //               String birdType =
+            //                   batches[position]["birdType"]!;
+            //               int birdCount = batches[position]["birdCount"];
+            //               return Card(
+            //                   elevation: 0,
+            //                   child: ListTile(
+            //                       onTap: () {
+            //                         Navigator.push(
+            //                           context,
+            //                           MaterialPageRoute(
+            //                               builder: (context) =>
+            //                                   NumberOfBirdsReportPage(
+            //                                       batchDetails: BatchModel
+            //                                           .fromMap(batches[
+            //                                               position]))),
+            //                         );
+            //                       },
+            //                       title: Text(title),
+            //                       subtitle: Text(
+            //                           "${birdType.capitalize!},$birdCount Birds"),
+            //                       trailing: Wrap(
+            //                         crossAxisAlignment:
+            //                             WrapCrossAlignment.center,
+            //                         children: [
+            //                           Text('Start Report',
+            //                               style: TextStyle(
+            //                                   fontSize: 1.5.h,
+            //                                   color:
+            //                                       CustomColors.tertiary)),
+            //                           Icon(PhosphorIcons.arrowRight,
+            //                               color: CustomColors.tertiary),
+            //                         ],
+            //                       )));
+            //             }));
+            //     }
 
-                if ((result.data?['user']!["ownedFarms"]).isNotEmpty) {
-                  List batches =
-                      result.data?['user']?["ownedFarms"][0]["batches"];
+            //     if ((result.data?['user']!["ownedFarms"]).isNotEmpty) {
+            //       List batches =
+            //           result.data?['user']?["ownedFarms"][0]["batches"];
 
-                  return batches.isEmpty
-                      ? Card(
-                          elevation: 4,
-                          shadowColor: CustomColors.secondary,
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 4.w, vertical: 1.5.h),
-                            child: Row(
-                              children: [
-                                Icon(
-                                  PhosphorIcons.info,
-                                  size: 8.w,
-                                ),
-                                SizedBox(
-                                  width: 2.w,
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'What is a batch?',
-                                      style: TextStyle(fontSize: 4.w),
-                                    ),
-                                    Text(
-                                      'A group of birds of the same age?',
-                                      style: TextStyle(
-                                          fontSize: 3.w, color: Colors.grey),
-                                    )
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
-                        )
-                      : Expanded(
-                          child: ListView.builder(
-                              itemCount: batches.length,
-                              itemBuilder: (context, position) {
-                                return Card(
-                                    elevation: 0,
-                                    child: ListTile(
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    NumberOfBirdsReportPage(
-                                                        batchDetails: BatchModel
-                                                            .fromMap(batches[
-                                                                position]))),
-                                          );
-                                        },
-                                        // selected: selectedBatch?.id ==
-                                        //     batches[position]["id"],
-                                        title: Text(
-                                            "${batches[position]["name"]}"),
-                                        subtitle: Text(
-                                            "${batches[position]["birdType"]},${batches[position]["birdCount"]}"),
-                                        trailing: Wrap(
-                                          crossAxisAlignment:
-                                              WrapCrossAlignment.center,
-                                          children: [
-                                            Text('Start Report',
-                                                style: TextStyle(
-                                                    fontSize: 1.5.h,
-                                                    color:
-                                                        CustomColors.tertiary)),
-                                            Icon(PhosphorIcons.arrowRight,
-                                                color: CustomColors.tertiary),
-                                          ],
-                                        )));
-                              }));
-                }
+            //       return batches.isEmpty
+            //           ? Card(
+            //               elevation: 4,
+            //               shadowColor: CustomColors.secondary,
+            //               child: Padding(
+            //                 padding: EdgeInsets.symmetric(
+            //                     horizontal: 4.w, vertical: 1.5.h),
+            //                 child: Row(
+            //                   children: [
+            //                     Icon(
+            //                       PhosphorIcons.info,
+            //                       size: 8.w,
+            //                     ),
+            //                     SizedBox(
+            //                       width: 2.w,
+            //                     ),
+            //                     Column(
+            //                       crossAxisAlignment: CrossAxisAlignment.start,
+            //                       children: [
+            //                         Text(
+            //                           'What is a batch?',
+            //                           style: TextStyle(fontSize: 4.w),
+            //                         ),
+            //                         Text(
+            //                           'A group of birds of the same age?',
+            //                           style: TextStyle(
+            //                               fontSize: 3.w, color: Colors.grey),
+            //                         )
+            //                       ],
+            //                     )
+            //                   ],
+            //                 ),
+            //               ),
+            //             )
+            //           : Expanded(
+            //               child: ListView.builder(
+            //                   itemCount: batches.length,
+            //                   itemBuilder: (context, position) {
+            //                     return Card(
+            //                         elevation: 0,
+            //                         child: ListTile(
+            //                             onTap: () {
+            //                               Navigator.push(
+            //                                 context,
+            //                                 MaterialPageRoute(
+            //                                     builder: (context) =>
+            //                                         NumberOfBirdsReportPage(
+            //                                             batchDetails: BatchModel
+            //                                                 .fromMap(batches[
+            //                                                     position]))),
+            //                               );
+            //                             },
+            //                             // selected: selectedBatch?.id ==
+            //                             //     batches[position]["id"],
+            //                             title: Text(
+            //                                 "${batches[position]["name"]}"),
+            //                             subtitle: Text(
+            //                                 "${batches[position]["birdType"]},${batches[position]["birdCount"]}"),
+            //                             trailing: Wrap(
+            //                               crossAxisAlignment:
+            //                                   WrapCrossAlignment.center,
+            //                               children: [
+            //                                 Text('Start Report',
+            //                                     style: TextStyle(
+            //                                         fontSize: 1.5.h,
+            //                                         color:
+            //                                             CustomColors.tertiary)),
+            //                                 Icon(PhosphorIcons.arrowRight,
+            //                                     color: CustomColors.tertiary),
+            //                               ],
+            //                             )));
+            //                   }));
+            //     }
 
-                return Container();
-              },
-            ),
+            //     return Container();
+            //   },
+            // ),
+
             // GradientWidget(
             //   child: ElevatedButton(
             //       onPressed: selectedBatch == null
