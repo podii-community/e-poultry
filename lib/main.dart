@@ -60,14 +60,43 @@ class _MyAppState extends State<MyApp> {
 
   Future<Position> _determinePosition() async {
     bool serviceEnabled;
-    // Test if location services are enabled.
+    LocationPermission permission;
+    // Test if Location services are enabled.
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
-
     if (!serviceEnabled) {
+      // Location services are not enabled don't continue
+      // accessing the position and request users of the
+      // App to enable the Location services.
+      await Geolocator.openLocationSettings();
       return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+
+    if (permission == LocationPermission.denied) {
+      await Geolocator.requestPermission();
+      if (permission != LocationPermission.denied) {
+        // Location services are not enabled don't continue
+        // accessing the position and request users of the
+        // App to enable the Location services.
+        return Future.error('Location permissions are disabled.');
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error('Location permissions are disabled permanently.');
     }
     return await Geolocator.getCurrentPosition();
   }
+  // Future<Position> _determinePosition() async {
+  //   bool serviceEnabled;
+  //   // Test if location services are enabled.
+  //   serviceEnabled = await Geolocator.isLocationServiceEnabled();
+
+  //   if (!serviceEnabled) {
+  //     return Future.error('Location services are disabled.');
+  //   }
+  //   return await Geolocator.getCurrentPosition();
+  // }
 
   @override
   void initState() {
