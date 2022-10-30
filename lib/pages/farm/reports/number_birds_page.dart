@@ -1,7 +1,11 @@
+import 'dart:developer';
+
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:epoultry/data/data_export.dart';
 import 'package:epoultry/pages/farm/reports/feeds_used_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 import 'package:string_extensions/string_extensions.dart';
@@ -24,7 +28,7 @@ class NumberOfBirdsReportPage extends StatefulWidget {
 enum Reasons { SOLD, MORTALITY, CURLED, STOLEN }
 
 class _NumberOfBirdsReportPageState extends State<NumberOfBirdsReportPage> {
-  final _formKey = GlobalKey<FormState>();
+  final _noOfBirdsFormKey = GlobalKey<FormBuilderState>();
 
   Reasons? reason;
   String birdsReduced = "";
@@ -36,6 +40,9 @@ class _NumberOfBirdsReportPageState extends State<NumberOfBirdsReportPage> {
   final sellingPriceBird = TextEditingController();
   final curledBirds = TextEditingController();
   final stolenBirds = TextEditingController();
+
+  //Validation error
+  String _choiceBirdsReducedError = "";
 
   @override
   void initState() {
@@ -150,386 +157,367 @@ class _NumberOfBirdsReportPageState extends State<NumberOfBirdsReportPage> {
                     height: CustomSpacing.s3,
                   ),
 
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Has the number of birds reduced?",
-                        style: TextStyle(
-                          fontSize: 2.2.h,
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  FormBuilder(
+                      key: _noOfBirdsFormKey,
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(
-                            width: 40.w,
-                            child: ListTile(
-                              title: const Text('Yes'),
-                              leading: Radio<String>(
-                                value: "yes",
-                                groupValue: birdsReduced,
-                                onChanged: (value) {
-                                  setState(() {
-                                    birdsReduced = value.toString();
-                                  });
-                                },
-                              ),
-                            ),
+                          FormBuilderRadioGroup<String>(
+                            decoration: InputDecoration(
+                                labelText: 'Has the number of birds reduced?',
+                                labelStyle: TextStyle(
+                                    fontSize: 3.2.h, color: Colors.black),
+                                contentPadding:
+                                    EdgeInsets.symmetric(horizontal: 4.w),
+                                border: InputBorder.none),
+                            initialValue: null,
+                            name: 'birdsReduced',
+                            onChanged: (value) {
+                              setState(() {
+                                birdsReduced = value!.toLowerCase().toString();
+                              });
+                            },
+                            validator: FormBuilderValidators.required(
+                                errorText: "Choose a choice above"),
+                            options: [
+                              'Yes',
+                              'No',
+                            ]
+                                .map((choice) => FormBuilderFieldOption(
+                                      value: choice,
+                                      child: Text(
+                                        choice,
+                                        style: TextStyle(
+                                            fontSize: 2.2.h,
+                                            color: Colors.black),
+                                      ),
+                                    ))
+                                .toList(growable: false),
+                            controlAffinity: ControlAffinity.trailing,
                           ),
-                          SizedBox(
-                            width: 40.w,
-                            child: ListTile(
-                              title: const Text('No'),
-                              leading: Radio<String>(
-                                value: "no",
-                                groupValue: birdsReduced,
-                                onChanged: (value) {
-                                  setState(() {
-                                    birdsReduced = value.toString();
-                                  });
-                                },
-                              ),
-                            ),
+                          const SizedBox(
+                            height: CustomSpacing.s3,
                           ),
+                          birdsReduced == 'yes'
+                              ? Column(
+                                  children: [
+                                    FormBuilderField(
+                                      name: "reason",
+                                      builder: (FormFieldState<dynamic> field) {
+                                        return DropdownSearch<
+                                            String>.multiSelection(
+                                          dropdownDecoratorProps: DropDownDecoratorProps(
+                                              dropdownSearchDecoration: InputDecoration(
+                                                  hintText: "--select--",
+                                                  labelText:
+                                                      "Reasons for the decrease in number",
+                                                  labelStyle: TextStyle(
+                                                      fontSize: 2.2.h,
+                                                      color: CustomColors
+                                                          .secondary),
+                                                  border: OutlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                          width: 0.3.w,
+                                                          color: CustomColors
+                                                              .secondary)),
+                                                  focusedBorder:
+                                                      OutlineInputBorder(
+                                                          borderSide: BorderSide(
+                                                              width: 0.3.w,
+                                                              color: CustomColors
+                                                                  .secondary)))),
+                                          items: const [
+                                            'Mortality',
+                                            'Sold',
+                                            'Curled',
+                                            'Stolen'
+                                          ],
+                                          popupProps:
+                                              const PopupPropsMultiSelection
+                                                  .menu(
+                                            showSelectedItems: true,
+                                          ),
+                                          onChanged: (val) {
+                                            if (!val.contains("Mortality")) {
+                                              deadBirds.clear();
+                                            } else if (!val.contains("Sold")) {
+                                              soldBirds.clear();
+                                              sellingPriceBird.clear();
+                                            } else if (!val
+                                                .contains("Curled")) {
+                                              curledBirds.clear();
+                                            } else if (!val
+                                                .contains("Stolen")) {
+                                              stolenBirds.clear();
+                                            }
+                                            setState(() {
+                                              selectedReasons = val;
+                                            });
+                                          },
+                                          validator:
+                                              FormBuilderValidators.required(),
+                                          autoValidateMode:
+                                              AutovalidateMode.always,
+                                        );
+                                      },
+                                    ),
+                                    const SizedBox(
+                                      height: CustomSpacing.s3,
+                                    ),
+                                    selectedReasons.contains("Mortality")
+                                        ? FormBuilderField(
+                                            name: "deadBirds",
+                                            builder: (FormFieldState field) {
+                                              return TextFormField(
+                                                controller: deadBirds,
+                                                keyboardType:
+                                                    TextInputType.number,
+                                                validator: FormBuilderValidators
+                                                    .required(
+                                                        errorText:
+                                                            'Enter number of dead birds'),
+                                                decoration: InputDecoration(
+                                                  border: OutlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                          width: 0.3.w,
+                                                          color: CustomColors
+                                                              .secondary)),
+                                                  focusedBorder:
+                                                      OutlineInputBorder(
+                                                          borderSide: BorderSide(
+                                                              width: 0.3.w,
+                                                              color: CustomColors
+                                                                  .secondary)),
+                                                  labelText:
+                                                      "How many birds died?",
+                                                  labelStyle: TextStyle(
+                                                      fontSize: 2.2.h,
+                                                      color: CustomColors
+                                                          .secondary),
+                                                ),
+                                              );
+                                            })
+                                        : Container(),
+                                    const SizedBox(
+                                      height: CustomSpacing.s3,
+                                    ),
+                                    selectedReasons.contains("Sold")
+                                        ? FormBuilderField(
+                                            builder: (FormFieldState field) {
+                                              return TextFormField(
+                                                controller: soldBirds,
+                                                validator: (value) {
+                                                  if (value!.isEmpty) {
+                                                    return 'Enter number of sold birds';
+                                                  }
+                                                },
+                                                keyboardType:
+                                                    TextInputType.number,
+                                                decoration: InputDecoration(
+                                                  border: OutlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                          width: 0.3.w,
+                                                          color: CustomColors
+                                                              .secondary)),
+                                                  focusedBorder:
+                                                      OutlineInputBorder(
+                                                          borderSide: BorderSide(
+                                                              width: 0.3.w,
+                                                              color: CustomColors
+                                                                  .secondary)),
+                                                  labelText:
+                                                      "How many birds were sold?",
+                                                  labelStyle: TextStyle(
+                                                      fontSize: 2.2.h,
+                                                      color: CustomColors
+                                                          .secondary),
+                                                ),
+                                              );
+                                            },
+                                            name: "soldBirds")
+                                        : Container(),
+                                    const SizedBox(
+                                      height: CustomSpacing.s3,
+                                    ),
+                                    selectedReasons.contains("Sold")
+                                        ? FormBuilderField(
+                                            builder: ((field) => TextFormField(
+                                                  controller: sellingPriceBird,
+                                                  validator: (value) {
+                                                    if (value!.isEmpty) {
+                                                      return 'Enter price per bird';
+                                                    }
+                                                  },
+                                                  keyboardType:
+                                                      TextInputType.number,
+                                                  decoration: InputDecoration(
+                                                    prefixText: "Ksh",
+                                                    prefixStyle: TextStyle(
+                                                        fontSize: 1.8.h),
+                                                    border: OutlineInputBorder(
+                                                        borderSide: BorderSide(
+                                                            width: 0.3.w,
+                                                            color: CustomColors
+                                                                .secondary)),
+                                                    focusedBorder: OutlineInputBorder(
+                                                        borderSide: BorderSide(
+                                                            width: 0.3.w,
+                                                            color: CustomColors
+                                                                .secondary)),
+                                                    labelText:
+                                                        "What was the selling price per bird?",
+                                                    labelStyle: TextStyle(
+                                                        fontSize: 2.2.h,
+                                                        color: CustomColors
+                                                            .secondary),
+                                                  ),
+                                                )),
+                                            name: "sellingPriceBird")
+                                        : Container(),
+                                    const SizedBox(
+                                      height: CustomSpacing.s3,
+                                    ),
+                                    selectedReasons.contains("Curled")
+                                        ? FormBuilderField(
+                                            builder: ((field) => TextFormField(
+                                                  controller: curledBirds,
+                                                  validator: (value) {
+                                                    if (value!.isEmpty) {
+                                                      return 'Enter number of curled birds';
+                                                    }
+                                                  },
+                                                  keyboardType:
+                                                      TextInputType.number,
+                                                  decoration: InputDecoration(
+                                                    border: OutlineInputBorder(
+                                                        borderSide: BorderSide(
+                                                            width: 0.3.w,
+                                                            color: CustomColors
+                                                                .secondary)),
+                                                    focusedBorder: OutlineInputBorder(
+                                                        borderSide: BorderSide(
+                                                            width: 0.3.w,
+                                                            color: CustomColors
+                                                                .secondary)),
+                                                    labelText:
+                                                        "How many birds were curled?",
+                                                    labelStyle: TextStyle(
+                                                        fontSize: 2.2.h,
+                                                        color: CustomColors
+                                                            .secondary),
+                                                  ),
+                                                )),
+                                            name: "curledBirds")
+                                        : Container(),
+                                    const SizedBox(
+                                      height: CustomSpacing.s3,
+                                    ),
+                                    selectedReasons.contains("Stolen")
+                                        ? FormBuilderField(
+                                            builder: ((field) => TextFormField(
+                                                  controller: stolenBirds,
+                                                  validator: (value) {
+                                                    if (value!.isEmpty) {
+                                                      return 'Enter number of stolen birds';
+                                                    }
+                                                  },
+                                                  keyboardType:
+                                                      TextInputType.number,
+                                                  decoration: InputDecoration(
+                                                    border: OutlineInputBorder(
+                                                        borderSide: BorderSide(
+                                                            width: 0.3.w,
+                                                            color: CustomColors
+                                                                .secondary)),
+                                                    focusedBorder: OutlineInputBorder(
+                                                        borderSide: BorderSide(
+                                                            width: 0.3.w,
+                                                            color: CustomColors
+                                                                .secondary)),
+                                                    labelText:
+                                                        "How many birds were stolen?",
+                                                    labelStyle: TextStyle(
+                                                        fontSize: 2.2.h,
+                                                        color: CustomColors
+                                                            .secondary),
+                                                  ),
+                                                )),
+                                            name: "stolenBirds")
+                                        : Container(),
+                                    const SizedBox(
+                                      height: CustomSpacing.s3,
+                                    ),
+                                  ],
+                                )
+                              : Container(),
                         ],
-                      )
-                    ],
-                  ),
-
-                  const SizedBox(
-                    height: CustomSpacing.s3,
-                  ),
-                  birdsReduced == 'yes'
-                      ? Form(
-                          key: _formKey,
-                          child: Column(
-                            children: [
-                              DropdownSearch<String>.multiSelection(
-                                dropdownDecoratorProps: DropDownDecoratorProps(
-                                    dropdownSearchDecoration: InputDecoration(
-                                        hintText: "--select--",
-                                        labelText:
-                                            "Reasons for the decrease in number",
-                                        labelStyle: TextStyle(
-                                            fontSize: 2.2.h,
-                                            color: CustomColors.secondary),
-                                        border: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                width: 0.3.w,
-                                                color: CustomColors.secondary)),
-                                        focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                width: 0.3.w,
-                                                color:
-                                                    CustomColors.secondary)))),
-                                items: const [
-                                  'Mortality',
-                                  'Sold',
-                                  'Curled',
-                                  'Stolen'
-                                ],
-                                popupProps: const PopupPropsMultiSelection.menu(
-                                  showSelectedItems: true,
-                                ),
-                                onChanged: (val) {
-                                  if (!val.contains("Mortality")) {
-                                    deadBirds.clear();
-                                  } else if (!val.contains("Sold")) {
-                                    soldBirds.clear();
-                                    sellingPriceBird.clear();
-                                  } else if (!val.contains("Curled")) {
-                                    curledBirds.clear();
-                                  } else if (!val.contains("Stolen")) {
-                                    stolenBirds.clear();
-                                  }
-                                  setState(() {
-                                    selectedReasons = val;
-                                  });
-                                },
-                              ),
-                              const SizedBox(
-                                height: CustomSpacing.s3,
-                              ),
-                              selectedReasons.contains("Mortality")
-                                  ? TextFormField(
-                                      controller: deadBirds,
-                                      keyboardType: TextInputType.number,
-                                      validator: (value) {
-                                        if (value!.isEmpty) {
-                                          return 'Enter number of dead birds';
-                                        }
-                                        return null;
-                                      },
-                                      decoration: InputDecoration(
-                                        border: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                width: 0.3.w,
-                                                color: CustomColors.secondary)),
-                                        focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                width: 0.3.w,
-                                                color: CustomColors.secondary)),
-                                        labelText: "How many birds died?",
-                                        labelStyle: TextStyle(
-                                            fontSize: 2.2.h,
-                                            color: CustomColors.secondary),
-                                      ),
-                                    )
-                                  : Container(),
-                              const SizedBox(
-                                height: CustomSpacing.s3,
-                              ),
-                              selectedReasons.contains("Sold")
-                                  ? TextFormField(
-                                      controller: soldBirds,
-                                      validator: (value) {
-                                        if (value!.isEmpty) {
-                                          return 'Enter number of sold birds';
-                                        }
-                                        return null;
-                                      },
-                                      keyboardType: TextInputType.number,
-                                      decoration: InputDecoration(
-                                        border: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                width: 0.3.w,
-                                                color: CustomColors.secondary)),
-                                        focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                width: 0.3.w,
-                                                color: CustomColors.secondary)),
-                                        labelText: "How many birds were sold?",
-                                        labelStyle: TextStyle(
-                                            fontSize: 2.2.h,
-                                            color: CustomColors.secondary),
-                                      ),
-                                    )
-                                  : Container(),
-                              const SizedBox(
-                                height: CustomSpacing.s3,
-                              ),
-                              selectedReasons.contains("Sold")
-                                  ? TextFormField(
-                                      controller: sellingPriceBird,
-                                      validator: (value) {
-                                        if (value!.isEmpty) {
-                                          return 'Enter price per bird';
-                                        }
-                                        return null;
-                                      },
-                                      keyboardType: TextInputType.number,
-                                      decoration: InputDecoration(
-                                        prefixText: "Ksh",
-                                        prefixStyle: TextStyle(fontSize: 1.8.h),
-                                        border: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                width: 0.3.w,
-                                                color: CustomColors.secondary)),
-                                        focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                width: 0.3.w,
-                                                color: CustomColors.secondary)),
-                                        labelText:
-                                            "What was the selling price per bird?",
-                                        labelStyle: TextStyle(
-                                            fontSize: 2.2.h,
-                                            color: CustomColors.secondary),
-                                      ),
-                                    )
-                                  : Container(),
-                              const SizedBox(
-                                height: CustomSpacing.s3,
-                              ),
-                              selectedReasons.contains("Curled")
-                                  ? TextFormField(
-                                      controller: curledBirds,
-                                      validator: (value) {
-                                        if (value!.isEmpty) {
-                                          return 'Enter number of curled birds';
-                                        }
-                                        return null;
-                                      },
-                                      keyboardType: TextInputType.number,
-                                      decoration: InputDecoration(
-                                        border: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                width: 0.3.w,
-                                                color: CustomColors.secondary)),
-                                        focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                width: 0.3.w,
-                                                color: CustomColors.secondary)),
-                                        labelText:
-                                            "How many birds were curled?",
-                                        labelStyle: TextStyle(
-                                            fontSize: 2.2.h,
-                                            color: CustomColors.secondary),
-                                      ),
-                                    )
-                                  : Container(),
-                              const SizedBox(
-                                height: CustomSpacing.s3,
-                              ),
-                              selectedReasons.contains("Stolen")
-                                  ? TextFormField(
-                                      controller: stolenBirds,
-                                      validator: (value) {
-                                        if (value!.isEmpty) {
-                                          return 'Enter number of stolen birds';
-                                        }
-                                        return null;
-                                      },
-                                      keyboardType: TextInputType.number,
-                                      decoration: InputDecoration(
-                                        border: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                width: 0.3.w,
-                                                color: CustomColors.secondary)),
-                                        focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                width: 0.3.w,
-                                                color: CustomColors.secondary)),
-                                        labelText:
-                                            "How many birds were stolen?",
-                                        labelStyle: TextStyle(
-                                            fontSize: 2.2.h,
-                                            color: CustomColors.secondary),
-                                      ),
-                                    )
-                                  : Container(),
-                              const SizedBox(
-                                height: CustomSpacing.s3,
-                              ),
-                            ],
-                          ),
-                        )
-                      : Container(),
+                      )),
 
                   // SizedBox(
 
                   GradientWidget(
                     child: ElevatedButton(
                         onPressed: () {
-                          if (birdsReduced == 'yes') {
-                            var payload = [
-                              {
-                                "quantity": deadBirds.text.isEmpty
-                                    ? 0
-                                    : int.parse(deadBirds.text),
-                                "reason": "MORTALITY",
-                                "sellingPrice": 0
-                              },
-                              {
-                                "quantity": soldBirds.text.isEmpty
-                                    ? 0
-                                    : int.parse(soldBirds.text),
-                                "reason": "SOLD",
-                                "sellingPrice": sellingPriceBird.text.isEmpty
-                                    ? 0
-                                    : int.parse(sellingPriceBird.text)
-                              },
-                              {
-                                "quantity": curledBirds.text.isEmpty
-                                    ? 0
-                                    : int.parse(curledBirds.text),
-                                "reason": "CURLED",
-                                "sellingPrice": 0
-                              },
-                              {
-                                "quantity": stolenBirds.text.isEmpty
-                                    ? 0
-                                    : int.parse(stolenBirds.text),
-                                "reason": "STOLEN",
-                                "sellingPrice": 0
-                              },
-                            ];
+                          _noOfBirdsFormKey.currentState!.save();
 
-                            var report = {
-                              "data": {
-                                "birdCounts": payload,
-                              }
-                            };
+                          var report = {
+                            "data": {"birdCounts": [], "eggCollection": {}}
+                          };
+                          var payload = [
+                            {
+                              "quantity": deadBirds.text.isEmpty
+                                  ? 0
+                                  : int.parse(deadBirds.text),
+                              "reason": "MORTALITY",
+                              "sellingPrice": 0
+                            },
+                            {
+                              "quantity": soldBirds.text.isEmpty
+                                  ? 0
+                                  : int.parse(soldBirds.text),
+                              "reason": "SOLD",
+                              "sellingPrice": sellingPriceBird.text.isEmpty
+                                  ? 0
+                                  : int.parse(sellingPriceBird.text)
+                            },
+                            {
+                              "quantity": curledBirds.text.isEmpty
+                                  ? 0
+                                  : int.parse(curledBirds.text),
+                              "reason": "CURLED",
+                              "sellingPrice": 0
+                            },
+                            {
+                              "quantity": stolenBirds.text.isEmpty
+                                  ? 0
+                                  : int.parse(stolenBirds.text),
+                              "reason": "STOLEN",
+                              "sellingPrice": 0
+                            },
+                          ];
 
-                            if (_formKey.currentState!.validate()) {
-                              if (widget.batchDetails.type!.name == "LAYERS") {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => EggsCollectedPage(
-                                          batchDetails: widget.batchDetails,
-                                          report: report)),
-                                );
-                              } else {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => FeedsUsedPage(
+                          report["data"]!["birdCounts"] = payload;
+
+                          if (_noOfBirdsFormKey.currentState!.validate()) {
+                            log("${report}");
+                            widget.batchDetails.type!.name == "LAYERS"
+                                ? Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => EggsCollectedPage(
                                             batchDetails: widget.batchDetails,
-                                            report: report,
-                                          )),
-                                );
-                              }
-                            }
+                                            report: report)),
+                                  )
+                                : Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => FeedsUsedPage(
+                                              batchDetails: widget.batchDetails,
+                                              report: report,
+                                            )),
+                                  );
                           } else {
-                            var payload = [
-                              {
-                                "quantity": deadBirds.text.isEmpty
-                                    ? 0
-                                    : int.parse(deadBirds.text),
-                                "reason": "MORTALITY",
-                                "sellingPrice": 0
-                              },
-                              {
-                                "quantity": soldBirds.text.isEmpty
-                                    ? 0
-                                    : int.parse(soldBirds.text),
-                                "reason": "SOLD",
-                                "sellingPrice": sellingPriceBird.text.isEmpty
-                                    ? 0
-                                    : int.parse(sellingPriceBird.text)
-                              },
-                              {
-                                "quantity": curledBirds.text.isEmpty
-                                    ? 0
-                                    : int.parse(curledBirds.text),
-                                "reason": "CURLED",
-                                "sellingPrice": 0
-                              },
-                              {
-                                "quantity": stolenBirds.text.isEmpty
-                                    ? 0
-                                    : int.parse(stolenBirds.text),
-                                "reason": "STOLEN",
-                                "sellingPrice": 0
-                              },
-                            ];
-                            var report = {
-                              "data": {
-                                "birdCounts": payload,
-                              }
-                            };
-
-                            if (widget.batchDetails.type!.name == "LAYERS") {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => EggsCollectedPage(
-                                          batchDetails: widget.batchDetails,
-                                          report: report,
-                                        )),
-                              );
-                            } else {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => FeedsUsedPage(
-                                          batchDetails: widget.batchDetails,
-                                          report: report,
-                                        )),
-                              );
-                            }
+                            debugPrint("validation failed");
                           }
                         },
                         style: ElevatedButton.styleFrom(
