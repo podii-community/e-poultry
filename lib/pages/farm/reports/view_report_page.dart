@@ -57,19 +57,6 @@ class ViewReportPage extends StatelessWidget {
                   const SizedBox(
                     height: CustomSpacing.s1,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Contractor ",
-                        style: TextStyle(color: Colors.black, fontSize: 2.2.h),
-                      ),
-                      Text(
-                        'Chicken Basket',
-                        style: TextStyle(fontSize: 2.1.h),
-                      )
-                    ],
-                  ),
                   const SizedBox(
                     height: CustomSpacing.s1,
                   ),
@@ -254,7 +241,7 @@ class ViewReportPage extends StatelessWidget {
                                   ],
                                 ),
                                 const SizedBox(
-                                  height: CustomSpacing.s2,
+                                  height: CustomSpacing.s1,
                                 ),
                                 Row(
                                   mainAxisAlignment:
@@ -273,7 +260,7 @@ class ViewReportPage extends StatelessWidget {
                                   ],
                                 ),
                                 const SizedBox(
-                                  height: CustomSpacing.s2,
+                                  height: CustomSpacing.s1,
                                 ),
                                 Row(
                                   mainAxisAlignment:
@@ -292,7 +279,7 @@ class ViewReportPage extends StatelessWidget {
                                   ],
                                 ),
                                 const SizedBox(
-                                  height: CustomSpacing.s2,
+                                  height: CustomSpacing.s1,
                                 ),
                                 Row(
                                   mainAxisAlignment:
@@ -367,7 +354,7 @@ class ViewReportPage extends StatelessWidget {
                   //                 ],
                   //               );
                   //             })
-                  //
+
                   //       ],
                   //     ),
                   //   ),

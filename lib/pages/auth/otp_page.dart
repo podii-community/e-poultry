@@ -193,8 +193,7 @@ class _OtpPageState extends State<OtpPage> {
 
     if ((data['verifyOtp']['apiKey']).toString().isNotEmpty) {
       box.put('name',
-          "${data['verifyOtp']['user']['firstName']} 
-          ${data['verifyOtp']['user']['lastName']}");
+          "${data['verifyOtp']['user']['firstName']} ${data['verifyOtp']['user']['lastName']}");
       box.put('phone', data['verifyOtp']['user']['phoneNumber']);
 
       if (data['verifyOtp']['user']['farmer'] == null) {

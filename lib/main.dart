@@ -5,6 +5,7 @@ import 'package:epoultry/graphql/query_document_provider.dart';
 import 'package:epoultry/pages/landing_page.dart';
 import 'package:epoultry/theme/custom_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -103,6 +104,9 @@ class _MyAppState extends State<MyApp> {
                 debugShowCheckedModeBanner: false,
                 title: 'Epoultry',
                 theme: CustomTheme.lightTheme,
+                localizationsDelegates: const [
+                  FormBuilderLocalizations.delegate,
+                ],
                 home: const LandingPage()
                 // const BriquettesReceived(
                 //   batchDetails: BatchModel(

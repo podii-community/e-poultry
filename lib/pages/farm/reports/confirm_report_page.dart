@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:epoultry/data/data_export.dart';
 import 'package:epoultry/graphql/query_document_provider.dart';
 import 'package:epoultry/theme/palette.dart';
@@ -10,6 +12,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
+import 'package:string_extensions/string_extensions.dart';
 
 import '../../../controllers/farm_controller.dart';
 import '../../../controllers/user_controller.dart';
@@ -188,15 +191,16 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
                           ListView.builder(
                               shrinkWrap: true,
                               itemCount:
-                                  widget.report!["data"]['birdCounts'].length,
+                                  widget.report!["data"]['birdCounts']!.length,
                               itemBuilder: (context, index) {
+                                String reason = widget.report!["data"]
+                                    ['birdCounts'][index]?['reason'];
                                 return Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      widget.report!["data"]['birdCounts']
-                                          [index]?['reason'],
+                                      reason.toTitleCase!,
                                       style: TextStyle(
                                           color: Colors.black, fontSize: 1.8.h),
                                     ),
@@ -243,14 +247,14 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
                               itemCount: widget
                                   .report!["data"]['feedsUsageReports'].length,
                               itemBuilder: (context, index) {
+                                String feedType = widget.report!["data"]
+                                    ['feedsUsageReports']![index]!['feedType']!;
                                 return Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      widget.report!["data"]
-                                              ['feedsUsageReports'][index]
-                                          ['feedType'],
+                                      feedType.toTitleCase!,
                                       style: TextStyle(
                                           color: Colors.black, fontSize: 1.4.h),
                                     ),
@@ -269,7 +273,8 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
                       ),
                     ),
                   ),
-                  widget.report!["data"]['eggCollection'] != null
+                  widget.report!["data"]['eggCollection'] != null &&
+                          widget.batchDetails.type!.name == "LAYERS"
                       ? Card(
                           elevation: 0.4,
                           child: Container(
@@ -291,7 +296,7 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
                                           color: Colors.black, fontSize: 2.h),
                                     ),
                                     Text(
-                                      '+${widget.batchDetails.type!.name == "LAYERS" ? widget.report!["data"]['eggCollection']["eggCount"] : 0}',
+                                      '+${widget.report!["data"]['eggCollection']["eggCount"]}',
                                       style: TextStyle(
                                           fontSize: 2.h,
                                           color: CustomColors.green),
@@ -311,14 +316,14 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
                                           color: Colors.black, fontSize: 1.8.h),
                                     ),
                                     Text(
-                                      '${widget.batchDetails.type!.name == "LAYERS" ? widget.report!["data"]['eggCollection']["largeCount"] : 0}',
+                                      '${widget.report!["data"]['eggCollection']["largeCount"]}',
                                       style: TextStyle(
                                           fontSize: 1.8.h, color: Colors.black),
                                     )
                                   ],
                                 ),
                                 const SizedBox(
-                                  height: CustomSpacing.s2,
+                                  height: CustomSpacing.s1,
                                 ),
                                 Row(
                                   mainAxisAlignment:
@@ -330,14 +335,14 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
                                           color: Colors.black, fontSize: 1.8.h),
                                     ),
                                     Text(
-                                      '${widget.batchDetails.type!.name == "LAYERS" ? widget.report!["data"]['eggCollection']["smallCount"] : 0}',
+                                      '${widget.report!["data"]['eggCollection']["smallCount"]}',
                                       style: TextStyle(
                                           fontSize: 1.8.h, color: Colors.black),
                                     )
                                   ],
                                 ),
                                 const SizedBox(
-                                  height: CustomSpacing.s2,
+                                  height: CustomSpacing.s1,
                                 ),
                                 Row(
                                   mainAxisAlignment:
@@ -349,14 +354,14 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
                                           color: Colors.black, fontSize: 1.8.h),
                                     ),
                                     Text(
-                                      '${widget.batchDetails.type!.name == "LAYERS" ? widget.report!["data"]['eggCollection']["deformedCount"] : 0}',
+                                      '${widget.report!["data"]['eggCollection']["deformedCount"]}',
                                       style: TextStyle(
                                           fontSize: 1.8.h, color: Colors.black),
                                     )
                                   ],
                                 ),
                                 const SizedBox(
-                                  height: CustomSpacing.s2,
+                                  height: CustomSpacing.s1,
                                 ),
                                 Row(
                                   mainAxisAlignment:
@@ -368,7 +373,7 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
                                           color: Colors.black, fontSize: 1.8.h),
                                     ),
                                     Text(
-                                      '${widget.batchDetails.type!.name == "LAYERS" ? widget.report!["data"]['eggCollection']["brokenCount"] : 0}',
+                                      '${widget.report!["data"]['eggCollection']["brokenCount"]}',
                                       style: TextStyle(
                                           fontSize: 1.8.h, color: Colors.black),
                                     )
@@ -392,6 +397,8 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
                   if (result.isLoading) {
                     return const LoadingSpinner();
                   }
+
+                  log("DDEE$result");
 
                   if (result.hasException) {
                     Fluttertoast.showToast(
@@ -435,8 +442,6 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
   }
 
   Future<void> _onCompleted(data, BuildContext context) async {
-    /// If they do, move to home page. If not, take them to select artist page for them to select artists.
-    ///
     if ((data['createBatchReport']['id'] != null)) {
       Navigator.push(
           context,

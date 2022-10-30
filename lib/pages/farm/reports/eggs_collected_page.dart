@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:epoultry/data/data_export.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -34,6 +36,7 @@ class _EggsCollectedPageState extends State<EggsCollectedPage> {
 
   @override
   Widget build(BuildContext context) {
+    log("${widget.report["data"]}");
     return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
@@ -385,6 +388,9 @@ class _EggsCollectedPageState extends State<EggsCollectedPage> {
                               ? 0
                               : int.parse(smallEggs.text),
                         };
+
+                        // widget.report["data"]!["eggCollection"] =
+                        //     payload as Map;
 
                         var report = {
                           "data": {
