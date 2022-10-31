@@ -1,10 +1,14 @@
 import 'package:epoultry/graphql/query_document_provider.dart';
 import 'package:epoultry/widgets/gradient_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../controllers/farm_controller.dart';
 import '../../../data/models/error.dart';
 import '../../../theme/colors.dart';
 import '../../../theme/spacing.dart';
@@ -19,8 +23,18 @@ class AddFarmManagerPage extends StatefulWidget {
 }
 
 class _AddFarmManagerPageState extends State<AddFarmManagerPage> {
+  final FarmsController controller = Get.put(FarmsController());
   final selectedFarmId = TextEditingController();
+
+  @override
+  void initState() {
+    selectedFarmId.text = controller.farm.value['id'];
+
+    super.initState();
+  }
+
   String inviteCode = "";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,160 +70,215 @@ class _AddFarmManagerPageState extends State<AddFarmManagerPage> {
             const SizedBox(
               height: CustomSpacing.s1,
             ),
-            Query(
-              options: QueryOptions(
-                document: gql(context.queries.getFarms()),
-                fetchPolicy: FetchPolicy.noCache,
-                pollInterval: const Duration(minutes: 2),
+
+            Mutation(
+              options: MutationOptions(
+                operationName: "CreateInvite",
+                document: gql(context.queries.createInvite()),
+                onCompleted: (data) => _onCompleted(data, context),
               ),
-              builder: (QueryResult result,
-                  {VoidCallback? refetch, FetchMore? fetchMore}) {
-                if (result.isLoading) {
-                  return const LoadingSpinner();
+              builder: (RunMutation runMutation, QueryResult? result) {
+                if (result != null) {
+                  if (result.isLoading) {
+                    return const LoadingSpinner();
+                  }
+
+                  if (result.hasException) {
+                    context.showError(
+                      ErrorModel.fromGraphError(
+                        result.exception?.graphqlErrors ?? [],
+                      ),
+                    );
+                  }
                 }
-                if (result.hasException) {
-                  return AppErrorWidget(
-                    error: ErrorModel.fromString(
-                      result.exception.toString(),
+                return DropdownButtonFormField<String>(
+                    value: selectedFarmId.text,
+                    hint: const Text(
+                      'Select Farm',
                     ),
-                  );
-                }
+                    onChanged: (String? farmId) {
+                      setState(() {
+                        selectedFarmId.text = farmId!;
+                      });
 
-                if ((result.data?['user']!["managingFarms"]).isNotEmpty) {
-                  List farms = result.data?["user"]?["managingFarms"];
-
-                  selectedFarmId.text = farms.first["id"];
-                  return farms.isEmpty
-                      ? const Center(
-                          child: Text("No Farms"),
-                        )
-                      : Mutation(
-                          options: MutationOptions(
-                            operationName: "CreateInvite",
-                            document: gql(context.queries.createInvite()),
-                            onCompleted: (data) => _onCompleted(data, context),
-                          ),
-                          builder:
-                              (RunMutation runMutation, QueryResult? result) {
-                            if (result != null) {
-                              if (result.isLoading) {
-                                return const LoadingSpinner();
-                              }
-
-                              if (result.hasException) {
-                                context.showError(
-                                  ErrorModel.fromGraphError(
-                                    result.exception?.graphqlErrors ?? [],
-                                  ),
-                                );
-                              }
-                            }
-                            return DropdownButtonFormField<String>(
-                                value: selectedFarmId.text,
-                                hint: const Text(
-                                  'Select Farm',
-                                ),
-                                onChanged: (String? farmId) {
-                                  setState(() {
-                                    selectedFarmId.text = farmId!;
-                                  });
-
-                                  _farmIdChanged(context, runMutation);
-                                },
-                                validator: (value) =>
-                                    value == null ? 'field required' : null,
-                                items: farms.map((value) {
-                                  return DropdownMenuItem(
-                                    value: value["id"].toString(),
-                                    child: Text(value["name"]),
-                                  );
-                                }).toList(),
-                                decoration: InputDecoration(
-                                    labelText: "Name of Farm",
-                                    labelStyle: TextStyle(
-                                        fontSize: 2.2.h,
-                                        color: CustomColors.secondary),
-                                    border: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            width: 0.3.w,
-                                            color: CustomColors.secondary)),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            width: 0.3.w,
-                                            color: CustomColors.secondary))));
-                          },
-                        );
-                }
-
-                if ((result.data?['user']!["ownedFarms"]).isNotEmpty) {
-                  List farms = result.data?["user"]?["ownedFarms"];
-
-                  selectedFarmId.text = farms.first["id"];
-                  return farms.isEmpty
-                      ? const Center(
-                          child: Text("No Farms"),
-                        )
-                      : Mutation(
-                          options: MutationOptions(
-                            operationName: "CreateInvite",
-                            document: gql(context.queries.createInvite()),
-                            onCompleted: (data) => _onCompleted(data, context),
-                          ),
-                          builder:
-                              (RunMutation runMutation, QueryResult? result) {
-                            if (result != null) {
-                              if (result.isLoading) {
-                                return const LoadingSpinner();
-                              }
-
-                              if (result.hasException) {
-                                context.showError(
-                                  ErrorModel.fromGraphError(
-                                    result.exception?.graphqlErrors ?? [],
-                                  ),
-                                );
-                              }
-                            }
-                            return DropdownButtonFormField<String>(
-                                value: selectedFarmId.text,
-                                hint: const Text(
-                                  'Select Farm',
-                                ),
-                                onChanged: (String? farmId) {
-                                  setState(() {
-                                    selectedFarmId.text = farmId!;
-                                  });
-
-                                  _farmIdChanged(context, runMutation);
-                                },
-                                validator: (value) =>
-                                    value == null ? 'field required' : null,
-                                items: farms.map((value) {
-                                  return DropdownMenuItem(
-                                    value: value["id"].toString(),
-                                    child: Text(value["name"]),
-                                  );
-                                }).toList(),
-                                decoration: InputDecoration(
-                                    labelText: "Name of Farm",
-                                    labelStyle: TextStyle(
-                                        fontSize: 2.2.h,
-                                        color: CustomColors.secondary),
-                                    border: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            width: 0.3.w,
-                                            color: CustomColors.secondary)),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            width: 0.3.w,
-                                            color: CustomColors.secondary))));
-                          },
-                        );
-                }
-
-                return Container();
+                      _farmIdChanged(context, runMutation);
+                    },
+                    validator: (value) =>
+                        value == null ? 'field required' : null,
+                    items: controller.farms.map((value) {
+                      return DropdownMenuItem(
+                        value: value["id"].toString(),
+                        child: Text(value["name"]),
+                      );
+                    }).toList(),
+                    decoration: InputDecoration(
+                        labelText: "Name of Farm",
+                        labelStyle: TextStyle(
+                            fontSize: 2.2.h, color: CustomColors.secondary),
+                        border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                width: 0.3.w, color: CustomColors.secondary)),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                width: 0.3.w, color: CustomColors.secondary))));
               },
             ),
+
+            // Query(
+            //   options: QueryOptions(
+            //     document: gql(context.queries.getFarms()),
+            //     fetchPolicy: FetchPolicy.noCache,
+            //     pollInterval: const Duration(minutes: 2),
+            //   ),
+            //   builder: (QueryResult result,
+            //       {VoidCallback? refetch, FetchMore? fetchMore}) {
+            //     if (result.isLoading) {
+            //       return const LoadingSpinner();
+            //     }
+            //     if (result.hasException) {
+            //       return AppErrorWidget(
+            //         error: ErrorModel.fromString(
+            //           result.exception.toString(),
+            //         ),
+            //       );
+            //     }
+
+            //     if ((result.data?['user']!["managingFarms"]).isNotEmpty) {
+            //       List farms = result.data?["user"]?["managingFarms"];
+
+            //       selectedFarmId.text = farms.first["id"];
+            //       return farms.isEmpty
+            //           ? const Center(
+            //               child: Text("No Farms"),
+            //             )
+            //       : Mutation(
+            //           options: MutationOptions(
+            //             operationName: "CreateInvite",
+            //             document: gql(context.queries.createInvite()),
+            //             onCompleted: (data) => _onCompleted(data, context),
+            //           ),
+            //           builder:
+            //               (RunMutation runMutation, QueryResult? result) {
+            //             if (result != null) {
+            //               if (result.isLoading) {
+            //                 return const LoadingSpinner();
+            //               }
+
+            //               if (result.hasException) {
+            //                 context.showError(
+            //                   ErrorModel.fromGraphError(
+            //                     result.exception?.graphqlErrors ?? [],
+            //                   ),
+            //                 );
+            //               }
+            //             }
+            //             return DropdownButtonFormField<String>(
+            //                 value: selectedFarmId.text,
+            //                 hint: const Text(
+            //                   'Select Farm',
+            //                 ),
+            //                 onChanged: (String? farmId) {
+            //                   setState(() {
+            //                     selectedFarmId.text = farmId!;
+            //                   });
+
+            //                   _farmIdChanged(context, runMutation);
+            //                 },
+            //                 validator: (value) =>
+            //                     value == null ? 'field required' : null,
+            //                 items: farms.map((value) {
+            //                   return DropdownMenuItem(
+            //                     value: value["id"].toString(),
+            //                     child: Text(value["name"]),
+            //                   );
+            //                 }).toList(),
+            //                 decoration: InputDecoration(
+            //                     labelText: "Name of Farm",
+            //                     labelStyle: TextStyle(
+            //                         fontSize: 2.2.h,
+            //                         color: CustomColors.secondary),
+            //                     border: OutlineInputBorder(
+            //                         borderSide: BorderSide(
+            //                             width: 0.3.w,
+            //                             color: CustomColors.secondary)),
+            //                     focusedBorder: OutlineInputBorder(
+            //                         borderSide: BorderSide(
+            //                             width: 0.3.w,
+            //                             color: CustomColors.secondary))));
+            //           },
+            //         );
+            // }
+
+            //     if ((result.data?['user']!["ownedFarms"]).isNotEmpty) {
+            //       List farms = result.data?["user"]?["ownedFarms"];
+
+            //       selectedFarmId.text = farms.first["id"];
+            //       return farms.isEmpty
+            //           ? const Center(
+            //               child: Text("No Farms"),
+            //             )
+            //           : Mutation(
+            //               options: MutationOptions(
+            //                 operationName: "CreateInvite",
+            //                 document: gql(context.queries.createInvite()),
+            //                 onCompleted: (data) => _onCompleted(data, context),
+            //               ),
+            //               builder:
+            //                   (RunMutation runMutation, QueryResult? result) {
+            //                 if (result != null) {
+            //                   if (result.isLoading) {
+            //                     return const LoadingSpinner();
+            //                   }
+
+            //                   if (result.hasException) {
+            //                     context.showError(
+            //                       ErrorModel.fromGraphError(
+            //                         result.exception?.graphqlErrors ?? [],
+            //                       ),
+            //                     );
+            //                   }
+            //                 }
+            //                 return DropdownButtonFormField<String>(
+            //                     value: selectedFarmId.text,
+            //                     hint: const Text(
+            //                       'Select Farm',
+            //                     ),
+            //                     onChanged: (String? farmId) {
+            //                       setState(() {
+            //                         selectedFarmId.text = farmId!;
+            //                       });
+
+            //                       _farmIdChanged(context, runMutation);
+            //                     },
+            //                     validator: (value) =>
+            //                         value == null ? 'field required' : null,
+            //                     items: farms.map((value) {
+            //                       return DropdownMenuItem(
+            //                         value: value["id"].toString(),
+            //                         child: Text(value["name"]),
+            //                       );
+            //                     }).toList(),
+            //                     decoration: InputDecoration(
+            //                         labelText: "Name of Farm",
+            //                         labelStyle: TextStyle(
+            //                             fontSize: 2.2.h,
+            //                             color: CustomColors.secondary),
+            //                         border: OutlineInputBorder(
+            //                             borderSide: BorderSide(
+            //                                 width: 0.3.w,
+            //                                 color: CustomColors.secondary)),
+            //                         focusedBorder: OutlineInputBorder(
+            //                             borderSide: BorderSide(
+            //                                 width: 0.3.w,
+            //                                 color: CustomColors.secondary))));
+            //               },
+            //             );
+            //     }
+
+            //     return Container();
+            //   },
+            // ),
+
             const SizedBox(
               height: CustomSpacing.s3,
             ),
@@ -254,7 +323,14 @@ class _AddFarmManagerPageState extends State<AddFarmManagerPage> {
                             width: 20.w,
                           ),
                           IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Clipboard.setData(
+                                        ClipboardData(text: inviteCode))
+                                    .then((_) {
+                                  Fluttertoast.showToast(
+                                      msg: 'Code copied successfully');
+                                });
+                              },
                               icon: Icon(
                                 PhosphorIcons.copy,
                                 color: CustomColors.background,

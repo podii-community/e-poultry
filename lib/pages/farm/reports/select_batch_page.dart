@@ -173,7 +173,6 @@ class _SelectBatchPageState extends State<SelectBatchPage> {
                               elevation: 0,
                               child: ListTile(
                                   onTap: () {
-                                    log("Batch Id,${controller.batchesList[position]}");
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(

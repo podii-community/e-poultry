@@ -143,7 +143,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     height: CustomSpacing.s1,
                   ),
                   Text(
-                    role == 'manager' ? "Farm Manager" : "Farmer",
+                    userController.userRole.value == 'manager'
+                        ? "Farm Manager"
+                        : "Farmer",
                     style: TextStyle(fontSize: 2.h),
                   ),
                 ],

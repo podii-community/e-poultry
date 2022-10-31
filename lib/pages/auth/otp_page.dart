@@ -198,7 +198,9 @@ class _OtpPageState extends State<OtpPage> {
 
       if (data['verifyOtp']['user']['farmer'] == null) {
         box.put('role', 'manager');
+        userController.updateRole('manager');
       } else {
+        userController.updateRole('farmer');
         box.put('role', 'farmer');
       }
 

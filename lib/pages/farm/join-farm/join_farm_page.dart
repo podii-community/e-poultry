@@ -2,9 +2,11 @@ import 'package:epoultry/pages/farm/create-farm/create_farm_page.dart';
 import 'package:epoultry/pages/farm/join-farm/join_farm_otp.dart';
 import 'package:epoultry/graphql/query_document_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../controllers/user_controller.dart';
 import '../../../data/models/error.dart';
 import '../../../theme/colors.dart';
 import '../../../theme/spacing.dart';
@@ -25,6 +27,8 @@ class _JoinFarmPageState extends State<JoinFarmPage> {
     {"name": "Manage my own Farm", "selected": false, "value": "manage"},
     {"name": "Request a quotation", "selected": false, "value": "request"}
   ];
+
+  final UserController userController = Get.put(UserController());
 
   String selectedChoice = "";
   @override
@@ -86,6 +90,8 @@ class _JoinFarmPageState extends State<JoinFarmPage> {
                                                 JoinFarmOtp()),
                                       );
 
+                                      userController.updateRole('manager');
+
                                       break;
                                     case "request":
                                       Navigator.push(
@@ -103,7 +109,9 @@ class _JoinFarmPageState extends State<JoinFarmPage> {
                                             builder: (context) =>
                                                 const CreateFarmPage()),
                                       );
-
+                                      final UserController userController =
+                                          Get.put(UserController());
+                                      userController.updateRole('farmer');
                                       break;
                                   }
                                 },
