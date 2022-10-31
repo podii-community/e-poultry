@@ -87,16 +87,6 @@ class _MyAppState extends State<MyApp> {
     }
     return await Geolocator.getCurrentPosition();
   }
-  // Future<Position> _determinePosition() async {
-  //   bool serviceEnabled;
-  //   // Test if location services are enabled.
-  //   serviceEnabled = await Geolocator.isLocationServiceEnabled();
-
-  //   if (!serviceEnabled) {
-  //     return Future.error('Location services are disabled.');
-  //   }
-  //   return await Geolocator.getCurrentPosition();
-  // }
 
   @override
   void initState() {

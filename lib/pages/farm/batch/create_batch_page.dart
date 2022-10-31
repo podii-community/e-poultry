@@ -20,7 +20,7 @@ class CreateBatchPage extends StatefulWidget {
 
 enum AgeTypes { DAYS, WEEKS, MONTHS }
 
-enum BirdTypes { BROILERS, LAYERS }
+enum BirdTypes { BROILERS, LAYERS, KIENYEJI }
 
 class _CreateBatchPageState extends State<CreateBatchPage> {
   final _formKey = GlobalKey<FormState>();

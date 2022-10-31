@@ -45,8 +45,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
     ];
     firstName = TextEditingController(text: parts[0]);
     lastName = TextEditingController(text: parts[1]);
-    phoneNumber = TextEditingController(text: box.get('phone'));
-    recoveryPhoneNumber = TextEditingController(text: box.get('phone'));
+    phoneNumber = TextEditingController(text: userController.phoneNumber.value);
+    recoveryPhoneNumber =
+        TextEditingController(text: userController.phoneNumber.value);
     title = TextEditingController(text: box.get('role'));
   }
 

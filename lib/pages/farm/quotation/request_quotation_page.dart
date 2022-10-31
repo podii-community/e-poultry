@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:epoultry/graphql/query_document_provider.dart';
 import 'package:flutter/material.dart';
@@ -233,6 +235,8 @@ class _RequestQuotationPageState extends State<RequestQuotationPage> {
                     return const LoadingSpinner();
                   }
 
+                  log("${result}");
+
                   if (result.hasException) {
                     context.showError(
                       ErrorModel.fromGraphError(
@@ -261,6 +265,7 @@ class _RequestQuotationPageState extends State<RequestQuotationPage> {
   }
 
   Future<void> _onCompleted(data, BuildContext context) async {
+    log("${data}");
     if ((data['requestQuotation']['createdAt']).toString().isNotEmpty) {
       Navigator.push(
           context,

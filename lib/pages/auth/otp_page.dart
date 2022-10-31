@@ -211,6 +211,7 @@ class _OtpPageState extends State<OtpPage> {
           data['verifyOtp']['user']["lastName"];
 
       userController.updateName(name);
+      userController.updatePhone(data['verifyOtp']['user']['phoneNumber']);
 
       if (data['verifyOtp']['user']['managingFarms'].isNotEmpty ||
           data['verifyOtp']['user']['ownedFarms'].isNotEmpty) {

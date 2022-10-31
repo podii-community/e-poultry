@@ -48,110 +48,108 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
         body: Container(
           padding: const EdgeInsets.symmetric(horizontal: CustomSpacing.s2),
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                    child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Expanded(
+                child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(
+                    height: CustomSpacing.s3,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const SizedBox(
-                        height: CustomSpacing.s3,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Name',
-                                style: TextStyle(fontSize: 1.5.h),
-                              ),
-                              const SizedBox(
-                                height: CustomSpacing.s1,
-                              ),
-                              Text(
-                                userController.userName.value,
-                                style: TextStyle(fontSize: 2.h),
-                              ),
-                            ],
+                          Text(
+                            'Name',
+                            style: TextStyle(fontSize: 1.5.h),
                           ),
-                          InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const EditProfilePage()),
-                              );
-                            },
-                            child: Wrap(
-                              children: [
-                                const Icon(
-                                  PhosphorIcons.pencilFill,
-                                  color: CustomColors.secondary,
-                                ),
-                                Text(
-                                  "Edit",
-                                  style: TextStyle(
-                                    fontSize: 5.w,
-                                    color: CustomColors.secondary,
-                                  ),
-                                )
-                              ],
-                            ),
-                          )
+                          const SizedBox(
+                            height: CustomSpacing.s1,
+                          ),
+                          Text(
+                            userController.userName.value,
+                            style: TextStyle(fontSize: 2.h),
+                          ),
                         ],
                       ),
-                      const SizedBox(
-                        height: CustomSpacing.s3,
-                      ),
-                      Text(
-                        'Phone Number',
-                        style: TextStyle(fontSize: 1.5.h),
-                      ),
-                      const SizedBox(
-                        height: CustomSpacing.s1,
-                      ),
-                      Text(
-                        phone,
-                        style: TextStyle(fontSize: 2.h),
-                      ),
-                      const SizedBox(
-                        height: CustomSpacing.s3,
-                      ),
-                      Text(
-                        'Recovery Phone Number',
-                        style: TextStyle(fontSize: 1.5.h),
-                      ),
-                      const SizedBox(
-                        height: CustomSpacing.s1,
-                      ),
-                      Text(
-                        'None',
-                        style: TextStyle(fontSize: 2.h),
-                      ),
-                      const SizedBox(
-                        height: CustomSpacing.s3,
-                      ),
-                      Text(
-                        'Title',
-                        style: TextStyle(fontSize: 1.5.h),
-                      ),
-                      const SizedBox(
-                        height: CustomSpacing.s1,
-                      ),
-                      Text(
-                        role == 'manager' ? "Farm Manager" : "Farmer",
-                        style: TextStyle(fontSize: 2.h),
-                      ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const EditProfilePage()),
+                          );
+                        },
+                        child: Wrap(
+                          children: [
+                            const Icon(
+                              PhosphorIcons.pencilFill,
+                              color: CustomColors.secondary,
+                            ),
+                            Text(
+                              "Edit",
+                              style: TextStyle(
+                                fontSize: 5.w,
+                                color: CustomColors.secondary,
+                              ),
+                            )
+                          ],
+                        ),
+                      )
                     ],
                   ),
-                )),
-              ]),
+                  const SizedBox(
+                    height: CustomSpacing.s3,
+                  ),
+                  Text(
+                    'Phone Number',
+                    style: TextStyle(fontSize: 1.5.h),
+                  ),
+                  const SizedBox(
+                    height: CustomSpacing.s1,
+                  ),
+                  Text(
+                    userController.phoneNumber.value,
+                    style: TextStyle(fontSize: 2.h),
+                  ),
+                  const SizedBox(
+                    height: CustomSpacing.s3,
+                  ),
+                  Text(
+                    'Recovery Phone Number',
+                    style: TextStyle(fontSize: 1.5.h),
+                  ),
+                  const SizedBox(
+                    height: CustomSpacing.s1,
+                  ),
+                  Text(
+                    'None',
+                    style: TextStyle(fontSize: 2.h),
+                  ),
+                  const SizedBox(
+                    height: CustomSpacing.s3,
+                  ),
+                  Text(
+                    'Title',
+                    style: TextStyle(fontSize: 1.5.h),
+                  ),
+                  const SizedBox(
+                    height: CustomSpacing.s1,
+                  ),
+                  Text(
+                    role == 'manager' ? "Farm Manager" : "Farmer",
+                    style: TextStyle(fontSize: 2.h),
+                  ),
+                ],
+              ),
+            )),
+          ]),
         ));
   }
 }

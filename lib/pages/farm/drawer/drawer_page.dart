@@ -67,8 +67,8 @@ class _DrawerPageState extends State<DrawerPage> {
               final user = result.data?['user'];
 
               final name = user["firstName"] + " " + user["lastName"];
-
               userController.updateName(name);
+              userController.updatePhone(user["phoneNumber"]);
 
               return UserAccountsDrawerHeader(
                 accountName: Text(userController.userName.value),
