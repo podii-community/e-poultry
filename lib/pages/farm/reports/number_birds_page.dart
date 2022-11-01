@@ -2,24 +2,29 @@ import 'dart:developer';
 
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:epoultry/data/data_export.dart';
+import 'package:epoultry/pages/farm/reports/broiler-weight.dart';
 import 'package:epoultry/pages/farm/reports/feeds_used_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:get/get.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 import 'package:string_extensions/string_extensions.dart';
 
+import '../../../controllers/farm_controller.dart';
 import '../../../theme/colors.dart';
 import '../../../theme/spacing.dart';
 import '../../../widgets/gradient_widget.dart';
 import 'eggs_collected_page.dart';
 
 class NumberOfBirdsReportPage extends StatefulWidget {
-  const NumberOfBirdsReportPage({Key? key, required this.batchDetails})
+  const NumberOfBirdsReportPage(
+      {Key? key, required this.batchDetails, this.report})
       : super(key: key);
 
   final BatchModel batchDetails;
+  final report;
   @override
   State<NumberOfBirdsReportPage> createState() =>
       _NumberOfBirdsReportPageState();
@@ -41,8 +46,7 @@ class _NumberOfBirdsReportPageState extends State<NumberOfBirdsReportPage> {
   final curledBirds = TextEditingController();
   final stolenBirds = TextEditingController();
 
-  //Validation error
-  String _choiceBirdsReducedError = "";
+  final FarmsController controller = Get.put(FarmsController());
 
   @override
   void initState() {
@@ -496,22 +500,22 @@ class _NumberOfBirdsReportPageState extends State<NumberOfBirdsReportPage> {
                             },
                           ];
 
-                          report["data"]!["birdCounts"] = payload;
+                          controller.report["data"]!["birdCounts"] = payload;
 
                           if (_noOfBirdsFormKey.currentState!.validate()) {
-                            log("${report}");
+                            // log("${controller.report["data"]}");
                             widget.batchDetails.type!.name == "LAYERS"
                                 ? Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => EggsCollectedPage(
-                                            batchDetails: widget.batchDetails,
-                                            report: report)),
+                                              batchDetails: widget.batchDetails,
+                                            )),
                                   )
                                 : Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => FeedsUsedPage(
+                                        builder: (context) => BroilerWeight(
                                               batchDetails: widget.batchDetails,
                                               report: report,
                                             )),

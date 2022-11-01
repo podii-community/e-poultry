@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:epoultry/controllers/farm_controller.dart';
 import 'package:epoultry/pages/farm/reports/all_reports_page.dart';
 import 'package:epoultry/pages/farm/reports/select_batch_page.dart';
@@ -9,6 +11,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../controllers/user_controller.dart';
 import '../../../data/models/error.dart';
 import '../../../theme/colors.dart';
 import '../../../theme/spacing.dart';
@@ -23,6 +26,7 @@ class DashboardPage extends StatelessWidget {
   }) : super(key: key);
 
   final FarmsController controller = Get.put(FarmsController());
+  final UserController userController = Get.put(UserController());
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +60,9 @@ class DashboardPage extends StatelessWidget {
                 }
 
                 final data = result.data?['getFarm'];
+
+                log("${data}");
+
                 List reports = [];
                 for (var batch in data["batches"]) {
                   reports.addAll(batch["reports"]);
@@ -64,6 +71,7 @@ class DashboardPage extends StatelessWidget {
                 WidgetsBinding.instance.addPostFrameCallback((_) {
                   controller.batchesList(data["batches"]);
                   controller.reportsList(reports);
+                  controller.setStoreItems(data["storeItems"]);
                 });
 
                 return SizedBox(
@@ -289,6 +297,7 @@ class DashboardPage extends StatelessWidget {
                                 subtitle: Text(
                                     "${controller.reportsList[index]["reportDate"]}"),
                                 onTap: () {
+                                  log("${controller.reportsList[index]}");
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(

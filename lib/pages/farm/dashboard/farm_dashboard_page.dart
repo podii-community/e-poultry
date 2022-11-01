@@ -1,10 +1,16 @@
+import 'package:epoultry/graphql/query_document_provider.dart';
 import 'package:epoultry/pages/farm/batch/list_batches_page.dart';
 import 'package:epoultry/pages/farm/dashboard/dashboard_page.dart';
 import 'package:epoultry/pages/farm/drawer/drawer_page.dart';
 import 'package:epoultry/theme/colors.dart';
 import 'package:epoultry/widgets/appbar_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+
+import '../../../controllers/farm_controller.dart';
+import '../../../controllers/user_controller.dart';
 
 class FarmDashboardPage extends StatefulWidget {
   const FarmDashboardPage({Key? key}) : super(key: key);
@@ -21,6 +27,19 @@ class _FarmDashboardPageState extends State<FarmDashboardPage> {
     const ListBatchPage()
   ];
   final GlobalKey<ScaffoldState> _dashboardkey = GlobalKey();
+  final FarmsController controller = Get.put(FarmsController());
+  final UserController userController = Get.put(UserController());
+
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      getFarms(context);
+    });
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,5 +80,21 @@ class _FarmDashboardPageState extends State<FarmDashboardPage> {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  Future<void> getFarms(
+    BuildContext context,
+  ) async {
+    GraphQLClient client = GraphQLProvider.of(context).value;
+    var farms = await client.query(QueryOptions(
+      document: gql(context.queries.getFarms()),
+    ));
+
+    List managingFarms = farms.data!['user']!["managingFarms"];
+    List ownedFarms = farms.data!['user']!["ownedFarms"];
+
+    List farmsList = managingFarms + ownedFarms;
+
+    controller.updateFarms(farmsList);
   }
 }

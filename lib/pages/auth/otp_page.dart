@@ -198,7 +198,9 @@ class _OtpPageState extends State<OtpPage> {
 
       if (data['verifyOtp']['user']['farmer'] == null) {
         box.put('role', 'manager');
+        userController.updateRole('manager');
       } else {
+        userController.updateRole('farmer');
         box.put('role', 'farmer');
       }
 
@@ -223,6 +225,7 @@ class _OtpPageState extends State<OtpPage> {
         controller.updateFarms(farms);
         controller.updateFarm(farms[0]);
         controller.updateBatches(farms[0]['batches']);
+        log("${farms[0]['batches']}");
         Navigator.push(
             context,
             MaterialPageRoute(

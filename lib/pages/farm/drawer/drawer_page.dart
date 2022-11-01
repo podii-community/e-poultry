@@ -36,7 +36,8 @@ class _DrawerPageState extends State<DrawerPage> {
   @override
   Widget build(BuildContext context) {
     final box = Hive.box('appData');
-    final role = box.get('role');
+    // final role = box.get('role');
+
     return Drawer(
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
@@ -88,48 +89,48 @@ class _DrawerPageState extends State<DrawerPage> {
             padding: EdgeInsets.all(8.0),
             child: Text("ALL FARMS"),
           ),
-          controller.farms.isEmpty
-              ? const Center(
-                  child: Text("No Farms"),
-                )
-              : ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: controller.farms.length,
-                  itemBuilder: (context, position) {
-                    // return Container();
-                    return Card(
-                      elevation: 0.2,
-                      child: ListTile(
-                        onTap: () {
-                          controller.updateFarm(controller.farms[position]);
-                          controller.batchesList(
-                              controller.farms[position]["batches"]);
+          Obx(
+            () => controller.farms!.isEmpty
+                ? const Center(
+                    child: Text("No Farms"),
+                  )
+                : ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: controller.farms!.length,
+                    itemBuilder: (context, position) {
+                      // return Container();
+                      return Card(
+                        elevation: 0.2,
+                        child: ListTile(
+                          onTap: () {
+                            final farm = controller.farms[position]! ?? {};
+                            final batches = farm!["batches"] ?? [];
+                            controller.updateFarm(farm);
+                            controller.batchesList(batches);
 
-                          List reports = [];
-                          for (var batch in controller.farms[position]
-                              ["batches"]) {
-                            reports.addAll(batch["reports"]);
-                          }
-                          log("${reports.length}");
+                            List reports = [];
+                            for (var batch in batches) {
+                              reports.addAll(batch["reports"]);
+                            }
 
-                          controller.reportsList(reports);
-
-                          Navigator.pop(context);
-                        },
-                        title: Text(
-                          "${controller.farms[position]["name"]}",
-                          style: TextStyle(
-                              color: CustomColors.secondary,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 1.8.h),
+                            controller.reportsList(reports);
+                            Navigator.pop(context);
+                          },
+                          title: Text(
+                            "${controller.farms[position]["name"]}",
+                            style: TextStyle(
+                                color: CustomColors.secondary,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 1.8.h),
+                          ),
                         ),
-                      ),
-                    );
-                  }),
+                      );
+                    }),
+          ),
           const SizedBox(
             height: CustomSpacing.s1,
           ),
-          role == 'farmer'
+          userController.userRole.value == 'farmer'
               ? ListTile(
                   leading: Icon(
                     PhosphorIcons.plusCircleFill,
@@ -152,7 +153,7 @@ class _DrawerPageState extends State<DrawerPage> {
                   },
                 )
               : Container(),
-          role == 'farmer'
+          userController.userRole.value == 'farmer'
               ? ListTile(
                   leading: Icon(
                     PhosphorIcons.usersFill,
@@ -173,7 +174,7 @@ class _DrawerPageState extends State<DrawerPage> {
                   },
                 )
               : Container(),
-          role == 'farmer'
+          userController.userRole.value == 'farmer'
               ? ListTile(
                   leading: Icon(
                     PhosphorIcons.tagFill,

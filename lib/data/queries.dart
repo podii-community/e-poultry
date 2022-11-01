@@ -41,7 +41,8 @@ class EpoultryQueries {
                 birdType,
                 birdAge,
                 birdCount,
-                ageType
+                ageType,
+                todaysSubmission
                       reports{
                         id,
                         reportDate,
@@ -62,6 +63,15 @@ class EpoultryQueries {
                           id,
                           quantity,
                           reason
+                       },
+                       storeReports{
+                        quantity,
+                        storeItem{
+                          name,
+                          quantityReceived,
+                          quantityUsed,
+                          startingQuantity
+                        }
                        }
                      }
                     }
@@ -75,7 +85,8 @@ class EpoultryQueries {
                 birdType,
                 birdAge,
                 birdCount,
-                ageType
+                ageType,
+                todaysSubmission
                       reports{
                         id,
                         reportDate,
@@ -96,6 +107,15 @@ class EpoultryQueries {
                           id,
                           quantity,
                           reason
+                       },
+                        storeReports{
+                        quantity,
+                        storeItem{
+                          name,
+                          quantityReceived,
+                          quantityUsed,
+                          startingQuantity
+                        }
                        }
                      }
                     }
@@ -157,6 +177,7 @@ class EpoultryQueries {
        user{
           managingFarms{
             batches{
+              todaysSubmission,
               reports{
                 id,
                 reportDate,
@@ -177,11 +198,21 @@ class EpoultryQueries {
                     id,
                     quantity,
                     reason
-                }
+                },
+                storeReports{
+                        quantity,
+                        storeItem{
+                          name,
+                          quantityReceived,
+                          quantityUsed,
+                          startingQuantity
+                        }
+                       }
               }
             }
           },
           ownedFarms{
+            todaysSubmission,
             batches{
               reports{
                 id,
@@ -203,7 +234,16 @@ class EpoultryQueries {
                     id,
                     quantity,
                     reason
-                }
+                },
+                 storeReports{
+                        quantity,
+                        storeItem{
+                          name,
+                          quantityReceived,
+                          quantityUsed,
+                          startingQuantity
+                        }
+                       }
               }
             }
           }
@@ -378,6 +418,17 @@ class EpoultryQueries {
               birdCount,
               eggCount,
               feedsUsage,
+              storeItems{
+                itemType,
+                name,
+                quantityReceived,
+                quantityUsed,
+                restocks{
+                  quantity,
+                  dateRestocked
+                },
+                startingQuantity
+              },
                batches{
                 id,
                 name,
@@ -385,6 +436,7 @@ class EpoultryQueries {
                 birdAge,
                 birdCount,
                 ageType,
+                todaysSubmission
                 reports{
                 id,
                 reportDate,
@@ -405,7 +457,7 @@ class EpoultryQueries {
                     id,
                     quantity,
                     reason
-                }
+                },
               }
              }
           }

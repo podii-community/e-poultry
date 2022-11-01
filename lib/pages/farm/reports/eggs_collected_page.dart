@@ -2,18 +2,19 @@ import 'dart:developer';
 
 import 'package:epoultry/data/data_export.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 import 'package:string_extensions/string_extensions.dart';
 
+import '../../../controllers/farm_controller.dart';
 import '../../../theme/colors.dart';
 import '../../../theme/spacing.dart';
 import '../../../widgets/gradient_widget.dart';
 import 'feeds_used_page.dart';
 
 class EggsCollectedPage extends StatefulWidget {
-  const EggsCollectedPage(
-      {Key? key, required this.batchDetails, required this.report})
+  const EggsCollectedPage({Key? key, required this.batchDetails, this.report})
       : super(key: key);
 
   final BatchModel batchDetails;
@@ -31,6 +32,8 @@ class _EggsCollectedPageState extends State<EggsCollectedPage> {
   final smallEggs = TextEditingController();
   final brokenEggs = TextEditingController();
   final deformedEggs = TextEditingController();
+
+  final FarmsController controller = Get.put(FarmsController());
 
   String gradeEggs = "";
 
@@ -371,33 +374,20 @@ class _EggsCollectedPageState extends State<EggsCollectedPage> {
                 GradientWidget(
                   child: ElevatedButton(
                       onPressed: () {
-                        var payload = {
-                          "brokenCount": brokenEggs.text.isEmpty
-                              ? 0
-                              : int.parse(brokenEggs.text),
-                          "deformedCount": deformedEggs.text.isEmpty
-                              ? 0
-                              : int.parse(deformedEggs.text),
-                          "eggCount": eggsCollected.text.isEmpty
-                              ? 0
-                              : int.parse(eggsCollected.text),
-                          "largeCount": largeEggs.text.isEmpty
-                              ? 0
-                              : int.parse(largeEggs.text),
-                          "smallCount": smallEggs.text.isEmpty
-                              ? 0
-                              : int.parse(smallEggs.text),
-                        };
+                        (controller.report["data"]!["eggCollection"]
+                            as Map)["brokenCount"](int.parse(brokenEggs.text));
 
-                        // widget.report["data"]!["eggCollection"] =
-                        //     payload as Map;
+                        (controller.report["data"]!["eggCollection"]
+                            as Map)["eggCount"](int.parse(eggsCollected.text));
 
-                        var report = {
-                          "data": {
-                            "birdCounts": widget.report["data"]["birdCounts"],
-                            "eggCollection": payload
-                          }
-                        };
+                        (controller.report["data"]!["eggCollection"]
+                            as Map)["largeCount"](int.parse(largeEggs.text));
+
+                        (controller.report["data"]!["eggCollection"]
+                            as Map)["smallCount"](int.parse(smallEggs.text));
+
+                        (controller.report["data"]!["eggCollection"] as Map)[
+                            "deformedCount"](int.parse(deformedEggs.text));
 
                         if (_formKey.currentState!.validate()) {
                           Navigator.push(
@@ -405,7 +395,6 @@ class _EggsCollectedPageState extends State<EggsCollectedPage> {
                             MaterialPageRoute(
                                 builder: (context) => FeedsUsedPage(
                                       batchDetails: widget.batchDetails,
-                                      report: report,
                                     )),
                           );
                         }

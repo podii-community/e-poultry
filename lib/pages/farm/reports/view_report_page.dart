@@ -144,11 +144,10 @@ class ViewReportPage extends StatelessWidget {
                     elevation: 0.4,
                     child: Container(
                       decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                              colors: [
-                            Palette.kPrimary[200]!,
-                            Palette.kSecondary[100]!
-                          ])),
+                          gradient: LinearGradient(colors: [
+                        Palette.kPrimary[200]!,
+                        Palette.kSecondary[100]!
+                      ])),
                       padding: const EdgeInsets.all(CustomSpacing.s2),
                       child: ListView(
                         children: [
@@ -191,17 +190,16 @@ class ViewReportPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  report!['eggCollection'].isNotEmpty
+                  report!['eggCollection'] != null
                       ? Card(
                           elevation: 0.4,
                           child: Container(
                             padding: const EdgeInsets.all(CustomSpacing.s2),
                             decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                    colors: [
-                                  Palette.kPrimary[200]!,
-                                  Palette.kSecondary[100]!
-                                ])),
+                                gradient: LinearGradient(colors: [
+                              Palette.kPrimary[200]!,
+                              Palette.kSecondary[100]!
+                            ])),
                             child: ListView(
                               children: [
                                 Row(
@@ -301,64 +299,124 @@ class ViewReportPage extends StatelessWidget {
                             ),
                           ),
                         )
-                      : Container(),
-                  // Card(
-                  //   elevation: 0.4,
-                  //   child: Container(
-                  //     decoration: BoxDecoration(
-                  //         gradient: LinearGradient(
-                  //             colors: [
-                  //               Palette.kPrimary[200]!,
-                  //               Palette.kSecondary[100]!
-                  //             ],
-                  //             begin: Alignment.centerLeft,
-                  //             end: Alignment.centerRight)),
-                  //     padding: const EdgeInsets.all(CustomSpacing.s2),
-                  //     child: ListView(
-                  //       children: [
-                  //         Row(
-                  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //           children: [
-                  //             Text(
-                  //               "Feeds",
-                  //               style: TextStyle(
-                  //                   color: Colors.black, fontSize: 2.h),
-                  //             ),
-                  //           ],
-                  //         ),
-                  //         const SizedBox(
-                  //           height: CustomSpacing.s2,
-                  //         ),
-                  //         ListView.builder(
-                  //             shrinkWrap: true,
-                  //             itemCount:
-                  //                 report!['feedsUsageReports'].length,
-                  //             itemBuilder: (context, index) {
-                  //               return Row(
-                  //                 mainAxisAlignment:
-                  //                 MainAxisAlignment.spaceBetween,
-                  //                 children: [
-                  //                   Text(
-                  //                     report!['feedsUsageReports']
-                  //                     ['feedsUsageReports'][index]
-                  //                     ['feedType'],
-                  //                     style: TextStyle(
-                  //                         color: Colors.black, fontSize: 1.4.h),
-                  //                   ),
-                  //                   Text(
-                  //                     report!['feedsUsageReports'][index]
-                  //                     ['quantity'].toString(),
-                  //                     style: TextStyle(
-                  //                         fontSize: 1.8.h, color: Colors.black),
-                  //                   )
-                  //                 ],
-                  //               );
-                  //             })
-
-                  //       ],
-                  //     ),
-                  //   ),
-                  // )
+                      : Card(
+                          elevation: 0.4,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                    colors: [
+                                  Palette.kPrimary[200]!,
+                                  Palette.kSecondary[100]!
+                                ],
+                                    begin: Alignment.centerLeft,
+                                    end: Alignment.centerRight)),
+                            padding: const EdgeInsets.all(CustomSpacing.s2),
+                            child: ListView(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Feeds",
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 2.h),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: CustomSpacing.s2,
+                                ),
+                                // ListView.builder(
+                                //     shrinkWrap: true,
+                                //     itemCount: report!['feedsUsage'].length,
+                                //     itemBuilder: (context, index) {
+                                //       return Row(
+                                //         mainAxisAlignment:
+                                //             MainAxisAlignment.spaceBetween,
+                                //         children: [
+                                //           Text(
+                                //             report!['feedsUsage'][index]
+                                //                 ['feedType'],
+                                //             style: TextStyle(
+                                //                 color: Colors.black,
+                                //                 fontSize: 1.4.h),
+                                //           ),
+                                //           Text(
+                                //             report!['feedsUsage'][index]
+                                //                     ['quantity']
+                                //                 .toString(),
+                                //             style: TextStyle(
+                                //                 fontSize: 1.8.h,
+                                //                 color: Colors.black),
+                                //           )
+                                //         ],
+                                //       );
+                                //     })
+                              ],
+                            ),
+                          ),
+                        ),
+                  report!['eggCollection'] != null
+                      ? Card(
+                          elevation: 0.4,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                    colors: [
+                                  Palette.kPrimary[200]!,
+                                  Palette.kSecondary[100]!
+                                ],
+                                    begin: Alignment.centerLeft,
+                                    end: Alignment.centerRight)),
+                            padding: const EdgeInsets.all(CustomSpacing.s2),
+                            child: ListView(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Feeds",
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 2.h),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: CustomSpacing.s2,
+                                ),
+                                ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: report!['feedsUsage'].length,
+                                    itemBuilder: (context, index) {
+                                      return Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            report!['feedsUsage'][index]
+                                                ['feedType'],
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 1.4.h),
+                                          ),
+                                          Text(
+                                            report!['feedsUsage'][index]
+                                                    ['quantity']
+                                                .toString(),
+                                            style: TextStyle(
+                                                fontSize: 1.8.h,
+                                                color: Colors.black),
+                                          )
+                                        ],
+                                      );
+                                    })
+                              ],
+                            ),
+                          ),
+                        )
+                      : Container()
                 ],
               ),
             ),
