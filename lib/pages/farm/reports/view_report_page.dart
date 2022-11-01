@@ -327,32 +327,32 @@ class ViewReportPage extends StatelessWidget {
                                 const SizedBox(
                                   height: CustomSpacing.s2,
                                 ),
-                                ListView.builder(
-                                    shrinkWrap: true,
-                                    itemCount: report!['feedsUsage'].length,
-                                    itemBuilder: (context, index) {
-                                      return Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            report!['feedsUsage'][index]
-                                                ['feedType'],
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 1.4.h),
-                                          ),
-                                          Text(
-                                            report!['feedsUsage'][index]
-                                                    ['quantity']
-                                                .toString(),
-                                            style: TextStyle(
-                                                fontSize: 1.8.h,
-                                                color: Colors.black),
-                                          )
-                                        ],
-                                      );
-                                    })
+                                // ListView.builder(
+                                //     shrinkWrap: true,
+                                //     itemCount: report!['feedsUsage'].length,
+                                //     itemBuilder: (context, index) {
+                                //       return Row(
+                                //         mainAxisAlignment:
+                                //             MainAxisAlignment.spaceBetween,
+                                //         children: [
+                                //           Text(
+                                //             report!['feedsUsage'][index]
+                                //                 ['feedType'],
+                                //             style: TextStyle(
+                                //                 color: Colors.black,
+                                //                 fontSize: 1.4.h),
+                                //           ),
+                                //           Text(
+                                //             report!['feedsUsage'][index]
+                                //                     ['quantity']
+                                //                 .toString(),
+                                //             style: TextStyle(
+                                //                 fontSize: 1.8.h,
+                                //                 color: Colors.black),
+                                //           )
+                                //         ],
+                                //       );
+                                //     })
                               ],
                             ),
                           ),
