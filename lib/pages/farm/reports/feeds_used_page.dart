@@ -2,22 +2,26 @@ import 'dart:developer';
 
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:epoultry/data/data_export.dart';
+import 'package:epoultry/pages/farm/reports/received/feed-received.dart';
+import 'package:epoultry/pages/farm/reports/sawdust-used.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 import 'package:string_extensions/string_extensions.dart';
 
+import '../../../controllers/farm_controller.dart';
 import '../../../theme/colors.dart';
 import '../../../theme/spacing.dart';
 import '../../../widgets/gradient_widget.dart';
 import 'confirm_report_page.dart';
 
 class FeedsUsedPage extends StatefulWidget {
-  const FeedsUsedPage(
-      {Key? key, required this.batchDetails, required this.report})
+  const FeedsUsedPage({Key? key, required this.batchDetails, this.report})
       : super(key: key);
 
   final BatchModel batchDetails;
@@ -46,12 +50,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
   final kienyejiGrowersUsed = TextEditingController();
   // final chickMashUsed = TextEditingController();
 
-  var typeOfFeeds = [
-    "Chicken Duck Mash",
-    "Growers Mash",
-    "Starter Crumbs",
-    "Finisher Pellets",
-  ];
+  String feedsReceived = "";
 
   var kienyejiFeeds = ["Chicken Duck Mash", "Kienyeji Growers Mash"];
 
@@ -67,6 +66,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
   List _selectedFeeds = [];
 
   final quantity = TextEditingController();
+  final FarmsController controller = Get.put(FarmsController());
 
   @override
   Widget build(BuildContext context) {
@@ -483,6 +483,43 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                   ),
                                 )
                               : Container(),
+                          SizedBox(
+                            height: CustomSpacing.s2,
+                          ),
+                          FormBuilderRadioGroup<String>(
+                            decoration: InputDecoration(
+                                labelText:
+                                    'Have you received any new feeds today?',
+                                labelStyle: TextStyle(
+                                    fontSize: 3.2.h, color: Colors.black),
+                                contentPadding:
+                                    EdgeInsets.symmetric(horizontal: 4.w),
+                                border: InputBorder.none),
+                            initialValue: null,
+                            name: 'feedsReceived',
+                            onChanged: (value) {
+                              setState(() {
+                                feedsReceived = value!.toLowerCase().toString();
+                              });
+                            },
+                            validator: FormBuilderValidators.required(
+                                errorText: "Choose a choice above"),
+                            options: [
+                              'Yes',
+                              'No',
+                            ]
+                                .map((choice) => FormBuilderFieldOption(
+                                      value: choice,
+                                      child: Text(
+                                        choice,
+                                        style: TextStyle(
+                                            fontSize: 2.2.h,
+                                            color: Colors.black),
+                                      ),
+                                    ))
+                                .toList(growable: false),
+                            controlAffinity: ControlAffinity.trailing,
+                          ),
                         ],
                       ),
                     ),
@@ -536,31 +573,25 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                             },
                           ];
 
-                          var report = {
-                            "data": {
-                              "batchId": widget.batchDetails.id,
-                              "birdCounts": widget.report['data']['birdCounts'],
-                              "eggCollection": (widget.report['data']
-                                          ['eggCollection'])
-                                      .isEmpty
-                                  ? null
-                                  : widget.report['data']['eggCollection'],
-                              "feedsUsageReports": feedsUsageReports,
-                              "reportDate": formatter.format(DateTime.now())
-                            }
-                          };
-
-                          log("$report");
+                          (controller.report["data"]!["feedsReport"]!
+                              as Map)["used"](feedsUsageReports);
 
                           if (_formKey.currentState!.validate()) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ConfirmReportPage(
-                                        batchDetails: widget.batchDetails,
-                                        report: report,
-                                      )),
-                            );
+                            feedsReceived == 'yes'
+                                ? Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => FeedReceived(
+                                              batchDetails: widget.batchDetails,
+                                            )),
+                                  )
+                                : Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => SawdustUsed(
+                                              batchDetails: widget.batchDetails,
+                                            )),
+                                  );
                           }
                         },
                         style: ElevatedButton.styleFrom(

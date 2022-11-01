@@ -6,6 +6,35 @@ class FarmsController extends GetxController {
   final batchesList = [].obs;
   final reportsList = [].obs;
   final selectedBatch = {}.obs;
+  final storeItems = [].obs;
+  final report = {
+    "data": {
+      "batchId": "".obs,
+      "birdCounts": [].obs,
+      "briquettesReport": {
+        "inStore": {}.obs,
+        "received": {}.obs,
+        "used": {}.obs
+      },
+      "eggCollection": {
+        "brokenCount": "".obs,
+        "comments": "".obs,
+        "eggCount": "".obs,
+        "largeCount": "".obs,
+        "smallCount": "".obs,
+        "deformedCount": "".obs,
+      },
+      "feedsReport": {"inStore": [].obs, "received": [].obs, "used": [].obs},
+      "medicationsReport": {
+        "inStore": [].obs,
+        "received": [].obs,
+        "used": [].obs
+      },
+      "reportDate": "".obs,
+      "sawdustReport": {"inStore": {}.obs, "received": {}.obs, "used": {}.obs},
+      "weightReport": {"averageWeight": "".obs}
+    }
+  };
 
   updateFarm(dynamic selectedFarm) {
     farm(selectedFarm);
@@ -25,5 +54,9 @@ class FarmsController extends GetxController {
 
   selectBatch(batch) {
     selectedBatch(batch);
+  }
+
+  setStoreItems(items) {
+    storeItems(items);
   }
 }

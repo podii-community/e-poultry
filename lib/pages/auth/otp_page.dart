@@ -225,6 +225,7 @@ class _OtpPageState extends State<OtpPage> {
         controller.updateFarms(farms);
         controller.updateFarm(farms[0]);
         controller.updateBatches(farms[0]['batches']);
+        log("${farms[0]['batches']}");
         Navigator.push(
             context,
             MaterialPageRoute(

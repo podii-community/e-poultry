@@ -1,7 +1,12 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:epoultry/data/data_export.dart';
 import 'package:epoultry/graphql/query_document_provider.dart';
+import 'package:epoultry/pages/farm/reports/briquettes-used.dart';
+import 'package:epoultry/pages/farm/reports/broiler-weight.dart';
+import 'package:epoultry/pages/farm/reports/eggs_collected_page.dart';
+import 'package:epoultry/pages/farm/reports/number_birds_page.dart';
 import 'package:epoultry/theme/palette.dart';
 import 'package:epoultry/theme/spacing.dart';
 import 'package:epoultry/widgets/gradient_widget.dart';
@@ -21,8 +26,7 @@ import '../../../widgets/loading_spinner.dart';
 import '../../../widgets/success_widget.dart';
 
 class ConfirmReportPage extends StatefulWidget {
-  const ConfirmReportPage(
-      {Key? key, required this.report, required this.batchDetails})
+  const ConfirmReportPage({Key? key, this.report, required this.batchDetails})
       : super(key: key);
 
   final report;
@@ -36,15 +40,18 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
   final UserController userController = Get.put(UserController());
   final FarmsController controller = Get.put(FarmsController());
 
+  // List birdCounts = controller.report["data"]!['birdCounts'] as List;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: CustomColors.background,
         centerTitle: true,
-        elevation: 0,
+        toolbarHeight: 8.h,
+        backgroundColor: CustomColors.white,
+        elevation: 0.5,
         leading: IconButton(
           icon: const Icon(
             PhosphorIcons.arrowLeft,
@@ -54,375 +61,438 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
             Navigator.pop(context);
           },
         ),
-        title: Text(
-          "CONFIRM REPORT",
-          style: TextStyle(color: Colors.black, fontSize: 2.3.h),
+        title: const Text(
+          "Confirm",
+          style: TextStyle(color: Colors.black),
         ),
       ),
-      body: Container(
-        padding: const EdgeInsets.symmetric(horizontal: CustomSpacing.s2),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: 25.h,
-              child: ListView(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Farm Name",
-                        style: TextStyle(color: Colors.black, fontSize: 2.2.h),
-                      ),
-                      Obx((() => Text(
-                            controller.farm.value['name'],
-                            style: const TextStyle(color: Colors.black),
-                          )))
-                    ],
-                  ),
-                  const SizedBox(
-                    height: CustomSpacing.s1,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Farm Manager",
-                        style: TextStyle(color: Colors.black, fontSize: 2.2.h),
-                      ),
-                      Text(
-                        userController.userName.value,
-                        style: TextStyle(fontSize: 2.1.h),
-                      )
-                    ],
-                  ),
-                  const SizedBox(
-                    height: CustomSpacing.s1,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Batch Name",
-                        style: TextStyle(color: Colors.black, fontSize: 2.2.h),
-                      ),
-                      Text(
-                        widget.batchDetails.name,
-                        style: TextStyle(fontSize: 2.1.h),
-                      )
-                    ],
-                  ),
-                  const SizedBox(
-                    height: CustomSpacing.s1,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Date",
-                        style: TextStyle(color: Colors.black, fontSize: 2.2.h),
-                      ),
-                      Text(
-                        DateFormat('yyyy-MM-dd').format(DateTime.now()),
-                        style: TextStyle(fontSize: 2.1.h),
-                      )
-                    ],
-                  ),
-                  const SizedBox(
-                    height: CustomSpacing.s1,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Time",
-                        style: TextStyle(color: Colors.black, fontSize: 2.2.h),
-                      ),
-                      Text(
-                        DateFormat.jm().format(DateTime.now()),
-                        style: TextStyle(fontSize: 2.1.h),
-                      )
-                    ],
-                  ),
-                ],
+      body: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: CustomSpacing.s3),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(
+                height: CustomSpacing.s3,
               ),
-            ),
-            const SizedBox(height: CustomSpacing.s1),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                "Summary",
-                style: TextStyle(fontSize: 2.5.h),
+              Obx((() => Text(
+                    controller.farm.value['name'],
+                    style: TextStyle(color: Colors.black, fontSize: 3.h),
+                  ))),
+              const SizedBox(
+                height: CustomSpacing.s1,
               ),
-            ),
-            SizedBox(
-              height: 50.h,
-              child: GridView.count(
-                crossAxisCount: 2,
-                mainAxisSpacing: 2,
-                childAspectRatio: 0.9,
-                shrinkWrap: true,
+              Text(
+                widget.batchDetails.name,
+                style: TextStyle(fontSize: 2.1.h),
+              ),
+              const SizedBox(
+                height: CustomSpacing.s2,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Card(
-                    elevation: 0.4,
-                    child: Container(
-                      decoration: BoxDecoration(
-                          gradient: LinearGradient(colors: [
-                        Palette.kPrimary[200]!,
-                        Palette.kSecondary[100]!
-                      ])),
-                      padding: const EdgeInsets.all(CustomSpacing.s2),
-                      child: ListView(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Bird Count",
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 2.h),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: CustomSpacing.s2,
-                          ),
-                          ListView.builder(
-                              shrinkWrap: true,
-                              itemCount:
-                                  widget.report!["data"]['birdCounts']!.length,
-                              itemBuilder: (context, index) {
-                                String reason = widget.report!["data"]
-                                    ['birdCounts'][index]?['reason'];
-                                return Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      reason.toTitleCase!,
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 1.8.h),
-                                    ),
-                                    Text(
-                                      widget.report!["data"]['birdCounts']
-                                              [index]['quantity']
-                                          .toString(),
-                                      style: TextStyle(
-                                          fontSize: 1.8.h, color: Colors.black),
-                                    )
-                                  ],
-                                );
-                              })
-                        ],
-                      ),
-                    ),
+                  Text(
+                    'BIRDS',
+                    style: TextStyle(fontSize: 2.5.h),
                   ),
-                  Card(
-                    elevation: 0.4,
-                    child: Container(
-                      decoration: BoxDecoration(
-                          gradient: LinearGradient(colors: [
-                        Palette.kPrimary[200]!,
-                        Palette.kSecondary[100]!
-                      ])),
-                      padding: const EdgeInsets.all(CustomSpacing.s2),
-                      child: ListView(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Feeds",
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 2.h),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: CustomSpacing.s2,
-                          ),
-                          ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: widget
-                                  .report!["data"]['feedsUsageReports'].length,
-                              itemBuilder: (context, index) {
-                                String feedType = widget.report!["data"]
-                                    ['feedsUsageReports']![index]!['feedType']!;
-                                return Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      feedType.toTitleCase!,
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 1.4.h),
-                                    ),
-                                    Text(
-                                      widget.report!["data"]
-                                              ['feedsUsageReports'][index]
-                                              ['quantity']
-                                          .toString(),
-                                      style: TextStyle(
-                                          fontSize: 1.8.h, color: Colors.black),
-                                    )
-                                  ],
-                                );
-                              })
-                        ],
-                      ),
-                    ),
-                  ),
-                  widget.report!["data"]['eggCollection'] != null &&
-                          widget.batchDetails.type!.name == "LAYERS"
-                      ? Card(
-                          elevation: 0.4,
-                          child: Container(
-                            padding: const EdgeInsets.all(CustomSpacing.s2),
-                            decoration: BoxDecoration(
-                                gradient: LinearGradient(colors: [
-                              Palette.kPrimary[200]!,
-                              Palette.kSecondary[100]!
-                            ])),
-                            child: ListView(
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "Eggs",
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 2.h),
-                                    ),
-                                    Text(
-                                      '+${widget.report!["data"]['eggCollection']["eggCount"]}',
-                                      style: TextStyle(
-                                          fontSize: 2.h,
-                                          color: CustomColors.green),
-                                    )
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: CustomSpacing.s2,
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "Large",
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 1.8.h),
-                                    ),
-                                    Text(
-                                      '${widget.report!["data"]['eggCollection']["largeCount"]}',
-                                      style: TextStyle(
-                                          fontSize: 1.8.h, color: Colors.black),
-                                    )
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: CustomSpacing.s1,
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "Small",
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 1.8.h),
-                                    ),
-                                    Text(
-                                      '${widget.report!["data"]['eggCollection']["smallCount"]}',
-                                      style: TextStyle(
-                                          fontSize: 1.8.h, color: Colors.black),
-                                    )
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: CustomSpacing.s1,
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "Deformed",
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 1.8.h),
-                                    ),
-                                    Text(
-                                      '${widget.report!["data"]['eggCollection']["deformedCount"]}',
-                                      style: TextStyle(
-                                          fontSize: 1.8.h, color: Colors.black),
-                                    )
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: CustomSpacing.s1,
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "Broken",
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 1.8.h),
-                                    ),
-                                    Text(
-                                      '${widget.report!["data"]['eggCollection']["brokenCount"]}',
-                                      style: TextStyle(
-                                          fontSize: 1.8.h, color: Colors.black),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => NumberOfBirdsReportPage(
+                                  batchDetails: widget.batchDetails,
+                                )),
+                      );
+                    },
+                    child: Wrap(
+                      children: [
+                        const Icon(
+                          PhosphorIcons.pencilFill,
+                        ),
+                        Text(
+                          "Edit",
+                          style: TextStyle(
+                            fontSize: 2.h,
                           ),
                         )
-                      : Container(),
+                      ],
+                    ),
+                  )
                 ],
               ),
-            ),
-            Mutation(
-              options: MutationOptions(
-                document: gql(context.queries.createBatchReport()),
-                onCompleted: (data) => _onCompleted(data, context),
+              const SizedBox(
+                height: CustomSpacing.s2,
               ),
-              builder: (RunMutation runMutation, QueryResult? result) {
-                if (result != null) {
-                  if (result.isLoading) {
-                    return const LoadingSpinner();
+              ListView.builder(
+                  shrinkWrap: true,
+                  itemExtent: 4.5.h,
+                  itemCount:
+                      (controller.report["data"]!['birdCounts'] as List).length,
+                  itemBuilder: (context, index) {
+                    String reason = (controller.report["data"]!['birdCounts']
+                        as List)[index]?['reason'];
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          reason.toTitleCase!,
+                          style:
+                              TextStyle(color: Colors.black, fontSize: 2.3.h),
+                        ),
+                        Text(
+                          (controller.report["data"]!['birdCounts']
+                                  as List)[index]['quantity']
+                              .toString(),
+                          style:
+                              TextStyle(fontSize: 1.8.h, color: Colors.black),
+                        )
+                      ],
+                    );
+                  }),
+              const SizedBox(
+                height: CustomSpacing.s2,
+              ),
+              widget.batchDetails.type!.name == "LAYERS"
+                  ? Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'EGGS',
+                              style: TextStyle(fontSize: 2.5.h),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => EggsCollectedPage(
+                                            batchDetails: widget.batchDetails,
+                                          )),
+                                );
+                              },
+                              child: Wrap(
+                                children: [
+                                  const Icon(
+                                    PhosphorIcons.pencilFill,
+                                  ),
+                                  Text(
+                                    "Edit",
+                                    style: TextStyle(
+                                      fontSize: 2.h,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                        const SizedBox(
+                          height: CustomSpacing.s2,
+                        ),
+                        ListView.builder(
+                            shrinkWrap: true,
+                            itemExtent: 4.5.h,
+                            itemCount: (controller
+                                    .report["data"]!['eggCollection'] as Map)
+                                .length,
+                            itemBuilder: (context, index) {
+                              String key = (controller
+                                      .report["data"]!['eggCollection'] as Map)
+                                  .keys
+                                  .elementAt(index);
+
+                              return Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    key.toTitleCase!,
+                                    style: TextStyle(
+                                        color: Colors.black, fontSize: 2.3.h),
+                                  ),
+                                  Text(
+                                    (controller.report["data"]!['eggCollection']
+                                            as Map)[key]
+                                        .toString(),
+                                    style: TextStyle(
+                                        fontSize: 1.8.h, color: Colors.black),
+                                  )
+                                ],
+                              );
+                            }),
+                      ],
+                    )
+                  : Container(),
+              widget.batchDetails.type!.name == "BROILERS"
+                  ? Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'WEIGHT',
+                              style: TextStyle(fontSize: 2.5.h),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => BroilerWeight(
+                                            batchDetails: widget.batchDetails,
+                                          )),
+                                );
+                              },
+                              child: Wrap(
+                                children: [
+                                  const Icon(
+                                    PhosphorIcons.pencilFill,
+                                  ),
+                                  Text(
+                                    "Edit",
+                                    style: TextStyle(
+                                      fontSize: 2.h,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                        const SizedBox(
+                          height: CustomSpacing.s2,
+                        ),
+                        ListView.builder(
+                            shrinkWrap: true,
+                            itemExtent: 4.5.h,
+                            itemCount: (controller
+                                    .report["data"]!['weightReport'] as Map)
+                                .length,
+                            itemBuilder: (context, index) {
+                              String key = (controller
+                                      .report["data"]!['weightReport'] as Map)
+                                  .keys
+                                  .elementAt(index);
+
+                              return Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    key.toTitleCase!,
+                                    style: TextStyle(
+                                        color: Colors.black, fontSize: 2.3.h),
+                                  ),
+                                  Text(
+                                    (controller.report["data"]!['weightReport']
+                                            as Map)[key]
+                                        .toString(),
+                                    style: TextStyle(
+                                        fontSize: 1.8.h, color: Colors.black),
+                                  )
+                                ],
+                              );
+                            }),
+                      ],
+                    )
+                  : Container(),
+              const SizedBox(
+                height: CustomSpacing.s3,
+              ),
+              Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'BRIQUETTES',
+                        style: TextStyle(fontSize: 2.5.h),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => BriquettesUsed(
+                                      batchDetails: widget.batchDetails,
+                                    )),
+                          );
+                        },
+                        child: Wrap(
+                          children: [
+                            const Icon(
+                              PhosphorIcons.pencilFill,
+                            ),
+                            Text(
+                              "Edit",
+                              style: TextStyle(
+                                fontSize: 2.h,
+                              ),
+                            )
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: CustomSpacing.s2,
+                  ),
+                  ListView.builder(
+                      shrinkWrap: true,
+                      itemExtent: 4.5.h,
+                      itemCount: (controller.report["data"]!['briquettesReport']
+                              as Map)
+                          .length,
+                      itemBuilder: (context, index) {
+                        String key = (controller
+                                .report["data"]!['briquettesReport'] as Map)
+                            .keys
+                            .elementAt(index);
+
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              key.toTitleCase!,
+                              style: TextStyle(
+                                  color: Colors.black, fontSize: 2.3.h),
+                            ),
+                            Text(
+                              "${((controller.report["data"]!['briquettesReport'] as Map)[key]["quantity"].toString())}  Kgs",
+                              style: TextStyle(
+                                  fontSize: 1.8.h, color: Colors.black),
+                            )
+                          ],
+                        );
+                      }),
+                ],
+              ),
+              const SizedBox(
+                height: CustomSpacing.s3,
+              ),
+              Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'SAWDUST',
+                        style: TextStyle(fontSize: 2.5.h),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => BriquettesUsed(
+                                      batchDetails: widget.batchDetails,
+                                    )),
+                          );
+                        },
+                        child: Wrap(
+                          children: [
+                            const Icon(
+                              PhosphorIcons.pencilFill,
+                            ),
+                            Text(
+                              "Edit",
+                              style: TextStyle(
+                                fontSize: 2.h,
+                              ),
+                            )
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: CustomSpacing.s2,
+                  ),
+                  ListView.builder(
+                      shrinkWrap: true,
+                      itemExtent: 4.5.h,
+                      itemCount:
+                          (controller.report["data"]!['sawdustReport'] as Map)
+                              .length,
+                      itemBuilder: (context, index) {
+                        String key =
+                            (controller.report["data"]!['sawdustReport'] as Map)
+                                .keys
+                                .elementAt(index);
+
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              key.toTitleCase!,
+                              style: TextStyle(
+                                  color: Colors.black, fontSize: 2.3.h),
+                            ),
+                            Text(
+                              "${((controller.report["data"]!['sawdustReport'] as Map)[key]["quantity"].toString())} Kgs ",
+                              style: TextStyle(
+                                  fontSize: 1.8.h, color: Colors.black),
+                            )
+                          ],
+                        );
+                      }),
+                ],
+              ),
+              const SizedBox(
+                height: CustomSpacing.s3,
+              ),
+              // ignore: lines_longer_than_80_chars
+              Text(
+                "Report prepared by ${userController.userName.value} on  ${DateFormat('yyyy-MM-dd').format(DateTime.now())}  at  ${DateFormat.jm().format(DateTime.now())}",
+                style: TextStyle(fontSize: 2.2.h),
+              ),
+              const SizedBox(
+                height: CustomSpacing.s3,
+              ),
+              const SizedBox(
+                height: CustomSpacing.s3,
+              ),
+              Mutation(
+                options: MutationOptions(
+                  document: gql(context.queries.createBatchReport()),
+                  onCompleted: (data) => _onCompleted(data, context),
+                ),
+                builder: (RunMutation runMutation, QueryResult? result) {
+                  if (result != null) {
+                    if (result.isLoading) {
+                      return const LoadingSpinner();
+                    }
+
+                    log("DDEE$result");
+
+                    if (result.hasException) {
+                      Fluttertoast.showToast(
+                          msg: "The report has already been submitted");
+                    }
                   }
 
-                  log("DDEE$result");
-
-                  if (result.hasException) {
-                    Fluttertoast.showToast(
-                        msg: "The report has already been submitted");
-                  }
-                }
-
-                return GradientWidget(
-                  child: ElevatedButton(
-                      onPressed: () => _submitReport(context, runMutation),
-                      style: ElevatedButton.styleFrom(
-                          primary: Colors.transparent,
-                          onSurface: Colors.transparent,
-                          shadowColor: Colors.transparent,
-                          onPrimary: CustomColors.background,
-                          fixedSize: Size(100.w, 6.h)),
-                      child: const Text('SEND UPDATE')),
-                );
-              },
-            ),
-            const SizedBox(
-              height: CustomSpacing.s1,
-            ),
-          ],
+                  return GradientWidget(
+                    child: ElevatedButton(
+                        onPressed: () => _submitReport(context, runMutation),
+                        style: ElevatedButton.styleFrom(
+                            primary: Colors.transparent,
+                            onSurface: Colors.transparent,
+                            shadowColor: Colors.transparent,
+                            onPrimary: CustomColors.background,
+                            fixedSize: Size(100.w, 6.h)),
+                        child: const Text('SEND UPDATE')),
+                  );
+                },
+              ),
+              const SizedBox(
+                height: CustomSpacing.s3,
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -430,13 +500,35 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
 
   Future<void> _submitReport(
       BuildContext context, RunMutation runMutation) async {
+    // log("${{...controller.report}}");
+
+    final data = controller.report["data"] as Map;
+
+    // jsonEncode({...controller.report});
     runMutation({
       "data": {
-        'batchId': widget.report["data"]["batchId"],
-        "birdCounts": widget.report["data"]["birdCounts"],
-        "feedsUsageReports": widget.report["data"]["feedsUsageReports"],
-        "eggCollection": widget.report["data"]["eggCollection"],
-        "reportDate": DateFormat('yyyy-MM-dd').format(DateTime.now())
+        "batchId": data["batchId"],
+        "birdCounts": data["birdCounts"],
+        "briquettesReport": data["briquettesReport"],
+        "eggCollection": {
+          "brokenCount":
+              int.parse((data["eggCollection"]["brokenCount"]).toString()),
+          "eggCount": int.parse((data["eggCollection"]["eggCount"]).toString()),
+          "largeCount":
+              int.parse((data["eggCollection"]["largeCount"]).toString()),
+          "smallCount":
+              int.parse((data["eggCollection"]["smallCount"]).toString()),
+          "deformedCount":
+              int.parse((data["eggCollection"]["deformedCount"]).toString())
+        },
+        "feedsReport": data["feedsReport"],
+        "medicationsReport": data["medicationsReport"],
+        "reportDate": "2022-11-01",
+        "sawdustReport": data["sawdustReport"],
+        "weightReport": {
+          "averageWeight":
+              (data["weightReport"]["averageWeight"]).toString().toDouble()
+        }
       }
     });
   }

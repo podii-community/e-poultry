@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:epoultry/data/data_export.dart';
 import 'package:epoultry/pages/farm/reports/number_birds_page.dart';
+import 'package:epoultry/pages/farm/reports/store/feeds-store.dart';
 import 'package:epoultry/theme/spacing.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -173,33 +174,58 @@ class _SelectBatchPageState extends State<SelectBatchPage> {
                               elevation: 0,
                               child: ListTile(
                                   onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              NumberOfBirdsReportPage(
-                                                  batchDetails:
-                                                      BatchModel.fromMap(
-                                                          controller
+                                    // log("${controller.batchesList[position]}");
+
+                                    controller.storeItems.isEmpty
+                                        ? Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => FeedStore(
+                                                      batchDetails: BatchModel
+                                                          .fromMap(controller
                                                                   .batchesList[
-                                                              position]))),
-                                    );
+                                                              position]),
+                                                      report: "",
+                                                    )),
+                                          )
+                                        : Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    NumberOfBirdsReportPage(
+                                                      batchDetails: BatchModel
+                                                          .fromMap(controller
+                                                                  .batchesList[
+                                                              position]),
+                                                    )),
+                                          );
                                   },
                                   title: Text(title),
                                   subtitle: Text(
                                       "${birdType.capitalize!},$birdCount Birds"),
-                                  trailing: Wrap(
-                                    crossAxisAlignment:
-                                        WrapCrossAlignment.center,
-                                    children: [
-                                      Text('Start Report',
-                                          style: TextStyle(
-                                              fontSize: 1.5.h,
-                                              color: CustomColors.tertiary)),
-                                      const Icon(PhosphorIcons.arrowRight,
-                                          color: CustomColors.tertiary),
-                                    ],
-                                  )));
+                                  trailing: controller.batchesList[position]
+                                              ['todaysSubmission'] !=
+                                          null
+                                      ? Container(
+                                          width: 30.w,
+                                          child: const LinearProgressIndicator(
+                                            value: 1.0,
+                                            color: CustomColors.green,
+                                          ),
+                                        )
+                                      : Wrap(
+                                          crossAxisAlignment:
+                                              WrapCrossAlignment.center,
+                                          children: [
+                                            Text('Start Report',
+                                                style: TextStyle(
+                                                    fontSize: 1.5.h,
+                                                    color:
+                                                        CustomColors.tertiary)),
+                                            const Icon(PhosphorIcons.arrowRight,
+                                                color: CustomColors.tertiary),
+                                          ],
+                                        )));
                         }))),
             // Query(
             //   options: QueryOptions(
