@@ -1,4 +1,5 @@
 import 'package:epoultry/graphql/query_document_provider.dart';
+import 'package:epoultry/utils/permission_service.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
@@ -47,6 +48,7 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
     setState(() {
       locating = true;
     });
+    await PermissionService().requestLocationPermission();
     Position pos = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
 

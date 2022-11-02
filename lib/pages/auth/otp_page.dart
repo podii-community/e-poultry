@@ -222,10 +222,13 @@ class _OtpPageState extends State<OtpPage> {
 
         List farms = managingFarms + ownedFarms;
 
+        log("${farms[0]}");
+
         controller.updateFarms(farms);
         controller.updateFarm(farms[0]);
+        getFarmReports(context);
         controller.updateBatches(farms[0]['batches']);
-        log("${farms[0]['batches']}");
+
         Navigator.push(
             context,
             MaterialPageRoute(
@@ -245,5 +248,23 @@ class _OtpPageState extends State<OtpPage> {
     runMutation(
       {'phoneNumber': widget.phone, 'otpCode': pinController.text},
     );
+  }
+
+  Future<void> getFarmReports(
+    BuildContext context,
+  ) async {
+    GraphQLClient client = GraphQLProvider.of(context).value;
+    var fetchReports = await client.query(QueryOptions(
+        operationName: "GetFarmReports",
+        document: gql(context.queries.getFarmReports()),
+        variables: {
+          "filter": {"farmId": controller.farm.value['id']}
+        }));
+
+    List reports = [];
+    for (var report in fetchReports.data!["farmReports"]) {
+      reports.add(report);
+    }
+    controller.reportsList(reports);
   }
 }

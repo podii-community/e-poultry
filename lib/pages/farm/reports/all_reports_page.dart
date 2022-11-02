@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:epoultry/pages/farm/reports/export-reports/filter-reports.dart';
 import 'package:epoultry/pages/farm/reports/view_report_page.dart';
 import 'package:epoultry/theme/spacing.dart';
 import 'package:epoultry/widgets/gradient_text.dart';
@@ -22,6 +23,7 @@ class _AllReportsPageState extends State<AllReportsPage> {
   final FarmsController controller = Get.put(FarmsController());
   @override
   Widget build(BuildContext context) {
+    // controller.filteredReports.clear();
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -133,12 +135,12 @@ class _AllReportsPageState extends State<AllReportsPage> {
                             subtitle: Text(
                                 "${controller.reportsList[index]["reportDate"]}"),
                             onTap: () {
+                              controller.selectedReport(
+                                  controller.reportsList[index]);
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => ViewReportPage(
-                                          report: controller.reportsList[index],
-                                        )),
+                                    builder: (context) => ViewReportPage()),
                               );
                             },
                             tileColor: CustomColors.background,
@@ -149,7 +151,13 @@ class _AllReportsPageState extends State<AllReportsPage> {
             Align(
                 alignment: Alignment.bottomRight,
                 child: OutlinedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => FilterReportsPage()),
+                      );
+                    },
                     style: OutlinedButton.styleFrom(fixedSize: Size(50.w, 6.h)),
                     child: GradientText("EXPORT REPORTS",
                         style: TextStyle(fontSize: 2.h),

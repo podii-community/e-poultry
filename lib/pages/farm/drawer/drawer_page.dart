@@ -107,13 +107,8 @@ class _DrawerPageState extends State<DrawerPage> {
                             final batches = farm!["batches"] ?? [];
                             controller.updateFarm(farm);
                             controller.batchesList(batches);
+                            getFarmReports(context);
 
-                            List reports = [];
-                            for (var batch in batches) {
-                              reports.addAll(batch["reports"]);
-                            }
-
-                            controller.reportsList(reports);
                             Navigator.pop(context);
                           },
                           title: Text(
@@ -241,5 +236,26 @@ class _DrawerPageState extends State<DrawerPage> {
         ],
       ),
     );
+  }
+
+  Future<void> getFarmReports(
+    BuildContext context,
+  ) async {
+    GraphQLClient client = GraphQLProvider.of(context).value;
+    var fetchReports = await client.query(QueryOptions(
+        operationName: "GetFarmReports",
+        document: gql(context.queries.getFarmReports()),
+        variables: {
+          "filter": {"farmId": controller.farm.value['id']}
+        }));
+
+    List reports = [];
+    // log("${fetchReports.data!["farmReports"]}");
+
+    for (var report in fetchReports.data!["farmReports"]) {
+      reports.add(report);
+    }
+
+    controller.reportsList(reports);
   }
 }
