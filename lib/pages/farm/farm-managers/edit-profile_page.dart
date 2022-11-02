@@ -242,7 +242,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
     /// If they do, move to home page. If not, take them to select artist page for them to select artists.
     ///;
     ///
-    log("$data");
 
     if (data["updateUser"]["id"].toString().isNotEmpty) {
       Navigator.push(

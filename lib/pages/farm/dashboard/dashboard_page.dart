@@ -61,8 +61,6 @@ class DashboardPage extends StatelessWidget {
 
                 final data = result.data?['getFarm'];
 
-                log("${data}");
-
                 List reports = [];
                 for (var batch in data["batches"]) {
                   reports.addAll(batch["reports"]);
@@ -297,7 +295,6 @@ class DashboardPage extends StatelessWidget {
                                 subtitle: Text(
                                     "${controller.reportsList[index]["reportDate"]}"),
                                 onTap: () {
-                                  log("${controller.reportsList[index]}");
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(

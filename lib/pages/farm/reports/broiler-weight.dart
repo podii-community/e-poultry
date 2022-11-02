@@ -148,7 +148,10 @@ class _BroilerWeightState extends State<BroilerWeight> {
                       },
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
-                        prefixStyle: TextStyle(fontSize: 1.8.h),
+                        prefixStyle: TextStyle(
+                          fontSize: 1.8.h,
+                        ),
+                        prefixText: "Kgs",
                         border: OutlineInputBorder(
                             borderSide: BorderSide(
                                 width: 0.3.w, color: CustomColors.secondary)),
@@ -167,12 +170,9 @@ class _BroilerWeightState extends State<BroilerWeight> {
                   GradientWidget(
                     child: ElevatedButton(
                         onPressed: () {
-                          var weight = averageWeight.text.toDouble();
-
                           (controller.report["data"]!["weightReport"]
-                              as Map)["averageWeight"](weight);
+                              as Map)["averageWeight"](averageWeight.text);
                           if (_formKey.currentState!.validate()) {
-                            log("${controller.report["data"]}");
                             Navigator.push(
                               context,
                               MaterialPageRoute(

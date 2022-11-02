@@ -177,7 +177,6 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                     height: CustomSpacing.s3,
                   ),
                   SizedBox(
-                    height: 50.h,
                     child: Form(
                       key: _formKey,
                       child: Column(

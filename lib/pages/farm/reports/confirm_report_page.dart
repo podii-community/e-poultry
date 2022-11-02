@@ -462,16 +462,18 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
                   onCompleted: (data) => _onCompleted(data, context),
                 ),
                 builder: (RunMutation runMutation, QueryResult? result) {
+                  log("${result}");
                   if (result != null) {
                     if (result.isLoading) {
                       return const LoadingSpinner();
                     }
 
-                    log("DDEE$result");
-
                     if (result.hasException) {
-                      Fluttertoast.showToast(
-                          msg: "The report has already been submitted");
+                      context.showError(
+                        ErrorModel.fromGraphError(
+                          result.exception?.graphqlErrors ?? [],
+                        ),
+                      );
                     }
                   }
 
@@ -500,34 +502,39 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
 
   Future<void> _submitReport(
       BuildContext context, RunMutation runMutation) async {
-    // log("${{...controller.report}}");
-
     final data = controller.report["data"] as Map;
 
-    // jsonEncode({...controller.report});
     runMutation({
       "data": {
         "batchId": data["batchId"],
         "birdCounts": data["birdCounts"],
         "briquettesReport": data["briquettesReport"],
         "eggCollection": {
-          "brokenCount":
-              int.parse((data["eggCollection"]["brokenCount"]).toString()),
-          "eggCount": int.parse((data["eggCollection"]["eggCount"]).toString()),
-          "largeCount":
-              int.parse((data["eggCollection"]["largeCount"]).toString()),
-          "smallCount":
-              int.parse((data["eggCollection"]["smallCount"]).toString()),
+          "brokenCount": (data["eggCollection"]["brokenCount"]).value.isEmpty
+              ? 0
+              : int.parse((data["eggCollection"]["brokenCount"]).value),
+          "eggCount": (data["eggCollection"]["eggCount"]).value.isEmpty
+              ? 0
+              : int.parse((data["eggCollection"]["eggCount"]).value),
+          "largeCount": (data["eggCollection"]["largeCount"]).value.isEmpty
+              ? 0
+              : int.parse((data["eggCollection"]["largeCount"]).value),
+          "smallCount": (data["eggCollection"]["smallCount"]).value.isEmpty
+              ? 0
+              : int.parse((data["eggCollection"]["smallCount"]).value),
           "deformedCount":
-              int.parse((data["eggCollection"]["deformedCount"]).toString())
+              (data["eggCollection"]["deformedCount"]).value.isEmpty
+                  ? 0
+                  : int.parse((data["eggCollection"]["deformedCount"]).value)
         },
         "feedsReport": data["feedsReport"],
         "medicationsReport": data["medicationsReport"],
-        "reportDate": "2022-11-01",
+        "reportDate": data["reportDate"],
         "sawdustReport": data["sawdustReport"],
         "weightReport": {
-          "averageWeight":
-              (data["weightReport"]["averageWeight"]).toString().toDouble()
+          "averageWeight": (data["weightReport"]["averageWeight"]).value.isEmpty
+              ? 0.0
+              : double.parse((data["weightReport"]["averageWeight"]).value)
         }
       }
     });

@@ -39,7 +39,6 @@ class _EggsCollectedPageState extends State<EggsCollectedPage> {
 
   @override
   Widget build(BuildContext context) {
-    log("${widget.report["data"]}");
     return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
@@ -375,19 +374,19 @@ class _EggsCollectedPageState extends State<EggsCollectedPage> {
                   child: ElevatedButton(
                       onPressed: () {
                         (controller.report["data"]!["eggCollection"]
-                            as Map)["brokenCount"](int.parse(brokenEggs.text));
+                            as Map)["brokenCount"](brokenEggs.text);
 
                         (controller.report["data"]!["eggCollection"]
-                            as Map)["eggCount"](int.parse(eggsCollected.text));
+                            as Map)["eggCount"](eggsCollected.text);
 
                         (controller.report["data"]!["eggCollection"]
-                            as Map)["largeCount"](int.parse(largeEggs.text));
+                            as Map)["largeCount"](largeEggs.text);
 
                         (controller.report["data"]!["eggCollection"]
-                            as Map)["smallCount"](int.parse(smallEggs.text));
+                            as Map)["smallCount"](smallEggs.text);
 
-                        (controller.report["data"]!["eggCollection"] as Map)[
-                            "deformedCount"](int.parse(deformedEggs.text));
+                        (controller.report["data"]!["eggCollection"]
+                            as Map)["deformedCount"](deformedEggs.text);
 
                         if (_formKey.currentState!.validate()) {
                           Navigator.push(

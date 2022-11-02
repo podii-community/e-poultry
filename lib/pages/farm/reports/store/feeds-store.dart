@@ -530,8 +530,6 @@ class _FeedStoreState extends State<FeedStore> {
                           if (_formKey.currentState!.validate()) {
                             // final data = controller.report["data"] as Map;
 
-                            // log("${data["weightReport"]["averageWeight"]}");
-
                             // jsonEncode(data["weightReport"]);
                             Navigator.push(
                               context,

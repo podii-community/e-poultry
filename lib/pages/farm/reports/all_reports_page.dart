@@ -133,7 +133,6 @@ class _AllReportsPageState extends State<AllReportsPage> {
                             subtitle: Text(
                                 "${controller.reportsList[index]["reportDate"]}"),
                             onTap: () {
-                              log("${controller.reportsList[index]}");
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(

@@ -368,7 +368,6 @@ class _BriquettesUsedState extends State<BriquettesUsed> {
                                 DateFormat('yyyy-MM-dd').format(DateTime.now());
 
                             if (_formKey.currentState!.validate()) {
-                              log("${controller.report["data"]}");
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(

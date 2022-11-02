@@ -524,7 +524,6 @@ class _FeedReceivedState extends State<FeedReceived> {
                               as Map)["received"](feedsReceivedReports);
 
                           if (_formKey.currentState!.validate()) {
-                            log("${controller.report["data"]}");
                             Navigator.push(
                               context,
                               MaterialPageRoute(

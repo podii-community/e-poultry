@@ -174,8 +174,6 @@ class _SelectBatchPageState extends State<SelectBatchPage> {
                               elevation: 0,
                               child: ListTile(
                                   onTap: () {
-                                    // log("${controller.batchesList[position]}");
-
                                     controller.storeItems.isEmpty
                                         ? Navigator.push(
                                             context,

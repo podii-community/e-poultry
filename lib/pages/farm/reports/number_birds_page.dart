@@ -501,9 +501,10 @@ class _NumberOfBirdsReportPageState extends State<NumberOfBirdsReportPage> {
                           ];
 
                           controller.report["data"]!["birdCounts"] = payload;
+                          controller.report["data"]!["batchId"] =
+                              widget.batchDetails.id!;
 
                           if (_noOfBirdsFormKey.currentState!.validate()) {
-                            // log("${controller.report["data"]}");
                             widget.batchDetails.type!.name == "LAYERS"
                                 ? Navigator.push(
                                     context,
