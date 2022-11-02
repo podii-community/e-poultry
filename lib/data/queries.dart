@@ -464,4 +464,47 @@ class EpoultryQueries {
         }
     """;
   }
+
+  // Reports
+
+  String getFarmReports() {
+    return """
+          query GetFarmReports(\$filter: FarmReportsFilterInput!) {
+           farmReports(filter: \$filter){
+             farmId,
+            reportDate
+           }
+          }    
+      """;
+  }
+
+  String getFarmReport() {
+    return """
+    query GetFarmReport(\$farmId: UUID!,\$reportDate: Date! ){
+        getFarmReport(farmId: \$farmId, reportDate: \$reportDate){
+            farmId,
+            reportDate,
+            birdCounts{
+              birdType,
+              currentQuantity,
+              reasons{
+                quantity,
+                reason
+              },
+            },
+            eggCollection{
+              brokenCount,
+              deformedCount,
+              goodCount,
+            },
+            feedsUsage{
+              currentQuantity,
+              feedType,
+              usedQuantity,
+            }
+        }
+    }
+
+    """;
+  }
 }

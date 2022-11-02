@@ -61,14 +61,15 @@ class DashboardPage extends StatelessWidget {
 
                 final data = result.data?['getFarm'];
 
-                List reports = [];
-                for (var batch in data["batches"]) {
-                  reports.addAll(batch["reports"]);
-                }
+                getFarmReports(context);
+                // List reports = [];
+                // for (var batch in data["batches"]) {
+                //   reports.addAll(batch["reports"]);
+                // }
 
                 WidgetsBinding.instance.addPostFrameCallback((_) {
                   controller.batchesList(data["batches"]);
-                  controller.reportsList(reports);
+                  // controller.reportsList(reports);
                   controller.setStoreItems(data["storeItems"]);
                 });
 
@@ -295,13 +296,12 @@ class DashboardPage extends StatelessWidget {
                                 subtitle: Text(
                                     "${controller.reportsList[index]["reportDate"]}"),
                                 onTap: () {
+                                  controller.selectedReport(
+                                      controller.reportsList[index]);
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => ViewReportPage(
-                                              report:
-                                                  controller.reportsList[index],
-                                            )),
+                                        builder: (context) => ViewReportPage()),
                                   );
                                 },
                                 tileColor: CustomColors.background,
@@ -314,5 +314,26 @@ class DashboardPage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Future<void> getFarmReports(
+    BuildContext context,
+  ) async {
+    GraphQLClient client = GraphQLProvider.of(context).value;
+    var fetchReports = await client.query(QueryOptions(
+        operationName: "GetFarmReports",
+        document: gql(context.queries.getFarmReports()),
+        variables: {
+          "filter": {"farmId": controller.farm.value['id']}
+        }));
+
+    List reports = [];
+    // log("${fetchReports.data!["farmReports"]}");
+
+    for (var report in fetchReports.data!["farmReports"]) {
+      reports.add(report);
+    }
+
+    controller.reportsList(reports);
   }
 }

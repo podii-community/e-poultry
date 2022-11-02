@@ -1,431 +1,484 @@
+import 'dart:developer';
+
+import 'package:epoultry/graphql/query_document_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
+import 'package:string_extensions/string_extensions.dart';
 
+import '../../../controllers/farm_controller.dart';
+import '../../../data/models/error.dart';
 import '../../../theme/colors.dart';
 import '../../../theme/palette.dart';
 import '../../../theme/spacing.dart';
+import '../../../widgets/error_widget.dart';
+import '../../../widgets/loading_spinner.dart';
 
 class ViewReportPage extends StatelessWidget {
-  const ViewReportPage({Key? key, required this.report}) : super(key: key);
-  final report;
+  ViewReportPage({
+    Key? key,
+  }) : super(key: key);
+
+  final FarmsController controller = Get.put(FarmsController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: CustomColors.background,
-        centerTitle: true,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(
-            PhosphorIcons.arrowLeft,
-            color: Colors.black,
+        resizeToAvoidBottomInset: false,
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          centerTitle: true,
+          toolbarHeight: 8.h,
+          backgroundColor: CustomColors.white,
+          elevation: 0.5,
+          leading: IconButton(
+            icon: const Icon(
+              PhosphorIcons.arrowLeft,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+          title: const Text(
+            'FARM REPORT',
+            style: TextStyle(color: Colors.black),
+          ),
         ),
-        title: Text(
-          "REPORT",
-          style: TextStyle(color: Colors.black, fontSize: 2.3.h),
-        ),
-      ),
-      body: Container(
-        padding: const EdgeInsets.symmetric(horizontal: CustomSpacing.s2),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: 25.h,
-              child: ListView(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Farm Name",
-                        style: TextStyle(color: Colors.black, fontSize: 2.2.h),
-                      ),
-                      Text(
-                        'Odongos Vihiga Farm',
-                        style: TextStyle(fontSize: 2.1.h),
-                      )
-                    ],
+        body: SingleChildScrollView(
+          child: Query(
+            options: QueryOptions(
+                operationName: "GetFarmReport",
+                document: gql(context.queries.getFarmReport()),
+                variables: {
+                  "farmId": controller.selectedReport["farmId"],
+                  "reportDate": controller.selectedReport["reportDate"]
+                }),
+            builder: (QueryResult result,
+                {VoidCallback? refetch, FetchMore? fetchMore}) {
+              if (result.isLoading) {
+                return const LoadingSpinner();
+              }
+              if (result.hasException) {
+                return AppErrorWidget(
+                  error: ErrorModel.fromString(
+                    result.exception.toString(),
                   ),
-                  const SizedBox(
-                    height: CustomSpacing.s1,
-                  ),
-                  const SizedBox(
-                    height: CustomSpacing.s1,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Farm Manager",
-                        style: TextStyle(color: Colors.black, fontSize: 2.2.h),
-                      ),
-                      Text(
-                        'Sophia',
-                        style: TextStyle(fontSize: 2.1.h),
-                      )
-                    ],
-                  ),
-                  const SizedBox(
-                    height: CustomSpacing.s1,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Batch Name",
-                        style: TextStyle(color: Colors.black, fontSize: 2.2.h),
-                      ),
-                      Text(
-                        "",
-                        style: TextStyle(fontSize: 2.1.h),
-                      )
-                    ],
-                  ),
-                  const SizedBox(
-                    height: CustomSpacing.s1,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Date",
-                        style: TextStyle(color: Colors.black, fontSize: 2.2.h),
-                      ),
-                      Text(
-                        '${report!['reportDate']}',
-                        style: TextStyle(fontSize: 2.1.h),
-                      )
-                    ],
-                  ),
-                  const SizedBox(
-                    height: CustomSpacing.s1,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Time",
-                        style: TextStyle(color: Colors.black, fontSize: 2.2.h),
-                      ),
-                      Text(
-                        '12:00 PM',
-                        style: TextStyle(fontSize: 2.1.h),
-                      )
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: CustomSpacing.s1),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                "Summary",
-                style: TextStyle(fontSize: 2.5.h),
-              ),
-            ),
-            SizedBox(
-              height: 50.h,
-              child: GridView.count(
-                crossAxisCount: 2,
-                mainAxisSpacing: 2,
-                childAspectRatio: 0.9,
-                shrinkWrap: true,
-                children: [
-                  Card(
-                    elevation: 0.4,
-                    child: Container(
-                      decoration: BoxDecoration(
-                          gradient: LinearGradient(colors: [
-                        Palette.kPrimary[200]!,
-                        Palette.kSecondary[100]!
-                      ])),
-                      padding: const EdgeInsets.all(CustomSpacing.s2),
-                      child: ListView(
+                );
+              }
+
+              final farmReport = result.data!["getFarmReport"];
+              log("${farmReport}");
+              return Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: CustomSpacing.s3),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: CustomSpacing.s3,
+                    ),
+                    const Text('OVERVIEW'),
+                    const SizedBox(
+                      height: CustomSpacing.s2,
+                    ),
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 1.5.h),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                "Bird Count",
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 2.h),
+                                "Farm Name",
+                                style: TextStyle(fontSize: 2.1.h),
                               ),
+                              Text("Odongo Farm",
+                                  style: TextStyle(fontSize: 2.1.h))
                             ],
                           ),
                           const SizedBox(
-                            height: CustomSpacing.s2,
+                            height: CustomSpacing.s1,
                           ),
-                          ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: report!['birdCounts'].length,
-                              itemBuilder: (context, index) {
-                                return Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      report!['birdCounts'][index]['reason'],
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 1.8.h),
-                                    ),
-                                    Text(
-                                      report!['birdCounts'][index]['quantity']
-                                          .toString(),
-                                      style: TextStyle(
-                                          fontSize: 1.8.h, color: Colors.black),
-                                    )
-                                  ],
-                                );
-                              })
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Contractor",
+                                style: TextStyle(fontSize: 2.1.h),
+                              ),
+                              Text("Chicken Basket",
+                                  style: TextStyle(fontSize: 2.1.h))
+                            ],
+                          ),
+                          const SizedBox(
+                            height: CustomSpacing.s1,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Farm Manager",
+                                style: TextStyle(fontSize: 2.1.h),
+                              ),
+                              Text("John Otieno",
+                                  style: TextStyle(fontSize: 2.1.h))
+                            ],
+                          ),
+                          const SizedBox(
+                            height: CustomSpacing.s1,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Date",
+                                style: TextStyle(fontSize: 2.1.h),
+                              ),
+                              Text("22/11/2022",
+                                  style: TextStyle(fontSize: 2.1.h))
+                            ],
+                          ),
+                          const SizedBox(
+                            height: CustomSpacing.s1,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Time",
+                                style: TextStyle(fontSize: 2.1.h),
+                              ),
+                              Text("12:00PM", style: TextStyle(fontSize: 2.1.h))
+                            ],
+                          ),
+                          const SizedBox(
+                            height: CustomSpacing.s1,
+                          ),
                         ],
                       ),
                     ),
-                  ),
-                  report!['eggCollection'] != null
-                      ? Card(
-                          elevation: 0.4,
-                          child: Container(
-                            padding: const EdgeInsets.all(CustomSpacing.s2),
-                            decoration: BoxDecoration(
-                                gradient: LinearGradient(colors: [
-                              Palette.kPrimary[200]!,
-                              Palette.kSecondary[100]!
-                            ])),
-                            child: ListView(
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "Eggs",
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 2.h),
+                    const SizedBox(
+                      height: CustomSpacing.s3,
+                    ),
+                    farmReport["birdCounts"] != null &&
+                            (farmReport["birdCounts"] as List).isNotEmpty
+                        ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text('BIRDS'),
+                              const SizedBox(
+                                height: CustomSpacing.s2,
+                              ),
+                              ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: farmReport["birdCounts"].length,
+                                itemBuilder: (context, index) => Card(
+                                  color: Colors.white,
+                                  elevation: 0.2,
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 2.h, horizontal: 3.w),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              (farmReport["birdCounts"][index]
+                                                      ["birdType"])
+                                                  .toString()
+                                                  .capitalize!,
+                                              style: TextStyle(fontSize: 2.4.h),
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                const Text("Batch 1"),
+                                                SizedBox(
+                                                  width: 1.w,
+                                                ),
+                                                const Text("Batch 2")
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                                (farmReport["birdCounts"][index]
+                                                        ["currentQuantity"])
+                                                    .toString(),
+                                                style:
+                                                    TextStyle(fontSize: 2.4.h)),
+                                            Row(
+                                              children: [
+                                                const Text("0 New"),
+                                                SizedBox(
+                                                  width: 1.w,
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                        )
+                                      ],
                                     ),
-                                    Text(
-                                      '+${report!['eggCollection']["goodCount"]}',
-                                      style: TextStyle(
-                                          fontSize: 2.h,
-                                          color: CustomColors.green),
-                                    )
+                                  ),
+                                ),
+                              )
+                              // Column(
+                              //   children: [
+
+                              //     Card(
+                              //       color: Colors.white,
+                              //       elevation: 0.2,
+                              //       child: Padding(
+                              //         padding: EdgeInsets.symmetric(
+                              //             vertical: 2.h, horizontal: 3.w),
+                              //         child: Row(
+                              //           mainAxisAlignment:
+                              //               MainAxisAlignment.spaceBetween,
+                              //           children: [
+                              //             Column(
+                              //               crossAxisAlignment:
+                              //                   CrossAxisAlignment.start,
+                              //               children: [
+                              //                 Text(
+                              //                   "Layers",
+                              //                   style: TextStyle(
+                              //                       fontSize: 2.4.h),
+                              //                 ),
+                              //                 Row(
+                              //                   mainAxisAlignment:
+                              //                       MainAxisAlignment
+                              //                           .spaceEvenly,
+                              //                   children: [
+                              //                     const Text("Batch 1"),
+                              //                     SizedBox(
+                              //                       width: 1.w,
+                              //                     ),
+                              //                     const Text("Batch 2")
+                              //                   ],
+                              //                 )
+                              //               ],
+                              //             ),
+                              //             Column(
+                              //               crossAxisAlignment:
+                              //                   CrossAxisAlignment.start,
+                              //               children: [
+                              //                 Text("1053",
+                              //                     style: TextStyle(
+                              //                         fontSize: 2.4.h)),
+                              //                 Row(
+                              //                   children: [
+                              //                     const Text("0 New"),
+                              //                     SizedBox(
+                              //                       width: 1.w,
+                              //                     ),
+                              //                     const Text("7 Dead")
+                              //                   ],
+                              //                 )
+                              //               ],
+                              //             )
+                              //           ],
+                              //         ),
+                              //       ),
+                              //     )
+                              //   ],
+                              // ),
+                            ],
+                          )
+                        : Container(),
+                    const SizedBox(
+                      height: CustomSpacing.s3,
+                    ),
+                    farmReport["feedsUsage"] != null
+                        ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text('FEEDS'),
+                              const SizedBox(
+                                height: CustomSpacing.s2,
+                              ),
+                              ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: (farmReport["feedsUsage"]).length,
+                                itemBuilder: (context, index) => Card(
+                                  color: Colors.white,
+                                  elevation: 0.2,
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 2.h, horizontal: 3.w),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              ((farmReport["feedsUsage"][index]
+                                                          ["feedType"])
+                                                      .replaceAll(
+                                                          RegExp('[\\W_]+'),
+                                                          ' '))
+                                                  .toString()
+                                                  .capitalize!,
+                                              style: TextStyle(fontSize: 2.4.h),
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                const Text("Batch 1"),
+                                                SizedBox(
+                                                  width: 1.w,
+                                                ),
+                                                const Text("Batch 2")
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                                "${(farmReport["feedsUsage"][index]["currentQuantity"]).toString()} Kgs",
+                                                style:
+                                                    TextStyle(fontSize: 2.4.h)),
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  "${(farmReport["feedsUsage"][index]["usedQuantity"]).toString()} Kgs Used",
+                                                  style: TextStyle(
+                                                      color: CustomColors.red),
+                                                ),
+                                                SizedBox(
+                                                  width: 1.w,
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          )
+                        : Container(),
+                    const SizedBox(
+                      height: CustomSpacing.s3,
+                    ),
+                    farmReport["eggCollection"] == null
+                        ? Container()
+                        : Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text('EGGS'),
+                              const SizedBox(
+                                height: CustomSpacing.s2,
+                              ),
+                              Container(
+                                // padding: EdgeInsets.symmetric(horizontal: 1.5.h),
+                                child: Column(
+                                  children: [
+                                    Card(
+                                      color: Colors.white,
+                                      elevation: 0.2,
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 2.h, horizontal: 3.w),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  "Good Eggs",
+                                                  style: TextStyle(
+                                                      fontSize: 2.4.h),
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceEvenly,
+                                                  children: [
+                                                    const Text("Batch 1"),
+                                                    SizedBox(
+                                                      width: 1.w,
+                                                    ),
+                                                    const Text("Batch 2")
+                                                  ],
+                                                )
+                                              ],
+                                            ),
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                    (farmReport["eggCollection"]
+                                                            ["goodCount"])
+                                                        .toString(),
+                                                    style: TextStyle(
+                                                        fontSize: 2.4.h)),
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                        "${(farmReport["eggCollection"]?["deformedCount"]).toString()} Deformed",
+                                                        style: const TextStyle(
+                                                            color: CustomColors
+                                                                .red))
+                                                  ],
+                                                )
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
                                   ],
                                 ),
-                                const SizedBox(
-                                  height: CustomSpacing.s2,
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "Large",
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 1.8.h),
-                                    ),
-                                    Text(
-                                      '${report!['eggCollection']["goodCountClassification"]['large']}',
-                                      style: TextStyle(
-                                          fontSize: 1.8.h, color: Colors.black),
-                                    )
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: CustomSpacing.s1,
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "Small",
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 1.8.h),
-                                    ),
-                                    Text(
-                                      '${report!['eggCollection']["goodCountClassification"]['small']}',
-                                      style: TextStyle(
-                                          fontSize: 1.8.h, color: Colors.black),
-                                    )
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: CustomSpacing.s1,
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "Deformed",
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 1.8.h),
-                                    ),
-                                    Text(
-                                      '${report!['eggCollection']["badCountClassification"]['deformed']}',
-                                      style: TextStyle(
-                                          fontSize: 1.8.h, color: Colors.black),
-                                    )
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: CustomSpacing.s1,
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "Broken",
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 1.8.h),
-                                    ),
-                                    Text(
-                                      '${report!['eggCollection']["badCountClassification"]['broken']}',
-                                      style: TextStyle(
-                                          fontSize: 1.8.h, color: Colors.black),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        )
-                      : Card(
-                          elevation: 0.4,
-                          child: Container(
-                            decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                    colors: [
-                                  Palette.kPrimary[200]!,
-                                  Palette.kSecondary[100]!
-                                ],
-                                    begin: Alignment.centerLeft,
-                                    end: Alignment.centerRight)),
-                            padding: const EdgeInsets.all(CustomSpacing.s2),
-                            child: ListView(
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "Feeds",
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 2.h),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: CustomSpacing.s2,
-                                ),
-                                // ListView.builder(
-                                //     shrinkWrap: true,
-                                //     itemCount: report!['feedsUsage'].length,
-                                //     itemBuilder: (context, index) {
-                                //       return Row(
-                                //         mainAxisAlignment:
-                                //             MainAxisAlignment.spaceBetween,
-                                //         children: [
-                                //           Text(
-                                //             report!['feedsUsage'][index]
-                                //                 ['feedType'],
-                                //             style: TextStyle(
-                                //                 color: Colors.black,
-                                //                 fontSize: 1.4.h),
-                                //           ),
-                                //           Text(
-                                //             report!['feedsUsage'][index]
-                                //                     ['quantity']
-                                //                 .toString(),
-                                //             style: TextStyle(
-                                //                 fontSize: 1.8.h,
-                                //                 color: Colors.black),
-                                //           )
-                                //         ],
-                                //       );
-                                //     })
-                              ],
-                            ),
-                          ),
-                        ),
-                  report!['eggCollection'] != null
-                      ? Card(
-                          elevation: 0.4,
-                          child: Container(
-                            decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                    colors: [
-                                  Palette.kPrimary[200]!,
-                                  Palette.kSecondary[100]!
-                                ],
-                                    begin: Alignment.centerLeft,
-                                    end: Alignment.centerRight)),
-                            padding: const EdgeInsets.all(CustomSpacing.s2),
-                            child: ListView(
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "Feeds",
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 2.h),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: CustomSpacing.s2,
-                                ),
-                                ListView.builder(
-                                    shrinkWrap: true,
-                                    itemCount: report!['feedsUsage'].length,
-                                    itemBuilder: (context, index) {
-                                      return Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            report!['feedsUsage'][index]
-                                                ['feedType'],
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 1.4.h),
-                                          ),
-                                          Text(
-                                            report!['feedsUsage'][index]
-                                                    ['quantity']
-                                                .toString(),
-                                            style: TextStyle(
-                                                fontSize: 1.8.h,
-                                                color: Colors.black),
-                                          )
-                                        ],
-                                      );
-                                    })
-                              ],
-                            ),
-                          ),
-                        )
-                      : Container()
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: CustomSpacing.s1,
-            ),
-          ],
-        ),
-      ),
-    );
+                              )
+                            ],
+                          )
+                  ],
+                ),
+              );
+            },
+          ),
+        ));
+  }
+
+  Future<void> getFarmReport(
+    BuildContext context,
+  ) async {
+    GraphQLClient client = GraphQLProvider.of(context).value;
+    var fetchReport = await client.query(QueryOptions(
+        operationName: "GetFarmReport",
+        document: gql(context.queries.getFarmReport()),
+        variables: {
+          "farmId": controller.selectedReport["farmId"],
+          "reportDate": controller.selectedReport["reportDate"]
+        }));
+
+    log("${fetchReport.data!['getFarmReport']}");
+    controller.farmReport(fetchReport.data!['getFarmReport']);
   }
 }

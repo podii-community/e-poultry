@@ -5,6 +5,7 @@ class FarmsController extends GetxController {
   final farms = [].obs;
   final batchesList = [].obs;
   final reportsList = [].obs;
+  final filteredReports = [].obs;
   final selectedBatch = {}.obs;
   final storeItems = [].obs;
   final report = {
@@ -35,6 +36,9 @@ class FarmsController extends GetxController {
       "weightReport": {"averageWeight": "".obs}
     }
   };
+
+  final selectedReport = {}.obs;
+  final farmReport = {}.obs;
 
   updateFarm(dynamic selectedFarm) {
     farm(selectedFarm);

@@ -6,7 +6,7 @@ import 'package:epoultry/pages/landing_page.dart';
 import 'package:epoultry/theme/custom_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:geolocator/geolocator.dart';
+
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hive_flutter/adapters.dart';
@@ -17,21 +17,14 @@ void main() async {
   await Hive.openBox('appData');
 
   final box = Hive.box('appData');
-  runApp(box.get('token') != null
-      ? MyApp(page: 'dashboard')
-      : MyApp(page: 'login'));
+  runApp(MyApp());
 }
 
-class MyApp extends StatefulWidget {
-  MyApp({Key? key, required this.page}) : super(key: key);
+class MyApp extends StatelessWidget {
+  MyApp({
+    Key? key,
+  }) : super(key: key);
 
-  String page;
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  // This widget is the root of your application.
   GraphQLConfiguration graphQLConfig = GraphQLConfiguration();
   HttpLink authentication = HttpLink(
     "https://cbsmartfarm.herokuapp.com/api/graphql/auth",
@@ -56,47 +49,6 @@ class _MyAppState extends State<MyApp> {
           request.operation.operationName == "VerifyOtp" ||
           request.operation.operationName == "RegisterUser";
     }, authentication, link);
-  }
-
-  Future<Position> _determinePosition() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-    // Test if Location services are enabled.
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      // Location services are not enabled don't continue
-      // accessing the position and request users of the
-      // App to enable the Location services.
-      await Geolocator.openLocationSettings();
-      return Future.error('Location services are disabled.');
-    }
-
-    permission = await Geolocator.checkPermission();
-
-    if (permission == LocationPermission.denied) {
-      await Geolocator.requestPermission();
-      if (permission != LocationPermission.denied) {
-        // Location services are not enabled don't continue
-        // accessing the position and request users of the
-        // App to enable the Location services.
-        return Future.error('Location permissions are disabled.');
-      }
-    }
-    if (permission == LocationPermission.deniedForever) {
-      return Future.error('Location permissions are disabled permanently.');
-    }
-    return await Geolocator.getCurrentPosition();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _determinePosition();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 
   ValueNotifier<GraphQLClient> initializeClient() {
@@ -126,20 +78,7 @@ class _MyAppState extends State<MyApp> {
                 localizationsDelegates: const [
                   FormBuilderLocalizations.delegate,
                 ],
-                home: const LandingPage()
-                // const BriquettesReceived(
-                //   batchDetails: BatchModel(
-                //       name: "Test",
-                //       type: BirdTypes.BROILERS,
-                //       birdAge: 20,
-                //       birdCount: 200,
-                //       ageType: AgeTypes.DAYS,
-                //       date: "24/10/2022",
-                //       farmId: ""),
-                //   report: null,
-                // )
-
-                ),
+                home: const LandingPage()),
           ),
         );
       },
