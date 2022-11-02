@@ -96,7 +96,7 @@ class ViewReportPage extends StatelessWidget {
                                 "Farm Name",
                                 style: TextStyle(fontSize: 2.1.h),
                               ),
-                              Text("Odongo Farm",
+                              Text(controller.farm.value["name"],
                                   style: TextStyle(fontSize: 2.1.h))
                             ],
                           ),
@@ -117,17 +117,17 @@ class ViewReportPage extends StatelessWidget {
                           const SizedBox(
                             height: CustomSpacing.s1,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Farm Manager",
-                                style: TextStyle(fontSize: 2.1.h),
-                              ),
-                              Text("John Otieno",
-                                  style: TextStyle(fontSize: 2.1.h))
-                            ],
-                          ),
+                          // Row(
+                          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //   children: [
+                          //     Text(
+                          //       "Farm Manager",
+                          //       style: TextStyle(fontSize: 2.1.h),
+                          //     ),
+                          //     Text("John Otieno",
+                          //         style: TextStyle(fontSize: 2.1.h))
+                          //   ],
+                          // ),
                           const SizedBox(
                             height: CustomSpacing.s1,
                           ),
@@ -138,7 +138,7 @@ class ViewReportPage extends StatelessWidget {
                                 "Date",
                                 style: TextStyle(fontSize: 2.1.h),
                               ),
-                              Text("22/11/2022",
+                              Text(farmReport["reportDate"],
                                   style: TextStyle(fontSize: 2.1.h))
                             ],
                           ),
@@ -152,7 +152,8 @@ class ViewReportPage extends StatelessWidget {
                                 "Time",
                                 style: TextStyle(fontSize: 2.1.h),
                               ),
-                              Text("12:00PM", style: TextStyle(fontSize: 2.1.h))
+                              Text(farmReport["reportTime"],
+                                  style: TextStyle(fontSize: 2.1.h))
                             ],
                           ),
                           const SizedBox(

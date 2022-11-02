@@ -484,6 +484,7 @@ class EpoultryQueries {
         getFarmReport(farmId: \$farmId, reportDate: \$reportDate){
             farmId,
             reportDate,
+            reportTime
             birdCounts{
               birdType,
               currentQuantity,
