@@ -78,7 +78,7 @@ class MyApp extends StatelessWidget {
                 localizationsDelegates: const [
                   FormBuilderLocalizations.delegate,
                 ],
-                home: LandingPage()),
+                home: const LandingPage()),
           ),
         );
       },
