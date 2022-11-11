@@ -222,8 +222,6 @@ class _OtpPageState extends State<OtpPage> {
 
         List farms = managingFarms + ownedFarms;
 
-        log("${farms[0]}");
-
         controller.updateFarms(farms);
         controller.updateFarm(farms[0]);
         getFarmReports(context);

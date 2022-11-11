@@ -37,7 +37,6 @@ class _DrawerPageState extends State<DrawerPage> {
   Widget build(BuildContext context) {
     final box = Hive.box('appData');
     // final role = box.get('role');
-
     return Drawer(
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
@@ -225,10 +224,10 @@ class _DrawerPageState extends State<DrawerPage> {
                 onTap: () {
                   final box = Hive.box('appData');
                   box.clear();
+                  Get.deleteAll();
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => const LandingPage()),
+                    MaterialPageRoute(builder: (context) => LandingPage()),
                   );
                 },
               )
