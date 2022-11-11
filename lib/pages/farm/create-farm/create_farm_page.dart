@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:epoultry/graphql/query_document_provider.dart';
 import 'package:epoultry/utils/permission_service.dart';
 import 'package:flutter/gestures.dart';
@@ -28,42 +31,37 @@ class CreateFarmPage extends StatefulWidget {
 class _CreateFarmPageState extends State<CreateFarmPage> {
   final _formKey = GlobalKey<FormState>();
   final farmName = TextEditingController();
-  final locationName = TextEditingController();
+  final countyName = TextEditingController();
+  final subcountyName = TextEditingController();
+  final wardName = TextEditingController();
   String contractorManaged = "";
   String farmLocation = "";
   late Position farmCoordinates;
   final contractorName = TextEditingController();
   bool locating = false;
-  var locations = [
-    "",
-    'Vihiga',
-    'Kisumu',
+  final List<String> locations = [
+    "Kisumu",
+    "Siaya",
+    "Busia",
+    "Bungoma",
+    "Vihiga",
+    "Kakamega",
+    "Homabay",
+    "Migori",
+    "Transnzoia",
+    "Kisii"
   ];
+
+  List addresses = [];
+
+  List<String> subcounties = [];
+  List<String> wards = [];
+
+  String _selectedLocation = "";
 
   final FarmsController controller = Get.put(FarmsController());
 
   var contractors = ["", "Chicken Basket", "Contractors 1"];
-
-  void _determinePosition() async {
-    setState(() {
-      locating = true;
-    });
-    await PermissionService().requestLocationPermission();
-    Position pos = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-
-    farmCoordinates = pos;
-
-    List<Placemark> placemarks =
-        await placemarkFromCoordinates(pos.latitude, pos.longitude);
-
-    setState(() {
-      locating = false;
-
-      locationName.text =
-          "${placemarks.first.locality!}, ${placemarks.first.administrativeArea!}";
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -133,43 +131,119 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
                         const SizedBox(
                           height: CustomSpacing.s3,
                         ),
-                        TextFormField(
-                          keyboardType: TextInputType.text,
-                          controller: locationName,
-                          validator: (String? value) {
-                            if (value!.isEmpty) {
-                              return 'Location is required';
-                            }
-                            return null;
+                        DropdownSearch<String>(
+                          dropdownDecoratorProps: DropDownDecoratorProps(
+                              dropdownSearchDecoration: InputDecoration(
+                                  hintText: "--select--",
+                                  labelText: "Choose farm location",
+                                  labelStyle: TextStyle(
+                                      fontSize: 2.0.h,
+                                      color: CustomColors.secondary),
+                                  border: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          width: 0.3.w,
+                                          color: CustomColors.secondary)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          width: 0.3.w,
+                                          color: CustomColors.secondary)))),
+                          items: locations,
+                          popupProps: const PopupPropsMultiSelection.menu(
+                            showSelectedItems: true,
+                          ),
+                          onChanged: (val) {
+                            setState(() {
+                              countyName.text = val!;
+                            });
+                            searchAddress(context);
                           },
-                          decoration: InputDecoration(
-                              labelText: "Select the location of your farm",
-                              labelStyle: TextStyle(
-                                  fontSize: 2.2.h,
-                                  color: CustomColors.secondary),
-                              border: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      width: 0.3.w,
-                                      color: CustomColors.secondary)),
-                              focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      width: 0.3.w,
-                                      color: CustomColors.secondary))),
+                          validator: (value) {
+                            if (countyName.text.isEmpty) {
+                              return "Please choose a location";
+                            }
+                          },
                         ),
-                        const SizedBox(height: CustomSpacing.s2),
-                        locating
-                            ? const LinearProgressIndicator(
-                                color: CustomColors.primary,
-                              )
-                            : RichText(
-                                text: TextSpan(
-                                    text: "Locate Me",
-                                    style: const TextStyle(
-                                        color: CustomColors.secondary),
-                                    recognizer: TapGestureRecognizer()
-                                      ..onTap = () {
-                                        _determinePosition();
-                                      })),
+                        SizedBox(
+                          height: CustomSpacing.s2,
+                        ),
+                        DropdownSearch<String>(
+                          dropdownDecoratorProps: DropDownDecoratorProps(
+                              dropdownSearchDecoration: InputDecoration(
+                                  hintText: "--select--",
+                                  labelText: "Choose subcounty",
+                                  labelStyle: TextStyle(
+                                      fontSize: 2.0.h,
+                                      color: CustomColors.secondary),
+                                  border: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          width: 0.3.w,
+                                          color: CustomColors.secondary)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          width: 0.3.w,
+                                          color: CustomColors.secondary)))),
+                          items: subcounties,
+                          popupProps: const PopupPropsMultiSelection.menu(
+                            showSelectedItems: true,
+                          ),
+                          onChanged: (val) {
+                            for (var i = 0; i < addresses.length; i++) {
+                              if (addresses[i]["subcounty"] == val) {
+                                wards.add(addresses[i]["ward"]);
+                              }
+                            }
+
+                            setState(() {
+                              subcountyName.text = val!;
+                            });
+                          },
+                          validator: (value) {
+                            if (subcountyName.text.isEmpty) {
+                              return "Please choose a subcounty";
+                            }
+                          },
+                        ),
+
+                        SizedBox(
+                          height: CustomSpacing.s2,
+                        ),
+                        DropdownSearch<String>(
+                          dropdownDecoratorProps: DropDownDecoratorProps(
+                              dropdownSearchDecoration: InputDecoration(
+                                  hintText: "--select--",
+                                  labelText: "Choose ward",
+                                  labelStyle: TextStyle(
+                                      fontSize: 2.0.h,
+                                      color: CustomColors.secondary),
+                                  border: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          width: 0.3.w,
+                                          color: CustomColors.secondary)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          width: 0.3.w,
+                                          color: CustomColors.secondary)))),
+                          items: wards,
+                          popupProps: const PopupPropsMultiSelection.menu(
+                            showSelectedItems: true,
+                          ),
+                          onChanged: (val) {
+                            for (var i = 0; i < addresses.length; i++) {
+                              if (addresses[i]["subcounty"] == val) {
+                                wards.add(addresses[i]["ward"]);
+                              }
+                            }
+
+                            setState(() {
+                              subcountyName.text = val!;
+                            });
+                          },
+                          validator: (value) {
+                            if (subcountyName.text.isEmpty) {
+                              return "Please choose a subcounty";
+                            }
+                          },
+                        ),
 
                         const SizedBox(
                           height: CustomSpacing.s3,
@@ -352,12 +426,32 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
       BuildContext context, RunMutation runMutation) async {
     runMutation({
       "data": {
-        'areaName': locationName.text,
+        "address": {
+          'county': countyName.text,
+          'subcounty': subcountyName.text,
+          'ward': wardName.text
+        },
         "contractorId": contractorName.text,
-        "latitude": farmCoordinates.latitude,
-        "longitude": farmCoordinates.longitude,
         "name": farmName.text
       },
     });
+  }
+
+  Future<void> searchAddress(
+    BuildContext context,
+  ) async {
+    GraphQLClient client = GraphQLProvider.of(context).value;
+    var searchAddresses = await client.query(QueryOptions(
+        operationName: "SearchAddress",
+        document: gql(context.queries.searchAddress()),
+        variables: {"query": _selectedLocation}));
+
+    addresses = searchAddresses.data!["searchAddresses"];
+
+    for (var subcounty in searchAddresses.data!["searchAddresses"]) {
+      if (!subcounties.contains(subcounty["subcounty"])) {
+        subcounties.add(subcounty["subcounty"]);
+      }
+    }
   }
 }

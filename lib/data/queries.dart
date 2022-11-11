@@ -395,8 +395,8 @@ class EpoultryQueries {
 
   String getFarmManagers() {
     return """
-      query {
-     farmManagers{
+   query GetFarmManagers(\$farmId: UUID!) {
+     farmManagers(farmId: \$farmId){
       id,
       firstName,
       lastName,
@@ -505,7 +505,19 @@ class EpoultryQueries {
             }
         }
     }
-
     """;
+  }
+
+  String searchAddress() {
+    return """
+      query SearchAddress(\$query: String!){
+          searchAddresses(query: \$query){
+              county,
+              subcounty,
+              ward
+          }
+      }
+
+  """;
   }
 }
