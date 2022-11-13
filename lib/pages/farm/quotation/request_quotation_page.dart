@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:epoultry/graphql/query_document_provider.dart';
 import 'package:flutter/material.dart';
@@ -249,10 +247,13 @@ class _RequestQuotationPageState extends State<RequestQuotationPage> {
                       onPressed: () =>
                           _requestQuotationPressed(context, runMutation),
                       style: ElevatedButton.styleFrom(
-                          primary: Colors.transparent,
-                          onSurface: Colors.transparent,
+                          foregroundColor: CustomColors.background,
+                          backgroundColor: Colors.transparent,
+                          disabledForegroundColor:
+                              Colors.transparent.withOpacity(0.38),
+                          disabledBackgroundColor:
+                              Colors.transparent.withOpacity(0.12),
                           shadowColor: Colors.transparent,
-                          onPrimary: CustomColors.background,
                           fixedSize: Size(100.w, 6.h)),
                       child: const Text('REQUEST A QUOTATION')),
                 );
@@ -275,6 +276,16 @@ class _RequestQuotationPageState extends State<RequestQuotationPage> {
     }
   }
 
+  int _parseQuantity({required String quantity}) {
+    if (quantity.isEmpty) {
+      return 0;
+    }
+    if (quantity == 'More than 1000') {
+      return 1001;
+    }
+    return int.parse(broilerBirds.text);
+  }
+
   Future<void> _requestQuotationPressed(
       BuildContext context, RunMutation runMutation) async {
     runMutation({
@@ -282,17 +293,15 @@ class _RequestQuotationPageState extends State<RequestQuotationPage> {
         "items": [
           {
             "name": "Kienyeji",
-            "quantity":
-                kienyejiBirds.text.isEmpty ? 0 : int.parse(kienyejiBirds.text)
+            "quantity": _parseQuantity(quantity: kienyejiBirds.text)
           },
           {
             "name": "Broilers",
-            "quantity":
-                broilerBirds.text.isEmpty ? 0 : int.parse(broilerBirds.text)
+            "quantity": _parseQuantity(quantity: kienyejiBirds.text)
           },
           {
             "name": "Layers",
-            "quantity": layerBirds.text.isEmpty ? 0 : int.parse(layerBirds.text)
+            "quantity": _parseQuantity(quantity: kienyejiBirds.text)
           },
         ]
       },
