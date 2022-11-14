@@ -1,11 +1,7 @@
-import 'dart:developer';
 
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:epoultry/graphql/query_document_provider.dart';
-import 'package:epoultry/utils/permission_service.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -57,7 +53,7 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
   List<String> subcounties = [];
   List<String> wards = [];
 
-  String _selectedLocation = "";
+  final String _selectedLocation = "";
 
   final FarmsController controller = Get.put(FarmsController());
 
@@ -161,9 +157,10 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
                             if (countyName.text.isEmpty) {
                               return "Please choose a location";
                             }
+                            return null;
                           },
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: CustomSpacing.s2,
                         ),
                         DropdownSearch<String>(
@@ -201,10 +198,11 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
                             if (subcountyName.text.isEmpty) {
                               return "Please choose a subcounty";
                             }
+                            return null;
                           },
                         ),
 
-                        SizedBox(
+                        const SizedBox(
                           height: CustomSpacing.s2,
                         ),
                         DropdownSearch<String>(
@@ -242,6 +240,7 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
                             if (subcountyName.text.isEmpty) {
                               return "Please choose a subcounty";
                             }
+                            return null;
                           },
                         ),
 
@@ -386,10 +385,9 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
                             }
                           },
                           style: ElevatedButton.styleFrom(
-                              primary: Colors.transparent,
-                              onSurface: Colors.transparent,
+                              foregroundColor: CustomColors.background, backgroundColor: Colors.transparent,
+                              disabledForegroundColor: Colors.transparent.withOpacity(0.38), disabledBackgroundColor: Colors.transparent.withOpacity(0.12),
                               shadowColor: Colors.transparent,
-                              onPrimary: CustomColors.background,
                               fixedSize: Size(100.w, 6.h)),
                           child: Text(
                             'CREATE FARM',

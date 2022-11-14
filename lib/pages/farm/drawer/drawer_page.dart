@@ -91,13 +91,13 @@ class _DrawerPageState extends State<DrawerPage> {
             child: Text("ALL FARMS"),
           ),
           Obx(
-            () => controller.farms!.isEmpty
+            () => controller.farms.isEmpty
                 ? const Center(
                     child: Text("No Farms"),
                   )
                 : ListView.builder(
                     shrinkWrap: true,
-                    itemCount: controller.farms!.length,
+                    itemCount: controller.farms.length,
                     itemBuilder: (context, position) {
                       // return Container();
                       return Card(
@@ -243,7 +243,7 @@ class _DrawerPageState extends State<DrawerPage> {
   }
 
   Future<void> getFarmReports(BuildContext context, id) async {
-    log("${id}");
+    log("$id");
     GraphQLClient client = GraphQLProvider.of(context).value;
     var fetchReports = await client.query(QueryOptions(
         operationName: "GetFarmReports",
@@ -263,7 +263,7 @@ class _DrawerPageState extends State<DrawerPage> {
   }
 
   Future<void> getFarmManager(BuildContext context, id) async {
-    log("${id}");
+    log("$id");
     GraphQLClient client = GraphQLProvider.of(context).value;
     var fetchManagers = await client.query(QueryOptions(
         operationName: "GetFarmReports",

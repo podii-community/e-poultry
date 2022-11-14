@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:developer';
 
 import 'package:epoultry/data/data_export.dart';
@@ -7,11 +6,9 @@ import 'package:epoultry/pages/farm/reports/briquettes-used.dart';
 import 'package:epoultry/pages/farm/reports/broiler-weight.dart';
 import 'package:epoultry/pages/farm/reports/eggs_collected_page.dart';
 import 'package:epoultry/pages/farm/reports/number_birds_page.dart';
-import 'package:epoultry/theme/palette.dart';
 import 'package:epoultry/theme/spacing.dart';
 import 'package:epoultry/widgets/gradient_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:intl/intl.dart';
@@ -462,7 +459,7 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
                   onCompleted: (data) => _onCompleted(data, context),
                 ),
                 builder: (RunMutation runMutation, QueryResult? result) {
-                  log("${result}");
+                  log("$result");
                   if (result != null) {
                     if (result.isLoading) {
                       return const LoadingSpinner();
@@ -481,10 +478,9 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
                     child: ElevatedButton(
                         onPressed: () => _submitReport(context, runMutation),
                         style: ElevatedButton.styleFrom(
-                            primary: Colors.transparent,
-                            onSurface: Colors.transparent,
+                            foregroundColor: CustomColors.background, backgroundColor: Colors.transparent,
+                            disabledForegroundColor: Colors.transparent.withOpacity(0.38), disabledBackgroundColor: Colors.transparent.withOpacity(0.12),
                             shadowColor: Colors.transparent,
-                            onPrimary: CustomColors.background,
                             fixedSize: Size(100.w, 6.h)),
                         child: const Text('SEND UPDATE')),
                   );

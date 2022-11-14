@@ -6,12 +6,10 @@ import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
-import 'package:string_extensions/string_extensions.dart';
 
 import '../../../controllers/farm_controller.dart';
 import '../../../data/models/error.dart';
 import '../../../theme/colors.dart';
-import '../../../theme/palette.dart';
 import '../../../theme/spacing.dart';
 import '../../../widgets/error_widget.dart';
 import '../../../widgets/loading_spinner.dart';
@@ -70,7 +68,7 @@ class ViewReportPage extends StatelessWidget {
               }
 
               final farmReport = result.data!["getFarmReport"];
-              log("${farmReport}");
+              log("$farmReport");
               return Container(
                 padding:
                     const EdgeInsets.symmetric(horizontal: CustomSpacing.s3),
@@ -362,7 +360,7 @@ class ViewReportPage extends StatelessWidget {
                                               children: [
                                                 Text(
                                                   "${(farmReport["feedsUsage"][index]["usedQuantity"]).toString()} Kgs Used",
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                       color: CustomColors.red),
                                                 ),
                                                 SizedBox(

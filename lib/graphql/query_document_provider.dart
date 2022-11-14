@@ -29,7 +29,7 @@ extension BuildContextExtension on BuildContext {
   EpoultryQueries get queries => QueriesDocumentProvider.of(this);
 
   GraphQLClient get graphQlClient => GraphQLProvider.of(this).value;
-  
+
   void cacheToken(String token) {
     graphQlClient.cache.writeNormalized('AppData', {'token': token});
   }
@@ -39,17 +39,14 @@ extension BuildContextExtension on BuildContext {
       graphQlClient.cache.store.get('AppData')!['token'];
 
   void showError(ErrorModel error) {
-
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-
       Fluttertoast.showToast(
           msg: error.error,
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
           backgroundColor: Colors.red,
           textColor: Colors.white,
-          fontSize: 16.0
-      );
+          fontSize: 16.0);
       // ScaffoldMessenger.of(this).showMaterialBanner(
       //   MaterialBanner(
       //     backgroundColor: theme.colorScheme.primary,

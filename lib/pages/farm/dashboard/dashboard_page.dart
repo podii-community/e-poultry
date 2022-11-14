@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:epoultry/controllers/farm_controller.dart';
 import 'package:epoultry/pages/farm/reports/all_reports_page.dart';
