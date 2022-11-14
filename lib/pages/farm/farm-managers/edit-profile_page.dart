@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:epoultry/graphql/query_document_provider.dart';
 import 'package:epoultry/widgets/gradient_widget.dart';
@@ -217,10 +216,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           onPressed: () =>
                               _updateButtonPressed(context, runMutation),
                           style: ElevatedButton.styleFrom(
-                              primary: Colors.transparent,
-                              onSurface: Colors.transparent,
+                              foregroundColor: CustomColors.background, backgroundColor: Colors.transparent,
+                              disabledForegroundColor: Colors.transparent.withOpacity(0.38), disabledBackgroundColor: Colors.transparent.withOpacity(0.12),
                               shadowColor: Colors.transparent,
-                              onPrimary: CustomColors.background,
                               fixedSize: Size(100.w, 6.h)),
                           child: const Text('SAVE')),
                     ),

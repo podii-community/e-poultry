@@ -1,13 +1,10 @@
-import 'dart:developer';
 
 import 'package:dropdown_search/dropdown_search.dart';
-import 'package:epoultry/pages/farm/reports/briquettes-used.dart';
 import 'package:epoultry/pages/farm/reports/number_birds_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
-import 'package:string_extensions/string_extensions.dart';
 
 import '../../../../controllers/farm_controller.dart';
 import '../../../../data/models/batch_model.dart';
@@ -292,10 +289,9 @@ class _MedicationStoreState extends State<MedicationStore> {
                             }
                           },
                           style: ElevatedButton.styleFrom(
-                              primary: Colors.transparent,
-                              onSurface: Colors.transparent,
+                              foregroundColor: CustomColors.background, backgroundColor: Colors.transparent,
+                              disabledForegroundColor: Colors.transparent.withOpacity(0.38), disabledBackgroundColor: Colors.transparent.withOpacity(0.12),
                               shadowColor: Colors.transparent,
-                              onPrimary: CustomColors.background,
                               fixedSize: Size(100.w, 6.h)),
                           child: Text(
                             'UPDATE MEDICATION',

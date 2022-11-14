@@ -12,7 +12,6 @@ import '../../../controllers/farm_controller.dart';
 import '../../../data/models/error.dart';
 import '../../../theme/colors.dart';
 import '../../../theme/spacing.dart';
-import '../../../widgets/error_widget.dart';
 import '../../../widgets/loading_spinner.dart';
 
 class AddFarmManagerPage extends StatefulWidget {

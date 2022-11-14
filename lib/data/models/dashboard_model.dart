@@ -1,12 +1,10 @@
 class DashboardModel {
-  DashboardModel({
-    required this.birdCount,
-    required this.eggCount,
-    // required this.storeFeed,
-    required this.farmName,
-    required this.owner
-});
-
+  DashboardModel(
+      {required this.birdCount,
+      required this.eggCount,
+      // required this.storeFeed,
+      required this.farmName,
+      required this.owner});
 
   final String? owner;
   final String? farmName;
@@ -14,10 +12,9 @@ class DashboardModel {
   final int? eggCount;
   // final
 
-
   DashboardModel.fromJson(Map<String, dynamic> data)
       : owner = data['owner'],
-        farmName = data['farmName'] ,
+        farmName = data['farmName'],
         birdCount = data['imageUrl'],
         eggCount = data['description'];
 

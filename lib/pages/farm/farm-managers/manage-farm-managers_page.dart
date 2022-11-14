@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:epoultry/controllers/managers_controller.dart';
 import 'package:epoultry/graphql/query_document_provider.dart';

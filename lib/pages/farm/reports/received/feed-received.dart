@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
-import 'package:string_extensions/string_extensions.dart';
 
 import '../../../../controllers/farm_controller.dart';
 import '../../../../data/models/batch_model.dart';

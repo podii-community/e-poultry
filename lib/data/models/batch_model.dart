@@ -47,7 +47,6 @@ class BatchModel {
         date = item["date"];
 }
 
-
 class BatchesList {
   final List<BatchModel> batches;
 
