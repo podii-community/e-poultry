@@ -17,11 +17,11 @@ void main() async {
   await Hive.openBox('appData');
 
   final box = Hive.box('appData');
-  runApp(MyApp());
+  runApp(Epoultry());
 }
 
-class MyApp extends StatelessWidget {
-  MyApp({
+class Epoultry extends StatelessWidget {
+  Epoultry({
     Key? key,
   }) : super(key: key);
 

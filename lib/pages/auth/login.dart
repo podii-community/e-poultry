@@ -169,7 +169,10 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _onCompleted(data, BuildContext context) {
-    var phone = phoneNumber.text.replaceFirst('0', '');
+var phone = phoneNumber.text;
+    if (phoneNumber.text.startsWith('0')) {
+     phoneNumber.text.replaceFirst('0', '');
+    }
 
     if (data["requestLoginOtp"]) {
       Navigator.push(
