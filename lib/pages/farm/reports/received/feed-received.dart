@@ -40,6 +40,7 @@ class _FeedReceivedState extends State<FeedReceived> {
 
   var layersFeeds = [
     "Chicken Duck Mash",
+    "Growers Mash",
     "Layers Mash",
   ];
 
@@ -204,6 +205,7 @@ class _FeedReceivedState extends State<FeedReceived> {
                                     if (_selectedFeeds.isEmpty) {
                                       return "Please choose a feed";
                                     }
+                                    return null;
                                   },
                                 )
                               : Container(),
@@ -241,6 +243,7 @@ class _FeedReceivedState extends State<FeedReceived> {
                                     if (_selectedFeeds.isEmpty) {
                                       return "Please choose a feed";
                                     }
+                                    return null;
                                   },
                                 )
                               : Container(),
@@ -278,6 +281,7 @@ class _FeedReceivedState extends State<FeedReceived> {
                                     if (_selectedFeeds.isEmpty) {
                                       return "Please choose a feed";
                                     }
+                                    return null;
                                   },
                                 )
                               : Container(),
@@ -292,6 +296,7 @@ class _FeedReceivedState extends State<FeedReceived> {
                                     if (value!.isEmpty) {
                                       return 'Enter amount of layers mash received';
                                     }
+                                    return null;
                                   },
                                   keyboardType: TextInputType.number,
                                   decoration: InputDecoration(
@@ -322,8 +327,9 @@ class _FeedReceivedState extends State<FeedReceived> {
                                   controller: growersMashReceived,
                                   validator: (value) {
                                     if (value!.isEmpty) {
-                                      return 'Enter amount of broilers mash received';
+                                      return 'Enter amount of growers mash received';
                                     }
+                                    return null;
                                   },
                                   keyboardType: TextInputType.number,
                                   decoration: InputDecoration(
@@ -338,7 +344,7 @@ class _FeedReceivedState extends State<FeedReceived> {
                                             width: 0.3.w,
                                             color: CustomColors.secondary)),
                                     labelText:
-                                        "How many Kgs of broilers mash were received today?",
+                                        "How many Kgs of growers mash were received today?",
                                     labelStyle: TextStyle(
                                         fontSize: 2.2.h,
                                         color: CustomColors.secondary),
@@ -359,6 +365,7 @@ class _FeedReceivedState extends State<FeedReceived> {
                                     if (value!.isEmpty) {
                                       return 'Enter amount of chick duck mash received';
                                     }
+                                    return null;
                                   },
                                   keyboardType: TextInputType.number,
                                   decoration: InputDecoration(
@@ -388,6 +395,7 @@ class _FeedReceivedState extends State<FeedReceived> {
                                     if (value!.isEmpty) {
                                       return 'Enter amount of starter crumbs received';
                                     }
+                                    return null;
                                   },
                                   keyboardType: TextInputType.number,
                                   decoration: InputDecoration(
@@ -417,6 +425,7 @@ class _FeedReceivedState extends State<FeedReceived> {
                                     if (value!.isEmpty) {
                                       return 'Enter amount of finisher pellets received';
                                     }
+                                    return null;
                                   },
                                   keyboardType: TextInputType.number,
                                   decoration: InputDecoration(
@@ -446,6 +455,7 @@ class _FeedReceivedState extends State<FeedReceived> {
                                     if (value!.isEmpty) {
                                       return 'Enter amount of kienyeji growers mash received';
                                     }
+                                    return null;
                                   },
                                   keyboardType: TextInputType.number,
                                   decoration: InputDecoration(
@@ -534,10 +544,13 @@ class _FeedReceivedState extends State<FeedReceived> {
                           }
                         },
                         style: ElevatedButton.styleFrom(
-                            primary: Colors.transparent,
-                            onSurface: Colors.transparent,
+                            foregroundColor: CustomColors.background,
+                            backgroundColor: Colors.transparent,
+                            disabledForegroundColor:
+                                Colors.transparent.withOpacity(0.38),
+                            disabledBackgroundColor:
+                                Colors.transparent.withOpacity(0.12),
                             shadowColor: Colors.transparent,
-                            onPrimary: CustomColors.background,
                             fixedSize: Size(100.w, 6.h)),
                         child: Text(
                           'SAVE & CONTINUE',
