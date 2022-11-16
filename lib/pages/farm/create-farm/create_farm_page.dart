@@ -30,7 +30,6 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
   final subcountyName = TextEditingController();
   final wardName = TextEditingController();
   String contractorManaged = "";
-  String farmLocation = "";
   List<String> _currentWards = [];
   String _chosenSubCounty = "";
   late Position farmCoordinates;
@@ -55,7 +54,7 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
   List<String> subcounties = [];
   Map<String, List> wards = {};
 
-  String _selectedLocation = "";
+  String _selectedCounty = "";
 
   final FarmsController controller = Get.put(FarmsController());
 
@@ -149,12 +148,16 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
                           popupProps: const PopupPropsMultiSelection.menu(
                             showSelectedItems: true,
                           ),
-                          onChanged: (val) {
-                            _selectedLocation = val!;
+                          onChanged: (val) async {
+                            _selectedCounty = val!;
+
+                            List<String> filteredSubCounties = await searchAddress(context, val);
+
+                            controller.selectSubCounty(filteredSubCounties);
+
                             setState(() {
                               countyName.text = val!;
                             });
-                            searchAddress(context);
                           },
                           validator: (value) {
                             if (countyName.text.isEmpty) {
@@ -166,42 +169,44 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
                         const SizedBox(
                           height: CustomSpacing.s2,
                         ),
-                        DropdownSearch<String>(
-                          dropdownDecoratorProps: DropDownDecoratorProps(
-                              dropdownSearchDecoration: InputDecoration(
-                                  hintText: "--select--",
-                                  labelText: "Choose subcounty",
-                                  labelStyle: TextStyle(
-                                      fontSize: 2.0.h,
-                                      color: CustomColors.secondary),
-                                  border: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          width: 0.3.w,
-                                          color: CustomColors.secondary)),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          width: 0.3.w,
-                                          color: CustomColors.secondary)))),
-                          items: subcounties,
-                          popupProps: const PopupPropsMultiSelection.menu(
-                            showSelectedItems: true,
+                        Obx(() =>
+                           DropdownSearch<String>(
+                            dropdownDecoratorProps: DropDownDecoratorProps(
+                                dropdownSearchDecoration: InputDecoration(
+                                    hintText: "--select--",
+                                    labelText: "Choose subcounty",
+                                    labelStyle: TextStyle(
+                                        fontSize: 2.0.h,
+                                        color: CustomColors.secondary),
+                                    border: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            width: 0.3.w,
+                                            color: CustomColors.secondary)),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            width: 0.3.w,
+                                            color: CustomColors.secondary)))),
+                            items: controller.filteredSubCounties.value,
+                            popupProps: const PopupPropsMultiSelection.menu(
+                              showSelectedItems: true,
+                            ),
+                            onChanged: (val) {
+                              setState(() {
+                                _chosenSubCounty = val!;
+                                _currentWards = wards[_chosenSubCounty]
+                                        ?.map((item) => item as String)
+                                        .toList() ??
+                                    [];
+                                subcountyName.text = val!;
+                              });
+                            },
+                            validator: (value) {
+                              if (subcountyName.text.isEmpty) {
+                                return "Please choose a subcounty";
+                              }
+                              return null;
+                            },
                           ),
-                          onChanged: (val) {
-                            setState(() {
-                              _chosenSubCounty = val!;
-                              _currentWards = wards[_chosenSubCounty]
-                                      ?.map((item) => item as String)
-                                      .toList() ??
-                                  [];
-                              subcountyName.text = val!;
-                            });
-                          },
-                          validator: (value) {
-                            if (subcountyName.text.isEmpty) {
-                              return "Please choose a subcounty";
-                            }
-                            return null;
-                          },
                         ),
 
                         const SizedBox(
@@ -435,22 +440,24 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
     });
   }
 
-  Future<void> searchAddress(
-    BuildContext context,
+  Future<List<String>> searchAddress(
+    BuildContext context, String selectedCounty
   ) async {
     GraphQLClient client = GraphQLProvider.of(context).value;
     var searchAddresses = await client.query(QueryOptions(
         operationName: "SearchAddress",
         document: gql(context.queries.searchAddress()),
-        variables: {"query": _selectedLocation}));
+        variables: {"query": selectedCounty}));
 
     addresses = searchAddresses.data!["searchAddresses"];
+
     var holder = Set<String>();
 
     addresses.where((entry) => holder.add(entry["subcounty"]!)).toList();
     subcounties = holder.toList();
     print(subcounties);
     wards.clear();
+
     for (var sub in subcounties) {
       var w = addresses
           .where((address) => sub == address["subcounty"])
@@ -458,5 +465,7 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
           .toList();
       wards.addAll({sub: w});
     }
+
+    return subcounties;
   }
 }
