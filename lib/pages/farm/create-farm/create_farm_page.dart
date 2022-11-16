@@ -32,6 +32,7 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
   String contractorManaged = "";
   String farmLocation = "";
   List<String> _currentWards = [];
+  String _chosenSubCounty = "";
   late Position farmCoordinates;
   final contractorName = TextEditingController();
   bool locating = false;
@@ -187,7 +188,11 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
                           ),
                           onChanged: (val) {
                             setState(() {
-                              _currentWards = wards[val];
+                              _chosenSubCounty = val!;
+                              _currentWards = wards[_chosenSubCounty]
+                                      ?.map((item) => item as String)
+                                      .toList() ??
+                                  [];
                               subcountyName.text = val!;
                             });
                           },
@@ -224,7 +229,7 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
                           ),
                           onChanged: (val) {
                             setState(() {
-                              subcountyName.text = val!;
+                              wardName.text = val!;
                             });
                           },
                           validator: (value) {
@@ -428,14 +433,6 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
         "name": farmName.text
       },
     });
-  }
-
-  Map<T, List<S>> groupBy<S, T>(Iterable<S> values, T Function(S) key) {
-    var map = <T, List<S>>{};
-    for (var element in values) {
-      (map[key(element)] ??= []).add(element);
-    }
-    return map;
   }
 
   Future<void> searchAddress(

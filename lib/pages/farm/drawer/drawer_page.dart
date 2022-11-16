@@ -98,6 +98,7 @@ class _DrawerPageState extends State<DrawerPage> {
                 : ListView.builder(
                     shrinkWrap: true,
                     itemCount: controller.farms.length,
+                    physics: const ClampingScrollPhysics(),
                     itemBuilder: (context, position) {
                       // return Container();
                       return Card(
