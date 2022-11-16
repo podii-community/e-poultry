@@ -1,4 +1,3 @@
-
 import 'package:epoultry/controllers/managers_controller.dart';
 import 'package:epoultry/graphql/query_document_provider.dart';
 import 'package:epoultry/pages/farm/farm-managers/add-farm-manager_page.dart';
@@ -166,19 +165,48 @@ class _ManageFarmManagersState extends State<ManageFarmManagers> {
 
                                         return IconButton(
                                             onPressed: () {
-                                              var payload = {
-                                                "farmId": managersController
-                                                        .managers[position]
-                                                    ["managingFarms"][0]["id"],
-                                                "farmManagerId":
-                                                    managersController
-                                                            .managers[position]
-                                                        ["id"]
-                                              };
-                                              _removeManagerButtonPressed(
-                                                  context,
-                                                  runMutation,
-                                                  payload);
+                                              // Show confirmaion dialog
+                                              showDialog(
+                                                  context: context,
+                                                  builder: (context) {
+                                                    return AlertDialog(
+                                                      title: const Text(
+                                                          "Remove Manager"),
+                                                      content: const Text(
+                                                          "Are you sure you want to remove this manager?"),
+                                                      actions: [
+                                                        TextButton(
+                                                            onPressed: () {
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                            child: const Text(
+                                                                "Cancel")),
+                                                        TextButton(
+                                                            onPressed: () {
+                                                              var payload = {
+                                                                "farmId": managersController
+                                                                            .managers[
+                                                                        position]
+                                                                    [
+                                                                    "managingFarms"][0]["id"],
+                                                                "farmManagerId":
+                                                                    managersController
+                                                                            .managers[
+                                                                        position]["id"]
+                                                              };
+                                                              _removeManagerButtonPressed(
+                                                                  context,
+                                                                  runMutation,
+                                                                  payload);
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                            child: const Text(
+                                                                "Remove"))
+                                                      ],
+                                                    );
+                                                  });
                                             },
                                             icon: const Icon(
                                               PhosphorIcons.trash,

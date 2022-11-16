@@ -11,8 +11,11 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
 class SuccessWidget extends StatefulWidget {
-  const SuccessWidget({Key? key, required this.message, required this.route})
-      : super(key: key);
+  const SuccessWidget({
+    Key? key,
+    required this.message,
+    required this.route,
+  }) : super(key: key);
   final String message;
   final String route;
 
@@ -29,10 +32,11 @@ class _SuccessWidgetState extends State<SuccessWidget> {
     _timer = Timer(const Duration(milliseconds: 1200), () {
       switch (widget.route) {
         case "login":
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const FarmDashboardPage()),
-          );
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const FarmDashboardPage()),
+              ((route) => false));
           break;
         case "register":
           Navigator.push(
@@ -42,10 +46,18 @@ class _SuccessWidgetState extends State<SuccessWidget> {
           break;
 
         case "dashboard":
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const FarmDashboardPage()),
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const FarmDashboardPage()),
+              ((route) => false));
+          break;
+        case "isUnAssigned":
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+                builder: (context) => const JoinFarmPage(isUnAssigned: true)),
           );
+
           break;
 
         case "batches":
@@ -55,11 +67,13 @@ class _SuccessWidgetState extends State<SuccessWidget> {
           );
           break;
 
-        case "manage":
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const ManageFarmManagers()),
-          );
+        case "manager":
+          Navigator.of(context)
+            ..pop()
+            ..pushReplacement(
+              MaterialPageRoute(
+                  builder: (context) => const ManageFarmManagers()),
+            );
           break;
       }
     });

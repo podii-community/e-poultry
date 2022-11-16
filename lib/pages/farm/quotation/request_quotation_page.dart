@@ -14,7 +14,10 @@ import '../../../widgets/loading_spinner.dart';
 import '../../../widgets/success_widget.dart';
 
 class RequestQuotationPage extends StatefulWidget {
-  const RequestQuotationPage({Key? key}) : super(key: key);
+  const RequestQuotationPage({Key? key, this.isUnAssignedRole = false})
+      : super(key: key);
+
+  final bool isUnAssignedRole;
 
   @override
   State<RequestQuotationPage> createState() => _RequestQuotationPageState();
@@ -268,10 +271,11 @@ class _RequestQuotationPageState extends State<RequestQuotationPage> {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => const SuccessWidget(
+              builder: (context) => SuccessWidget(
                     message:
-                        'You quotation request has been received.Youll receive a notification with the quotation in 48 hours',
-                    route: 'dashboard',
+                        'Your quotation request has been received.Youll receive a notification with the quotation in 48 hours',
+                    route:
+                        widget.isUnAssignedRole ? 'isUnAssigned' : 'dashboard',
                   )));
     }
   }

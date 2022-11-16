@@ -142,8 +142,12 @@ class _OtpPageState extends State<OtpPage> {
                           onPressed: () =>
                               _otpButtonPressed(context, runMutation),
                           style: ElevatedButton.styleFrom(
-                              foregroundColor: CustomColors.background, backgroundColor: Colors.transparent,
-                              disabledForegroundColor: Colors.transparent.withOpacity(0.38), disabledBackgroundColor: Colors.transparent.withOpacity(0.12),
+                              foregroundColor: CustomColors.background,
+                              backgroundColor: Colors.transparent,
+                              disabledForegroundColor:
+                                  Colors.transparent.withOpacity(0.38),
+                              disabledBackgroundColor:
+                                  Colors.transparent.withOpacity(0.12),
                               shadowColor: Colors.transparent,
                               fixedSize: Size(100.w, 6.h)),
                           child: Text(
