@@ -67,11 +67,13 @@ class _SuccessWidgetState extends State<SuccessWidget> {
           );
           break;
 
-        case "manage":
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const ManageFarmManagers()),
-          );
+        case "manager":
+          Navigator.of(context)
+            ..pop()
+            ..pushReplacement(
+              MaterialPageRoute(
+                  builder: (context) => const ManageFarmManagers()),
+            );
           break;
       }
     });
