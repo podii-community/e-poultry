@@ -1,4 +1,3 @@
-
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:epoultry/graphql/query_document_provider.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +31,7 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
   final wardName = TextEditingController();
   String contractorManaged = "";
   String farmLocation = "";
+  List<String> _currentWards = [];
   late Position farmCoordinates;
   final contractorName = TextEditingController();
   bool locating = false;
@@ -48,12 +48,13 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
     "Kisii"
   ];
 
+  // List<Map<String, String>> addresses = [];
   List addresses = [];
 
   List<String> subcounties = [];
-  List<String> wards = [];
+  Map<String, List> wards = {};
 
-  final String _selectedLocation = "";
+  String _selectedLocation = "";
 
   final FarmsController controller = Get.put(FarmsController());
 
@@ -148,6 +149,7 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
                             showSelectedItems: true,
                           ),
                           onChanged: (val) {
+                            _selectedLocation = val!;
                             setState(() {
                               countyName.text = val!;
                             });
@@ -184,13 +186,8 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
                             showSelectedItems: true,
                           ),
                           onChanged: (val) {
-                            for (var i = 0; i < addresses.length; i++) {
-                              if (addresses[i]["subcounty"] == val) {
-                                wards.add(addresses[i]["ward"]);
-                              }
-                            }
-
                             setState(() {
+                              _currentWards = wards[val];
                               subcountyName.text = val!;
                             });
                           },
@@ -221,17 +218,11 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
                                       borderSide: BorderSide(
                                           width: 0.3.w,
                                           color: CustomColors.secondary)))),
-                          items: wards,
+                          items: _currentWards,
                           popupProps: const PopupPropsMultiSelection.menu(
                             showSelectedItems: true,
                           ),
                           onChanged: (val) {
-                            for (var i = 0; i < addresses.length; i++) {
-                              if (addresses[i]["subcounty"] == val) {
-                                wards.add(addresses[i]["ward"]);
-                              }
-                            }
-
                             setState(() {
                               subcountyName.text = val!;
                             });
@@ -385,8 +376,12 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
                             }
                           },
                           style: ElevatedButton.styleFrom(
-                              foregroundColor: CustomColors.background, backgroundColor: Colors.transparent,
-                              disabledForegroundColor: Colors.transparent.withOpacity(0.38), disabledBackgroundColor: Colors.transparent.withOpacity(0.12),
+                              foregroundColor: CustomColors.background,
+                              backgroundColor: Colors.transparent,
+                              disabledForegroundColor:
+                                  Colors.transparent.withOpacity(0.38),
+                              disabledBackgroundColor:
+                                  Colors.transparent.withOpacity(0.12),
                               shadowColor: Colors.transparent,
                               fixedSize: Size(100.w, 6.h)),
                           child: Text(
@@ -435,6 +430,14 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
     });
   }
 
+  Map<T, List<S>> groupBy<S, T>(Iterable<S> values, T Function(S) key) {
+    var map = <T, List<S>>{};
+    for (var element in values) {
+      (map[key(element)] ??= []).add(element);
+    }
+    return map;
+  }
+
   Future<void> searchAddress(
     BuildContext context,
   ) async {
@@ -445,11 +448,18 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
         variables: {"query": _selectedLocation}));
 
     addresses = searchAddresses.data!["searchAddresses"];
+    var holder = Set<String>();
 
-    for (var subcounty in searchAddresses.data!["searchAddresses"]) {
-      if (!subcounties.contains(subcounty["subcounty"])) {
-        subcounties.add(subcounty["subcounty"]);
-      }
+    addresses.where((entry) => holder.add(entry["subcounty"]!)).toList();
+    subcounties = holder.toList();
+    print(subcounties);
+    wards.clear();
+    for (var sub in subcounties) {
+      var w = addresses
+          .where((address) => sub == address["subcounty"])
+          .map((item) => item["ward"])
+          .toList();
+      wards.addAll({sub: w});
     }
   }
 }
