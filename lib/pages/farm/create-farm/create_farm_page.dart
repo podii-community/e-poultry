@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:epoultry/graphql/query_document_provider.dart';
 import 'package:flutter/material.dart';
@@ -45,14 +47,40 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
     "Homabay",
     "Migori",
     "Transnzoia",
-    "Kisii"
+    "Kisii",
+    "Nairobi",
+    "Mombasa",
+    "Kwale",
+    "Kilifi",
+    "Tana River",
+    "Lamu",
+    "Taita Taveta",
+    "Garissa",
+    "Wajir",
+    "Mandera",
+    "Marsabit",
+    "Isiolo",
+    "Meru",
+    "Tharaka Nithi",
+    "Embu",
+    "Kitui",
+    "Machakos",
+    "Makueni",
+    "Nyandarua",
+    "Nyeri",
+    "Kirinyaga",
+    "Murang'a",
+    "Kiambu",
+    "Turkana",
+    "West Pokot",
+    "Samburu",
   ];
 
   // List<Map<String, String>> addresses = [];
   List addresses = [];
 
   List<String> subcounties = [];
-  Map<String, List> wards = {};
+  Map<String, List<String>> wards = {};
 
   String _selectedCounty = "";
 
@@ -156,7 +184,7 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
 
                             controller.applySubCounties(filteredSubCounties);
 
-                            countyName.text = val!;
+                            countyName.text = val;
                           },
                           validator: (value) {
                             if (countyName.text.isEmpty) {
@@ -196,15 +224,16 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
                             ),
                             onChanged: (val) {
                               _currentWards = wards[_chosenSubCounty]
-                                      ?.map((item) => item as String)
+                                      ?.map((item) => item)
                                       .toList() ??
                                   [];
 
                               controller.selectedSubCountyName(val);
+                              setState(() {});
 
                               subcountyName.text = val!;
 
-                              _chosenSubCounty = val!;
+                              _chosenSubCounty = val;
                             },
                             validator: (value) {
                               if (subcountyName.text.isEmpty ||
@@ -242,7 +271,10 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
                                         borderSide: BorderSide(
                                             width: 0.3.w,
                                             color: CustomColors.secondary)))),
-                            items: _currentWards,
+                            items: wards[controller.selectedSubCountyName.value]
+                                    ?.map((item) => item)
+                                    .toList() ??
+                                [],
                             popupProps: const PopupPropsMultiSelection.menu(
                               showSelectedItems: true,
                             ),
@@ -467,20 +499,26 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
 
     addresses = searchAddresses.data!["searchAddresses"];
 
-    var holder = Set<String>();
+    var holder = <String>{};
 
     addresses.where((entry) => holder.add(entry["subcounty"]!)).toList();
     subcounties = holder.toList();
-    print(subcounties);
+    log(addresses.toString());
+
+    log('sub ${holder.toString()}');
+    // log('wads ${wards.toString()}');
     wards.clear();
 
     for (var sub in subcounties) {
       var w = addresses
           .where((address) => sub == address["subcounty"])
-          .map((item) => item["ward"])
+          .map((item) => item["ward"] as String)
           .toList();
+
+      log(w.toString());
       wards.addAll({sub: w});
     }
+    log('wads ${wards.toString()}');
 
     return subcounties;
   }
