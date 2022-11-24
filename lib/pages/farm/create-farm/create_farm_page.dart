@@ -1,3 +1,4 @@
+import 'dart:developer';
 
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:epoultry/graphql/query_document_provider.dart';
@@ -31,7 +32,8 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
   final subcountyName = TextEditingController();
   final wardName = TextEditingController();
   String contractorManaged = "";
-  String farmLocation = "";
+  List<String> _currentWards = [];
+  String _chosenSubCounty = "";
   late Position farmCoordinates;
   final contractorName = TextEditingController();
   bool locating = false;
@@ -41,19 +43,16 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
     "Busia",
     "Bungoma",
     "Vihiga",
-    "Kakamega",
-    "Homabay",
-    "Migori",
-    "Transnzoia",
-    "Kisii"
+    "Kakamega"
   ];
 
+  // List<Map<String, String>> addresses = [];
   List addresses = [];
 
   List<String> subcounties = [];
-  List<String> wards = [];
+  Map<String, List<String>> wards = {};
 
-  final String _selectedLocation = "";
+  String _selectedCounty = "";
 
   final FarmsController controller = Get.put(FarmsController());
 
@@ -147,11 +146,15 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
                           popupProps: const PopupPropsMultiSelection.menu(
                             showSelectedItems: true,
                           ),
-                          onChanged: (val) {
-                            setState(() {
-                              countyName.text = val!;
-                            });
-                            searchAddress(context);
+                          onChanged: (val) async {
+                            _selectedCounty = val!;
+
+                            List<String> filteredSubCounties =
+                                await searchAddress(context, val);
+
+                            controller.applySubCounties(filteredSubCounties);
+
+                            countyName.text = val;
                           },
                           validator: (value) {
                             if (countyName.text.isEmpty) {
@@ -163,86 +166,103 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
                         const SizedBox(
                           height: CustomSpacing.s2,
                         ),
-                        DropdownSearch<String>(
-                          dropdownDecoratorProps: DropDownDecoratorProps(
-                              dropdownSearchDecoration: InputDecoration(
-                                  hintText: "--select--",
-                                  labelText: "Choose subcounty",
-                                  labelStyle: TextStyle(
-                                      fontSize: 2.0.h,
-                                      color: CustomColors.secondary),
-                                  border: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          width: 0.3.w,
-                                          color: CustomColors.secondary)),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          width: 0.3.w,
-                                          color: CustomColors.secondary)))),
-                          items: subcounties,
-                          popupProps: const PopupPropsMultiSelection.menu(
-                            showSelectedItems: true,
-                          ),
-                          onChanged: (val) {
-                            for (var i = 0; i < addresses.length; i++) {
-                              if (addresses[i]["subcounty"] == val) {
-                                wards.add(addresses[i]["ward"]);
-                              }
-                            }
+                        Obx(() {
+                          subcountyName.text =
+                              controller.filteredSubCounties.isEmpty
+                                  ? ""
+                                  : controller.filteredSubCounties.first;
 
-                            setState(() {
+                          return DropdownSearch<String>(
+                            dropdownDecoratorProps: DropDownDecoratorProps(
+                                dropdownSearchDecoration: InputDecoration(
+                                    hintText: "--select--",
+                                    labelText: "Choose subcounty",
+                                    labelStyle: TextStyle(
+                                        fontSize: 2.0.h,
+                                        color: CustomColors.secondary),
+                                    border: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            width: 0.3.w,
+                                            color: CustomColors.secondary)),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            width: 0.3.w,
+                                            color: CustomColors.secondary)))),
+                            items: controller.filteredSubCounties.value,
+                            popupProps: const PopupPropsMultiSelection.menu(
+                              showSelectedItems: true,
+                            ),
+                            onChanged: (val) {
+                              _currentWards = wards[_chosenSubCounty]
+                                      ?.map((item) => item)
+                                      .toList() ??
+                                  [];
+
+                              controller.selectedSubCountyName(val);
+                              setState(() {});
+
                               subcountyName.text = val!;
-                            });
-                          },
-                          validator: (value) {
-                            if (subcountyName.text.isEmpty) {
-                              return "Please choose a subcounty";
-                            }
-                            return null;
-                          },
-                        ),
+
+                              _chosenSubCounty = val;
+                            },
+                            validator: (value) {
+                              if (subcountyName.text.isEmpty ||
+                                  controller.selectedSubCountyName.value ==
+                                      "Choose subcounty") {
+                                return "Please choose a subcounty";
+                              }
+                              return null;
+                            },
+                          );
+                        }),
 
                         const SizedBox(
                           height: CustomSpacing.s2,
                         ),
-                        DropdownSearch<String>(
-                          dropdownDecoratorProps: DropDownDecoratorProps(
-                              dropdownSearchDecoration: InputDecoration(
-                                  hintText: "--select--",
-                                  labelText: "Choose ward",
-                                  labelStyle: TextStyle(
-                                      fontSize: 2.0.h,
-                                      color: CustomColors.secondary),
-                                  border: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          width: 0.3.w,
-                                          color: CustomColors.secondary)),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          width: 0.3.w,
-                                          color: CustomColors.secondary)))),
-                          items: wards,
-                          popupProps: const PopupPropsMultiSelection.menu(
-                            showSelectedItems: true,
-                          ),
-                          onChanged: (val) {
-                            for (var i = 0; i < addresses.length; i++) {
-                              if (addresses[i]["subcounty"] == val) {
-                                wards.add(addresses[i]["ward"]);
-                              }
-                            }
+                        Obx(() {
+                          wardName.text = controller.filteredWards.isEmpty
+                              ? ""
+                              : controller.filteredWards.first;
 
-                            setState(() {
-                              subcountyName.text = val!;
-                            });
-                          },
-                          validator: (value) {
-                            if (subcountyName.text.isEmpty) {
-                              return "Please choose a subcounty";
-                            }
-                            return null;
-                          },
-                        ),
+                          return DropdownSearch<String>(
+                            dropdownDecoratorProps: DropDownDecoratorProps(
+                                dropdownSearchDecoration: InputDecoration(
+                                    hintText: "--select--",
+                                    labelText:
+                                        controller.selectedWardName.value,
+                                    labelStyle: TextStyle(
+                                        fontSize: 2.0.h,
+                                        color: CustomColors.secondary),
+                                    border: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            width: 0.3.w,
+                                            color: CustomColors.secondary)),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            width: 0.3.w,
+                                            color: CustomColors.secondary)))),
+                            items: wards[controller.selectedSubCountyName.value]
+                                    ?.map((item) => item)
+                                    .toList() ??
+                                [],
+                            popupProps: const PopupPropsMultiSelection.menu(
+                              showSelectedItems: true,
+                            ),
+                            onChanged: (val) {
+                              setState(() {
+                                wardName.text = val!;
+                              });
+                            },
+                            validator: (value) {
+                              if (subcountyName.text.isEmpty ||
+                                  controller.selectedWardName.value ==
+                                      "Choose subcounty") {
+                                return "Please choose a subcounty";
+                              }
+                              return null;
+                            },
+                          );
+                        }),
 
                         const SizedBox(
                           height: CustomSpacing.s3,
@@ -385,8 +405,12 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
                             }
                           },
                           style: ElevatedButton.styleFrom(
-                              foregroundColor: CustomColors.background, backgroundColor: Colors.transparent,
-                              disabledForegroundColor: Colors.transparent.withOpacity(0.38), disabledBackgroundColor: Colors.transparent.withOpacity(0.12),
+                              foregroundColor: CustomColors.background,
+                              backgroundColor: Colors.transparent,
+                              disabledForegroundColor:
+                                  Colors.transparent.withOpacity(0.38),
+                              disabledBackgroundColor:
+                                  Colors.transparent.withOpacity(0.12),
                               shadowColor: Colors.transparent,
                               fixedSize: Size(100.w, 6.h)),
                           child: Text(
@@ -435,21 +459,37 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
     });
   }
 
-  Future<void> searchAddress(
-    BuildContext context,
-  ) async {
+  Future<List<String>> searchAddress(
+      BuildContext context, String selectedCounty) async {
     GraphQLClient client = GraphQLProvider.of(context).value;
     var searchAddresses = await client.query(QueryOptions(
         operationName: "SearchAddress",
         document: gql(context.queries.searchAddress()),
-        variables: {"query": _selectedLocation}));
+        variables: {"query": selectedCounty}));
 
     addresses = searchAddresses.data!["searchAddresses"];
 
-    for (var subcounty in searchAddresses.data!["searchAddresses"]) {
-      if (!subcounties.contains(subcounty["subcounty"])) {
-        subcounties.add(subcounty["subcounty"]);
-      }
+    var holder = <String>{};
+
+    addresses.where((entry) => holder.add(entry["subcounty"]!)).toList();
+    subcounties = holder.toList();
+    log(addresses.toString());
+
+    log('sub ${holder.toString()}');
+    // log('wads ${wards.toString()}');
+    wards.clear();
+
+    for (var sub in subcounties) {
+      var w = addresses
+          .where((address) => sub == address["subcounty"])
+          .map((item) => item["ward"] as String)
+          .toList();
+
+      log(w.toString());
+      wards.addAll({sub: w});
     }
+    log('wads ${wards.toString()}');
+
+    return subcounties;
   }
 }
