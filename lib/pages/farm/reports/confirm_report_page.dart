@@ -185,15 +185,21 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
                           height: CustomSpacing.s2,
                         ),
                         Column(
-                            children: (controller
-                                    .report["data"]!['eggCollection'] as Map)
-                                .keys
-                                .map((key) => Row(
+                          children: (controller.report["data"]!['eggCollection']
+                                  as Map)
+                              .keys
+                              .toSet()
+                              .map((key) => (controller.report["data"]
+                                          ?['eggCollection'] as Map)[key]
+                                      .toString()
+                                      .isEmpty
+                                  ? const SizedBox.shrink()
+                                  : Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          key.toTitleCase!,
+                                          "${(key.split("C")[0] as String).capitalizeFirst} ${("C${key.split("C")[1]}").capitalizeFirst}",
                                           style: TextStyle(
                                               color: Colors.black,
                                               fontSize: 2.3.h),
@@ -208,31 +214,6 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
                                         )
                                       ],
                                     ))
-                                .toList()),
-                        Column(
-                          children: (controller.report["data"]!['eggCollection']
-                                  as Map)
-                              .keys
-                              .map((key) => Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        key.toTitleCase!,
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 2.3.h),
-                                      ),
-                                      Text(
-                                        (controller.report["data"]![
-                                                'eggCollection'] as Map)[key]
-                                            .toString(),
-                                        style: TextStyle(
-                                            fontSize: 1.8.h,
-                                            color: Colors.black),
-                                      )
-                                    ],
-                                  ))
                               .toList(),
                         )
                       ],
