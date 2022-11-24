@@ -1,10 +1,7 @@
-import 'dart:developer';
 
 import 'package:epoultry/graphql/query_document_provider.dart';
 import 'package:epoultry/theme/spacing.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
@@ -14,10 +11,8 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../controllers/farm_controller.dart';
-import '../../../../data/models/error.dart';
 import '../../../../theme/colors.dart';
 import '../../../../widgets/gradient_widget.dart';
-import '../../../../widgets/loading_spinner.dart';
 import '../view_report_page.dart';
 
 class FilterReportsPage extends StatefulWidget {
@@ -137,10 +132,9 @@ class _FilterReportsPageState extends State<FilterReportsPage> {
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                        primary: Colors.transparent,
-                        onSurface: Colors.transparent,
+                        foregroundColor: CustomColors.background, backgroundColor: Colors.transparent,
+                        disabledForegroundColor: Colors.transparent.withOpacity(0.38), disabledBackgroundColor: Colors.transparent.withOpacity(0.12),
                         shadowColor: Colors.transparent,
-                        onPrimary: CustomColors.background,
                         fixedSize: Size(100.w, 6.h)),
                     child: Text(
                       'GENERATE REPORTS',

@@ -142,10 +142,13 @@ class _OtpPageState extends State<OtpPage> {
                           onPressed: () =>
                               _otpButtonPressed(context, runMutation),
                           style: ElevatedButton.styleFrom(
-                              primary: Colors.transparent,
-                              onSurface: Colors.transparent,
+                              foregroundColor: CustomColors.background,
+                              backgroundColor: Colors.transparent,
+                              disabledForegroundColor:
+                                  Colors.transparent.withOpacity(0.38),
+                              disabledBackgroundColor:
+                                  Colors.transparent.withOpacity(0.12),
                               shadowColor: Colors.transparent,
-                              onPrimary: CustomColors.background,
                               fixedSize: Size(100.w, 6.h)),
                           child: Text(
                             'VERIFY PHONE NUMBER',
@@ -221,8 +224,6 @@ class _OtpPageState extends State<OtpPage> {
         List ownedFarms = data['verifyOtp']['user']!["ownedFarms"];
 
         List farms = managingFarms + ownedFarms;
-
-        log("${farms[0]}");
 
         controller.updateFarms(farms);
         controller.updateFarm(farms[0]);

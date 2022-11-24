@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:epoultry/graphql/query_document_provider.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +14,10 @@ import '../../../widgets/loading_spinner.dart';
 import '../../../widgets/success_widget.dart';
 
 class RequestQuotationPage extends StatefulWidget {
-  const RequestQuotationPage({Key? key}) : super(key: key);
+  const RequestQuotationPage({Key? key, this.isUnAssignedRole = false})
+      : super(key: key);
+
+  final bool isUnAssignedRole;
 
   @override
   State<RequestQuotationPage> createState() => _RequestQuotationPageState();
@@ -249,10 +250,13 @@ class _RequestQuotationPageState extends State<RequestQuotationPage> {
                       onPressed: () =>
                           _requestQuotationPressed(context, runMutation),
                       style: ElevatedButton.styleFrom(
-                          primary: Colors.transparent,
-                          onSurface: Colors.transparent,
+                          foregroundColor: CustomColors.background,
+                          backgroundColor: Colors.transparent,
+                          disabledForegroundColor:
+                              Colors.transparent.withOpacity(0.38),
+                          disabledBackgroundColor:
+                              Colors.transparent.withOpacity(0.12),
                           shadowColor: Colors.transparent,
-                          onPrimary: CustomColors.background,
                           fixedSize: Size(100.w, 6.h)),
                       child: const Text('REQUEST A QUOTATION')),
                 );
@@ -267,12 +271,23 @@ class _RequestQuotationPageState extends State<RequestQuotationPage> {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => const SuccessWidget(
+              builder: (context) => SuccessWidget(
                     message:
-                        'You quotation request has been received.Youll receive a notification with the quotation in 48 hours',
-                    route: 'dashboard',
+                        'Your quotation request has been received.Youll receive a notification with the quotation in 48 hours',
+                    route:
+                        widget.isUnAssignedRole ? 'isUnAssigned' : 'dashboard',
                   )));
     }
+  }
+
+  int _parseQuantity({required String quantity}) {
+    if (quantity.isEmpty) {
+      return 0;
+    }
+    if (quantity == 'More than 1000') {
+      return 1001;
+    }
+    return int.parse(broilerBirds.text);
   }
 
   Future<void> _requestQuotationPressed(
@@ -282,17 +297,15 @@ class _RequestQuotationPageState extends State<RequestQuotationPage> {
         "items": [
           {
             "name": "Kienyeji",
-            "quantity":
-                kienyejiBirds.text.isEmpty ? 0 : int.parse(kienyejiBirds.text)
+            "quantity": _parseQuantity(quantity: kienyejiBirds.text)
           },
           {
             "name": "Broilers",
-            "quantity":
-                broilerBirds.text.isEmpty ? 0 : int.parse(broilerBirds.text)
+            "quantity": _parseQuantity(quantity: kienyejiBirds.text)
           },
           {
             "name": "Layers",
-            "quantity": layerBirds.text.isEmpty ? 0 : int.parse(layerBirds.text)
+            "quantity": _parseQuantity(quantity: kienyejiBirds.text)
           },
         ]
       },

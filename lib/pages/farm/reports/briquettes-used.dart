@@ -1,7 +1,5 @@
-import 'dart:developer';
 
 import 'package:epoultry/pages/farm/reports/confirm_report_page.dart';
-import 'package:epoultry/pages/farm/reports/sawdust-used.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -378,10 +376,9 @@ class _BriquettesUsedState extends State<BriquettesUsed> {
                             }
                           },
                           style: ElevatedButton.styleFrom(
-                              primary: Colors.transparent,
-                              onSurface: Colors.transparent,
+                              foregroundColor: CustomColors.background, backgroundColor: Colors.transparent,
+                              disabledForegroundColor: Colors.transparent.withOpacity(0.38), disabledBackgroundColor: Colors.transparent.withOpacity(0.12),
                               shadowColor: Colors.transparent,
-                              onPrimary: CustomColors.background,
                               fixedSize: Size(100.w, 6.h)),
                           child: Text(
                             'UPDATE BRIQUETTES',

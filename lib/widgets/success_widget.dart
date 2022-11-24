@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:epoultry/pages/farm/batch/list_batches_page.dart';
 import 'package:epoultry/pages/farm/dashboard/farm_dashboard_page.dart';
+import 'package:epoultry/pages/farm/farm-managers/manage-farm-managers_page.dart';
 import 'package:epoultry/pages/farm/join-farm/join_farm_page.dart';
 import 'package:epoultry/theme/colors.dart';
 import 'package:epoultry/theme/spacing.dart';
@@ -9,10 +10,12 @@ import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
-
 class SuccessWidget extends StatefulWidget {
-  const SuccessWidget({Key? key, required this.message, required this.route})
-      : super(key: key);
+  const SuccessWidget({
+    Key? key,
+    required this.message,
+    required this.route,
+  }) : super(key: key);
   final String message;
   final String route;
 
@@ -29,10 +32,11 @@ class _SuccessWidgetState extends State<SuccessWidget> {
     _timer = Timer(const Duration(milliseconds: 1200), () {
       switch (widget.route) {
         case "login":
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const FarmDashboardPage()),
-          );
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const FarmDashboardPage()),
+              ((route) => false));
           break;
         case "register":
           Navigator.push(
@@ -42,10 +46,18 @@ class _SuccessWidgetState extends State<SuccessWidget> {
           break;
 
         case "dashboard":
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const FarmDashboardPage()),
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const FarmDashboardPage()),
+              ((route) => false));
+          break;
+        case "isUnAssigned":
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+                builder: (context) => const JoinFarmPage(isUnAssigned: true)),
           );
+
           break;
 
         case "batches":
@@ -53,6 +65,15 @@ class _SuccessWidgetState extends State<SuccessWidget> {
             context,
             MaterialPageRoute(builder: (context) => const ListBatchPage()),
           );
+          break;
+
+        case "manager":
+          Navigator.of(context)
+            ..pop()
+            ..pushReplacement(
+              MaterialPageRoute(
+                  builder: (context) => const ManageFarmManagers()),
+            );
           break;
       }
     });
@@ -71,7 +92,11 @@ class _SuccessWidgetState extends State<SuccessWidget> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-           Icon(PhosphorIcons.checkCircle, color: CustomColors.green, size: 10.5.h,),
+          Icon(
+            PhosphorIcons.checkCircle,
+            color: CustomColors.green,
+            size: 10.5.h,
+          ),
           const SizedBox(
             height: CustomSpacing.s2,
           ),

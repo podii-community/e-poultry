@@ -58,7 +58,7 @@ class AppbarWidget extends StatelessWidget implements PreferredSizeWidget {
               ))
         ],
         title: Obx((() => Text(
-              controller.farm.value['name'],
+              controller.farm.value['name'] ?? 'E-Poultry Farming',
               style: const TextStyle(color: Colors.black),
             ))));
   }

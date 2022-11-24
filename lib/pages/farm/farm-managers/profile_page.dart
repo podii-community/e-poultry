@@ -10,7 +10,9 @@ import '../../../controllers/user_controller.dart';
 import '../../../theme/colors.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+  const ProfilePage({Key? key, this.showAppbar = true}) : super(key: key);
+
+  final bool showAppbar;
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -26,26 +28,31 @@ class _ProfilePageState extends State<ProfilePage> {
     final phone = box.get('phone');
     final role = box.get('role');
     return Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          centerTitle: true,
-          toolbarHeight: 8.h,
-          backgroundColor: CustomColors.white,
-          elevation: 0.5,
-          leading: IconButton(
-            icon: const Icon(
-              PhosphorIcons.arrowLeft,
-              color: Colors.black,
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          title: const Text(
-            "Profile",
-            style: TextStyle(color: Colors.black),
-          ),
-        ),
+        appBar: widget.showAppbar
+            ? AppBar(
+                automaticallyImplyLeading: false,
+                centerTitle: true,
+                toolbarHeight: 8.h,
+                backgroundColor: CustomColors.white,
+                elevation: 0.5,
+                leading: IconButton(
+                  icon: const Icon(
+                    PhosphorIcons.arrowLeft,
+                    color: Colors.black,
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                title: const Text(
+                  "Profile",
+                  style: TextStyle(color: Colors.black),
+                ),
+              )
+            : const PreferredSize(
+                preferredSize: Size.fromHeight(0),
+                child: SizedBox.shrink(),
+              ),
         body: Container(
           padding: const EdgeInsets.symmetric(horizontal: CustomSpacing.s2),
           child:

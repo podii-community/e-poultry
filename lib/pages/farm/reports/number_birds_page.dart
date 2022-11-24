@@ -1,16 +1,13 @@
-import 'dart:developer';
 
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:epoultry/data/data_export.dart';
 import 'package:epoultry/pages/farm/reports/broiler-weight.dart';
-import 'package:epoultry/pages/farm/reports/feeds_used_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
-import 'package:string_extensions/string_extensions.dart';
 
 import '../../../controllers/farm_controller.dart';
 import '../../../theme/colors.dart';
@@ -174,7 +171,6 @@ class _NumberOfBirdsReportPageState extends State<NumberOfBirdsReportPage> {
                                 contentPadding:
                                     EdgeInsets.symmetric(horizontal: 4.w),
                                 border: InputBorder.none),
-                            initialValue: null,
                             name: 'birdsReduced',
                             onChanged: (value) {
                               setState(() {
@@ -314,6 +310,7 @@ class _NumberOfBirdsReportPageState extends State<NumberOfBirdsReportPage> {
                                                   if (value!.isEmpty) {
                                                     return 'Enter number of sold birds';
                                                   }
+                                                  return null;
                                                 },
                                                 keyboardType:
                                                     TextInputType.number,
@@ -351,6 +348,7 @@ class _NumberOfBirdsReportPageState extends State<NumberOfBirdsReportPage> {
                                                     if (value!.isEmpty) {
                                                       return 'Enter price per bird';
                                                     }
+                                                    return null;
                                                   },
                                                   keyboardType:
                                                       TextInputType.number,
@@ -389,6 +387,7 @@ class _NumberOfBirdsReportPageState extends State<NumberOfBirdsReportPage> {
                                                     if (value!.isEmpty) {
                                                       return 'Enter number of curled birds';
                                                     }
+                                                    return null;
                                                   },
                                                   keyboardType:
                                                       TextInputType.number,
@@ -424,6 +423,7 @@ class _NumberOfBirdsReportPageState extends State<NumberOfBirdsReportPage> {
                                                     if (value!.isEmpty) {
                                                       return 'Enter number of stolen birds';
                                                     }
+                                                    return null;
                                                   },
                                                   keyboardType:
                                                       TextInputType.number,
@@ -526,10 +526,9 @@ class _NumberOfBirdsReportPageState extends State<NumberOfBirdsReportPage> {
                           }
                         },
                         style: ElevatedButton.styleFrom(
-                            primary: Colors.transparent,
-                            onSurface: Colors.transparent,
+                            foregroundColor: CustomColors.background, backgroundColor: Colors.transparent,
+                            disabledForegroundColor: Colors.transparent.withOpacity(0.38), disabledBackgroundColor: Colors.transparent.withOpacity(0.12),
                             shadowColor: Colors.transparent,
-                            onPrimary: CustomColors.background,
                             fixedSize: Size(100.w, 6.h)),
                         child: Text(
                           'SAVE & CONTINUE',

@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:developer';
 
 import 'package:epoultry/data/data_export.dart';
@@ -7,11 +6,9 @@ import 'package:epoultry/pages/farm/reports/briquettes-used.dart';
 import 'package:epoultry/pages/farm/reports/broiler-weight.dart';
 import 'package:epoultry/pages/farm/reports/eggs_collected_page.dart';
 import 'package:epoultry/pages/farm/reports/number_birds_page.dart';
-import 'package:epoultry/theme/palette.dart';
 import 'package:epoultry/theme/spacing.dart';
 import 'package:epoultry/widgets/gradient_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:intl/intl.dart';
@@ -125,32 +122,26 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
               const SizedBox(
                 height: CustomSpacing.s2,
               ),
-              ListView.builder(
-                  shrinkWrap: true,
-                  itemExtent: 4.5.h,
-                  itemCount:
-                      (controller.report["data"]!['birdCounts'] as List).length,
-                  itemBuilder: (context, index) {
-                    String reason = (controller.report["data"]!['birdCounts']
-                        as List)[index]?['reason'];
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          reason.toTitleCase!,
-                          style:
-                              TextStyle(color: Colors.black, fontSize: 2.3.h),
-                        ),
-                        Text(
-                          (controller.report["data"]!['birdCounts']
-                                  as List)[index]['quantity']
-                              .toString(),
-                          style:
-                              TextStyle(fontSize: 1.8.h, color: Colors.black),
-                        )
-                      ],
-                    );
-                  }),
+              Column(
+                children:
+                    (controller.report["data"]!['birdCounts'] as List).map((e) {
+                  String reason = e?['reason'];
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        reason.toTitleCase!,
+                        style: TextStyle(color: Colors.black, fontSize: 2.3.h),
+                      ),
+                      Text(
+                        e['quantity'].toString(),
+                        style: TextStyle(fontSize: 1.8.h, color: Colors.black),
+                      )
+                    ],
+                  );
+                }).toList(),
+              ),
+
               const SizedBox(
                 height: CustomSpacing.s2,
               ),
@@ -193,37 +184,57 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
                         const SizedBox(
                           height: CustomSpacing.s2,
                         ),
-                        ListView.builder(
-                            shrinkWrap: true,
-                            itemExtent: 4.5.h,
-                            itemCount: (controller
+                        Column(
+                            children: (controller
                                     .report["data"]!['eggCollection'] as Map)
-                                .length,
-                            itemBuilder: (context, index) {
-                              String key = (controller
-                                      .report["data"]!['eggCollection'] as Map)
-                                  .keys
-                                  .elementAt(index);
-
-                              return Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    key.toTitleCase!,
-                                    style: TextStyle(
-                                        color: Colors.black, fontSize: 2.3.h),
-                                  ),
-                                  Text(
-                                    (controller.report["data"]!['eggCollection']
-                                            as Map)[key]
-                                        .toString(),
-                                    style: TextStyle(
-                                        fontSize: 1.8.h, color: Colors.black),
-                                  )
-                                ],
-                              );
-                            }),
+                                .keys
+                                .map((key) => Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          key.toTitleCase!,
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 2.3.h),
+                                        ),
+                                        Text(
+                                          (controller.report["data"]![
+                                                  'eggCollection'] as Map)[key]
+                                              .toString(),
+                                          style: TextStyle(
+                                              fontSize: 1.8.h,
+                                              color: Colors.black),
+                                        )
+                                      ],
+                                    ))
+                                .toList()),
+                        Column(
+                          children: (controller.report["data"]!['eggCollection']
+                                  as Map)
+                              .keys
+                              .map((key) => Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        key.toTitleCase!,
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 2.3.h),
+                                      ),
+                                      Text(
+                                        (controller.report["data"]![
+                                                'eggCollection'] as Map)[key]
+                                            .toString(),
+                                        style: TextStyle(
+                                            fontSize: 1.8.h,
+                                            color: Colors.black),
+                                      )
+                                    ],
+                                  ))
+                              .toList(),
+                        )
                       ],
                     )
                   : Container(),
@@ -266,37 +277,32 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
                         const SizedBox(
                           height: CustomSpacing.s2,
                         ),
-                        ListView.builder(
-                            shrinkWrap: true,
-                            itemExtent: 4.5.h,
-                            itemCount: (controller
-                                    .report["data"]!['weightReport'] as Map)
-                                .length,
-                            itemBuilder: (context, index) {
-                              String key = (controller
-                                      .report["data"]!['weightReport'] as Map)
-                                  .keys
-                                  .elementAt(index);
-
-                              return Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    key.toTitleCase!,
-                                    style: TextStyle(
-                                        color: Colors.black, fontSize: 2.3.h),
-                                  ),
-                                  Text(
-                                    (controller.report["data"]!['weightReport']
-                                            as Map)[key]
-                                        .toString(),
-                                    style: TextStyle(
-                                        fontSize: 1.8.h, color: Colors.black),
-                                  )
-                                ],
-                              );
-                            }),
+                        Column(
+                          children: (controller.report["data"]!['weightReport']
+                                  as Map)
+                              .keys
+                              .map((key) => Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        (key as String).toTitleCase!,
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 2.3.h),
+                                      ),
+                                      Text(
+                                        (controller.report["data"]![
+                                                'weightReport'] as Map)[key]
+                                            .toString(),
+                                        style: TextStyle(
+                                            fontSize: 1.8.h,
+                                            color: Colors.black),
+                                      )
+                                    ],
+                                  ))
+                              .toList(),
+                        )
                       ],
                     )
                   : Container(),
@@ -341,34 +347,27 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
                   const SizedBox(
                     height: CustomSpacing.s2,
                   ),
-                  ListView.builder(
-                      shrinkWrap: true,
-                      itemExtent: 4.5.h,
-                      itemCount: (controller.report["data"]!['briquettesReport']
-                              as Map)
-                          .length,
-                      itemBuilder: (context, index) {
-                        String key = (controller
-                                .report["data"]!['briquettesReport'] as Map)
-                            .keys
-                            .elementAt(index);
-
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              key.toTitleCase!,
-                              style: TextStyle(
-                                  color: Colors.black, fontSize: 2.3.h),
-                            ),
-                            Text(
-                              "${((controller.report["data"]!['briquettesReport'] as Map)[key]["quantity"].toString())}  Kgs",
-                              style: TextStyle(
-                                  fontSize: 1.8.h, color: Colors.black),
-                            )
-                          ],
-                        );
-                      }),
+                  Column(
+                    children: (controller.report["data"]!['briquettesReport']
+                            as Map)
+                        .keys
+                        .map((key) => Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  (key as String).toTitleCase!,
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 2.3.h),
+                                ),
+                                Text(
+                                  "${((controller.report["data"]!['briquettesReport'] as Map)[key]["quantity"].toString())}  Kgs",
+                                  style: TextStyle(
+                                      fontSize: 1.8.h, color: Colors.black),
+                                )
+                              ],
+                            ))
+                        .toList(),
+                  )
                 ],
               ),
               const SizedBox(
@@ -412,34 +411,27 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
                   const SizedBox(
                     height: CustomSpacing.s2,
                   ),
-                  ListView.builder(
-                      shrinkWrap: true,
-                      itemExtent: 4.5.h,
-                      itemCount:
-                          (controller.report["data"]!['sawdustReport'] as Map)
-                              .length,
-                      itemBuilder: (context, index) {
-                        String key =
-                            (controller.report["data"]!['sawdustReport'] as Map)
-                                .keys
-                                .elementAt(index);
-
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              key.toTitleCase!,
-                              style: TextStyle(
-                                  color: Colors.black, fontSize: 2.3.h),
-                            ),
-                            Text(
-                              "${((controller.report["data"]!['sawdustReport'] as Map)[key]["quantity"].toString())} Kgs ",
-                              style: TextStyle(
-                                  fontSize: 1.8.h, color: Colors.black),
-                            )
-                          ],
-                        );
-                      }),
+                  Column(
+                    children: (controller.report["data"]!['sawdustReport']
+                            as Map)
+                        .keys
+                        .map((key) => Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  (key as String).toTitleCase!,
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 2.3.h),
+                                ),
+                                Text(
+                                  "${((controller.report["data"]!['sawdustReport'] as Map)[key]["quantity"].toString())} Kgs ",
+                                  style: TextStyle(
+                                      fontSize: 1.8.h, color: Colors.black),
+                                )
+                              ],
+                            ))
+                        .toList(),
+                  ),
                 ],
               ),
               const SizedBox(
@@ -462,7 +454,7 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
                   onCompleted: (data) => _onCompleted(data, context),
                 ),
                 builder: (RunMutation runMutation, QueryResult? result) {
-                  log("${result}");
+                  log("$result");
                   if (result != null) {
                     if (result.isLoading) {
                       return const LoadingSpinner();
@@ -481,10 +473,13 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
                     child: ElevatedButton(
                         onPressed: () => _submitReport(context, runMutation),
                         style: ElevatedButton.styleFrom(
-                            primary: Colors.transparent,
-                            onSurface: Colors.transparent,
+                            foregroundColor: CustomColors.background,
+                            backgroundColor: Colors.transparent,
+                            disabledForegroundColor:
+                                Colors.transparent.withOpacity(0.38),
+                            disabledBackgroundColor:
+                                Colors.transparent.withOpacity(0.12),
                             shadowColor: Colors.transparent,
-                            onPrimary: CustomColors.background,
                             fixedSize: Size(100.w, 6.h)),
                         child: const Text('SEND UPDATE')),
                   );

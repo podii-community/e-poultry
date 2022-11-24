@@ -117,10 +117,9 @@ class _LoginPageState extends State<LoginPage> {
                         }
                       },
                       style: ElevatedButton.styleFrom(
-                          primary: Colors.transparent,
-                          onSurface: Colors.transparent,
+                          foregroundColor: CustomColors.background, backgroundColor: Colors.transparent,
+                          disabledForegroundColor: Colors.transparent.withOpacity(0.38), disabledBackgroundColor: Colors.transparent.withOpacity(0.12),
                           shadowColor: Colors.transparent,
-                          onPrimary: CustomColors.background,
                           fixedSize: Size(100.w, 6.h)),
                       child: Text(
                         'LOG IN',
@@ -169,7 +168,10 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _onCompleted(data, BuildContext context) {
-    var phone = phoneNumber.text.replaceFirst('0', '');
+    var phone = phoneNumber.text;
+    if (phoneNumber.text.startsWith('0')) {
+      phoneNumber.text.replaceFirst('0', '');
+    }
 
     if (data["requestLoginOtp"]) {
       Navigator.push(

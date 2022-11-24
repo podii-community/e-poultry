@@ -16,6 +16,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../controllers/farm_controller.dart';
+import '../../../controllers/managers_controller.dart';
 import '../../../data/models/error.dart';
 import '../../../widgets/error_widget.dart';
 import '../../../widgets/loading_spinner.dart';
@@ -32,12 +33,12 @@ class _DrawerPageState extends State<DrawerPage> {
   final FarmsController controller = Get.put(FarmsController());
 
   final UserController userController = Get.put(UserController());
+  final ManagersController managersController = ManagersController();
 
   @override
   Widget build(BuildContext context) {
     final box = Hive.box('appData');
     // final role = box.get('role');
-
     return Drawer(
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
@@ -90,13 +91,14 @@ class _DrawerPageState extends State<DrawerPage> {
             child: Text("ALL FARMS"),
           ),
           Obx(
-            () => controller.farms!.isEmpty
+            () => controller.farms.isEmpty
                 ? const Center(
                     child: Text("No Farms"),
                   )
                 : ListView.builder(
                     shrinkWrap: true,
                     itemCount: controller.farms.length,
+                    physics: const ClampingScrollPhysics(),
                     itemBuilder: (context, position) {
                       // return Container();
                       return Card(
@@ -108,6 +110,8 @@ class _DrawerPageState extends State<DrawerPage> {
                             controller.updateFarm(farm);
                             controller.batchesList(batches);
                             getFarmReports(
+                                context, controller.farms[position]['id']);
+                            getFarmManager(
                                 context, controller.farms[position]['id']);
 
                             Navigator.pop(context);
@@ -225,10 +229,10 @@ class _DrawerPageState extends State<DrawerPage> {
                 onTap: () {
                   final box = Hive.box('appData');
                   box.clear();
+                  Get.deleteAll();
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => const LandingPage()),
+                    MaterialPageRoute(builder: (context) => LandingPage()),
                   );
                 },
               )
@@ -240,7 +244,7 @@ class _DrawerPageState extends State<DrawerPage> {
   }
 
   Future<void> getFarmReports(BuildContext context, id) async {
-    log("${id}");
+    log("$id");
     GraphQLClient client = GraphQLProvider.of(context).value;
     var fetchReports = await client.query(QueryOptions(
         operationName: "GetFarmReports",
@@ -256,8 +260,19 @@ class _DrawerPageState extends State<DrawerPage> {
       reports.add(report);
     }
 
-    log("${reports}");
-
     controller.reportsList(reports);
+  }
+
+  Future<void> getFarmManager(BuildContext context, id) async {
+    log("$id");
+    GraphQLClient client = GraphQLProvider.of(context).value;
+    var fetchManagers = await client.query(QueryOptions(
+        operationName: "GetFarmReports",
+        document: gql(context.queries.getFarmManagers()),
+        variables: {"farmId": controller.farm.value['id']}));
+
+    List farmManagers = fetchManagers.data?["farmManagers"];
+
+    managersController.managers(farmManagers);
   }
 }

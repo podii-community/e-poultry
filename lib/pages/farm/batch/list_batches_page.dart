@@ -77,18 +77,20 @@ class _ListBatchPageState extends State<ListBatchPage> {
               ? const Center(
                   child: Text("No Batch"),
                 )
-              : ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: controller.batchesList.length,
-                  itemBuilder: (context, position) {
-                    return Card(
-                      elevation: 0.2,
-                      child: ListTile(
-                        title:
-                            Text("${controller.batchesList[position]["name"]}"),
-                      ),
-                    );
-                  })),
+              : Expanded(
+                  child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: controller.batchesList.length,
+                      itemBuilder: (context, position) {
+                        return Card(
+                          elevation: 0.2,
+                          child: ListTile(
+                            title: Text(
+                                "${controller.batchesList[position]["name"]}"),
+                          ),
+                        );
+                      }),
+                )),
         ],
       ),
     );

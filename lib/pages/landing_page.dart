@@ -5,10 +5,14 @@ import 'package:epoultry/theme/spacing.dart';
 import 'package:epoultry/widgets/gradient_widget.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
+import '../controllers/farm_controller.dart';
+
 class LandingPage extends StatelessWidget {
-  const LandingPage({Key? key}) : super(key: key);
+  LandingPage({Key? key}) : super(key: key);
+  final FarmsController controller = Get.put(FarmsController());
 
   @override
   Widget build(BuildContext context) {
@@ -40,18 +44,17 @@ class LandingPage extends StatelessWidget {
               const SizedBox(
                 height: CustomSpacing.s2,
               ),
-               Text("Welcome to Epoultry!", style: TextStyle(
-                fontSize: 2.8.h,
-                 fontWeight: FontWeight.w600
-              ),),
+              Text(
+                "Welcome to Epoultry!",
+                style: TextStyle(fontSize: 2.8.h, fontWeight: FontWeight.w600),
+              ),
               const SizedBox(
                 height: CustomSpacing.s2,
               ),
-               Text(
+              Text(
                 "Farmer or Farm Manager, \n  there is something for everyone.",
                 style: TextStyle(
-                    fontSize: 2.1.h,
-
+                  fontSize: 2.1.h,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -71,10 +74,9 @@ class LandingPage extends StatelessWidget {
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                        primary: Colors.transparent,
-                        onSurface: Colors.transparent,
+                        foregroundColor: CustomColors.background, backgroundColor: Colors.transparent,
+                        disabledForegroundColor: Colors.transparent.withOpacity(0.38), disabledBackgroundColor: Colors.transparent.withOpacity(0.12),
                         shadowColor: Colors.transparent,
-                        onPrimary: CustomColors.background,
                         fixedSize: Size(100.w, 6.h)),
                     child: Text(
                       'GET STARTED',

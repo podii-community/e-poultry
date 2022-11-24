@@ -116,10 +116,9 @@ class JoinFarmOtp extends StatelessWidget {
                   child: ElevatedButton(
                       onPressed: () => _otpButtonPressed(context, runMutation),
                       style: ElevatedButton.styleFrom(
-                          primary: Colors.transparent,
-                          onSurface: Colors.transparent,
+                          foregroundColor: CustomColors.background, backgroundColor: Colors.transparent,
+                          disabledForegroundColor: Colors.transparent.withOpacity(0.38), disabledBackgroundColor: Colors.transparent.withOpacity(0.12),
                           shadowColor: Colors.transparent,
-                          onPrimary: CustomColors.background,
                           fixedSize: Size(100.w, 6.h)),
                       child: const Text('VERIFY CODE')),
                 );

@@ -8,6 +8,14 @@ class FarmsController extends GetxController {
   final filteredReports = [].obs;
   final selectedBatch = {}.obs;
   final storeItems = [].obs;
+
+  final selectedCountyName = "".obs;
+  final selectedSubCountyName = "Choose subcounty".obs;
+  final selectedWardName = "Choose ward".obs;
+
+  final filteredSubCounties = [""].obs;
+  final filteredWards = [""].obs;
+
   final report = {
     "data": {
       "batchId": "".obs,
@@ -39,6 +47,14 @@ class FarmsController extends GetxController {
 
   final selectedReport = {}.obs;
   final farmReport = {}.obs;
+
+  applySubCounties(List<String> subCounties) {
+    filteredSubCounties(subCounties);
+  }
+
+  applyWards(List<String> wards) {
+    filteredWards(wards);
+  }
 
   updateFarm(dynamic selectedFarm) {
     farm(selectedFarm);

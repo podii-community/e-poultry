@@ -2,6 +2,7 @@ import 'package:epoultry/graphql/query_document_provider.dart';
 import 'package:epoultry/pages/farm/batch/list_batches_page.dart';
 import 'package:epoultry/pages/farm/dashboard/dashboard_page.dart';
 import 'package:epoultry/pages/farm/drawer/drawer_page.dart';
+import 'package:epoultry/pages/farm/farm-managers/profile_page.dart';
 import 'package:epoultry/theme/colors.dart';
 import 'package:epoultry/widgets/appbar_widget.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,10 @@ class _FarmDashboardPageState extends State<FarmDashboardPage> {
 
   static final List<Widget> _pages = <Widget>[
     DashboardPage(),
-    const ListBatchPage()
+    const ListBatchPage(),
+    const ProfilePage(
+      showAppbar: false,
+    )
   ];
   final GlobalKey<ScaffoldState> _dashboardkey = GlobalKey();
   final FarmsController controller = Get.put(FarmsController());
@@ -68,9 +72,9 @@ class _FarmDashboardPageState extends State<FarmDashboardPage> {
           BottomNavigationBarItem(
               icon: Icon(PhosphorIcons.plus), label: "Manage Batch"),
           BottomNavigationBarItem(
-              icon: Icon(PhosphorIcons.userPlus), label: "E-extension"),
-          BottomNavigationBarItem(
-              icon: Icon(PhosphorIcons.shoppingCart), label: "Ecommerce"),
+              icon: Icon(PhosphorIcons.userPlus), label: "Profile"),
+          // BottomNavigationBarItem(
+          //     icon: Icon(PhosphorIcons.shoppingCart), label: "Ecommerce"),
         ],
       ),
     );

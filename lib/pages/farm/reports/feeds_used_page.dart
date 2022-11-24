@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:epoultry/data/data_export.dart';
 import 'package:epoultry/pages/farm/reports/received/feed-received.dart';
@@ -12,13 +10,11 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
-import 'package:string_extensions/string_extensions.dart';
 
 import '../../../controllers/farm_controller.dart';
 import '../../../theme/colors.dart';
 import '../../../theme/spacing.dart';
 import '../../../widgets/gradient_widget.dart';
-import 'confirm_report_page.dart';
 
 class FeedsUsedPage extends StatefulWidget {
   const FeedsUsedPage({Key? key, required this.batchDetails, this.report})
@@ -56,6 +52,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
 
   var layersFeeds = [
     "Chicken Duck Mash",
+    "Growers Mash",
     "Layers Mash",
   ];
 
@@ -219,6 +216,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                     if (_selectedFeeds.isEmpty) {
                                       return "Please choose a feed";
                                     }
+                                    return null;
                                   },
                                 )
                               : Container(),
@@ -256,6 +254,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                     if (_selectedFeeds.isEmpty) {
                                       return "Please choose a feed";
                                     }
+                                    return null;
                                   },
                                 )
                               : Container(),
@@ -293,6 +292,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                     if (_selectedFeeds.isEmpty) {
                                       return "Please choose a feed";
                                     }
+                                    return null;
                                   },
                                 )
                               : Container(),
@@ -307,6 +307,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                     if (value!.isEmpty) {
                                       return 'Enter amount of layers mash used';
                                     }
+                                    return null;
                                   },
                                   keyboardType: TextInputType.number,
                                   decoration: InputDecoration(
@@ -337,8 +338,9 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                   controller: growersMashUsed,
                                   validator: (value) {
                                     if (value!.isEmpty) {
-                                      return 'Enter amount of broilers mash used';
+                                      return 'Enter amount of growers mash used';
                                     }
+                                    return null;
                                   },
                                   keyboardType: TextInputType.number,
                                   decoration: InputDecoration(
@@ -353,7 +355,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                             width: 0.3.w,
                                             color: CustomColors.secondary)),
                                     labelText:
-                                        "How many Kgs of broilers mash were used today?",
+                                        "How many Kgs of growers mash were used today?",
                                     labelStyle: TextStyle(
                                         fontSize: 2.2.h,
                                         color: CustomColors.secondary),
@@ -374,6 +376,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                     if (value!.isEmpty) {
                                       return 'Enter amount of chick duck mash used';
                                     }
+                                    return null;
                                   },
                                   keyboardType: TextInputType.number,
                                   decoration: InputDecoration(
@@ -406,6 +409,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                     if (value!.isEmpty) {
                                       return 'Enter amount of starter crumbs used';
                                     }
+                                    return null;
                                   },
                                   keyboardType: TextInputType.number,
                                   decoration: InputDecoration(
@@ -438,6 +442,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                     if (value!.isEmpty) {
                                       return 'Enter amount of finisher pellets used';
                                     }
+                                    return null;
                                   },
                                   keyboardType: TextInputType.number,
                                   decoration: InputDecoration(
@@ -470,6 +475,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                     if (value!.isEmpty) {
                                       return 'Enter amount of kienyeji growers mash used';
                                     }
+                                    return null;
                                   },
                                   keyboardType: TextInputType.number,
                                   decoration: InputDecoration(
@@ -503,7 +509,6 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                 contentPadding:
                                     EdgeInsets.symmetric(horizontal: 4.w),
                                 border: InputBorder.none),
-                            initialValue: null,
                             name: 'feedsReceived',
                             onChanged: (value) {
                               setState(() {
@@ -603,10 +608,13 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                           }
                         },
                         style: ElevatedButton.styleFrom(
-                            primary: Colors.transparent,
-                            onSurface: Colors.transparent,
+                            foregroundColor: CustomColors.background,
+                            backgroundColor: Colors.transparent,
+                            disabledForegroundColor:
+                                Colors.transparent.withOpacity(0.38),
+                            disabledBackgroundColor:
+                                Colors.transparent.withOpacity(0.12),
                             shadowColor: Colors.transparent,
-                            onPrimary: CustomColors.background,
                             fixedSize: Size(100.w, 6.h)),
                         child: Text(
                           'SAVE & CONTINUE',

@@ -15,22 +15,33 @@ import '../../../widgets/loading_spinner.dart';
 import '../quotation/request_quotation_page.dart';
 
 class JoinFarmPage extends StatefulWidget {
-  const JoinFarmPage({Key? key}) : super(key: key);
+  const JoinFarmPage({Key? key, this.isUnAssigned = false}) : super(key: key);
 
+  final bool isUnAssigned;
   @override
   State<JoinFarmPage> createState() => _JoinFarmPageState();
 }
 
 class _JoinFarmPageState extends State<JoinFarmPage> {
-  final List choices = [
+  final List<Map> choices = [
     {"name": "Join an existing Farm", "selected": false, "value": "join"},
     {"name": "Manage my own Farm", "selected": false, "value": "manage"},
     {"name": "Request a quotation", "selected": false, "value": "request"}
   ];
 
+  List<Map> updatedChoices() {
+    if (widget.isUnAssigned) {
+      choices.removeWhere((element) => element.containsValue('request'));
+      return choices;
+    } else {
+      return choices;
+    }
+  }
+
   final UserController userController = Get.put(UserController());
 
   String selectedChoice = "";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -94,12 +105,16 @@ class _JoinFarmPageState extends State<JoinFarmPage> {
 
                                       break;
                                     case "request":
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const RequestQuotationPage()),
-                                      );
+                                      if (!widget.isUnAssigned) {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const RequestQuotationPage(
+                                                    isUnAssignedRole: true,
+                                                  )),
+                                        );
+                                      }
 
                                       break;
                                     case "manage":
@@ -117,7 +132,7 @@ class _JoinFarmPageState extends State<JoinFarmPage> {
                                 },
                               );
                             },
-                            itemCount: choices.length,
+                            itemCount: updatedChoices().length,
                           ),
                         )),
                       ],

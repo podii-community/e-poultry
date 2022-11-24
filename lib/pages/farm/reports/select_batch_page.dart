@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:epoultry/data/data_export.dart';
 import 'package:epoultry/pages/farm/reports/number_birds_page.dart';
@@ -204,7 +203,7 @@ class _SelectBatchPageState extends State<SelectBatchPage> {
                                   trailing: controller.batchesList[position]
                                               ['todaysSubmission'] !=
                                           null
-                                      ? Container(
+                                      ? SizedBox(
                                           width: 30.w,
                                           child: const LinearProgressIndicator(
                                             value: 1.0,

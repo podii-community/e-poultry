@@ -1,8 +1,8 @@
+import 'dart:developer';
+
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:epoultry/graphql/query_document_provider.dart';
-import 'package:epoultry/utils/permission_service.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -28,42 +28,35 @@ class CreateFarmPage extends StatefulWidget {
 class _CreateFarmPageState extends State<CreateFarmPage> {
   final _formKey = GlobalKey<FormState>();
   final farmName = TextEditingController();
-  final locationName = TextEditingController();
+  final countyName = TextEditingController();
+  final subcountyName = TextEditingController();
+  final wardName = TextEditingController();
   String contractorManaged = "";
-  String farmLocation = "";
+  List<String> _currentWards = [];
+  String _chosenSubCounty = "";
   late Position farmCoordinates;
   final contractorName = TextEditingController();
   bool locating = false;
-  var locations = [
-    "",
-    'Vihiga',
-    'Kisumu',
+  final List<String> locations = [
+    "Kisumu",
+    "Siaya",
+    "Busia",
+    "Bungoma",
+    "Vihiga",
+    "Kakamega"
   ];
+
+  // List<Map<String, String>> addresses = [];
+  List addresses = [];
+
+  List<String> subcounties = [];
+  Map<String, List<String>> wards = {};
+
+  String _selectedCounty = "";
 
   final FarmsController controller = Get.put(FarmsController());
 
   var contractors = ["", "Chicken Basket", "Contractors 1"];
-
-  void _determinePosition() async {
-    setState(() {
-      locating = true;
-    });
-    await PermissionService().requestLocationPermission();
-    Position pos = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-
-    farmCoordinates = pos;
-
-    List<Placemark> placemarks =
-        await placemarkFromCoordinates(pos.latitude, pos.longitude);
-
-    setState(() {
-      locating = false;
-
-      locationName.text =
-          "${placemarks.first.locality!}, ${placemarks.first.administrativeArea!}";
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -133,43 +126,143 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
                         const SizedBox(
                           height: CustomSpacing.s3,
                         ),
-                        TextFormField(
-                          keyboardType: TextInputType.text,
-                          controller: locationName,
-                          validator: (String? value) {
-                            if (value!.isEmpty) {
-                              return 'Location is required';
+                        DropdownSearch<String>(
+                          dropdownDecoratorProps: DropDownDecoratorProps(
+                              dropdownSearchDecoration: InputDecoration(
+                                  hintText: "--select--",
+                                  labelText: "Choose farm location",
+                                  labelStyle: TextStyle(
+                                      fontSize: 2.0.h,
+                                      color: CustomColors.secondary),
+                                  border: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          width: 0.3.w,
+                                          color: CustomColors.secondary)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          width: 0.3.w,
+                                          color: CustomColors.secondary)))),
+                          items: locations,
+                          popupProps: const PopupPropsMultiSelection.menu(
+                            showSelectedItems: true,
+                          ),
+                          onChanged: (val) async {
+                            _selectedCounty = val!;
+
+                            List<String> filteredSubCounties =
+                                await searchAddress(context, val);
+
+                            controller.applySubCounties(filteredSubCounties);
+
+                            countyName.text = val;
+                          },
+                          validator: (value) {
+                            if (countyName.text.isEmpty) {
+                              return "Please choose a location";
                             }
                             return null;
                           },
-                          decoration: InputDecoration(
-                              labelText: "Select the location of your farm",
-                              labelStyle: TextStyle(
-                                  fontSize: 2.2.h,
-                                  color: CustomColors.secondary),
-                              border: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      width: 0.3.w,
-                                      color: CustomColors.secondary)),
-                              focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      width: 0.3.w,
-                                      color: CustomColors.secondary))),
                         ),
-                        const SizedBox(height: CustomSpacing.s2),
-                        locating
-                            ? const LinearProgressIndicator(
-                                color: CustomColors.primary,
-                              )
-                            : RichText(
-                                text: TextSpan(
-                                    text: "Locate Me",
-                                    style: const TextStyle(
+                        const SizedBox(
+                          height: CustomSpacing.s2,
+                        ),
+                        Obx(() {
+                          subcountyName.text =
+                              controller.filteredSubCounties.isEmpty
+                                  ? ""
+                                  : controller.filteredSubCounties.first;
+
+                          return DropdownSearch<String>(
+                            dropdownDecoratorProps: DropDownDecoratorProps(
+                                dropdownSearchDecoration: InputDecoration(
+                                    hintText: "--select--",
+                                    labelText: "Choose subcounty",
+                                    labelStyle: TextStyle(
+                                        fontSize: 2.0.h,
                                         color: CustomColors.secondary),
-                                    recognizer: TapGestureRecognizer()
-                                      ..onTap = () {
-                                        _determinePosition();
-                                      })),
+                                    border: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            width: 0.3.w,
+                                            color: CustomColors.secondary)),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            width: 0.3.w,
+                                            color: CustomColors.secondary)))),
+                            items: controller.filteredSubCounties.value,
+                            popupProps: const PopupPropsMultiSelection.menu(
+                              showSelectedItems: true,
+                            ),
+                            onChanged: (val) {
+                              _currentWards = wards[_chosenSubCounty]
+                                      ?.map((item) => item)
+                                      .toList() ??
+                                  [];
+
+                              controller.selectedSubCountyName(val);
+                              setState(() {});
+
+                              subcountyName.text = val!;
+
+                              _chosenSubCounty = val;
+                            },
+                            validator: (value) {
+                              if (subcountyName.text.isEmpty ||
+                                  controller.selectedSubCountyName.value ==
+                                      "Choose subcounty") {
+                                return "Please choose a subcounty";
+                              }
+                              return null;
+                            },
+                          );
+                        }),
+
+                        const SizedBox(
+                          height: CustomSpacing.s2,
+                        ),
+                        Obx(() {
+                          wardName.text = controller.filteredWards.isEmpty
+                              ? ""
+                              : controller.filteredWards.first;
+
+                          return DropdownSearch<String>(
+                            dropdownDecoratorProps: DropDownDecoratorProps(
+                                dropdownSearchDecoration: InputDecoration(
+                                    hintText: "--select--",
+                                    labelText:
+                                        controller.selectedWardName.value,
+                                    labelStyle: TextStyle(
+                                        fontSize: 2.0.h,
+                                        color: CustomColors.secondary),
+                                    border: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            width: 0.3.w,
+                                            color: CustomColors.secondary)),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            width: 0.3.w,
+                                            color: CustomColors.secondary)))),
+                            items: wards[controller.selectedSubCountyName.value]
+                                    ?.map((item) => item)
+                                    .toList() ??
+                                [],
+                            popupProps: const PopupPropsMultiSelection.menu(
+                              showSelectedItems: true,
+                            ),
+                            onChanged: (val) {
+                              setState(() {
+                                wardName.text = val!;
+                              });
+                            },
+                            validator: (value) {
+                              if (subcountyName.text.isEmpty ||
+                                  controller.selectedWardName.value ==
+                                      "Choose subcounty") {
+                                return "Please choose a subcounty";
+                              }
+                              return null;
+                            },
+                          );
+                        }),
 
                         const SizedBox(
                           height: CustomSpacing.s3,
@@ -312,10 +405,13 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
                             }
                           },
                           style: ElevatedButton.styleFrom(
-                              primary: Colors.transparent,
-                              onSurface: Colors.transparent,
+                              foregroundColor: CustomColors.background,
+                              backgroundColor: Colors.transparent,
+                              disabledForegroundColor:
+                                  Colors.transparent.withOpacity(0.38),
+                              disabledBackgroundColor:
+                                  Colors.transparent.withOpacity(0.12),
                               shadowColor: Colors.transparent,
-                              onPrimary: CustomColors.background,
                               fixedSize: Size(100.w, 6.h)),
                           child: Text(
                             'CREATE FARM',
@@ -352,12 +448,48 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
       BuildContext context, RunMutation runMutation) async {
     runMutation({
       "data": {
-        'areaName': locationName.text,
+        "address": {
+          'county': countyName.text,
+          'subcounty': subcountyName.text,
+          'ward': wardName.text
+        },
         "contractorId": contractorName.text,
-        "latitude": farmCoordinates.latitude,
-        "longitude": farmCoordinates.longitude,
         "name": farmName.text
       },
     });
+  }
+
+  Future<List<String>> searchAddress(
+      BuildContext context, String selectedCounty) async {
+    GraphQLClient client = GraphQLProvider.of(context).value;
+    var searchAddresses = await client.query(QueryOptions(
+        operationName: "SearchAddress",
+        document: gql(context.queries.searchAddress()),
+        variables: {"query": selectedCounty}));
+
+    addresses = searchAddresses.data!["searchAddresses"];
+
+    var holder = <String>{};
+
+    addresses.where((entry) => holder.add(entry["subcounty"]!)).toList();
+    subcounties = holder.toList();
+    log(addresses.toString());
+
+    log('sub ${holder.toString()}');
+    // log('wads ${wards.toString()}');
+    wards.clear();
+
+    for (var sub in subcounties) {
+      var w = addresses
+          .where((address) => sub == address["subcounty"])
+          .map((item) => item["ward"] as String)
+          .toList();
+
+      log(w.toString());
+      wards.addAll({sub: w});
+    }
+    log('wads ${wards.toString()}');
+
+    return subcounties;
   }
 }
