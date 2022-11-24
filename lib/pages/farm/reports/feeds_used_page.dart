@@ -395,6 +395,9 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                   ),
                                 )
                               : Container(),
+                              const SizedBox(
+                            height: CustomSpacing.s2,
+                          ),
                           _selectedFeeds.contains("Starter Crumbs") &&
                                   (widget.batchDetails.type!.name) == "BROILERS"
                               ? TextFormField(
@@ -424,6 +427,9 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                   ),
                                 )
                               : Container(),
+                              const SizedBox(
+                            height: CustomSpacing.s2,
+                          ),
                           _selectedFeeds.contains("Finisher Pellets") &&
                                   (widget.batchDetails.type!.name) == "BROILERS"
                               ? TextFormField(
@@ -453,6 +459,9 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                   ),
                                 )
                               : Container(),
+                              const SizedBox(
+                            height: CustomSpacing.s2,
+                          ),
                           _selectedFeeds.contains("Kienyeji Growers Mash") &&
                                   (widget.batchDetails.type!.name) == "KIENYEJI"
                               ? TextFormField(
@@ -482,7 +491,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                   ),
                                 )
                               : Container(),
-                          SizedBox(
+                          const SizedBox(
                             height: CustomSpacing.s2,
                           ),
                           FormBuilderRadioGroup<String>(
