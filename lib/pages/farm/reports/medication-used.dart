@@ -23,8 +23,11 @@ class MedicationUsed extends StatefulWidget {
 
 class _MedicationUsedState extends State<MedicationUsed> {
   var typeOfMedication = [
-    "New Castle",
-    "Gumboro",
+    "Antibiotic Amidiostart",
+    "Multivitamin Multimid extra or Cidia ",
+    "Disinfectant",
+    "Liquid Paraffin",
+    "Chick Start",
   ];
   List _selectedMedication = [];
 
@@ -251,8 +254,12 @@ class _MedicationUsedState extends State<MedicationUsed> {
                               DateTime(now.year, now.month, now.day);
                         },
                         style: ElevatedButton.styleFrom(
-                            foregroundColor: CustomColors.background, backgroundColor: Colors.transparent,
-                            disabledForegroundColor: Colors.transparent.withOpacity(0.38), disabledBackgroundColor: Colors.transparent.withOpacity(0.12),
+                            foregroundColor: CustomColors.background,
+                            backgroundColor: Colors.transparent,
+                            disabledForegroundColor:
+                                Colors.transparent.withOpacity(0.38),
+                            disabledBackgroundColor:
+                                Colors.transparent.withOpacity(0.12),
                             shadowColor: Colors.transparent,
                             fixedSize: Size(100.w, 6.h)),
                         child: Text(

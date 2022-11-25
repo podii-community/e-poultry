@@ -29,7 +29,6 @@ class DashboardPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 100.h,
       padding: const EdgeInsets.symmetric(horizontal: CustomSpacing.s2),
       child: Column(
         children: [
@@ -88,70 +87,75 @@ class DashboardPage extends StatelessWidget {
                           SizedBox(
                             height: 1.h,
                           ),
-                          Container(
-                            height: 8.h,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: CustomSpacing.s1),
-                            child: GridView.count(
-                              crossAxisCount: 3,
-                              shrinkWrap: true,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "No of Birds",
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 2.h),
-                                    ),
-                                    GradientText(
-                                      "${data["birdCount"] ?? 0}",
-                                      style: TextStyle(
-                                          color: CustomColors.primary,
-                                          fontSize: 3.5.h,
-                                          fontWeight: FontWeight.w600),
-                                      gradient: CustomColors.primaryGradient,
-                                    )
-                                  ],
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Eggs in Store",
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 2.h),
-                                    ),
-                                    GradientText(
-                                      "${data["eggCount"] ?? 0}",
-                                      style: TextStyle(
-                                          color: CustomColors.primary,
-                                          fontSize: 3.5.h,
-                                          fontWeight: FontWeight.w600),
-                                      gradient: CustomColors.primaryGradient,
-                                    )
-                                  ],
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Feeds Used",
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 2.h),
-                                    ),
-                                    GradientText(
-                                      "${data["feedsUsage"] ?? 0} Kgs",
-                                      style: TextStyle(
-                                          color: CustomColors.primary,
-                                          fontSize: 3.5.h,
-                                          fontWeight: FontWeight.w600),
-                                      softWrap: false,
-                                      gradient: CustomColors.primaryGradient,
-                                    )
-                                  ],
-                                ),
-                              ],
+                          Flexible(
+                            // height: 12.h,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: CustomSpacing.s1),
+                              child: GridView.count(
+                                crossAxisCount: 3,
+                                shrinkWrap: true,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "No of Birds",
+                                        style: TextStyle(
+                                            color: Colors.black, fontSize: 2.h),
+                                      ),
+                                      GradientText(
+                                        "${data["birdCount"] ?? 0}",
+                                        style: TextStyle(
+                                            color: CustomColors.primary,
+                                            fontSize: 3.5.h,
+                                            fontWeight: FontWeight.w600),
+                                        gradient: CustomColors.primaryGradient,
+                                      )
+                                    ],
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Eggs in Store",
+                                        style: TextStyle(
+                                            color: Colors.black, fontSize: 2.h),
+                                      ),
+                                      GradientText(
+                                        "${data["eggCount"] ?? 0}",
+                                        style: TextStyle(
+                                            color: CustomColors.primary,
+                                            fontSize: 3.5.h,
+                                            fontWeight: FontWeight.w600),
+                                        gradient: CustomColors.primaryGradient,
+                                      )
+                                    ],
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Feeds Used",
+                                        style: TextStyle(
+                                            color: Colors.black, fontSize: 2.h),
+                                      ),
+                                      GradientText(
+                                        "${data["feedsUsage"] ?? 0} Kgs",
+                                        style: TextStyle(
+                                            color: CustomColors.primary,
+                                            fontSize: 3.5.h,
+                                            fontWeight: FontWeight.w600),
+                                        softWrap: false,
+                                        gradient: CustomColors.primaryGradient,
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ],
@@ -176,139 +180,143 @@ class DashboardPage extends StatelessWidget {
                   SizedBox(
                     height: 2.h,
                   ),
-                  SizedBox(
-                    height: 15.h,
-                    child: ListView(
-                      children: [
-                        GradientWidget(
-                          child: ListTile(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const SelectBatchPage()),
-                              );
-                            },
-                            leading: const Icon(
-                              PhosphorIcons.plusCircleFill,
-                              color: CustomColors.background,
-                            ),
-                            title: Text(
-                              "Add a farm report",
-                              style: TextStyle(fontSize: 2.3.h),
-                            ),
-                            tileColor: Colors.transparent,
-                            textColor: CustomColors.background,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 1.h,
-                        ),
-                      ],
+                  GradientWidget(
+                    child: ListTile(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const SelectBatchPage()),
+                        );
+                      },
+                      leading: const Icon(
+                        PhosphorIcons.plusCircleFill,
+                        color: CustomColors.background,
+                      ),
+                      title: Text(
+                        "Add a farm report",
+                        style: TextStyle(fontSize: 2.3.h),
+                      ),
+                      tileColor: Colors.transparent,
+                      textColor: CustomColors.background,
                     ),
                   ),
+                  SizedBox(
+                    height: 1.h,
+                  ),
+                  // SizedBox(
+                  //   height: 15.h,
+                  //   child: ListView(
+                  //     children: [
+
+                  //     ],
+                  //   ),
+                  // ),
                 ],
               )),
           const SizedBox(
             height: CustomSpacing.s2,
           ),
-          Card(
-              elevation: 0,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text("PREVIOUS REPORTS",
-                            style: TextStyle(fontSize: 2.2.h)),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const AllReportsPage()),
-                          );
-                        },
-                        child:
-                            Text('SEE ALL', style: TextStyle(fontSize: 2.0.h)),
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height: 2.h,
-                  ),
-                  Obx(
-                    () => controller.reportsList.isEmpty
-                        ? Card(
-                            elevation: 4,
-                            shadowColor: CustomColors.secondary,
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 4.w, vertical: 1.5.h),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    PhosphorIcons.info,
-                                    size: 8.w,
-                                  ),
-                                  SizedBox(
-                                    width: 2.w,
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'What is a report?',
-                                        style: TextStyle(fontSize: 4.w),
-                                      ),
-                                      Text(
-                                        'A general overview of the farm',
-                                        style: TextStyle(
-                                            fontSize: 3.w, color: Colors.grey),
-                                      )
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ),
-                          )
-                        : ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: controller.reportsList.length < 3
-                                ? controller.reportsList.length
-                                : 3,
-                            itemBuilder: ((context, index) {
-                              return ListTile(
-                                trailing: const Icon(
-                                  PhosphorIcons.arrowRightBold,
-                                  color: Colors.black,
+          Expanded(
+            child: Card(
+                elevation: 0,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text("PREVIOUS REPORTS",
+                              style: TextStyle(fontSize: 2.2.h)),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const AllReportsPage()),
+                            );
+                          },
+                          child: Text('SEE ALL',
+                              style: TextStyle(fontSize: 2.0.h)),
+                        )
+                      ],
+                    ),
+                    // SizedBox(
+                    //   height: 2.h,
+                    // ),
+                    Obx(
+                      () => controller.reportsList.isEmpty
+                          ? Card(
+                              elevation: 4,
+                              shadowColor: CustomColors.secondary,
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 4.w, vertical: 1.5.h),
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      PhosphorIcons.info,
+                                      size: 8.w,
+                                    ),
+                                    SizedBox(
+                                      width: 2.w,
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'What is a report?',
+                                          style: TextStyle(fontSize: 4.w),
+                                        ),
+                                        Text(
+                                          'A general overview of the farm',
+                                          style: TextStyle(
+                                              fontSize: 3.w,
+                                              color: Colors.grey),
+                                        )
+                                      ],
+                                    )
+                                  ],
                                 ),
-                                title: Text("Farm Report",
-                                    style: TextStyle(fontSize: 1.9.h)),
-                                subtitle: Text(
-                                    "${controller.reportsList[index]["reportDate"]}"),
-                                onTap: () {
-                                  controller.selectedReport(
-                                      controller.reportsList[index]);
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ViewReportPage()),
-                                  );
-                                },
-                                tileColor: CustomColors.background,
-                                textColor: Colors.black,
-                              );
-                            })),
-                  )
-                ],
-              )),
+                              ),
+                            )
+                          : ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: controller.reportsList.length < 3
+                                  ? controller.reportsList.length
+                                  : 3,
+                              itemBuilder: ((context, index) {
+                                return ListTile(
+                                  trailing: const Icon(
+                                    PhosphorIcons.arrowRightBold,
+                                    color: Colors.black,
+                                  ),
+                                  title: Text("Farm Report",
+                                      style: TextStyle(fontSize: 1.9.h)),
+                                  subtitle: Text(
+                                      "${controller.reportsList[index]["reportDate"]}"),
+                                  onTap: () {
+                                    controller.selectedReport(
+                                        controller.reportsList[index]);
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              ViewReportPage()),
+                                    );
+                                  },
+                                  tileColor: CustomColors.background,
+                                  textColor: Colors.black,
+                                );
+                              })),
+                    )
+                  ],
+                )),
+          ),
         ],
       ),
     );

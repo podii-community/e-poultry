@@ -36,7 +36,7 @@ class _FarmDashboardPageState extends State<FarmDashboardPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
+    // implement initState
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       getFarms(context);
