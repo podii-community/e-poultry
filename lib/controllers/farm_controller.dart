@@ -1,8 +1,12 @@
+import 'package:epoultry/services/farm_service.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:path/path.dart';
 
 class FarmsController extends GetxController {
   final farm = {}.obs;
   final farms = [].obs;
+  final selectedFarmId = "".obs;
   final batchesList = [].obs;
   final reportsList = [].obs;
   final filteredReports = [].obs;
@@ -48,6 +52,8 @@ class FarmsController extends GetxController {
   final selectedReport = {}.obs;
   final farmReport = {}.obs;
 
+  var fetchedReports = [].obs;
+
   applySubCounties(List<String> subCounties) {
     filteredSubCounties(subCounties);
   }
@@ -78,5 +84,9 @@ class FarmsController extends GetxController {
 
   setStoreItems(items) {
     storeItems(items);
+  }
+
+  void fetchReports() async {
+    // var reports = FarmService().getFarmReports(farm['id']);
   }
 }

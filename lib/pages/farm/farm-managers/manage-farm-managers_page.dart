@@ -25,7 +25,8 @@ class ManageFarmManagers extends StatefulWidget {
 
 class _ManageFarmManagersState extends State<ManageFarmManagers> {
   final ManagersController managersController = ManagersController();
-  final FarmsController farmsController = Get.put(FarmsController());
+  final FarmsController farmsController =
+      Get.put(FarmsController(), permanent: true);
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +42,7 @@ class _ManageFarmManagersState extends State<ManageFarmManagers> {
             color: Colors.black,
           ),
           onPressed: () {
-            Navigator.pop(context);
+            Get.back();
           },
         ),
       ),
@@ -65,11 +66,7 @@ class _ManageFarmManagersState extends State<ManageFarmManagers> {
             GradientWidget(
               child: ListTile(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const AddFarmManagerPage()),
-                  );
+                  Get.to(() => AddFarmManagerPage());
                 },
                 leading: const Icon(
                   PhosphorIcons.plusCircleFill,
@@ -177,8 +174,7 @@ class _ManageFarmManagersState extends State<ManageFarmManagers> {
                                                       actions: [
                                                         TextButton(
                                                             onPressed: () {
-                                                              Navigator.pop(
-                                                                  context);
+                                                              Get.back();
                                                             },
                                                             child: const Text(
                                                                 "Cancel")),
@@ -199,8 +195,7 @@ class _ManageFarmManagersState extends State<ManageFarmManagers> {
                                                                   context,
                                                                   runMutation,
                                                                   payload);
-                                                              Navigator.pop(
-                                                                  context);
+                                                              Get.back();
                                                             },
                                                             child: const Text(
                                                                 "Remove"))
@@ -227,13 +222,10 @@ class _ManageFarmManagersState extends State<ManageFarmManagers> {
   void _onCompleted(data, BuildContext context) {
     // / If they do, move to home page. If not, take them to select artist page for them to select artists.
     if (data["removeFarmManager"]) {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => const SuccessWidget(
-                    message: 'Farm manager was deleted',
-                    route: 'manager',
-                  )));
+      Get.to(() => const SuccessWidget(
+            message: 'Farm manager was deleted',
+            route: 'manager',
+          ));
     }
   }
 

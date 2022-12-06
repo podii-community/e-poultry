@@ -1,5 +1,6 @@
 import 'package:epoultry/graphql/query_document_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:pinput/pinput.dart';
 import 'package:sizer/sizer.dart';
@@ -116,8 +117,12 @@ class JoinFarmOtp extends StatelessWidget {
                   child: ElevatedButton(
                       onPressed: () => _otpButtonPressed(context, runMutation),
                       style: ElevatedButton.styleFrom(
-                          foregroundColor: CustomColors.background, backgroundColor: Colors.transparent,
-                          disabledForegroundColor: Colors.transparent.withOpacity(0.38), disabledBackgroundColor: Colors.transparent.withOpacity(0.12),
+                          foregroundColor: CustomColors.background,
+                          backgroundColor: Colors.transparent,
+                          disabledForegroundColor:
+                              Colors.transparent.withOpacity(0.38),
+                          disabledBackgroundColor:
+                              Colors.transparent.withOpacity(0.12),
                           shadowColor: Colors.transparent,
                           fixedSize: Size(100.w, 6.h)),
                       child: const Text('VERIFY CODE')),
@@ -135,13 +140,10 @@ class JoinFarmOtp extends StatelessWidget {
 
   Future<void> _onCompleted(data, BuildContext context) async {
     if (data != null) {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => const SuccessWidget(
-                    message: 'You have successfully joined the farm',
-                    route: 'dashboard',
-                  )));
+      Get.to(() => const SuccessWidget(
+            message: 'You have successfully joined the farm',
+            route: 'dashboard',
+          ));
     }
   }
 

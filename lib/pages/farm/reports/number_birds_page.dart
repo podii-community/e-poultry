@@ -1,4 +1,3 @@
-
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:epoultry/data/data_export.dart';
 import 'package:epoultry/pages/farm/reports/broiler-weight.dart';
@@ -43,7 +42,8 @@ class _NumberOfBirdsReportPageState extends State<NumberOfBirdsReportPage> {
   final curledBirds = TextEditingController();
   final stolenBirds = TextEditingController();
 
-  final FarmsController controller = Get.put(FarmsController());
+  final FarmsController controller =
+      Get.put(FarmsController(), permanent: true);
 
   @override
   void initState() {
@@ -66,7 +66,7 @@ class _NumberOfBirdsReportPageState extends State<NumberOfBirdsReportPage> {
               color: Colors.black,
             ),
             onPressed: () {
-              Navigator.pop(context);
+              Get.back();
             },
           ),
           title: Text(
@@ -506,28 +506,24 @@ class _NumberOfBirdsReportPageState extends State<NumberOfBirdsReportPage> {
 
                           if (_noOfBirdsFormKey.currentState!.validate()) {
                             widget.batchDetails.type!.name == "LAYERS"
-                                ? Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => EggsCollectedPage(
-                                              batchDetails: widget.batchDetails,
-                                            )),
-                                  )
-                                : Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => BroilerWeight(
-                                              batchDetails: widget.batchDetails,
-                                              report: report,
-                                            )),
-                                  );
+                                ? Get.to(() => EggsCollectedPage(
+                                      batchDetails: widget.batchDetails,
+                                    ))
+                                : Get.to(() => BroilerWeight(
+                                      batchDetails: widget.batchDetails,
+                                      report: report,
+                                    ));
                           } else {
                             debugPrint("validation failed");
                           }
                         },
                         style: ElevatedButton.styleFrom(
-                            foregroundColor: CustomColors.background, backgroundColor: Colors.transparent,
-                            disabledForegroundColor: Colors.transparent.withOpacity(0.38), disabledBackgroundColor: Colors.transparent.withOpacity(0.12),
+                            foregroundColor: CustomColors.background,
+                            backgroundColor: Colors.transparent,
+                            disabledForegroundColor:
+                                Colors.transparent.withOpacity(0.38),
+                            disabledBackgroundColor:
+                                Colors.transparent.withOpacity(0.12),
                             shadowColor: Colors.transparent,
                             fixedSize: Size(100.w, 6.h)),
                         child: Text(

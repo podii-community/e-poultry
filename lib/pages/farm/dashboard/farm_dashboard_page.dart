@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:epoultry/graphql/query_document_provider.dart';
 import 'package:epoultry/pages/farm/batch/list_batches_page.dart';
 import 'package:epoultry/pages/farm/dashboard/dashboard_page.dart';
@@ -24,26 +26,16 @@ class _FarmDashboardPageState extends State<FarmDashboardPage> {
   int _selectedIndex = 0;
 
   static final List<Widget> _pages = <Widget>[
-    DashboardPage(),
+    const DashboardPage(),
     const ListBatchPage(),
     const ProfilePage(
       showAppbar: false,
     )
   ];
   final GlobalKey<ScaffoldState> _dashboardkey = GlobalKey();
-  final FarmsController controller = Get.put(FarmsController());
-  final UserController userController = Get.put(UserController());
 
-  @override
-  void initState() {
-    // implement initState
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      getFarms(context);
-    });
-
-    super.initState();
-  }
+  final FarmsController controller =
+      Get.put(FarmsController(), permanent: true);
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +44,7 @@ class _FarmDashboardPageState extends State<FarmDashboardPage> {
       appBar: AppbarWidget(
         drawerKey: _dashboardkey,
       ),
-      drawer: const DrawerPage(),
+      drawer: DrawerPage(),
       body: IndexedStack(
         key: UniqueKey(),
         index: _selectedIndex,
@@ -86,19 +78,19 @@ class _FarmDashboardPageState extends State<FarmDashboardPage> {
     });
   }
 
-  Future<void> getFarms(
-    BuildContext context,
-  ) async {
-    GraphQLClient client = GraphQLProvider.of(context).value;
-    var farms = await client.query(QueryOptions(
-      document: gql(context.queries.getFarms()),
-    ));
+  // Future<void> getFarms(
+  //   BuildContext context,
+  // ) async {
+  //   GraphQLClient client = GraphQLProvider.of(context).value;
+  //   var farms = await client.query(QueryOptions(
+  //     document: gql(context.queries.getFarms()),
+  //   ));
 
-    List managingFarms = farms.data!['user']!["managingFarms"];
-    List ownedFarms = farms.data!['user']!["ownedFarms"];
+  //   List managingFarms = farms.data!['user']!["managingFarms"];
+  //   List ownedFarms = farms.data!['user']!["ownedFarms"];
 
-    List farmsList = managingFarms + ownedFarms;
+  //   List farmsList = managingFarms + ownedFarms;
 
-    controller.updateFarms(farmsList);
-  }
+  //   controller.updateFarms(farmsList);
+  // }
 }

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:epoultry/pages/auth/login.dart';
 import 'package:epoultry/pages/auth/otp_page.dart';
 import 'package:epoultry/graphql/query_document_provider.dart';
@@ -5,6 +7,7 @@ import 'package:epoultry/theme/spacing.dart';
 import 'package:epoultry/widgets/gradient_widget.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
@@ -255,8 +258,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             }
                           },
                           style: ElevatedButton.styleFrom(
-                              foregroundColor: CustomColors.background, backgroundColor: Colors.transparent,
-                              disabledForegroundColor: Colors.transparent.withOpacity(0.38), disabledBackgroundColor: Colors.transparent.withOpacity(0.12),
+                              foregroundColor: CustomColors.background,
+                              backgroundColor: Colors.transparent,
+                              disabledForegroundColor:
+                                  Colors.transparent.withOpacity(0.38),
+                              disabledBackgroundColor:
+                                  Colors.transparent.withOpacity(0.12),
                               shadowColor: Colors.transparent,
                               fixedSize: Size(100.w, 6.h)),
                           child: Text(
@@ -291,11 +298,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                 decoration: TextDecoration.underline),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const LoginPage()));
+                                Get.to(() => LoginPage());
                               })
                       ]),
                 )
@@ -308,16 +311,16 @@ class _RegistrationPageState extends State<RegistrationPage> {
   }
 
   void _onCompleted(data, BuildContext context) {
-    var phone = phoneNumber.text.replaceFirst('0', '');
+    var phone = phoneNumber.text;
+
+    if (phoneNumber.text.startsWith('0')) {
+      phoneNumber.text = phoneNumber.text.replaceFirst('0', '');
+    }
     if ((data != null)) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => OtpPage(
-                  route: "register",
-                  phone: phone,
-                )),
-      );
+      Get.to(() => OtpPage(
+            route: "register",
+            phone: phoneNumber.text,
+          ));
     }
   }
 

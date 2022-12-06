@@ -63,7 +63,8 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
   List _selectedFeeds = [];
 
   final quantity = TextEditingController();
-  final FarmsController controller = Get.put(FarmsController());
+  final FarmsController controller =
+      Get.put(FarmsController(), permanent: true);
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +82,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
               color: Colors.black,
             ),
             onPressed: () {
-              Navigator.pop(context);
+              Get.back();
             },
           ),
           title: Text(
@@ -398,7 +399,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                   ),
                                 )
                               : Container(),
-                              const SizedBox(
+                          const SizedBox(
                             height: CustomSpacing.s2,
                           ),
                           _selectedFeeds.contains("Starter Crumbs") &&
@@ -431,7 +432,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                   ),
                                 )
                               : Container(),
-                              const SizedBox(
+                          const SizedBox(
                             height: CustomSpacing.s2,
                           ),
                           _selectedFeeds.contains("Finisher Pellets") &&
@@ -464,7 +465,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                   ),
                                 )
                               : Container(),
-                              const SizedBox(
+                          const SizedBox(
                             height: CustomSpacing.s2,
                           ),
                           _selectedFeeds.contains("Kienyeji Growers Mash") &&
@@ -591,20 +592,12 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
 
                           if (_formKey.currentState!.validate()) {
                             feedsReceived == 'yes'
-                                ? Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => FeedReceived(
-                                              batchDetails: widget.batchDetails,
-                                            )),
-                                  )
-                                : Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => SawdustUsed(
-                                              batchDetails: widget.batchDetails,
-                                            )),
-                                  );
+                                ? Get.to(() => FeedReceived(
+                                      batchDetails: widget.batchDetails,
+                                    ))
+                                : Get.to(() => SawdustUsed(
+                                      batchDetails: widget.batchDetails,
+                                    ));
                           }
                         },
                         style: ElevatedButton.styleFrom(

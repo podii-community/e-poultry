@@ -17,7 +17,8 @@ class ListBatchPage extends StatefulWidget {
 }
 
 class _ListBatchPageState extends State<ListBatchPage> {
-  final FarmsController controller = Get.put(FarmsController());
+  final FarmsController controller =
+      Get.put(FarmsController(), permanent: true);
 
   @override
   Widget build(BuildContext context) {
@@ -42,11 +43,7 @@ class _ListBatchPageState extends State<ListBatchPage> {
           GradientWidget(
             child: ListTile(
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const CreateBatchPage()),
-                );
+                Get.to(() => CreateBatchPage());
               },
               leading: const Icon(
                 PhosphorIcons.plusCircleFill,

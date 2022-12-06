@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:epoultry/controllers/farm_controller.dart';
 import 'package:epoultry/pages/farm/reports/all_reports_page.dart';
 import 'package:epoultry/pages/farm/reports/select_batch_page.dart';
@@ -18,13 +20,21 @@ import '../../../widgets/gradient_text.dart';
 import '../../../widgets/gradient_widget.dart';
 import '../../../widgets/loading_spinner.dart';
 
-class DashboardPage extends StatelessWidget {
-  DashboardPage({
+class DashboardPage extends StatefulWidget {
+  const DashboardPage({
     Key? key,
   }) : super(key: key);
 
-  final FarmsController controller = Get.put(FarmsController());
-  final UserController userController = Get.put(UserController());
+  @override
+  State<DashboardPage> createState() => _DashboardPageState();
+}
+
+class _DashboardPageState extends State<DashboardPage> {
+  final FarmsController controller =
+      Get.put(FarmsController(), permanent: true);
+
+  final UserController userController =
+      Get.put(UserController(), permanent: true);
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +51,7 @@ class DashboardPage extends StatelessWidget {
                 document: gql(context.queries.getFarm()),
                 variables: {'farmId': controller.farm.value['id']},
                 fetchPolicy: FetchPolicy.noCache,
-                pollInterval: const Duration(seconds: 2),
+                // pollInterval: const Duration(seconds: 2),
               ),
               builder: (QueryResult result,
                   {VoidCallback? refetch, FetchMore? fetchMore}) {
@@ -59,10 +69,6 @@ class DashboardPage extends StatelessWidget {
                 final data = result.data?['getFarm'];
 
                 getFarmReports(context);
-                // List reports = [];
-                // for (var batch in data["batches"]) {
-                //   reports.addAll(batch["reports"]);
-                // }
 
                 WidgetsBinding.instance.addPostFrameCallback((_) {
                   controller.batchesList(data["batches"]);
@@ -183,11 +189,7 @@ class DashboardPage extends StatelessWidget {
                   GradientWidget(
                     child: ListTile(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const SelectBatchPage()),
-                        );
+                        Get.to(() => SelectBatchPage());
                       },
                       leading: const Icon(
                         PhosphorIcons.plusCircleFill,
@@ -204,14 +206,6 @@ class DashboardPage extends StatelessWidget {
                   SizedBox(
                     height: 1.h,
                   ),
-                  // SizedBox(
-                  //   height: 15.h,
-                  //   child: ListView(
-                  //     children: [
-
-                  //     ],
-                  //   ),
-                  // ),
                 ],
               )),
           const SizedBox(
@@ -233,11 +227,7 @@ class DashboardPage extends StatelessWidget {
                         ),
                         InkWell(
                           onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const AllReportsPage()),
-                            );
+                            Get.to(() => AllReportsPage());
                           },
                           child: Text('SEE ALL',
                               style: TextStyle(fontSize: 2.0.h)),
@@ -302,12 +292,8 @@ class DashboardPage extends StatelessWidget {
                                   onTap: () {
                                     controller.selectedReport(
                                         controller.reportsList[index]);
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              ViewReportPage()),
-                                    );
+
+                                    Get.to(() => ViewReportPage());
                                   },
                                   tileColor: CustomColors.background,
                                   textColor: Colors.black,
@@ -334,12 +320,12 @@ class DashboardPage extends StatelessWidget {
         }));
 
     List reports = [];
-    // log("${fetchReports.data!["farmReports"]}");
 
+    log("${fetchReports.data!["farmReports"]}");
     for (var report in fetchReports.data!["farmReports"]) {
       reports.add(report);
     }
 
-    controller.reportsList(reports);
+    controller.reportsList.value = reports;
   }
 }

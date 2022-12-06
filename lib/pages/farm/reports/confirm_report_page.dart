@@ -6,6 +6,7 @@ import 'package:epoultry/pages/farm/reports/briquettes-used.dart';
 import 'package:epoultry/pages/farm/reports/broiler-weight.dart';
 import 'package:epoultry/pages/farm/reports/eggs_collected_page.dart';
 import 'package:epoultry/pages/farm/reports/number_birds_page.dart';
+import 'package:epoultry/services/farm_service.dart';
 import 'package:epoultry/theme/spacing.dart';
 import 'package:epoultry/widgets/gradient_widget.dart';
 import 'package:flutter/material.dart';
@@ -34,8 +35,10 @@ class ConfirmReportPage extends StatefulWidget {
 }
 
 class _ConfirmReportPageState extends State<ConfirmReportPage> {
-  final UserController userController = Get.put(UserController());
-  final FarmsController controller = Get.put(FarmsController());
+  final UserController userController =
+      Get.put(UserController(), permanent: true);
+  final FarmsController controller =
+      Get.put(FarmsController(), permanent: true);
 
   // List birdCounts = controller.report["data"]!['birdCounts'] as List;
 
@@ -55,7 +58,7 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
             color: Colors.black,
           ),
           onPressed: () {
-            Navigator.pop(context);
+            Get.back();
           },
         ),
         title: const Text(
@@ -95,13 +98,9 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
                   ),
                   InkWell(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => NumberOfBirdsReportPage(
-                                  batchDetails: widget.batchDetails,
-                                )),
-                      );
+                      Get.to(() => NumberOfBirdsReportPage(
+                            batchDetails: widget.batchDetails,
+                          ));
                     },
                     child: Wrap(
                       children: [
@@ -157,13 +156,9 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
                             ),
                             InkWell(
                               onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => EggsCollectedPage(
-                                            batchDetails: widget.batchDetails,
-                                          )),
-                                );
+                                Get.to(() => EggsCollectedPage(
+                                      batchDetails: widget.batchDetails,
+                                    ));
                               },
                               child: Wrap(
                                 children: [
@@ -231,13 +226,9 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
                             ),
                             InkWell(
                               onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => BroilerWeight(
-                                            batchDetails: widget.batchDetails,
-                                          )),
-                                );
+                                Get.to(() => BroilerWeight(
+                                      batchDetails: widget.batchDetails,
+                                    ));
                               },
                               child: Wrap(
                                 children: [
@@ -301,13 +292,9 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
                       ),
                       InkWell(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => BriquettesUsed(
-                                      batchDetails: widget.batchDetails,
-                                    )),
-                          );
+                          Get.to(() => BriquettesUsed(
+                                batchDetails: widget.batchDetails,
+                              ));
                         },
                         child: Wrap(
                           children: [
@@ -365,13 +352,9 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
                       ),
                       InkWell(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => BriquettesUsed(
-                                      batchDetails: widget.batchDetails,
-                                    )),
-                          );
+                          Get.to(() => BriquettesUsed(
+                                batchDetails: widget.batchDetails,
+                              ));
                         },
                         child: Wrap(
                           children: [
@@ -435,7 +418,6 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
                   onCompleted: (data) => _onCompleted(data, context),
                 ),
                 builder: (RunMutation runMutation, QueryResult? result) {
-                  log("$result");
                   if (result != null) {
                     if (result.isLoading) {
                       return const LoadingSpinner();
@@ -518,13 +500,24 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
 
   Future<void> _onCompleted(data, BuildContext context) async {
     if ((data['createBatchReport']['id'] != null)) {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => const SuccessWidget(
-                    message: 'You have updated the report',
-                    route: 'dashboard',
-                  )));
+      var report = {
+        "farmId": data['createBatchReport']["batch"]["farm"]["id"],
+        "reportDate": data['createBatchReport']["reportDate"],
+      };
+
+      bool addReport = controller.reportsList.value.where((p0) {
+        return p0['reportDate'] == report['reportDate'];
+      }).isEmpty;
+
+      if (addReport) {
+        controller.reportsList.value.add(report);
+      }
+      // controller.reportsList.value.addIf(condition, report)
+
+      Get.to(() => const SuccessWidget(
+            message: 'You have updated the report',
+            route: 'dashboard',
+          ));
     }
   }
 }

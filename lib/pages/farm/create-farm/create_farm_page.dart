@@ -54,7 +54,8 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
 
   String _selectedCounty = "";
 
-  final FarmsController controller = Get.put(FarmsController());
+  final FarmsController controller =
+      Get.put(FarmsController(), permanent: true);
 
   var contractors = ["", "Chicken Basket", "Contractors 1"];
 
@@ -72,7 +73,7 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
             color: Colors.black,
           ),
           onPressed: () {
-            Navigator.pop(context);
+            Get.back();
           },
         ),
       ),
@@ -287,11 +288,14 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
                                     leading: Radio<String>(
                                       value: "yes",
                                       groupValue: contractorManaged,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          contractorManaged = value.toString();
-                                        });
-                                      },
+                                      onChanged: contractors.isEmpty
+                                          ? null
+                                          : (value) {
+                                              setState(() {
+                                                contractorManaged =
+                                                    value.toString();
+                                              });
+                                            },
                                     ),
                                   ),
                                 ),
@@ -302,12 +306,15 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
                                     leading: Radio<String>(
                                       value: "no",
                                       groupValue: contractorManaged,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          contractorManaged = value.toString();
-                                          contractorName.clear();
-                                        });
-                                      },
+                                      onChanged: contractors.isEmpty
+                                          ? null
+                                          : (value) {
+                                              setState(() {
+                                                contractorManaged =
+                                                    value.toString();
+                                                contractorName.clear();
+                                              });
+                                            },
                                     ),
                                   ),
                                 ),
@@ -336,6 +343,12 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
                             }
 
                             List contractors = result.data?["contractors"];
+
+                            //Add this condition
+
+                            if (contractors.isEmpty) {
+                              return Container();
+                            }
 
                             contractorName.text = contractors.first["id"];
                             return contractorManaged == 'yes'
@@ -434,13 +447,17 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
     /// If they do, move to home page. If not, take them to select artist page for them to select artists.
     if ((data['createFarm']['id'] != null)) {
       controller.farm(data['createFarm']);
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => const SuccessWidget(
-                    message: 'Farm Created',
-                    route: 'dashboard',
-                  )));
+
+      var farm = {
+        "id": data['createFarm']['id'],
+        "name": data['createFarm']['name']
+      };
+      controller.farms.value.add(farm);
+
+      Get.to(() => SuccessWidget(
+            message: 'Farm Created',
+            route: 'dashboard',
+          ));
     }
   }
 
@@ -473,10 +490,7 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
 
     addresses.where((entry) => holder.add(entry["subcounty"]!)).toList();
     subcounties = holder.toList();
-    log(addresses.toString());
 
-    log('sub ${holder.toString()}');
-    // log('wads ${wards.toString()}');
     wards.clear();
 
     for (var sub in subcounties) {
@@ -485,10 +499,8 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
           .map((item) => item["ward"] as String)
           .toList();
 
-      log(w.toString());
       wards.addAll({sub: w});
     }
-    log('wads ${wards.toString()}');
 
     return subcounties;
   }

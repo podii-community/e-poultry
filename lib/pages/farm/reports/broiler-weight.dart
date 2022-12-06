@@ -1,4 +1,3 @@
-
 import 'package:epoultry/pages/farm/reports/feeds_used_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -26,7 +25,8 @@ class _BroilerWeightState extends State<BroilerWeight> {
   final _formKey = GlobalKey<FormState>();
   final averageWeight = TextEditingController();
 
-  final FarmsController controller = Get.put(FarmsController());
+  final FarmsController controller =
+      Get.put(FarmsController(), permanent: true);
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,7 @@ class _BroilerWeightState extends State<BroilerWeight> {
               color: Colors.black,
             ),
             onPressed: () {
-              Navigator.pop(context);
+              Get.back();
             },
           ),
           title: Text(
@@ -171,18 +171,18 @@ class _BroilerWeightState extends State<BroilerWeight> {
                           (controller.report["data"]!["weightReport"]
                               as Map)["averageWeight"](averageWeight.text);
                           if (_formKey.currentState!.validate()) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => FeedsUsedPage(
-                                        batchDetails: widget.batchDetails,
-                                      )),
-                            );
+                            Get.to(() => FeedsUsedPage(
+                                  batchDetails: widget.batchDetails,
+                                ));
                           }
                         },
                         style: ElevatedButton.styleFrom(
-                            foregroundColor: CustomColors.background, backgroundColor: Colors.transparent,
-                            disabledForegroundColor: Colors.transparent.withOpacity(0.38), disabledBackgroundColor: Colors.transparent.withOpacity(0.12),
+                            foregroundColor: CustomColors.background,
+                            backgroundColor: Colors.transparent,
+                            disabledForegroundColor:
+                                Colors.transparent.withOpacity(0.38),
+                            disabledBackgroundColor:
+                                Colors.transparent.withOpacity(0.12),
                             shadowColor: Colors.transparent,
                             fixedSize: Size(100.w, 6.h)),
                         child: Text(

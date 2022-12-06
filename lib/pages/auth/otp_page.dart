@@ -35,8 +35,10 @@ class _OtpPageState extends State<OtpPage> {
   final _formKey = GlobalKey<FormState>();
   final pinController = TextEditingController();
 
-  final FarmsController controller = Get.put(FarmsController());
-  final UserController userController = Get.put(UserController());
+  final FarmsController controller =
+      Get.put(FarmsController(), permanent: true);
+  final UserController userController =
+      Get.put(UserController(), permanent: true);
 
   @override
   Widget build(BuildContext context) {
@@ -225,21 +227,20 @@ class _OtpPageState extends State<OtpPage> {
 
         List farms = managingFarms + ownedFarms;
 
-        controller.updateFarms(farms);
-        controller.updateFarm(farms[0]);
-        getFarmReports(context);
+        controller.farms.value = farms;
+
+        controller.farm.value = farms[0];
+        controller.selectedFarmId.value = farms[0]['id'];
+        // controller.updateFarms(farms);
+        // controller.updateFarm(farms[0]);
         controller.updateBatches(farms[0]['batches']);
 
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => SuccessWidget(
-                      message: 'Your phone number has been verified',
-                      route: widget.route,
-                    )));
+        Get.to(() => SuccessWidget(
+              message: 'Your phone number has been verified',
+              route: widget.route,
+            ));
       } else {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const JoinFarmPage()));
+        Get.to(() => JoinFarmPage());
       }
     }
   }
@@ -251,21 +252,22 @@ class _OtpPageState extends State<OtpPage> {
     );
   }
 
-  Future<void> getFarmReports(
-    BuildContext context,
-  ) async {
-    GraphQLClient client = GraphQLProvider.of(context).value;
-    var fetchReports = await client.query(QueryOptions(
-        operationName: "GetFarmReports",
-        document: gql(context.queries.getFarmReports()),
-        variables: {
-          "filter": {"farmId": controller.farm.value['id']}
-        }));
+  // Future<void> getFarmReports(
+  //   BuildContext context,
+  // ) async {
+  //   GraphQLClient client = GraphQLProvider.of(context).value;
+  //   var fetchReports = await client.query(QueryOptions(
+  //       operationName: "GetFarmReports",
+  //       document: gql(context.queries.getFarmReports()),
+  //       variables: {
+  //         "filter": {"farmId": controller.farm.value['id']}
+  //       }));
 
-    List reports = [];
-    for (var report in fetchReports.data!["farmReports"]) {
-      reports.add(report);
-    }
-    controller.reportsList(reports);
-  }
+  //   List reports = [];
+  //   log("${fetchReports.data!["farmReports"]}");
+  //   for (var report in fetchReports.data!["farmReports"]) {
+  //     reports.add(report);
+  //   }
+  //   controller.reportsList(reports);
+  // }
 }

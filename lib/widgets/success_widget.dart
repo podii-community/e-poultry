@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:epoultry/pages/farm/batch/list_batches_page.dart';
 import 'package:epoultry/pages/farm/dashboard/farm_dashboard_page.dart';
@@ -7,8 +8,11 @@ import 'package:epoultry/pages/farm/join-farm/join_farm_page.dart';
 import 'package:epoultry/theme/colors.dart';
 import 'package:epoultry/theme/spacing.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
+
+import '../controllers/farm_controller.dart';
 
 class SuccessWidget extends StatefulWidget {
   const SuccessWidget({
@@ -25,6 +29,8 @@ class SuccessWidget extends StatefulWidget {
 
 class _SuccessWidgetState extends State<SuccessWidget> {
   Timer? _timer;
+  final FarmsController controller =
+      Get.put(FarmsController(), permanent: true);
 
   @override
   void initState() {
@@ -32,39 +38,26 @@ class _SuccessWidgetState extends State<SuccessWidget> {
     _timer = Timer(const Duration(milliseconds: 1200), () {
       switch (widget.route) {
         case "login":
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => const FarmDashboardPage()),
-              ((route) => false));
+          Get.off(() => FarmDashboardPage());
+
           break;
         case "register":
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const JoinFarmPage()),
-          );
+          Get.to(() => JoinFarmPage());
           break;
 
         case "dashboard":
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => const FarmDashboardPage()),
-              ((route) => false));
+          Get.off(() => FarmDashboardPage());
+
           break;
         case "isUnAssigned":
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
                 builder: (context) => const JoinFarmPage(isUnAssigned: true)),
           );
-
           break;
 
         case "batches":
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const ListBatchPage()),
-          );
+          Get.to(() => ListBatchPage());
           break;
 
         case "manager":

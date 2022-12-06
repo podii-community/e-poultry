@@ -12,7 +12,6 @@ import '../controllers/farm_controller.dart';
 
 class LandingPage extends StatelessWidget {
   LandingPage({Key? key}) : super(key: key);
-  final FarmsController controller = Get.put(FarmsController());
 
   @override
   Widget build(BuildContext context) {
@@ -67,15 +66,15 @@ class LandingPage extends StatelessWidget {
                 child: GradientWidget(
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const RegistrationPage()),
-                      );
+                      Get.to(() => RegistrationPage());
                     },
                     style: ElevatedButton.styleFrom(
-                        foregroundColor: CustomColors.background, backgroundColor: Colors.transparent,
-                        disabledForegroundColor: Colors.transparent.withOpacity(0.38), disabledBackgroundColor: Colors.transparent.withOpacity(0.12),
+                        foregroundColor: CustomColors.background,
+                        backgroundColor: Colors.transparent,
+                        disabledForegroundColor:
+                            Colors.transparent.withOpacity(0.38),
+                        disabledBackgroundColor:
+                            Colors.transparent.withOpacity(0.12),
                         shadowColor: Colors.transparent,
                         fixedSize: Size(100.w, 6.h)),
                     child: Text(
@@ -107,10 +106,7 @@ class LandingPage extends StatelessWidget {
                               decoration: TextDecoration.underline),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const LoginPage()));
+                              Get.to(() => LoginPage());
                             })
                     ]),
               )

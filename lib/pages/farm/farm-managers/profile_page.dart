@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:epoultry/pages/farm/farm-managers/edit-profile_page.dart';
 import 'package:epoultry/theme/spacing.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +8,7 @@ import 'package:hive/hive.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../controllers/farm_controller.dart';
 import '../../../controllers/user_controller.dart';
 import '../../../theme/colors.dart';
 
@@ -19,7 +22,10 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  final UserController userController = Get.put(UserController());
+  final UserController userController =
+      Get.put(UserController(), permanent: true);
+  final FarmsController controller =
+      Get.put(FarmsController(), permanent: true);
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +33,7 @@ class _ProfilePageState extends State<ProfilePage> {
     final name = box.get('name');
     final phone = box.get('phone');
     final role = box.get('role');
+
     return Scaffold(
         appBar: widget.showAppbar
             ? AppBar(
@@ -41,7 +48,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     color: Colors.black,
                   ),
                   onPressed: () {
-                    Navigator.pop(context);
+                    Get.back();
                   },
                 ),
                 title: const Text(
@@ -87,11 +94,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                       InkWell(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const EditProfilePage()),
-                          );
+                          Get.to(() => EditProfilePage());
                         },
                         child: Wrap(
                           children: [

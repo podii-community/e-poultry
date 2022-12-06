@@ -19,7 +19,8 @@ class ViewReportPage extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  final FarmsController controller = Get.put(FarmsController());
+  final FarmsController controller =
+      Get.put(FarmsController(), permanent: true);
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +38,7 @@ class ViewReportPage extends StatelessWidget {
               color: Colors.black,
             ),
             onPressed: () {
-              Navigator.pop(context);
+              Get.back();
             },
           ),
           title: const Text(
@@ -68,7 +69,7 @@ class ViewReportPage extends StatelessWidget {
               }
 
               final farmReport = result.data!["getFarmReport"];
-              log("$farmReport");
+
               return Container(
                 padding:
                     const EdgeInsets.symmetric(horizontal: CustomSpacing.s3),
@@ -477,7 +478,6 @@ class ViewReportPage extends StatelessWidget {
           "reportDate": controller.selectedReport["reportDate"]
         }));
 
-    log("${fetchReport.data!['getFarmReport']}");
     controller.farmReport(fetchReport.data!['getFarmReport']);
   }
 }

@@ -1,4 +1,3 @@
-
 import 'package:epoultry/data/data_export.dart';
 import 'package:epoultry/pages/farm/reports/number_birds_page.dart';
 import 'package:epoultry/pages/farm/reports/store/feeds-store.dart';
@@ -25,7 +24,8 @@ class _SelectBatchPageState extends State<SelectBatchPage> {
 
   final bool isSelected = false;
 
-  final FarmsController controller = Get.put(FarmsController());
+  final FarmsController controller =
+      Get.put(FarmsController(), permanent: true);
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,7 @@ class _SelectBatchPageState extends State<SelectBatchPage> {
             color: Colors.black,
           ),
           onPressed: () {
-            Navigator.pop(context);
+            Get.back();
           },
         ),
         title: const Text(
@@ -100,11 +100,7 @@ class _SelectBatchPageState extends State<SelectBatchPage> {
                   ),
                 ),
                 InkWell(
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const CreateBatchPage()),
-                  ),
+                  onTap: () => Get.to(() => CreateBatchPage()),
                   child: Wrap(
                     crossAxisAlignment: WrapCrossAlignment.center,
                     children: [
@@ -121,7 +117,6 @@ class _SelectBatchPageState extends State<SelectBatchPage> {
             const SizedBox(
               height: CustomSpacing.s3,
             ),
-
             const SizedBox(
               height: CustomSpacing.s3,
             ),
@@ -174,28 +169,17 @@ class _SelectBatchPageState extends State<SelectBatchPage> {
                               child: ListTile(
                                   onTap: () {
                                     controller.storeItems.isEmpty
-                                        ? Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) => FeedStore(
-                                                      batchDetails: BatchModel
-                                                          .fromMap(controller
-                                                                  .batchesList[
-                                                              position]),
-                                                      report: "",
-                                                    )),
-                                          )
-                                        : Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    NumberOfBirdsReportPage(
-                                                      batchDetails: BatchModel
-                                                          .fromMap(controller
-                                                                  .batchesList[
-                                                              position]),
-                                                    )),
-                                          );
+                                        ? Get.to(() => FeedStore(
+                                              batchDetails: BatchModel.fromMap(
+                                                  controller
+                                                      .batchesList[position]),
+                                              report: "",
+                                            ))
+                                        : Get.to(() => NumberOfBirdsReportPage(
+                                              batchDetails: BatchModel.fromMap(
+                                                  controller
+                                                      .batchesList[position]),
+                                            ));
                                   },
                                   title: Text(title),
                                   subtitle: Text(
@@ -224,207 +208,6 @@ class _SelectBatchPageState extends State<SelectBatchPage> {
                                           ],
                                         )));
                         }))),
-            // Query(
-            //   options: QueryOptions(
-            //     document: gql(context.queries.listBatches()),
-            //     fetchPolicy: FetchPolicy.noCache,
-            //     pollInterval: const Duration(minutes: 2),
-            //   ),
-            //   builder: (QueryResult result,
-            //       {VoidCallback? refetch, FetchMore? fetchMore}) {
-            //     if (result.isLoading) {
-            //       return const LoadingSpinner();
-            //     }
-            //     if (result.hasException) {
-            //       return AppErrorWidget(
-            //         error: ErrorModel.fromString(
-            //           result.exception.toString(),
-            //         ),
-            //       );
-            //     }
-
-            //     if ((result.data?['user']!["managingFarms"]).isNotEmpty) {
-            //       List batches =
-            //           result.data?['user']?["managingFarms"][0]["batches"];
-
-            // return batches.isEmpty
-            //     ? Card(
-            //         elevation: 4,
-            //         shadowColor: CustomColors.secondary,
-            //         child: Padding(
-            //           padding: EdgeInsets.symmetric(
-            //               horizontal: 4.w, vertical: 1.5.h),
-            //           child: Row(
-            //             children: [
-            //               Icon(
-            //                 PhosphorIcons.info,
-            //                 size: 8.w,
-            //               ),
-            //               SizedBox(
-            //                 width: 2.w,
-            //               ),
-            //               Column(
-            //                 crossAxisAlignment: CrossAxisAlignment.start,
-            //                 children: [
-            //                   Text(
-            //                     'What is a batch?',
-            //                     style: TextStyle(fontSize: 4.w),
-            //                   ),
-            //                   Text(
-            //                     'A group of birds of the same age?',
-            //                     style: TextStyle(
-            //                         fontSize: 3.w, color: Colors.grey),
-            //                   )
-            //                 ],
-            //               )
-            //             ],
-            //           ),
-            //         ),
-            //       )
-            //     : Expanded(
-            //         child: ListView.builder(
-            //             itemCount: batches.length,
-            //             itemBuilder: (context, position) {
-            //               String title = batches[position]["name"];
-            //               String birdType =
-            //                   batches[position]["birdType"]!;
-            //               int birdCount = batches[position]["birdCount"];
-            //               return Card(
-            //                   elevation: 0,
-            //                   child: ListTile(
-            //                       onTap: () {
-            //                         Navigator.push(
-            //                           context,
-            //                           MaterialPageRoute(
-            //                               builder: (context) =>
-            //                                   NumberOfBirdsReportPage(
-            //                                       batchDetails: BatchModel
-            //                                           .fromMap(batches[
-            //                                               position]))),
-            //                         );
-            //                       },
-            //                       title: Text(title),
-            //                       subtitle: Text(
-            //                           "${birdType.capitalize!},$birdCount Birds"),
-            //                       trailing: Wrap(
-            //                         crossAxisAlignment:
-            //                             WrapCrossAlignment.center,
-            //                         children: [
-            //                           Text('Start Report',
-            //                               style: TextStyle(
-            //                                   fontSize: 1.5.h,
-            //                                   color:
-            //                                       CustomColors.tertiary)),
-            //                           Icon(PhosphorIcons.arrowRight,
-            //                               color: CustomColors.tertiary),
-            //                         ],
-            //                       )));
-            //             }));
-            //     }
-
-            //     if ((result.data?['user']!["ownedFarms"]).isNotEmpty) {
-            //       List batches =
-            //           result.data?['user']?["ownedFarms"][0]["batches"];
-
-            //       return batches.isEmpty
-            //           ? Card(
-            //               elevation: 4,
-            //               shadowColor: CustomColors.secondary,
-            //               child: Padding(
-            //                 padding: EdgeInsets.symmetric(
-            //                     horizontal: 4.w, vertical: 1.5.h),
-            //                 child: Row(
-            //                   children: [
-            //                     Icon(
-            //                       PhosphorIcons.info,
-            //                       size: 8.w,
-            //                     ),
-            //                     SizedBox(
-            //                       width: 2.w,
-            //                     ),
-            //                     Column(
-            //                       crossAxisAlignment: CrossAxisAlignment.start,
-            //                       children: [
-            //                         Text(
-            //                           'What is a batch?',
-            //                           style: TextStyle(fontSize: 4.w),
-            //                         ),
-            //                         Text(
-            //                           'A group of birds of the same age?',
-            //                           style: TextStyle(
-            //                               fontSize: 3.w, color: Colors.grey),
-            //                         )
-            //                       ],
-            //                     )
-            //                   ],
-            //                 ),
-            //               ),
-            //             )
-            //           : Expanded(
-            //               child: ListView.builder(
-            //                   itemCount: batches.length,
-            //                   itemBuilder: (context, position) {
-            //                     return Card(
-            //                         elevation: 0,
-            //                         child: ListTile(
-            //                             onTap: () {
-            //                               Navigator.push(
-            //                                 context,
-            //                                 MaterialPageRoute(
-            //                                     builder: (context) =>
-            //                                         NumberOfBirdsReportPage(
-            //                                             batchDetails: BatchModel
-            //                                                 .fromMap(batches[
-            //                                                     position]))),
-            //                               );
-            //                             },
-            //                             // selected: selectedBatch?.id ==
-            //                             //     batches[position]["id"],
-            //                             title: Text(
-            //                                 "${batches[position]["name"]}"),
-            //                             subtitle: Text(
-            //                                 "${batches[position]["birdType"]},${batches[position]["birdCount"]}"),
-            //                             trailing: Wrap(
-            //                               crossAxisAlignment:
-            //                                   WrapCrossAlignment.center,
-            //                               children: [
-            //                                 Text('Start Report',
-            //                                     style: TextStyle(
-            //                                         fontSize: 1.5.h,
-            //                                         color:
-            //                                             CustomColors.tertiary)),
-            //                                 Icon(PhosphorIcons.arrowRight,
-            //                                     color: CustomColors.tertiary),
-            //                               ],
-            //                             )));
-            //                   }));
-            //     }
-
-            //     return Container();
-            //   },
-            // ),
-
-            // GradientWidget(
-            //   child: ElevatedButton(
-            //       onPressed: selectedBatch == null
-            //           ? null
-            //           : () {
-            //               Navigator.push(
-            //                 context,
-            //                 MaterialPageRoute(
-            //                     builder: (context) => NumberOfBirdsReportPage(
-            //                           batchDetails: selectedBatch!,
-            //                         )),
-            //               );
-            //             },
-            //       style: ElevatedButton.styleFrom(
-            //           primary: Colors.transparent,
-            //           onSurface: Colors.transparent,
-            //           shadowColor: Colors.transparent,
-            //           onPrimary: CustomColors.background,
-            //           fixedSize: Size(100.w, 6.h)),
-            //       child: const Text('START REPORT')),
-            // ),
             const SizedBox(
               height: CustomSpacing.s1,
             ),
