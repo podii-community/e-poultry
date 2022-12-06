@@ -98,6 +98,7 @@ class _LoginPageState extends State<LoginPage> {
                 onCompleted: (data) => _onCompleted(data, context),
               ),
               builder: (RunMutation runMutation, QueryResult? result) {
+                log("${result}");
                 if (result != null) {
                   if (result.isLoading) {
                     return const LoadingSpinner();
@@ -173,11 +174,11 @@ class _LoginPageState extends State<LoginPage> {
   void _onCompleted(data, BuildContext context) {
     var phone = phoneNumber.text;
     if (phoneNumber.text.startsWith('0')) {
-      phoneNumber.text = phoneNumber.text.replaceFirst('0', '');
+      phone = phoneNumber.text.replaceFirst('0', '');
     }
 
     if (data["requestLoginOtp"]) {
-      Get.to(() => OtpPage(route: "login", phone: phoneNumber.text));
+      Get.to(() => OtpPage(route: "login", phone: phone));
     }
   }
 

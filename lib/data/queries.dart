@@ -525,4 +525,16 @@ class EpoultryQueries {
 
   """;
   }
+
+  String storeItems() {
+    return """
+    query StoreItems(\$filter: StoreItemsFilterInput!){
+      storeItems(filter: \$filter){
+        id,
+        itemType,
+        name
+      }
+    }
+    """;
+  }
 }

@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
+import 'package:string_extensions/string_extensions.dart';
 
 import '../../../controllers/user_controller.dart';
 import '../../../data/models/error.dart';
@@ -38,6 +39,7 @@ class _DashboardPageState extends State<DashboardPage> {
 
   @override
   Widget build(BuildContext context) {
+    log("${controller.farm.value['id']}");
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: CustomSpacing.s2),
       child: Column(
@@ -69,6 +71,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 final data = result.data?['getFarm'];
 
                 getFarmReports(context);
+                getFeeds(context);
 
                 WidgetsBinding.instance.addPostFrameCallback((_) {
                   controller.batchesList(data["batches"]);
@@ -321,11 +324,35 @@ class _DashboardPageState extends State<DashboardPage> {
 
     List reports = [];
 
-    log("${fetchReports.data!["farmReports"]}");
     for (var report in fetchReports.data!["farmReports"]) {
       reports.add(report);
     }
 
     controller.reportsList.value = reports;
+  }
+
+  Future<void> getFeeds(BuildContext context) async {
+    GraphQLClient client = GraphQLProvider.of(context).value;
+    var fetchFeeds = await client.query(QueryOptions(
+        operationName: "StoreItems",
+        document: gql(context.queries.storeItems()),
+        variables: {
+          "filter": {"farmId": controller.farm.value['id']}
+        }));
+
+    // log("${}");
+
+    List items = fetchFeeds.data!["storeItems"];
+
+    List feedsList =
+        items.where((element) => element['itemType'] == "FEED").toList();
+
+    List<String> feeds = [];
+
+    feedsList.forEach((element) {
+      feeds.add((element["name"] as String).toUpperCase());
+    });
+
+    controller.feedList.value = feeds;
   }
 }

@@ -193,6 +193,7 @@ class _FeedStoreState extends State<FeedStore> {
                                 onChanged: (val) {
                                   setState(() {
                                     _selectedFeeds = val;
+                                    controller.feedList.value = val;
                                   });
                                 },
                                 validator: (value) {
