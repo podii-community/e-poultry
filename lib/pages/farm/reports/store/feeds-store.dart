@@ -193,6 +193,34 @@ class _FeedStoreState extends State<FeedStore> {
                                 onChanged: (val) {
                                   setState(() {
                                     _selectedFeeds = val;
+
+                                    List kienyejiFeeds = val
+                                        .where((feed) =>
+                                            feed == 'Chicken Duck Mash' ||
+                                            feed == 'Kienyeji Growers Mash')
+                                        .toList();
+
+                                    List broilerFeeds = val
+                                        .where((feed) =>
+                                            feed == 'Finisher Pellets' ||
+                                            feed == 'Starter Crumbs')
+                                        .toList();
+
+                                    List layerFeeds = val
+                                        .where((feed) =>
+                                            feed == 'Chicken Duck Mash' ||
+                                            feed == 'Layers Mash' ||
+                                            feed == 'GGrowers Mash')
+                                        .toList();
+
+                                    controller.kienyejiFeed.value =
+                                        kienyejiFeeds as List<String>;
+
+                                    controller.broilerFeeds.value =
+                                        broilerFeeds as List<String>;
+
+                                    controller.layersFeeds.value =
+                                        layerFeeds as List<String>;
                                     controller.feedList.value = val;
                                   });
                                 },

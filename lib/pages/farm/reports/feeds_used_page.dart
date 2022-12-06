@@ -191,43 +191,124 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                           const SizedBox(
                             height: CustomSpacing.s2,
                           ),
-                          DropdownSearch<String>.multiSelection(
-                            dropdownDecoratorProps: DropDownDecoratorProps(
-                                dropdownSearchDecoration: InputDecoration(
-                                    hintText: "--select--",
-                                    labelText:
-                                        "What feeds have you used for your birds?",
-                                    labelStyle: TextStyle(
-                                        fontSize: 2.0.h,
-                                        color: CustomColors.secondary),
-                                    border: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            width: 0.3.w,
-                                            color: CustomColors.secondary)),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            width: 0.3.w,
-                                            color: CustomColors.secondary)))),
-                            items: controller.feedList.value,
-                            popupProps: const PopupPropsMultiSelection.menu(
-                              showSelectedItems: true,
-                            ),
-                            onChanged: (val) {
-                              setState(() {
-                                _selectedFeeds = val;
-                              });
-                            },
-                            validator: (value) {
-                              if (_selectedFeeds.isEmpty) {
-                                return "Please choose a feed";
-                              }
-                              return null;
-                            },
-                          ),
+                          widget.batchDetails.type!.name == "LAYERS"
+                              ? DropdownSearch<String>.multiSelection(
+                                  dropdownDecoratorProps: DropDownDecoratorProps(
+                                      dropdownSearchDecoration: InputDecoration(
+                                          hintText: "--select--",
+                                          labelText:
+                                              "What feeds have you used for your birds?",
+                                          labelStyle: TextStyle(
+                                              fontSize: 2.0.h,
+                                              color: CustomColors.secondary),
+                                          border: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  width: 0.3.w,
+                                                  color:
+                                                      CustomColors.secondary)),
+                                          focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  width: 0.3.w,
+                                                  color: CustomColors
+                                                      .secondary)))),
+                                  items: controller.layersFeeds.value,
+                                  popupProps:
+                                      const PopupPropsMultiSelection.menu(
+                                    showSelectedItems: true,
+                                  ),
+                                  onChanged: (val) {
+                                    setState(() {
+                                      _selectedFeeds = val;
+                                    });
+                                  },
+                                  validator: (value) {
+                                    if (_selectedFeeds.isEmpty) {
+                                      return "Please choose a feed";
+                                    }
+                                  },
+                                )
+                              : Container(),
+                          widget.batchDetails.type!.name == "BROILERS"
+                              ? DropdownSearch<String>.multiSelection(
+                                  dropdownDecoratorProps: DropDownDecoratorProps(
+                                      dropdownSearchDecoration: InputDecoration(
+                                          hintText: "--select--",
+                                          labelText:
+                                              "What feeds have you used for your birds?",
+                                          labelStyle: TextStyle(
+                                              fontSize: 2.0.h,
+                                              color: CustomColors.secondary),
+                                          border: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  width: 0.3.w,
+                                                  color:
+                                                      CustomColors.secondary)),
+                                          focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  width: 0.3.w,
+                                                  color: CustomColors
+                                                      .secondary)))),
+                                  items: controller.broilerFeeds.value,
+                                  popupProps:
+                                      const PopupPropsMultiSelection.menu(
+                                    showSelectedItems: true,
+                                  ),
+                                  onChanged: (val) {
+                                    setState(() {
+                                      _selectedFeeds = val;
+                                    });
+                                  },
+                                  validator: (value) {
+                                    if (_selectedFeeds.isEmpty) {
+                                      return "Please choose a feed";
+                                    }
+                                  },
+                                )
+                              : Container(),
+                          widget.batchDetails.type!.name == "KIENYEJI"
+                              ? DropdownSearch<String>.multiSelection(
+                                  dropdownDecoratorProps: DropDownDecoratorProps(
+                                      dropdownSearchDecoration: InputDecoration(
+                                          hintText: "--select--",
+                                          labelText:
+                                              "What feeds have you used for your birds?",
+                                          labelStyle: TextStyle(
+                                              fontSize: 2.0.h,
+                                              color: CustomColors.secondary),
+                                          border: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  width: 0.3.w,
+                                                  color:
+                                                      CustomColors.secondary)),
+                                          focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  width: 0.3.w,
+                                                  color: CustomColors
+                                                      .secondary)))),
+                                  items: controller.kienyejiFeed.value,
+                                  popupProps:
+                                      const PopupPropsMultiSelection.menu(
+                                    showSelectedItems: true,
+                                  ),
+                                  onChanged: (val) {
+                                    setState(() {
+                                      _selectedFeeds = val;
+                                    });
+                                  },
+                                  validator: (value) {
+                                    if (_selectedFeeds.isEmpty) {
+                                      return "Please choose a feed";
+                                    }
+                                  },
+                                )
+                              : Container(),
                           const SizedBox(
                             height: CustomSpacing.s3,
                           ),
-                          _selectedFeeds.contains("LAYERS_MASH")
+                          _selectedFeeds.contains("LAYERS_MASH") ||
+                                  _selectedFeeds.contains("Layers Mash") &&
+                                      (widget.batchDetails.type!.name) ==
+                                          "LAYERS"
                               ? TextFormField(
                                   controller: layersMashUsed,
                                   validator: (value) {
@@ -259,7 +340,10 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                           const SizedBox(
                             height: CustomSpacing.s3,
                           ),
-                          _selectedFeeds.contains("GROWERS_MASH")
+                          _selectedFeeds.contains("GROWERS_MASH") ||
+                                  _selectedFeeds.contains("Growers Mash") &&
+                                      (widget.batchDetails.type!.name) ==
+                                          "LAYERS"
                               ? TextFormField(
                                   controller: growersMashUsed,
                                   validator: (value) {
@@ -291,7 +375,13 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                           const SizedBox(
                             height: CustomSpacing.s3,
                           ),
-                          _selectedFeeds.contains("CHICKEN_DUCK_MASH")
+                          _selectedFeeds.contains("CHICKEN_DUCK_MASH") ||
+                                  _selectedFeeds
+                                          .contains("Chicken Duck Mash") &&
+                                      ((widget.batchDetails.type!.name) ==
+                                              "LAYERS" ||
+                                          (widget.batchDetails.type!.name) ==
+                                              "KIENYEJI")
                               ? TextFormField(
                                   controller: chickDuckMashUsed,
                                   validator: (value) {
@@ -323,7 +413,10 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                           const SizedBox(
                             height: CustomSpacing.s2,
                           ),
-                          _selectedFeeds.contains("STARTER_CRUMBS")
+                          _selectedFeeds.contains("STARTER_CRUMBS") ||
+                                  _selectedFeeds.contains("Starter Crumbs") &&
+                                      (widget.batchDetails.type!.name) ==
+                                          "BROILERS"
                               ? TextFormField(
                                   controller: starterCrumbsUsed,
                                   validator: (value) {
@@ -355,7 +448,10 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                           const SizedBox(
                             height: CustomSpacing.s2,
                           ),
-                          _selectedFeeds.contains("FINISHER_PELLETS")
+                          _selectedFeeds.contains("FINISHER_PELLETS") ||
+                                  _selectedFeeds.contains("Finisher Pellets") &&
+                                      (widget.batchDetails.type!.name) ==
+                                          "BROILERS"
                               ? TextFormField(
                                   controller: finisherPelletsUsed,
                                   validator: (value) {
@@ -387,7 +483,11 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                           const SizedBox(
                             height: CustomSpacing.s2,
                           ),
-                          _selectedFeeds.contains("KIENYEJI_GROWERS_MASH")
+                          _selectedFeeds.contains("KIENYEJI_GROWERS_MASH") ||
+                                  _selectedFeeds
+                                          .contains("Kienyeji Growers Mash") &&
+                                      (widget.batchDetails.type!.name) ==
+                                          "KIENYEJI"
                               ? TextFormField(
                                   controller: kienyejiGrowersUsed,
                                   validator: (value) {

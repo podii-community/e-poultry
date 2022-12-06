@@ -353,6 +353,28 @@ class _DashboardPageState extends State<DashboardPage> {
       feeds.add((element["name"] as String).toUpperCase());
     });
 
+    List kienyejiFeeds = feeds
+        .where((feed) =>
+            feed == 'CHICKEN_DUCK_MASH' || feed == 'KIENYEJI_GROWERS_MASH')
+        .toList();
+
+    List broilerFeeds = feeds
+        .where((feed) => feed == 'FINISHER_PELLETS' || feed == 'STARTER_CRUMBS')
+        .toList();
+
+    List layerFeeds = feeds
+        .where((feed) =>
+            feed == 'CHICKEN_DUCK_MASH' ||
+            feed == 'LAYERS_MASH' ||
+            feed == 'GROWERS_MASH')
+        .toList();
+
+    controller.kienyejiFeed.value = kienyejiFeeds as List<String>;
+
+    controller.broilerFeeds.value = broilerFeeds as List<String>;
+
+    controller.layersFeeds.value = layerFeeds as List<String>;
+
     controller.feedList.value = feeds;
   }
 }
