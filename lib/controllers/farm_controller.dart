@@ -12,6 +12,7 @@ class FarmsController extends GetxController {
   final filteredReports = [].obs;
   final selectedBatch = {}.obs;
   final storeItems = [].obs;
+  final feedList = <String>[].obs;
 
   final selectedCountyName = "".obs;
   final selectedSubCountyName = "Choose subcounty".obs;

@@ -314,12 +314,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
     var phone = phoneNumber.text;
 
     if (phoneNumber.text.startsWith('0')) {
-      phoneNumber.text = phoneNumber.text.replaceFirst('0', '');
+      phone = phoneNumber.text.replaceFirst('0', '');
     }
     if ((data != null)) {
       Get.to(() => OtpPage(
             route: "register",
-            phone: phoneNumber.text,
+            phone: phone,
           ));
     }
   }
