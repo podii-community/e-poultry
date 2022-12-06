@@ -1,4 +1,3 @@
-
 import 'package:epoultry/graphql/query_document_provider.dart';
 import 'package:epoultry/theme/spacing.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +26,8 @@ class _FilterReportsPageState extends State<FilterReportsPage> {
   final startController = TextEditingController();
   final endController = TextEditingController();
 
-  final FarmsController farmController = Get.put(FarmsController());
+  final FarmsController farmController =
+      Get.put(FarmsController(), permanent: true);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,7 +43,7 @@ class _FilterReportsPageState extends State<FilterReportsPage> {
             color: Colors.black,
           ),
           onPressed: () {
-            Navigator.pop(context);
+            Get.back();
             farmController.filteredReports([]);
           },
         ),
@@ -127,13 +127,16 @@ class _FilterReportsPageState extends State<FilterReportsPage> {
                 child: ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        // log("${DateTime.parse(startController.text)}");
                         _filterButtonPressed(context);
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                        foregroundColor: CustomColors.background, backgroundColor: Colors.transparent,
-                        disabledForegroundColor: Colors.transparent.withOpacity(0.38), disabledBackgroundColor: Colors.transparent.withOpacity(0.12),
+                        foregroundColor: CustomColors.background,
+                        backgroundColor: Colors.transparent,
+                        disabledForegroundColor:
+                            Colors.transparent.withOpacity(0.38),
+                        disabledBackgroundColor:
+                            Colors.transparent.withOpacity(0.12),
                         shadowColor: Colors.transparent,
                         fixedSize: Size(100.w, 6.h)),
                     child: Text(
@@ -161,11 +164,8 @@ class _FilterReportsPageState extends State<FilterReportsPage> {
                             onTap: () {
                               farmController.selectedReport(
                                   farmController.filteredReports[index]);
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ViewReportPage()),
-                              );
+
+                              Get.to(() => ViewReportPage());
                             },
                             tileColor: CustomColors.background,
                             textColor: Colors.black,

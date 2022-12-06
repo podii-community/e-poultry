@@ -30,7 +30,8 @@ class _CreateBatchPageState extends State<CreateBatchPage> {
   final day = TextEditingController();
   final year = TextEditingController();
   final box = Hive.box('appData');
-  final FarmsController controller = Get.put(FarmsController());
+  final FarmsController controller =
+      Get.put(FarmsController(), permanent: true);
 
   var months = [
     "",
@@ -68,7 +69,7 @@ class _CreateBatchPageState extends State<CreateBatchPage> {
               color: Colors.black,
             ),
             onPressed: () {
-              Navigator.pop(context);
+              Get.back();
             },
           ),
         ),
@@ -239,17 +240,18 @@ class _CreateBatchPageState extends State<CreateBatchPage> {
                           ageType: ageType!,
                           date: ("${day.text}-$s-${year.text}"),
                           farmId: controller.farm.value['id']);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ConfirmBatchPage(
-                                  newBatch: newBatch,
-                                )),
-                      );
+
+                      Get.to(() => ConfirmBatchPage(
+                            newBatch: newBatch,
+                          ));
                     },
                     style: ElevatedButton.styleFrom(
-                        foregroundColor: CustomColors.background, backgroundColor: Colors.transparent,
-                        disabledForegroundColor: Colors.transparent.withOpacity(0.38), disabledBackgroundColor: Colors.transparent.withOpacity(0.12),
+                        foregroundColor: CustomColors.background,
+                        backgroundColor: Colors.transparent,
+                        disabledForegroundColor:
+                            Colors.transparent.withOpacity(0.38),
+                        disabledBackgroundColor:
+                            Colors.transparent.withOpacity(0.12),
                         shadowColor: Colors.transparent,
                         fixedSize: Size(100.w, 6.h)),
                     child: const Text('CREATE BATCH')),

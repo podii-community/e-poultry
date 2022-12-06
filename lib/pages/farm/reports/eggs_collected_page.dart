@@ -1,4 +1,3 @@
-
 import 'package:epoultry/data/data_export.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -31,7 +30,8 @@ class _EggsCollectedPageState extends State<EggsCollectedPage> {
   final brokenEggs = TextEditingController();
   final deformedEggs = TextEditingController();
 
-  final FarmsController controller = Get.put(FarmsController());
+  final FarmsController controller =
+      Get.put(FarmsController(), permanent: true);
 
   String gradeEggs = "";
 
@@ -50,7 +50,7 @@ class _EggsCollectedPageState extends State<EggsCollectedPage> {
               color: Colors.black,
             ),
             onPressed: () {
-              Navigator.pop(context);
+              Get.back();
             },
           ),
           title: Text(
@@ -387,18 +387,18 @@ class _EggsCollectedPageState extends State<EggsCollectedPage> {
                             as Map)["deformedCount"](deformedEggs.text);
 
                         if (_formKey.currentState!.validate()) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => FeedsUsedPage(
-                                      batchDetails: widget.batchDetails,
-                                    )),
-                          );
+                          Get.to(() => FeedsUsedPage(
+                                batchDetails: widget.batchDetails,
+                              ));
                         }
                       },
                       style: ElevatedButton.styleFrom(
-                          foregroundColor: CustomColors.background, backgroundColor: Colors.transparent,
-                          disabledForegroundColor: Colors.transparent.withOpacity(0.38), disabledBackgroundColor: Colors.transparent.withOpacity(0.12),
+                          foregroundColor: CustomColors.background,
+                          backgroundColor: Colors.transparent,
+                          disabledForegroundColor:
+                              Colors.transparent.withOpacity(0.38),
+                          disabledBackgroundColor:
+                              Colors.transparent.withOpacity(0.12),
                           shadowColor: Colors.transparent,
                           fixedSize: Size(100.w, 6.h)),
                       child: Text(

@@ -1,4 +1,3 @@
-
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:epoultry/pages/farm/reports/number_birds_page.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +33,8 @@ class _MedicationStoreState extends State<MedicationStore> {
   final newCastleStore = TextEditingController();
   final gumboroStore = TextEditingController();
 
-  final FarmsController controller = Get.put(FarmsController());
+  final FarmsController controller =
+      Get.put(FarmsController(), permanent: true);
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +51,7 @@ class _MedicationStoreState extends State<MedicationStore> {
               color: Colors.black,
             ),
             onPressed: () {
-              Navigator.pop(context);
+              Get.back();
             },
           ),
           title: Text(
@@ -278,19 +278,18 @@ class _MedicationStoreState extends State<MedicationStore> {
                             (controller.report["data"]!["medicationsReport"]
                                 as Map)["inStore"](medicationStoreReports);
                             if (_formKey.currentState!.validate()) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        NumberOfBirdsReportPage(
-                                          batchDetails: widget.batchDetails,
-                                        )),
-                              );
+                              Get.to(() => NumberOfBirdsReportPage(
+                                    batchDetails: widget.batchDetails,
+                                  ));
                             }
                           },
                           style: ElevatedButton.styleFrom(
-                              foregroundColor: CustomColors.background, backgroundColor: Colors.transparent,
-                              disabledForegroundColor: Colors.transparent.withOpacity(0.38), disabledBackgroundColor: Colors.transparent.withOpacity(0.12),
+                              foregroundColor: CustomColors.background,
+                              backgroundColor: Colors.transparent,
+                              disabledForegroundColor:
+                                  Colors.transparent.withOpacity(0.38),
+                              disabledBackgroundColor:
+                                  Colors.transparent.withOpacity(0.12),
                               shadowColor: Colors.transparent,
                               fixedSize: Size(100.w, 6.h)),
                           child: Text(

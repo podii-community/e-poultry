@@ -6,6 +6,7 @@ import 'package:epoultry/pages/farm/farm-managers/manage-farm-managers_page.dart
 import 'package:epoultry/pages/farm/farm-managers/profile_page.dart';
 import 'package:epoultry/pages/farm/quotation/request_quotation_page.dart';
 import 'package:epoultry/pages/landing_page.dart';
+import 'package:epoultry/services/farm_service.dart';
 import 'package:epoultry/theme/colors.dart';
 import 'package:epoultry/theme/spacing.dart';
 import 'package:flutter/material.dart';
@@ -22,22 +23,19 @@ import '../../../widgets/error_widget.dart';
 import '../../../widgets/loading_spinner.dart';
 import '../create-farm/create_farm_page.dart';
 
-class DrawerPage extends StatefulWidget {
-  const DrawerPage({Key? key}) : super(key: key);
+class DrawerPage extends StatelessWidget {
+  DrawerPage({Key? key}) : super(key: key);
 
-  @override
-  State<DrawerPage> createState() => _DrawerPageState();
-}
-
-class _DrawerPageState extends State<DrawerPage> {
-  final FarmsController controller = Get.put(FarmsController());
-
-  final UserController userController = Get.put(UserController());
+  final FarmsController controller =
+      Get.put(FarmsController(), permanent: true);
+  final UserController userController =
+      Get.put(UserController(), permanent: true);
   final ManagersController managersController = ManagersController();
 
   @override
   Widget build(BuildContext context) {
     final box = Hive.box('appData');
+
     // final role = box.get('role');
     return Drawer(
       shape: const RoundedRectangleBorder(
@@ -90,43 +88,40 @@ class _DrawerPageState extends State<DrawerPage> {
             padding: EdgeInsets.all(8.0),
             child: Text("ALL FARMS"),
           ),
-          Obx(
-            () => controller.farms.isEmpty
-                ? const Center(
-                    child: Text("No Farms"),
-                  )
-                : ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: controller.farms.length,
-                    physics: const ClampingScrollPhysics(),
-                    itemBuilder: (context, position) {
-                      // return Container();
-                      return Card(
-                        elevation: 0.2,
-                        child: ListTile(
-                          onTap: () {
-                            final farm = controller.farms[position]! ?? {};
-                            final batches = farm!["batches"] ?? [];
-                            controller.updateFarm(farm);
-                            controller.batchesList(batches);
-                            getFarmReports(
-                                context, controller.farms[position]['id']);
-                            getFarmManager(
-                                context, controller.farms[position]['id']);
+          controller.farms.isEmpty
+              ? const Center(
+                  child: Text("No Farms"),
+                )
+              : ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: controller.farms.length,
+                  physics: const ClampingScrollPhysics(),
+                  itemBuilder: (context, position) {
+                    return Card(
+                      elevation: 0.2,
+                      child: ListTile(
+                        onTap: () async {
+                          final farm = controller.farms[position]! ?? {};
+                          final batches = farm!["batches"] ?? [];
+                          controller.updateFarm(farm);
+                          controller.batchesList(batches);
+                          await FarmService().getFarmReports(
+                              context, controller.farm.value['id']);
+                          getFarmManager(
+                              context, controller.farms[position]['id']);
 
-                            Navigator.pop(context);
-                          },
-                          title: Text(
-                            "${controller.farms[position]["name"]}",
-                            style: TextStyle(
-                                color: CustomColors.secondary,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 1.8.h),
-                          ),
+                          Get.back();
+                        },
+                        title: Text(
+                          "${controller.farms[position]["name"]}",
+                          style: TextStyle(
+                              color: CustomColors.secondary,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 1.8.h),
                         ),
-                      );
-                    }),
-          ),
+                      ),
+                    );
+                  }),
           const SizedBox(
             height: CustomSpacing.s1,
           ),
@@ -145,11 +140,7 @@ class _DrawerPageState extends State<DrawerPage> {
                         fontSize: 1.8.h),
                   ),
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const CreateFarmPage()),
-                    );
+                    Get.to(() => CreateFarmPage());
                   },
                 )
               : Container(),
@@ -166,11 +157,7 @@ class _DrawerPageState extends State<DrawerPage> {
                           fontWeight: FontWeight.bold,
                           fontSize: 1.8.h)),
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const ManageFarmManagers()),
-                    );
+                    Get.to(() => ManageFarmManagers());
                   },
                 )
               : Container(),
@@ -187,11 +174,7 @@ class _DrawerPageState extends State<DrawerPage> {
                           fontWeight: FontWeight.bold,
                           fontSize: 1.8.h)),
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const RequestQuotationPage()),
-                    );
+                    Get.to(() => RequestQuotationPage());
                   },
                 )
               : Container(),
@@ -207,10 +190,7 @@ class _DrawerPageState extends State<DrawerPage> {
                     fontWeight: FontWeight.bold,
                     fontSize: 1.8.h)),
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const ProfilePage()),
-              );
+              Get.to(() => ProfilePage());
             },
           ),
           Column(
@@ -226,14 +206,12 @@ class _DrawerPageState extends State<DrawerPage> {
                         color: CustomColors.primary,
                         fontWeight: FontWeight.bold,
                         fontSize: 1.8.h)),
-                onTap: () {
+                onTap: () async {
                   final box = Hive.box('appData');
                   box.clear();
-                  Get.deleteAll();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => LandingPage()),
-                  );
+
+                  await Get.deleteAll(force: true)
+                      .then((value) => Get.to(() => LandingPage()));
                 },
               )
             ],
@@ -244,7 +222,6 @@ class _DrawerPageState extends State<DrawerPage> {
   }
 
   Future<void> getFarmReports(BuildContext context, id) async {
-    log("$id");
     GraphQLClient client = GraphQLProvider.of(context).value;
     var fetchReports = await client.query(QueryOptions(
         operationName: "GetFarmReports",
@@ -254,7 +231,6 @@ class _DrawerPageState extends State<DrawerPage> {
         }));
 
     List reports = [];
-    // log("${fetchReports.data!["farmReports"]}");
 
     for (var report in fetchReports.data!["farmReports"]) {
       reports.add(report);
@@ -264,15 +240,16 @@ class _DrawerPageState extends State<DrawerPage> {
   }
 
   Future<void> getFarmManager(BuildContext context, id) async {
-    log("$id");
     GraphQLClient client = GraphQLProvider.of(context).value;
     var fetchManagers = await client.query(QueryOptions(
-        operationName: "GetFarmReports",
+        operationName: "GetFarmManagers",
         document: gql(context.queries.getFarmManagers()),
         variables: {"farmId": controller.farm.value['id']}));
 
-    List farmManagers = fetchManagers.data?["farmManagers"];
+    if (fetchManagers.data?["farmManagers"] != null) {
+      List farmManagers = fetchManagers.data?["farmManagers"];
 
-    managersController.managers(farmManagers);
+      managersController.managers(farmManagers);
+    }
   }
 }

@@ -1,4 +1,3 @@
-
 import 'package:epoultry/graphql/query_document_provider.dart';
 import 'package:epoultry/widgets/gradient_widget.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +30,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
   TextEditingController title = TextEditingController();
   final box = Hive.box('appData');
 
-  final UserController userController = Get.put(UserController());
+  final UserController userController =
+      Get.put(UserController(), permanent: true);
 
   @override
   void initState() {
@@ -65,7 +65,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               color: Colors.black,
             ),
             onPressed: () {
-              Navigator.pop(context);
+              Get.back();
             },
           ),
           title: const Text(
@@ -216,8 +216,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           onPressed: () =>
                               _updateButtonPressed(context, runMutation),
                           style: ElevatedButton.styleFrom(
-                              foregroundColor: CustomColors.background, backgroundColor: Colors.transparent,
-                              disabledForegroundColor: Colors.transparent.withOpacity(0.38), disabledBackgroundColor: Colors.transparent.withOpacity(0.12),
+                              foregroundColor: CustomColors.background,
+                              backgroundColor: Colors.transparent,
+                              disabledForegroundColor:
+                                  Colors.transparent.withOpacity(0.38),
+                              disabledBackgroundColor:
+                                  Colors.transparent.withOpacity(0.12),
                               shadowColor: Colors.transparent,
                               fixedSize: Size(100.w, 6.h)),
                           child: const Text('SAVE')),
@@ -242,13 +246,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
     ///
 
     if (data["updateUser"]["id"].toString().isNotEmpty) {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => const SuccessWidget(
-                    message: 'You have successfully updated your profile',
-                    route: 'dashboard',
-                  )));
+      Get.to(() => const SuccessWidget(
+            message: 'You have successfully updated your profile',
+            route: 'dashboard',
+          ));
     }
   }
 

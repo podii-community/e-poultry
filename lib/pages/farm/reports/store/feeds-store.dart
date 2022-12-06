@@ -25,18 +25,15 @@ class FeedStore extends StatefulWidget {
 class _FeedStoreState extends State<FeedStore> {
   final _formKey = GlobalKey<FormState>();
 
-  var kienyejiFeeds = ["Chicken Duck Mash", "Kienyeji Growers Mash"];
-
-  var layersFeeds = [
+  var feedsInStore = [
     "Chicken Duck Mash",
     "Growers Mash",
     "Layers Mash",
-  ];
-
-  var broilersFeeds = [
+    "Kienyeji Growers Mash",
     "Starter Crumbs",
     "Finisher Pellets",
   ];
+
   List _selectedFeeds = [];
 
   final layersMashStore = TextEditingController();
@@ -46,7 +43,8 @@ class _FeedStoreState extends State<FeedStore> {
   final finisherPelletsStore = TextEditingController();
   final kienyejiGrowersStore = TextEditingController();
 
-  final FarmsController controller = Get.put(FarmsController());
+  final FarmsController controller =
+      Get.put(FarmsController(), permanent: true);
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +61,7 @@ class _FeedStoreState extends State<FeedStore> {
               color: Colors.black,
             ),
             onPressed: () {
-              Navigator.pop(context);
+              Get.back();
             },
           ),
           title: Text(
@@ -170,131 +168,44 @@ class _FeedStoreState extends State<FeedStore> {
                               const SizedBox(
                                 height: CustomSpacing.s2,
                               ),
-                              widget.batchDetails.type!.name == "LAYERS"
-                                  ? DropdownSearch<String>.multiSelection(
-                                      dropdownDecoratorProps: DropDownDecoratorProps(
-                                          dropdownSearchDecoration: InputDecoration(
-                                              hintText: "--select--",
-                                              labelText:
-                                                  "What feeds do you have in store?",
-                                              labelStyle: TextStyle(
-                                                  fontSize: 2.0.h,
-                                                  color:
-                                                      CustomColors.secondary),
-                                              border: OutlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                      width: 0.3.w,
-                                                      color: CustomColors
-                                                          .secondary)),
-                                              focusedBorder: OutlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                      width: 0.3.w,
-                                                      color: CustomColors
-                                                          .secondary)))),
-                                      items: layersFeeds,
-                                      popupProps:
-                                          const PopupPropsMultiSelection.menu(
-                                        showSelectedItems: true,
-                                      ),
-                                      onChanged: (val) {
-                                        setState(() {
-                                          _selectedFeeds = val;
-                                        });
-                                      },
-                                      validator: (value) {
-                                        if (_selectedFeeds.isEmpty) {
-                                          return "Please choose a feed";
-                                        }
-                                        return null;
-                                      },
-                                    )
-                                  : Container(),
-                              widget.batchDetails.type!.name == "BROILERS"
-                                  ? DropdownSearch<String>.multiSelection(
-                                      dropdownDecoratorProps: DropDownDecoratorProps(
-                                          dropdownSearchDecoration: InputDecoration(
-                                              hintText: "--select--",
-                                              labelText:
-                                                  "What feeds do you have in store?",
-                                              labelStyle: TextStyle(
-                                                  fontSize: 2.0.h,
-                                                  color:
-                                                      CustomColors.secondary),
-                                              border: OutlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                      width: 0.3.w,
-                                                      color: CustomColors
-                                                          .secondary)),
-                                              focusedBorder: OutlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                      width: 0.3.w,
-                                                      color: CustomColors
-                                                          .secondary)))),
-                                      items: broilersFeeds,
-                                      popupProps:
-                                          const PopupPropsMultiSelection.menu(
-                                        showSelectedItems: true,
-                                      ),
-                                      onChanged: (val) {
-                                        setState(() {
-                                          _selectedFeeds = val;
-                                        });
-                                      },
-                                      validator: (value) {
-                                        if (_selectedFeeds.isEmpty) {
-                                          return "Please choose a feed";
-                                        }
-                                        return null;
-                                      },
-                                    )
-                                  : Container(),
-                              widget.batchDetails.type!.name == "KIENYEJI"
-                                  ? DropdownSearch<String>.multiSelection(
-                                      dropdownDecoratorProps: DropDownDecoratorProps(
-                                          dropdownSearchDecoration: InputDecoration(
-                                              hintText: "--select--",
-                                              labelText:
-                                                  "What feeds do you have in store?",
-                                              labelStyle: TextStyle(
-                                                  fontSize: 2.0.h,
-                                                  color:
-                                                      CustomColors.secondary),
-                                              border: OutlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                      width: 0.3.w,
-                                                      color: CustomColors
-                                                          .secondary)),
-                                              focusedBorder: OutlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                      width: 0.3.w,
-                                                      color: CustomColors
-                                                          .secondary)))),
-                                      items: kienyejiFeeds,
-                                      popupProps:
-                                          const PopupPropsMultiSelection.menu(
-                                        showSelectedItems: true,
-                                      ),
-                                      onChanged: (val) {
-                                        setState(() {
-                                          _selectedFeeds = val;
-                                        });
-                                      },
-                                      validator: (value) {
-                                        if (_selectedFeeds.isEmpty) {
-                                          return "Please choose a feed";
-                                        }
-                                        return null;
-                                      },
-                                    )
-                                  : Container(),
+                              DropdownSearch<String>.multiSelection(
+                                dropdownDecoratorProps: DropDownDecoratorProps(
+                                    dropdownSearchDecoration: InputDecoration(
+                                        hintText: "--select--",
+                                        labelText:
+                                            "What feeds do you have in store?",
+                                        labelStyle: TextStyle(
+                                            fontSize: 2.0.h,
+                                            color: CustomColors.secondary),
+                                        border: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                width: 0.3.w,
+                                                color: CustomColors.secondary)),
+                                        focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                width: 0.3.w,
+                                                color:
+                                                    CustomColors.secondary)))),
+                                items: feedsInStore,
+                                popupProps: const PopupPropsMultiSelection.menu(
+                                  showSelectedItems: true,
+                                ),
+                                onChanged: (val) {
+                                  setState(() {
+                                    _selectedFeeds = val;
+                                  });
+                                },
+                                validator: (value) {
+                                  if (_selectedFeeds.isEmpty) {
+                                    return "Please choose a feed";
+                                  }
+                                  return null;
+                                },
+                              ),
                               const SizedBox(
                                 height: CustomSpacing.s3,
                               ),
-                              _selectedFeeds.contains("Chicken Duck Mash") &&
-                                      ((widget.batchDetails.type!.name) ==
-                                              "LAYERS" ||
-                                          (widget.batchDetails.type!.name) ==
-                                              "KIENYEJI")
+                              _selectedFeeds.contains("Chicken Duck Mash")
                                   ? TextFormField(
                                       controller: chickDuckMashStore,
                                       validator: (value) {
@@ -326,9 +237,7 @@ class _FeedStoreState extends State<FeedStore> {
                               const SizedBox(
                                 height: CustomSpacing.s3,
                               ),
-                              _selectedFeeds.contains("Layers Mash") &&
-                                      (widget.batchDetails.type!.name) ==
-                                          "LAYERS"
+                              _selectedFeeds.contains("Layers Mash")
                                   ? TextFormField(
                                       controller: layersMashStore,
                                       validator: (value) {
@@ -360,9 +269,7 @@ class _FeedStoreState extends State<FeedStore> {
                               const SizedBox(
                                 height: CustomSpacing.s3,
                               ),
-                              _selectedFeeds.contains("Growers Mash") &&
-                                      (widget.batchDetails.type!.name) ==
-                                          "LAYERS"
+                              _selectedFeeds.contains("Growers Mash")
                                   ? TextFormField(
                                       controller: growersMashStore,
                                       validator: (value) {
@@ -391,9 +298,10 @@ class _FeedStoreState extends State<FeedStore> {
                                       ),
                                     )
                                   : Container(),
-                              _selectedFeeds.contains("Starter Crumbs") &&
-                                      (widget.batchDetails.type!.name) ==
-                                          "BROILERS"
+                              const SizedBox(
+                                height: CustomSpacing.s3,
+                              ),
+                              _selectedFeeds.contains("Starter Crumbs")
                                   ? TextFormField(
                                       controller: starterCrumbsStore,
                                       validator: (value) {
@@ -422,9 +330,10 @@ class _FeedStoreState extends State<FeedStore> {
                                       ),
                                     )
                                   : Container(),
-                              _selectedFeeds.contains("Finisher Pellets") &&
-                                      (widget.batchDetails.type!.name) ==
-                                          "BROILERS"
+                              const SizedBox(
+                                height: CustomSpacing.s3,
+                              ),
+                              _selectedFeeds.contains("Finisher Pellets")
                                   ? TextFormField(
                                       controller: finisherPelletsStore,
                                       validator: (value) {
@@ -453,10 +362,10 @@ class _FeedStoreState extends State<FeedStore> {
                                       ),
                                     )
                                   : Container(),
-                              _selectedFeeds
-                                          .contains("Kienyeji Growers Mash") &&
-                                      (widget.batchDetails.type!.name) ==
-                                          "KIENYEJI"
+                              const SizedBox(
+                                height: CustomSpacing.s3,
+                              ),
+                              _selectedFeeds.contains("Kienyeji Growers Mash")
                                   ? TextFormField(
                                       controller: kienyejiGrowersStore,
                                       validator: (value) {
@@ -546,26 +455,15 @@ class _FeedStoreState extends State<FeedStore> {
                           },
                         ];
 
-                        // var report = {
-                        //   "data": {"feedsStore": feedsStoreReports}
-                        // };
-
                         controller.report["data"]!["batchId"] =
                             widget.batchDetails.id!;
                         (controller.report["data"]!["feedsReport"]!
                             as Map)["inStore"](feedsStoreReports);
 
                         if (_formKey.currentState!.validate()) {
-                          // final data = controller.report["data"] as Map;
-
-                          // jsonEncode(data["weightReport"]);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => MedicationStore(
-                                      batchDetails: widget.batchDetails,
-                                    )),
-                          );
+                          Get.to(() => MedicationStore(
+                                batchDetails: widget.batchDetails,
+                              ));
                         }
                       },
                       style: ElevatedButton.styleFrom(

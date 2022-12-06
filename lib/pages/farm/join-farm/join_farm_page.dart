@@ -38,7 +38,8 @@ class _JoinFarmPageState extends State<JoinFarmPage> {
     }
   }
 
-  final UserController userController = Get.put(UserController());
+  final UserController userController =
+      Get.put(UserController(), permanent: true);
 
   String selectedChoice = "";
 
@@ -94,38 +95,25 @@ class _JoinFarmPageState extends State<JoinFarmPage> {
                                   });
                                   switch (selectedChoice) {
                                     case "join":
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                JoinFarmOtp()),
-                                      );
+                                      Get.to(() => JoinFarmOtp());
 
                                       userController.updateRole('manager');
 
                                       break;
                                     case "request":
                                       if (!widget.isUnAssigned) {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const RequestQuotationPage(
-                                                    isUnAssignedRole: true,
-                                                  )),
-                                        );
+                                        Get.to(() => RequestQuotationPage(
+                                              isUnAssignedRole: true,
+                                            ));
                                       }
 
                                       break;
                                     case "manage":
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const CreateFarmPage()),
-                                      );
+                                      Get.to(() => CreateFarmPage());
+
                                       final UserController userController =
-                                          Get.put(UserController());
+                                          Get.put(UserController(),
+                                              permanent: true);
                                       userController.updateRole('farmer');
                                       break;
                                   }

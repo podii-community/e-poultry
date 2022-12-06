@@ -22,7 +22,8 @@ class AppbarWidget extends StatelessWidget implements PreferredSizeWidget {
     final box = Hive.box('appData');
     final name = box.get('name');
 
-    final FarmsController controller = Get.put(FarmsController());
+    final FarmsController controller =
+        Get.put(FarmsController(), permanent: true);
 
     return AppBar(
         automaticallyImplyLeading: false,
@@ -46,11 +47,7 @@ class AppbarWidget extends StatelessWidget implements PreferredSizeWidget {
         actions: [
           IconButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const ViewNotification()),
-                );
+                Get.to(() => ViewNotification());
               },
               icon: const Icon(
                 PhosphorIcons.bell,

@@ -325,7 +325,12 @@ class EpoultryQueries {
     mutation CreateBatchReport(\$data: CreateBatchReportInput!){
         createBatchReport(data: \$data){
                     id,
-                    reportDate
+                    reportDate,
+                    batch{
+                      farm{
+                        id
+                      }
+                    }
         }
     }
     """;

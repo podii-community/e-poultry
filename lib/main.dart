@@ -12,20 +12,28 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:sizer/sizer.dart';
 
+import 'controllers/farm_controller.dart';
+import 'controllers/user_controller.dart';
+
 void main() async {
   await Hive.initFlutter();
   await Hive.openBox('appData');
-
   final box = Hive.box('appData');
   runApp(Epoultry());
 }
 
-class Epoultry extends StatelessWidget {
+class Epoultry extends StatefulWidget {
   Epoultry({
     Key? key,
   }) : super(key: key);
 
+  @override
+  State<Epoultry> createState() => _EpoultryState();
+}
+
+class _EpoultryState extends State<Epoultry> {
   GraphQLConfiguration graphQLConfig = GraphQLConfiguration();
+
   HttpLink authentication = HttpLink(
     "https://cbsmartfarm.herokuapp.com/api/graphql/auth",
   );

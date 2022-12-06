@@ -17,15 +17,6 @@ class LocationPermissionPage extends StatelessWidget {
         toolbarHeight: 8.h,
         backgroundColor: CustomColors.white,
         elevation: 0.5,
-        // leading: IconButton(
-        //   icon: const Icon(
-        //     PhosphorIcons.arrowLeft,
-        //     color: Colors.black,
-        //   ),
-        //   onPressed: () {
-        //     Navigator.pop(context);
-        //   },
-        // ),
         title: const Text(
           "Location Permission",
           style: TextStyle(color: Colors.black),
@@ -38,8 +29,12 @@ class LocationPermissionPage extends StatelessWidget {
             child: ElevatedButton(
                 onPressed: () {},
                 style: ElevatedButton.styleFrom(
-                    foregroundColor: CustomColors.background, backgroundColor: Colors.transparent,
-                    disabledForegroundColor: Colors.transparent.withOpacity(0.38), disabledBackgroundColor: Colors.transparent.withOpacity(0.12),
+                    foregroundColor: CustomColors.background,
+                    backgroundColor: Colors.transparent,
+                    disabledForegroundColor:
+                        Colors.transparent.withOpacity(0.38),
+                    disabledBackgroundColor:
+                        Colors.transparent.withOpacity(0.12),
                     shadowColor: Colors.transparent,
                     fixedSize: Size(100.w, 6.h)),
                 child: const Text('REQUEST PERMISSION')),

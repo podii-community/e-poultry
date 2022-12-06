@@ -1,6 +1,7 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:epoultry/graphql/query_document_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -45,7 +46,7 @@ class _RequestQuotationPageState extends State<RequestQuotationPage> {
             color: Colors.black,
           ),
           onPressed: () {
-            Navigator.pop(context);
+            Get.back();
           },
         ),
       ),
@@ -268,15 +269,11 @@ class _RequestQuotationPageState extends State<RequestQuotationPage> {
 
   Future<void> _onCompleted(data, BuildContext context) async {
     if ((data['requestQuotation']['createdAt']).toString().isNotEmpty) {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => SuccessWidget(
-                    message:
-                        'Your quotation request has been received.Youll receive a notification with the quotation in 48 hours',
-                    route:
-                        widget.isUnAssignedRole ? 'isUnAssigned' : 'dashboard',
-                  )));
+      Get.to(() => SuccessWidget(
+            message:
+                'Your quotation request has been received.Youll receive a notification with the quotation in 48 hours',
+            route: widget.isUnAssignedRole ? 'isUnAssigned' : 'dashboard',
+          ));
     }
   }
 

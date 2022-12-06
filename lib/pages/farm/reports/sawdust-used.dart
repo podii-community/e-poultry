@@ -1,4 +1,3 @@
-
 import 'package:epoultry/pages/farm/reports/briquettes-used.dart';
 import 'package:epoultry/theme/colors.dart';
 import 'package:epoultry/widgets/gradient_widget.dart';
@@ -30,7 +29,8 @@ class _SawdustUsedState extends State<SawdustUsed> {
   final sawdustStoreAmount = TextEditingController();
   final sawdustReceivedAmount = TextEditingController();
 
-  final FarmsController controller = Get.put(FarmsController());
+  final FarmsController controller =
+      Get.put(FarmsController(), permanent: true);
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +47,7 @@ class _SawdustUsedState extends State<SawdustUsed> {
               color: Colors.black,
             ),
             onPressed: () {
-              Navigator.pop(context);
+              Get.back();
             },
           ),
           title: Text(
@@ -356,18 +356,18 @@ class _SawdustUsedState extends State<SawdustUsed> {
                             });
 
                             if (_formKey.currentState!.validate()) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => BriquettesUsed(
-                                          batchDetails: widget.batchDetails,
-                                        )),
-                              );
+                              Get.to(() => BriquettesUsed(
+                                    batchDetails: widget.batchDetails,
+                                  ));
                             }
                           },
                           style: ElevatedButton.styleFrom(
-                              foregroundColor: CustomColors.background, backgroundColor: Colors.transparent,
-                              disabledForegroundColor: Colors.transparent.withOpacity(0.38), disabledBackgroundColor: Colors.transparent.withOpacity(0.12),
+                              foregroundColor: CustomColors.background,
+                              backgroundColor: Colors.transparent,
+                              disabledForegroundColor:
+                                  Colors.transparent.withOpacity(0.38),
+                              disabledBackgroundColor:
+                                  Colors.transparent.withOpacity(0.12),
                               shadowColor: Colors.transparent,
                               fixedSize: Size(100.w, 6.h)),
                           child: Text(

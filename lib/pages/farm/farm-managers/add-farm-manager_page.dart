@@ -22,7 +22,8 @@ class AddFarmManagerPage extends StatefulWidget {
 }
 
 class _AddFarmManagerPageState extends State<AddFarmManagerPage> {
-  final FarmsController controller = Get.put(FarmsController());
+  final FarmsController controller =
+      Get.put(FarmsController(), permanent: true);
   final selectedFarmId = TextEditingController();
 
   @override
@@ -48,7 +49,7 @@ class _AddFarmManagerPageState extends State<AddFarmManagerPage> {
               color: Colors.black,
             ),
             onPressed: () {
-              Navigator.pop(context);
+              Get.back();
             },
           ),
         ),

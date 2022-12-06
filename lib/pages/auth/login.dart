@@ -1,8 +1,11 @@
+import 'dart:developer';
+
 import 'package:epoultry/pages/auth/registration.dart';
 import 'package:epoultry/graphql/query_document_provider.dart';
 import 'package:epoultry/widgets/gradient_widget.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:sizer/sizer.dart';
 
@@ -117,8 +120,12 @@ class _LoginPageState extends State<LoginPage> {
                         }
                       },
                       style: ElevatedButton.styleFrom(
-                          foregroundColor: CustomColors.background, backgroundColor: Colors.transparent,
-                          disabledForegroundColor: Colors.transparent.withOpacity(0.38), disabledBackgroundColor: Colors.transparent.withOpacity(0.12),
+                          foregroundColor: CustomColors.background,
+                          backgroundColor: Colors.transparent,
+                          disabledForegroundColor:
+                              Colors.transparent.withOpacity(0.38),
+                          disabledBackgroundColor:
+                              Colors.transparent.withOpacity(0.12),
                           shadowColor: Colors.transparent,
                           fixedSize: Size(100.w, 6.h)),
                       child: Text(
@@ -153,11 +160,7 @@ class _LoginPageState extends State<LoginPage> {
                             decoration: TextDecoration.underline),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const RegistrationPage()));
+                            Get.to(() => RegistrationPage());
                           })
                   ]),
             )
@@ -170,14 +173,11 @@ class _LoginPageState extends State<LoginPage> {
   void _onCompleted(data, BuildContext context) {
     var phone = phoneNumber.text;
     if (phoneNumber.text.startsWith('0')) {
-      phoneNumber.text.replaceFirst('0', '');
+      phoneNumber.text = phoneNumber.text.replaceFirst('0', '');
     }
 
     if (data["requestLoginOtp"]) {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => OtpPage(route: "login", phone: phone)));
+      Get.to(() => OtpPage(route: "login", phone: phoneNumber.text));
     }
   }
 

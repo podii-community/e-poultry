@@ -1,4 +1,3 @@
-
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -49,7 +48,8 @@ class _FeedReceivedState extends State<FeedReceived> {
   List _selectedFeeds = [];
 
   final quantity = TextEditingController();
-  final FarmsController controller = Get.put(FarmsController());
+  final FarmsController controller =
+      Get.put(FarmsController(), permanent: true);
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +67,7 @@ class _FeedReceivedState extends State<FeedReceived> {
               color: Colors.black,
             ),
             onPressed: () {
-              Navigator.pop(context);
+              Get.back();
             },
           ),
           title: Text(
@@ -532,13 +532,9 @@ class _FeedReceivedState extends State<FeedReceived> {
                               as Map)["received"](feedsReceivedReports);
 
                           if (_formKey.currentState!.validate()) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => SawdustUsed(
-                                        batchDetails: widget.batchDetails,
-                                      )),
-                            );
+                            Get.to(() => SawdustUsed(
+                                  batchDetails: widget.batchDetails,
+                                ));
                           }
                         },
                         style: ElevatedButton.styleFrom(

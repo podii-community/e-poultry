@@ -1,4 +1,3 @@
-
 import 'package:epoultry/pages/farm/reports/confirm_report_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -31,7 +30,8 @@ class _BriquettesUsedState extends State<BriquettesUsed> {
   final briquettesStoreAmount = TextEditingController();
   final briquettesReceivedAmount = TextEditingController();
 
-  final FarmsController controller = Get.put(FarmsController());
+  final FarmsController controller =
+      Get.put(FarmsController(), permanent: true);
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +48,7 @@ class _BriquettesUsedState extends State<BriquettesUsed> {
               color: Colors.black,
             ),
             onPressed: () {
-              Navigator.pop(context);
+              Get.back();
             },
           ),
           title: Text(
@@ -366,18 +366,18 @@ class _BriquettesUsedState extends State<BriquettesUsed> {
                                 DateFormat('yyyy-MM-dd').format(DateTime.now());
 
                             if (_formKey.currentState!.validate()) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ConfirmReportPage(
-                                          batchDetails: widget.batchDetails,
-                                        )),
-                              );
+                              Get.to(() => ConfirmReportPage(
+                                    batchDetails: widget.batchDetails,
+                                  ));
                             }
                           },
                           style: ElevatedButton.styleFrom(
-                              foregroundColor: CustomColors.background, backgroundColor: Colors.transparent,
-                              disabledForegroundColor: Colors.transparent.withOpacity(0.38), disabledBackgroundColor: Colors.transparent.withOpacity(0.12),
+                              foregroundColor: CustomColors.background,
+                              backgroundColor: Colors.transparent,
+                              disabledForegroundColor:
+                                  Colors.transparent.withOpacity(0.38),
+                              disabledBackgroundColor:
+                                  Colors.transparent.withOpacity(0.12),
                               shadowColor: Colors.transparent,
                               fixedSize: Size(100.w, 6.h)),
                           child: Text(
