@@ -189,7 +189,7 @@ class _FeedReceivedState extends State<FeedReceived> {
                                                   width: 0.3.w,
                                                   color: CustomColors
                                                       .secondary)))),
-                                  items: layersFeeds,
+                                  items: controller.layersFeeds.value,
                                   popupProps:
                                       const PopupPropsMultiSelection.menu(
                                     showSelectedItems: true,
@@ -227,7 +227,7 @@ class _FeedReceivedState extends State<FeedReceived> {
                                                   width: 0.3.w,
                                                   color: CustomColors
                                                       .secondary)))),
-                                  items: broilersFeeds,
+                                  items: controller.broilerFeeds.value,
                                   popupProps:
                                       const PopupPropsMultiSelection.menu(
                                     showSelectedItems: true,
@@ -265,7 +265,7 @@ class _FeedReceivedState extends State<FeedReceived> {
                                                   width: 0.3.w,
                                                   color: CustomColors
                                                       .secondary)))),
-                                  items: kienyejiFeeds,
+                                  items: controller.kienyejiFeed.value,
                                   popupProps:
                                       const PopupPropsMultiSelection.menu(
                                     showSelectedItems: true,
@@ -286,8 +286,10 @@ class _FeedReceivedState extends State<FeedReceived> {
                           const SizedBox(
                             height: CustomSpacing.s3,
                           ),
-                          _selectedFeeds.contains("Layers Mash") &&
-                                  (widget.batchDetails.type!.name) == "LAYERS"
+                          _selectedFeeds.contains("LAYERS_MASH") ||
+                                  _selectedFeeds.contains("Layers Mash") &&
+                                      (widget.batchDetails.type!.name) ==
+                                          "LAYERS"
                               ? TextFormField(
                                   controller: layersMashReceived,
                                   validator: (value) {
@@ -319,8 +321,10 @@ class _FeedReceivedState extends State<FeedReceived> {
                           const SizedBox(
                             height: CustomSpacing.s3,
                           ),
-                          _selectedFeeds.contains("Growers Mash") &&
-                                  (widget.batchDetails.type!.name) == "LAYERS"
+                          _selectedFeeds.contains("GROWERS_MASH") ||
+                                  _selectedFeeds.contains("Growers Mash") &&
+                                      (widget.batchDetails.type!.name) ==
+                                          "LAYERS"
                               ? TextFormField(
                                   controller: growersMashReceived,
                                   validator: (value) {
@@ -352,11 +356,13 @@ class _FeedReceivedState extends State<FeedReceived> {
                           const SizedBox(
                             height: CustomSpacing.s3,
                           ),
-                          _selectedFeeds.contains("Chicken Duck Mash") &&
-                                  ((widget.batchDetails.type!.name) ==
-                                          "LAYERS" ||
-                                      (widget.batchDetails.type!.name) ==
-                                          "KIENYEJI")
+                          _selectedFeeds.contains("CHICKEN_DUCK_MASH") ||
+                                  _selectedFeeds
+                                          .contains("Chicken Duck Mash") &&
+                                      ((widget.batchDetails.type!.name) ==
+                                              "LAYERS" ||
+                                          (widget.batchDetails.type!.name) ==
+                                              "KIENYEJI")
                               ? TextFormField(
                                   controller: chickDuckMashReceived,
                                   validator: (value) {
@@ -385,8 +391,13 @@ class _FeedReceivedState extends State<FeedReceived> {
                                   ),
                                 )
                               : Container(),
-                          _selectedFeeds.contains("Starter Crumbs") &&
-                                  (widget.batchDetails.type!.name) == "BROILERS"
+                          const SizedBox(
+                            height: CustomSpacing.s3,
+                          ),
+                          _selectedFeeds.contains("STARTER_CRUMBS") ||
+                                  _selectedFeeds.contains("Starter Crumbs") &&
+                                      (widget.batchDetails.type!.name) ==
+                                          "BROILERS"
                               ? TextFormField(
                                   controller: starterCrumbsReceived,
                                   validator: (value) {
@@ -415,8 +426,13 @@ class _FeedReceivedState extends State<FeedReceived> {
                                   ),
                                 )
                               : Container(),
-                          _selectedFeeds.contains("Finisher Pellets") &&
-                                  (widget.batchDetails.type!.name) == "BROILERS"
+                          const SizedBox(
+                            height: CustomSpacing.s3,
+                          ),
+                          _selectedFeeds.contains("FINISHER_PELLETS") ||
+                                  _selectedFeeds.contains("Finisher Pellets") &&
+                                      (widget.batchDetails.type!.name) ==
+                                          "BROILERS"
                               ? TextFormField(
                                   controller: finisherPelletsReceived,
                                   validator: (value) {
@@ -445,8 +461,14 @@ class _FeedReceivedState extends State<FeedReceived> {
                                   ),
                                 )
                               : Container(),
-                          _selectedFeeds.contains("Kienyeji Growers Mash") &&
-                                  (widget.batchDetails.type!.name) == "KIENYEJI"
+                          const SizedBox(
+                            height: CustomSpacing.s3,
+                          ),
+                          _selectedFeeds.contains("KIENYEJI_GROWERS_MASH") ||
+                                  _selectedFeeds
+                                          .contains("Kienyeji Growers Mash") &&
+                                      (widget.batchDetails.type!.name) ==
+                                          "KIENYEJI"
                               ? TextFormField(
                                   controller: kienyejiGrowersReceived,
                                   validator: (value) {

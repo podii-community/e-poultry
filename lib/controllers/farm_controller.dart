@@ -13,6 +13,9 @@ class FarmsController extends GetxController {
   final selectedBatch = {}.obs;
   final storeItems = [].obs;
   final feedList = <String>[].obs;
+  final kienyejiFeed = <String>[].obs;
+  final broilerFeeds = <String>[].obs;
+  final layersFeeds = <String>[].obs;
 
   final selectedCountyName = "".obs;
   final selectedSubCountyName = "Choose subcounty".obs;
