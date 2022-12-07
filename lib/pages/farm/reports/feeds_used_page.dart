@@ -319,7 +319,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                   },
                                   keyboardType: TextInputType.number,
                                   decoration: InputDecoration(
-                                    prefixText: 'Kgs',
+                                    suffixText: 'Kgs',
                                     prefixStyle: TextStyle(fontSize: 1.8.h),
                                     border: OutlineInputBorder(
                                         borderSide: BorderSide(
@@ -354,7 +354,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                   },
                                   keyboardType: TextInputType.number,
                                   decoration: InputDecoration(
-                                    prefixText: 'Kgs',
+                                    suffixText: 'Kgs',
                                     prefixStyle: TextStyle(fontSize: 1.8.h),
                                     border: OutlineInputBorder(
                                         borderSide: BorderSide(
@@ -392,7 +392,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                   },
                                   keyboardType: TextInputType.number,
                                   decoration: InputDecoration(
-                                    prefixText: 'Kgs',
+                                    suffixText: 'Kgs',
                                     prefixStyle: TextStyle(fontSize: 1.8.h),
                                     border: OutlineInputBorder(
                                         borderSide: BorderSide(
@@ -427,7 +427,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                   },
                                   keyboardType: TextInputType.number,
                                   decoration: InputDecoration(
-                                    prefixText: 'Kgs',
+                                    suffixText: 'Kgs',
                                     prefixStyle: TextStyle(fontSize: 1.8.h),
                                     border: OutlineInputBorder(
                                         borderSide: BorderSide(
@@ -462,7 +462,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                   },
                                   keyboardType: TextInputType.number,
                                   decoration: InputDecoration(
-                                    prefixText: 'Kgs',
+                                    suffixText: 'Kgs',
                                     prefixStyle: TextStyle(fontSize: 1.8.h),
                                     border: OutlineInputBorder(
                                         borderSide: BorderSide(
@@ -498,7 +498,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                   },
                                   keyboardType: TextInputType.number,
                                   decoration: InputDecoration(
-                                    prefixText: 'Kgs',
+                                    suffixText: 'Kgs',
                                     prefixStyle: TextStyle(fontSize: 1.8.h),
                                     border: OutlineInputBorder(
                                         borderSide: BorderSide(

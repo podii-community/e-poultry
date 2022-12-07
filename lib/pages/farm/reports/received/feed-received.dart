@@ -300,7 +300,7 @@ class _FeedReceivedState extends State<FeedReceived> {
                                   },
                                   keyboardType: TextInputType.number,
                                   decoration: InputDecoration(
-                                    prefixText: 'Kgs',
+                                    suffixText: 'Kgs',
                                     prefixStyle: TextStyle(fontSize: 1.8.h),
                                     border: OutlineInputBorder(
                                         borderSide: BorderSide(
@@ -335,7 +335,7 @@ class _FeedReceivedState extends State<FeedReceived> {
                                   },
                                   keyboardType: TextInputType.number,
                                   decoration: InputDecoration(
-                                    prefixText: 'Kgs',
+                                    suffixText: 'Kgs',
                                     prefixStyle: TextStyle(fontSize: 1.8.h),
                                     border: OutlineInputBorder(
                                         borderSide: BorderSide(
@@ -373,7 +373,7 @@ class _FeedReceivedState extends State<FeedReceived> {
                                   },
                                   keyboardType: TextInputType.number,
                                   decoration: InputDecoration(
-                                    prefixText: 'Kgs',
+                                    suffixText: 'Kgs',
                                     prefixStyle: TextStyle(fontSize: 1.8.h),
                                     border: OutlineInputBorder(
                                         borderSide: BorderSide(
@@ -408,7 +408,7 @@ class _FeedReceivedState extends State<FeedReceived> {
                                   },
                                   keyboardType: TextInputType.number,
                                   decoration: InputDecoration(
-                                    prefixText: 'Kgs',
+                                    suffixText: 'Kgs',
                                     prefixStyle: TextStyle(fontSize: 1.8.h),
                                     border: OutlineInputBorder(
                                         borderSide: BorderSide(
@@ -443,7 +443,7 @@ class _FeedReceivedState extends State<FeedReceived> {
                                   },
                                   keyboardType: TextInputType.number,
                                   decoration: InputDecoration(
-                                    prefixText: 'Kgs',
+                                    suffixText: 'Kgs',
                                     prefixStyle: TextStyle(fontSize: 1.8.h),
                                     border: OutlineInputBorder(
                                         borderSide: BorderSide(
@@ -479,7 +479,7 @@ class _FeedReceivedState extends State<FeedReceived> {
                                   },
                                   keyboardType: TextInputType.number,
                                   decoration: InputDecoration(
-                                    prefixText: 'Kgs',
+                                    suffixText: 'Kgs',
                                     prefixStyle: TextStyle(fontSize: 1.8.h),
                                     border: OutlineInputBorder(
                                         borderSide: BorderSide(

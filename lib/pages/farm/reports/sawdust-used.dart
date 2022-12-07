@@ -172,7 +172,7 @@ class _SawdustUsedState extends State<SawdustUsed> {
                                     width: 0.3.w,
                                     color: CustomColors.secondary)),
                             labelText: "Sawdust used",
-                            prefixText: 'Kgs',
+                            suffixText: 'Kgs',
                             labelStyle: TextStyle(
                                 fontSize: 2.2.h, color: CustomColors.secondary),
                           ),
@@ -212,7 +212,7 @@ class _SawdustUsedState extends State<SawdustUsed> {
                                               width: 0.3.w,
                                               color: CustomColors.secondary)),
                                       labelText: "Sawdust in store",
-                                      prefixText: 'Kgs',
+                                      suffixText: 'Kgs',
                                       labelStyle: TextStyle(
                                           fontSize: 2.2.h,
                                           color: CustomColors.secondary),
@@ -310,6 +310,7 @@ class _SawdustUsedState extends State<SawdustUsed> {
                                                         width: 0.3.w,
                                                         color: CustomColors
                                                             .secondary)),
+                                                suffixText: 'Kgs',
                                                 focusedBorder:
                                                     OutlineInputBorder(
                                                         borderSide: BorderSide(
