@@ -190,7 +190,7 @@ class _MedicationUsedState extends State<MedicationUsed> {
                                 },
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
-                                  prefixText: 'L',
+                                  suffixText: 'L',
                                   prefixStyle: TextStyle(fontSize: 1.8.h),
                                   border: OutlineInputBorder(
                                       borderSide: BorderSide(
@@ -221,7 +221,7 @@ class _MedicationUsedState extends State<MedicationUsed> {
                                 },
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
-                                  prefixText: 'L',
+                                  suffixText: 'L',
                                   prefixStyle: TextStyle(fontSize: 1.8.h),
                                   border: OutlineInputBorder(
                                       borderSide: BorderSide(

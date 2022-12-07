@@ -149,7 +149,7 @@ class _BroilerWeightState extends State<BroilerWeight> {
                         prefixStyle: TextStyle(
                           fontSize: 1.8.h,
                         ),
-                        prefixText: "Kgs",
+                        suffixText: "Kgs",
                         border: OutlineInputBorder(
                             borderSide: BorderSide(
                                 width: 0.3.w, color: CustomColors.secondary)),

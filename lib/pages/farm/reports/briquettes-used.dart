@@ -174,7 +174,7 @@ class _BriquettesUsedState extends State<BriquettesUsed> {
                                     width: 0.3.w,
                                     color: CustomColors.secondary)),
                             labelText: "Briquettes used",
-                            prefixText: 'Kgs',
+                            suffixText: 'Kgs',
                             labelStyle: TextStyle(
                                 fontSize: 2.2.h, color: CustomColors.secondary),
                           ),
@@ -214,7 +214,7 @@ class _BriquettesUsedState extends State<BriquettesUsed> {
                                               width: 0.3.w,
                                               color: CustomColors.secondary)),
                                       labelText: "Briquettes in store",
-                                      prefixText: 'Kgs',
+                                      suffixText: 'Kgs',
                                       labelStyle: TextStyle(
                                           fontSize: 2.2.h,
                                           color: CustomColors.secondary),
@@ -323,7 +323,7 @@ class _BriquettesUsedState extends State<BriquettesUsed> {
                                                     fontSize: 2.2.h,
                                                     color:
                                                         CustomColors.secondary),
-                                                prefixText: 'Kgs',
+                                                suffixText: 'Kgs',
                                               ),
                                             ),
                                             const SizedBox(
