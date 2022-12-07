@@ -235,7 +235,7 @@ class _OtpPageState extends State<OtpPage> {
         // controller.updateFarm(farms[0]);
         controller.updateBatches(farms[0]['batches']);
 
-        Get.to(() => SuccessWidget(
+        Get.offAll(() => SuccessWidget(
               message: 'Your phone number has been verified',
               route: widget.route,
             ));
