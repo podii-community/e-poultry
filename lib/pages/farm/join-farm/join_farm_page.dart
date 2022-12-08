@@ -38,8 +38,7 @@ class _JoinFarmPageState extends State<JoinFarmPage> {
     }
   }
 
-  final UserController userController =
-      Get.put(UserController(), permanent: true);
+  final userController = Get.find<UserController>();
 
   String selectedChoice = "";
 
@@ -111,9 +110,6 @@ class _JoinFarmPageState extends State<JoinFarmPage> {
                                     case "manage":
                                       Get.to(() => CreateFarmPage());
 
-                                      final UserController userController =
-                                          Get.put(UserController(),
-                                              permanent: true);
                                       userController.updateRole('farmer');
                                       break;
                                   }

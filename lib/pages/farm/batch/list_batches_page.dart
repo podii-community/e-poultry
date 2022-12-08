@@ -17,8 +17,7 @@ class ListBatchPage extends StatefulWidget {
 }
 
 class _ListBatchPageState extends State<ListBatchPage> {
-  final FarmsController controller =
-      Get.put(FarmsController(), permanent: true);
+  final controller = Get.find<FarmsController>();
 
   @override
   Widget build(BuildContext context) {

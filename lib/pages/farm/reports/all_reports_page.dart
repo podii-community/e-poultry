@@ -18,8 +18,8 @@ class AllReportsPage extends StatefulWidget {
 }
 
 class _AllReportsPageState extends State<AllReportsPage> {
-  final FarmsController controller =
-      Get.put(FarmsController(), permanent: true);
+  final controller = Get.find<FarmsController>();
+
   @override
   Widget build(BuildContext context) {
     // controller.filteredReports.clear();

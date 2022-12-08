@@ -29,8 +29,7 @@ class _SawdustUsedState extends State<SawdustUsed> {
   final sawdustStoreAmount = TextEditingController();
   final sawdustReceivedAmount = TextEditingController();
 
-  final FarmsController controller =
-      Get.put(FarmsController(), permanent: true);
+  final controller = Get.find<FarmsController>();
 
   @override
   Widget build(BuildContext context) {

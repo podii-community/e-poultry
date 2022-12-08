@@ -25,8 +25,7 @@ class ManageFarmManagers extends StatefulWidget {
 
 class _ManageFarmManagersState extends State<ManageFarmManagers> {
   final ManagersController managersController = ManagersController();
-  final FarmsController farmsController =
-      Get.put(FarmsController(), permanent: true);
+  final farmsController = Get.find<FarmsController>();
 
   @override
   Widget build(BuildContext context) {

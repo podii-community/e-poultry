@@ -30,8 +30,7 @@ class _EggsCollectedPageState extends State<EggsCollectedPage> {
   final brokenEggs = TextEditingController();
   final deformedEggs = TextEditingController();
 
-  final FarmsController controller =
-      Get.put(FarmsController(), permanent: true);
+  final controller = Get.find<FarmsController>();
 
   String gradeEggs = "";
 

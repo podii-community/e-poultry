@@ -6,8 +6,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import '../controllers/farm_controller.dart';
 
 class FarmService {
-  final FarmsController controller =
-      Get.put(FarmsController(), permanent: true);
+  final controller = Get.find<FarmsController>();
 
   String farmReports() {
     return """
@@ -23,6 +22,7 @@ class FarmService {
   Future<void> getFarmReports(BuildContext context, String id) async {
     GraphQLClient client = GraphQLProvider.of(context).value;
     var fetchReports = await client.query(QueryOptions(
+        fetchPolicy: FetchPolicy.networkOnly,
         operationName: "GetFarmReports",
         document: gql(farmReports()),
         variables: {

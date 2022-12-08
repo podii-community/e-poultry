@@ -26,8 +26,8 @@ class _FilterReportsPageState extends State<FilterReportsPage> {
   final startController = TextEditingController();
   final endController = TextEditingController();
 
-  final FarmsController farmController =
-      Get.put(FarmsController(), permanent: true);
+  final farmController = Get.find<FarmsController>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -187,6 +187,7 @@ class _FilterReportsPageState extends State<FilterReportsPage> {
   ) async {
     GraphQLClient client = GraphQLProvider.of(context).value;
     var filteredReports = await client.query(QueryOptions(
+        fetchPolicy: FetchPolicy.networkOnly,
         operationName: "GetFarmReports",
         document: gql(context.queries.getFarmReports()),
         variables: {

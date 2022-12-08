@@ -19,8 +19,7 @@ class ViewReportPage extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  final FarmsController controller =
-      Get.put(FarmsController(), permanent: true);
+  final controller = Get.find<FarmsController>();
 
   @override
   Widget build(BuildContext context) {
@@ -471,6 +470,7 @@ class ViewReportPage extends StatelessWidget {
   ) async {
     GraphQLClient client = GraphQLProvider.of(context).value;
     var fetchReport = await client.query(QueryOptions(
+        fetchPolicy: FetchPolicy.networkOnly,
         operationName: "GetFarmReport",
         document: gql(context.queries.getFarmReport()),
         variables: {

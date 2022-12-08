@@ -24,8 +24,7 @@ class _SelectBatchPageState extends State<SelectBatchPage> {
 
   final bool isSelected = false;
 
-  final FarmsController controller =
-      Get.put(FarmsController(), permanent: true);
+  final controller = Get.find<FarmsController>();
 
   @override
   Widget build(BuildContext context) {

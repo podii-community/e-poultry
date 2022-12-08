@@ -25,8 +25,7 @@ class _BroilerWeightState extends State<BroilerWeight> {
   final _formKey = GlobalKey<FormState>();
   final averageWeight = TextEditingController();
 
-  final FarmsController controller =
-      Get.put(FarmsController(), permanent: true);
+  final controller = Get.find<FarmsController>();
 
   @override
   Widget build(BuildContext context) {
