@@ -22,10 +22,8 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  final UserController userController =
-      Get.put(UserController(), permanent: true);
-  final FarmsController controller =
-      Get.put(FarmsController(), permanent: true);
+  final controller = Get.find<FarmsController>();
+  final userController = Get.find<UserController>();
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +31,7 @@ class _ProfilePageState extends State<ProfilePage> {
     final name = box.get('name');
     final phone = box.get('phone');
     final role = box.get('role');
+    log("Profile ${controller.farm.value['id']}");
 
     return Scaffold(
         appBar: widget.showAppbar

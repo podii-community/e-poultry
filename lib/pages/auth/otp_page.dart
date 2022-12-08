@@ -35,10 +35,8 @@ class _OtpPageState extends State<OtpPage> {
   final _formKey = GlobalKey<FormState>();
   final pinController = TextEditingController();
 
-  final FarmsController controller =
-      Get.put(FarmsController(), permanent: true);
-  final UserController userController =
-      Get.put(UserController(), permanent: true);
+  final controller = Get.find<FarmsController>();
+  final userController = Get.find<UserController>();
 
   @override
   Widget build(BuildContext context) {
@@ -197,43 +195,23 @@ class _OtpPageState extends State<OtpPage> {
     final box = Hive.box('appData');
 
     if ((data['verifyOtp']['apiKey']).toString().isNotEmpty) {
-      box.put('name',
-          "${data['verifyOtp']['user']['firstName']} ${data['verifyOtp']['user']['lastName']}");
-      box.put('phone', data['verifyOtp']['user']['phoneNumber']);
-
-      if (data['verifyOtp']['user']['farmer'] == null) {
-        box.put('role', 'manager');
-        userController.updateRole('manager');
-      } else {
-        userController.updateRole('farmer');
-        box.put('role', 'farmer');
-      }
-
       context.cacheToken(data['verifyOtp']['apiKey']);
       box.put('token', data['verifyOtp']['apiKey']);
       GraphQLConfiguration.setToken(data['verifyOtp']['apiKey']);
 
-      final name = data['verifyOtp']['user']["firstName"] +
-          " " +
-          data['verifyOtp']['user']["lastName"];
-
-      userController.updateName(name);
-      userController.updatePhone(data['verifyOtp']['user']['phoneNumber']);
-
       if (data['verifyOtp']['user']['managingFarms'].isNotEmpty ||
           data['verifyOtp']['user']['ownedFarms'].isNotEmpty) {
-        List managingFarms = data['verifyOtp']['user']!["managingFarms"];
-        List ownedFarms = data['verifyOtp']['user']!["ownedFarms"];
+        // List managingFarms = data['verifyOtp']['user']!["managingFarms"];
+        // List ownedFarms = data['verifyOtp']['user']!["ownedFarms"];
 
-        List farms = managingFarms + ownedFarms;
+        // List farms = managingFarms + ownedFarms;
 
-        controller.farms.value = farms;
-
-        controller.farm.value = farms[0];
-        controller.selectedFarmId.value = farms[0]['id'];
         // controller.updateFarms(farms);
-        // controller.updateFarm(farms[0]);
-        controller.updateBatches(farms[0]['batches']);
+        // log("OTP>>>>${controller.farms.value}");
+
+        // controller.farm.value = farms[0];
+        // controller.selectedFarmId.value = farms[0]['id'];
+        // controller.updateBatches(farms[0]['batches']);
 
         Get.offAll(() => SuccessWidget(
               message: 'Your phone number has been verified',
@@ -251,23 +229,4 @@ class _OtpPageState extends State<OtpPage> {
       {'phoneNumber': widget.phone, 'otpCode': pinController.text},
     );
   }
-
-  // Future<void> getFarmReports(
-  //   BuildContext context,
-  // ) async {
-  //   GraphQLClient client = GraphQLProvider.of(context).value;
-  //   var fetchReports = await client.query(QueryOptions(
-  //       operationName: "GetFarmReports",
-  //       document: gql(context.queries.getFarmReports()),
-  //       variables: {
-  //         "filter": {"farmId": controller.farm.value['id']}
-  //       }));
-
-  //   List reports = [];
-  //   log("${fetchReports.data!["farmReports"]}");
-  //   for (var report in fetchReports.data!["farmReports"]) {
-  //     reports.add(report);
-  //   }
-  //   controller.reportsList(reports);
-  // }
 }

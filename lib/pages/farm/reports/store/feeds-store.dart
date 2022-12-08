@@ -43,8 +43,7 @@ class _FeedStoreState extends State<FeedStore> {
   final finisherPelletsStore = TextEditingController();
   final kienyejiGrowersStore = TextEditingController();
 
-  final FarmsController controller =
-      Get.put(FarmsController(), permanent: true);
+  final controller = Get.find<FarmsController>();
 
   @override
   Widget build(BuildContext context) {
@@ -193,35 +192,6 @@ class _FeedStoreState extends State<FeedStore> {
                                 onChanged: (val) {
                                   setState(() {
                                     _selectedFeeds = val;
-
-                                    List kienyejiFeeds = val
-                                        .where((feed) =>
-                                            feed == 'Chicken Duck Mash' ||
-                                            feed == 'Kienyeji Growers Mash')
-                                        .toList();
-
-                                    List broilerFeeds = val
-                                        .where((feed) =>
-                                            feed == 'Finisher Pellets' ||
-                                            feed == 'Starter Crumbs')
-                                        .toList();
-
-                                    List layerFeeds = val
-                                        .where((feed) =>
-                                            feed == 'Chicken Duck Mash' ||
-                                            feed == 'Layers Mash' ||
-                                            feed == 'GGrowers Mash')
-                                        .toList();
-
-                                    controller.kienyejiFeed.value =
-                                        kienyejiFeeds as List<String>;
-
-                                    controller.broilerFeeds.value =
-                                        broilerFeeds as List<String>;
-
-                                    controller.layersFeeds.value =
-                                        layerFeeds as List<String>;
-                                    controller.feedList.value = val;
                                   });
                                 },
                                 validator: (value) {
@@ -245,7 +215,7 @@ class _FeedStoreState extends State<FeedStore> {
                                       },
                                       keyboardType: TextInputType.number,
                                       decoration: InputDecoration(
-                                        prefixText: 'Kgs',
+                                        suffixText: 'Kgs',
                                         prefixStyle: TextStyle(fontSize: 1.8.h),
                                         border: OutlineInputBorder(
                                             borderSide: BorderSide(
@@ -277,7 +247,7 @@ class _FeedStoreState extends State<FeedStore> {
                                       },
                                       keyboardType: TextInputType.number,
                                       decoration: InputDecoration(
-                                        prefixText: 'Kgs',
+                                        suffixText: 'Kgs',
                                         prefixStyle: TextStyle(fontSize: 1.8.h),
                                         border: OutlineInputBorder(
                                             borderSide: BorderSide(
@@ -309,7 +279,7 @@ class _FeedStoreState extends State<FeedStore> {
                                       },
                                       keyboardType: TextInputType.number,
                                       decoration: InputDecoration(
-                                        prefixText: 'Kgs',
+                                        suffixText: 'Kgs',
                                         prefixStyle: TextStyle(fontSize: 1.8.h),
                                         border: OutlineInputBorder(
                                             borderSide: BorderSide(
@@ -341,7 +311,7 @@ class _FeedStoreState extends State<FeedStore> {
                                       },
                                       keyboardType: TextInputType.number,
                                       decoration: InputDecoration(
-                                        prefixText: 'Kgs',
+                                        suffixText: 'Kgs',
                                         prefixStyle: TextStyle(fontSize: 1.8.h),
                                         border: OutlineInputBorder(
                                             borderSide: BorderSide(
@@ -373,7 +343,7 @@ class _FeedStoreState extends State<FeedStore> {
                                       },
                                       keyboardType: TextInputType.number,
                                       decoration: InputDecoration(
-                                        prefixText: 'Kgs',
+                                        suffixText: 'Kgs',
                                         prefixStyle: TextStyle(fontSize: 1.8.h),
                                         border: OutlineInputBorder(
                                             borderSide: BorderSide(
@@ -405,7 +375,7 @@ class _FeedStoreState extends State<FeedStore> {
                                       },
                                       keyboardType: TextInputType.number,
                                       decoration: InputDecoration(
-                                        prefixText: 'Kgs',
+                                        suffixText: 'Kgs',
                                         prefixStyle: TextStyle(fontSize: 1.8.h),
                                         border: OutlineInputBorder(
                                             borderSide: BorderSide(
@@ -483,6 +453,36 @@ class _FeedStoreState extends State<FeedStore> {
                                 : int.parse(finisherPelletsStore.text)
                           },
                         ];
+
+                        List kienyejiFeeds = _selectedFeeds
+                            .where((feed) =>
+                                feed == 'Chicken Duck Mash' ||
+                                feed == 'Kienyeji Growers Mash')
+                            .toList();
+
+                        List broilerFeeds = _selectedFeeds
+                            .where((feed) =>
+                                feed == 'Finisher Pellets' ||
+                                feed == 'Starter Crumbs')
+                            .toList();
+
+                        List layerFeeds = _selectedFeeds
+                            .where((feed) =>
+                                feed == 'Chicken Duck Mash' ||
+                                feed == 'Layers Mash' ||
+                                feed == 'GGrowers Mash')
+                            .toList();
+
+                        controller.kienyejiFeed.value =
+                            kienyejiFeeds as List<String>;
+
+                        controller.broilerFeeds.value =
+                            broilerFeeds as List<String>;
+
+                        controller.layersFeeds.value =
+                            layerFeeds as List<String>;
+                        controller.feedList.value =
+                            _selectedFeeds as List<String>;
 
                         controller.report["data"]!["batchId"] =
                             widget.batchDetails.id!;

@@ -30,8 +30,7 @@ class _CreateBatchPageState extends State<CreateBatchPage> {
   final day = TextEditingController();
   final year = TextEditingController();
   final box = Hive.box('appData');
-  final FarmsController controller =
-      Get.put(FarmsController(), permanent: true);
+  final controller = Get.find<FarmsController>();
 
   var months = [
     "",

@@ -26,6 +26,19 @@ class GraphQLConfiguration {
     GraphQLClient(
       link: getLink()!,
       cache: GraphQLCache(),
+      defaultPolicies: DefaultPolicies(
+        // make watched mutations behave like watched queries.
+        watchMutation: Policies(
+          fetch: FetchPolicy.networkOnly,
+          error: ErrorPolicy.none,
+          cacheReread: CacheRereadPolicy.mergeOptimistic,
+        ),
+        watchQuery: Policies(
+          fetch: FetchPolicy.networkOnly,
+          error: ErrorPolicy.none,
+          cacheReread: CacheRereadPolicy.mergeOptimistic,
+        ),
+      ),
     ),
   );
 
@@ -33,6 +46,19 @@ class GraphQLConfiguration {
     return GraphQLClient(
       cache: GraphQLCache(),
       link: getLink()!,
+      defaultPolicies: DefaultPolicies(
+        // make watched mutations behave like watched queries.
+        watchMutation: Policies(
+          fetch: FetchPolicy.networkOnly,
+          error: ErrorPolicy.none,
+          cacheReread: CacheRereadPolicy.mergeOptimistic,
+        ),
+        watchQuery: Policies(
+          fetch: FetchPolicy.networkOnly,
+          error: ErrorPolicy.none,
+          cacheReread: CacheRereadPolicy.mergeOptimistic,
+        ),
+      ),
     );
   }
 }

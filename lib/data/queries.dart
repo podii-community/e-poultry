@@ -25,6 +25,25 @@ class EpoultryQueries {
          verifyOtp(otpCode: \$otpCode,phoneNumber: \$phoneNumber){
               apiKey,
               user{
+                managingFarms{
+                  id,
+                  name,
+                },
+                ownedFarms{
+                  id,
+                  name
+                }
+              }
+         }
+    }
+     """;
+  }
+
+  // Auth
+  String getUserDetails() {
+    return """
+    query GetUserDetails{
+                     user{
                   id,
                   farmer{
                     gender
@@ -121,22 +140,6 @@ class EpoultryQueries {
                     }
                   }
              }
-         }
-    }
-     """;
-  }
-
-  // Auth
-  String getUserDetails() {
-    return """
-    query {
-        user {
-            id,
-            firstName,
-            lastName,
-            phoneNumber,
-           
-        }
     }
     """;
   }

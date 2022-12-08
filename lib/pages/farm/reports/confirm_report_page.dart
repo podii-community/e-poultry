@@ -35,10 +35,8 @@ class ConfirmReportPage extends StatefulWidget {
 }
 
 class _ConfirmReportPageState extends State<ConfirmReportPage> {
-  final UserController userController =
-      Get.put(UserController(), permanent: true);
-  final FarmsController controller =
-      Get.put(FarmsController(), permanent: true);
+  final controller = Get.find<FarmsController>();
+  final userController = Get.find<UserController>();
 
   // List birdCounts = controller.report["data"]!['birdCounts'] as List;
 

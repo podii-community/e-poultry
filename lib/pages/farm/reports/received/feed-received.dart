@@ -48,8 +48,7 @@ class _FeedReceivedState extends State<FeedReceived> {
   List _selectedFeeds = [];
 
   final quantity = TextEditingController();
-  final FarmsController controller =
-      Get.put(FarmsController(), permanent: true);
+  final controller = Get.find<FarmsController>();
 
   @override
   Widget build(BuildContext context) {

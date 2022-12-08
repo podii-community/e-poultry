@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:epoultry/data/data_export.dart';
 import 'package:epoultry/pages/farm/reports/broiler-weight.dart';
@@ -42,8 +44,7 @@ class _NumberOfBirdsReportPageState extends State<NumberOfBirdsReportPage> {
   final curledBirds = TextEditingController();
   final stolenBirds = TextEditingController();
 
-  final FarmsController controller =
-      Get.put(FarmsController(), permanent: true);
+  final controller = Get.find<FarmsController>();
 
   @override
   void initState() {

@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:epoultry/controllers/user_controller.dart';
 import 'package:epoultry/pages/farm/notifications/view-notification.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -22,8 +25,8 @@ class AppbarWidget extends StatelessWidget implements PreferredSizeWidget {
     final box = Hive.box('appData');
     final name = box.get('name');
 
-    final FarmsController controller =
-        Get.put(FarmsController(), permanent: true);
+    final controller = Get.find<FarmsController>();
+    final userController = Get.find<UserController>();
 
     return AppBar(
         automaticallyImplyLeading: false,
@@ -38,10 +41,13 @@ class AppbarWidget extends StatelessWidget implements PreferredSizeWidget {
           child: CircleAvatar(
             radius: 10,
             backgroundColor: CustomColors.secondary,
-            child: Text(
-              name.substring(0, 1),
-              style: TextStyle(fontSize: 4.h, color: CustomColors.background),
-            ),
+            child: Obx(() => Text(
+                  userController.userName.value.isNotEmpty
+                      ? userController.userName.value.substring(0, 1)
+                      : "",
+                  style:
+                      TextStyle(fontSize: 4.h, color: CustomColors.background),
+                )),
           ),
         ),
         actions: [

@@ -66,12 +66,12 @@ class FarmsController extends GetxController {
     filteredWards(wards);
   }
 
-  updateFarm(dynamic selectedFarm) {
+  updateFarm(selectedFarm) {
     farm(selectedFarm);
   }
 
-  updateFarms(farm) {
-    farms(farm);
+  updateFarms(farmsList) {
+    farms(farmsList);
   }
 
   updateBatches(batches) {

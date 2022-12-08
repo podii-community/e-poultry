@@ -93,12 +93,12 @@ class _LoginPageState extends State<LoginPage> {
             ),
             Mutation(
               options: MutationOptions(
+                fetchPolicy: FetchPolicy.networkOnly,
                 operationName: "RequestLoginOtp",
                 document: gql(context.queries.login()),
                 onCompleted: (data) => _onCompleted(data, context),
               ),
               builder: (RunMutation runMutation, QueryResult? result) {
-                log("${result}");
                 if (result != null) {
                   if (result.isLoading) {
                     return const LoadingSpinner();

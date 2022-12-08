@@ -22,8 +22,7 @@ class AddFarmManagerPage extends StatefulWidget {
 }
 
 class _AddFarmManagerPageState extends State<AddFarmManagerPage> {
-  final FarmsController controller =
-      Get.put(FarmsController(), permanent: true);
+  final controller = Get.find<FarmsController>();
   final selectedFarmId = TextEditingController();
 
   @override

@@ -30,8 +30,7 @@ class _BriquettesUsedState extends State<BriquettesUsed> {
   final briquettesStoreAmount = TextEditingController();
   final briquettesReceivedAmount = TextEditingController();
 
-  final FarmsController controller =
-      Get.put(FarmsController(), permanent: true);
+  final controller = Get.find<FarmsController>();
 
   @override
   Widget build(BuildContext context) {

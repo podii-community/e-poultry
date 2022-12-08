@@ -30,8 +30,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   TextEditingController title = TextEditingController();
   final box = Hive.box('appData');
 
-  final UserController userController =
-      Get.put(UserController(), permanent: true);
+  final userController = Get.find<UserController>();
 
   @override
   void initState() {

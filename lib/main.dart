@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:epoultry/data/queries.dart';
 import 'package:epoultry/graphql/graphql_config.dart';
 
 import 'package:epoultry/graphql/query_document_provider.dart';
+import 'package:epoultry/pages/farm/dashboard/farm_dashboard_page.dart';
 import 'package:epoultry/pages/landing_page.dart';
 import 'package:epoultry/theme/custom_theme.dart';
 import 'package:flutter/material.dart';
@@ -62,6 +65,19 @@ class _EpoultryState extends State<Epoultry> {
   ValueNotifier<GraphQLClient> initializeClient() {
     ValueNotifier<GraphQLClient> client = ValueNotifier(
       GraphQLClient(
+        defaultPolicies: DefaultPolicies(
+          // make watched mutations behave like watched queries.
+          watchMutation: Policies(
+            fetch: FetchPolicy.networkOnly,
+            error: ErrorPolicy.none,
+            cacheReread: CacheRereadPolicy.mergeOptimistic,
+          ),
+          watchQuery: Policies(
+            fetch: FetchPolicy.networkOnly,
+            error: ErrorPolicy.none,
+            cacheReread: CacheRereadPolicy.mergeOptimistic,
+          ),
+        ),
         cache: GraphQLCache(),
         link: getLink(),
       ),
@@ -73,6 +89,11 @@ class _EpoultryState extends State<Epoultry> {
 
   @override
   Widget build(BuildContext context) {
+    final token = box.get("token");
+    final FarmsController controller =
+        Get.put(FarmsController(), permanent: true);
+    final UserController userController =
+        Get.put(UserController(), permanent: true);
     return Sizer(
       builder: (context, orientation, deviceType) {
         return QueriesDocumentProvider(
@@ -86,7 +107,9 @@ class _EpoultryState extends State<Epoultry> {
                 localizationsDelegates: const [
                   FormBuilderLocalizations.delegate,
                 ],
-                home: LandingPage()),
+                home: token.toString().isNotEmpty && token != null
+                    ? FarmDashboardPage()
+                    : LandingPage()),
           ),
         );
       },

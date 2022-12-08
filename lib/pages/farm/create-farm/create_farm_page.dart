@@ -54,8 +54,7 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
 
   String _selectedCounty = "";
 
-  final FarmsController controller =
-      Get.put(FarmsController(), permanent: true);
+  final controller = Get.find<FarmsController>();
 
   var contractors = ["", "Chicken Basket", "Contractors 1"];
 
@@ -480,6 +479,7 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
       BuildContext context, String selectedCounty) async {
     GraphQLClient client = GraphQLProvider.of(context).value;
     var searchAddresses = await client.query(QueryOptions(
+        fetchPolicy: FetchPolicy.networkOnly,
         operationName: "SearchAddress",
         document: gql(context.queries.searchAddress()),
         variables: {"query": selectedCounty}));

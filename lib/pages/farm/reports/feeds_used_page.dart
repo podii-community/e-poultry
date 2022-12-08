@@ -70,12 +70,11 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
   List _selectedFeeds = [];
 
   final quantity = TextEditingController();
-  final FarmsController controller =
-      Get.put(FarmsController(), permanent: true);
+  final controller = Get.find<FarmsController>();
 
   @override
   Widget build(BuildContext context) {
-    log("${controller.feedList}");
+    log("${controller.broilerFeeds.value}");
     return Scaffold(
         // resizeToAvoidBottomInset: false,
         appBar: AppBar(

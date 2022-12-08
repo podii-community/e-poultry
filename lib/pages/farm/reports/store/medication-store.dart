@@ -33,8 +33,7 @@ class _MedicationStoreState extends State<MedicationStore> {
   final newCastleStore = TextEditingController();
   final gumboroStore = TextEditingController();
 
-  final FarmsController controller =
-      Get.put(FarmsController(), permanent: true);
+  final controller = Get.find<FarmsController>();
 
   @override
   Widget build(BuildContext context) {
@@ -195,7 +194,7 @@ class _MedicationStoreState extends State<MedicationStore> {
                                   },
                                   keyboardType: TextInputType.number,
                                   decoration: InputDecoration(
-                                    prefixText: 'L',
+                                    suffixText: 'L',
                                     prefixStyle: TextStyle(fontSize: 1.8.h),
                                     border: OutlineInputBorder(
                                         borderSide: BorderSide(
@@ -227,7 +226,7 @@ class _MedicationStoreState extends State<MedicationStore> {
                                   },
                                   keyboardType: TextInputType.number,
                                   decoration: InputDecoration(
-                                    prefixText: 'L',
+                                    suffixText: 'L',
                                     prefixStyle: TextStyle(fontSize: 1.8.h),
                                     border: OutlineInputBorder(
                                         borderSide: BorderSide(

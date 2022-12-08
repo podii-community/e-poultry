@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:epoultry/controllers/user_controller.dart';
 import 'package:epoultry/graphql/query_document_provider.dart';
+import 'package:epoultry/pages/auth/login.dart';
 import 'package:epoultry/pages/farm/farm-managers/manage-farm-managers_page.dart';
 import 'package:epoultry/pages/farm/farm-managers/profile_page.dart';
 import 'package:epoultry/pages/farm/quotation/request_quotation_page.dart';
@@ -26,10 +27,8 @@ import '../create-farm/create_farm_page.dart';
 class DrawerPage extends StatelessWidget {
   DrawerPage({Key? key}) : super(key: key);
 
-  final FarmsController controller =
-      Get.put(FarmsController(), permanent: true);
-  final UserController userController =
-      Get.put(UserController(), permanent: true);
+  final controller = Get.find<FarmsController>();
+  final userController = Get.find<UserController>();
   final ManagersController managersController = ManagersController();
 
   @override
@@ -66,9 +65,9 @@ class DrawerPage extends StatelessWidget {
 
               final user = result.data?['user'];
 
-              final name = user["firstName"] + " " + user["lastName"];
-              userController.updateName(name);
-              userController.updatePhone(user["phoneNumber"]);
+              // final name = user["firstName"] + " " + user["lastName"];
+              // userController.updateName(name);
+              // userController.updatePhone(user["phoneNumber"]);
 
               return UserAccountsDrawerHeader(
                 accountName: Text(userController.userName.value),
@@ -88,40 +87,42 @@ class DrawerPage extends StatelessWidget {
             padding: EdgeInsets.all(8.0),
             child: Text("ALL FARMS"),
           ),
-          controller.farms.isEmpty
-              ? const Center(
-                  child: Text("No Farms"),
-                )
-              : ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: controller.farms.length,
-                  physics: const ClampingScrollPhysics(),
-                  itemBuilder: (context, position) {
-                    return Card(
-                      elevation: 0.2,
-                      child: ListTile(
-                        onTap: () async {
-                          final farm = controller.farms[position]! ?? {};
-                          final batches = farm!["batches"] ?? [];
-                          controller.updateFarm(farm);
-                          controller.batchesList(batches);
-                          await FarmService().getFarmReports(
-                              context, controller.farm.value['id']);
-                          getFarmManager(
-                              context, controller.farms[position]['id']);
+          Obx(
+            () => controller.farms.isEmpty
+                ? const Center(
+                    child: Text("No Farms"),
+                  )
+                : ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: controller.farms.length,
+                    physics: const ClampingScrollPhysics(),
+                    itemBuilder: (context, position) {
+                      return Card(
+                        elevation: 0.2,
+                        child: ListTile(
+                          onTap: () async {
+                            final farm = controller.farms[position]! ?? {};
+                            final batches = farm!["batches"] ?? [];
+                            controller.updateFarm(farm);
+                            controller.batchesList(batches);
+                            // await FarmService().getFarmReports(
+                            //     context, controller.farm.value['id']);
+                            getFarmManager(
+                                context, controller.farms[position]['id']);
 
-                          Get.back();
-                        },
-                        title: Text(
-                          "${controller.farms[position]["name"]}",
-                          style: TextStyle(
-                              color: CustomColors.secondary,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 1.8.h),
+                            Get.back();
+                          },
+                          title: Text(
+                            "${controller.farms[position]["name"]}",
+                            style: TextStyle(
+                                color: CustomColors.secondary,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 1.8.h),
+                          ),
                         ),
-                      ),
-                    );
-                  }),
+                      );
+                    }),
+          ),
           const SizedBox(
             height: CustomSpacing.s1,
           ),
@@ -210,8 +211,10 @@ class DrawerPage extends StatelessWidget {
                   final box = Hive.box('appData');
                   box.clear();
 
-                  await Get.deleteAll(force: true)
-                      .then((value) => Get.to(() => LandingPage()));
+                  Get.to(() => LandingPage());
+
+                  // await Get.deleteAll(force: true)
+                  //     .then((value) => Get.to(() => LandingPage()));
                 },
               )
             ],
@@ -224,6 +227,7 @@ class DrawerPage extends StatelessWidget {
   Future<void> getFarmReports(BuildContext context, id) async {
     GraphQLClient client = GraphQLProvider.of(context).value;
     var fetchReports = await client.query(QueryOptions(
+        fetchPolicy: FetchPolicy.networkOnly,
         operationName: "GetFarmReports",
         document: gql(context.queries.getFarmReports()),
         variables: {
@@ -242,6 +246,7 @@ class DrawerPage extends StatelessWidget {
   Future<void> getFarmManager(BuildContext context, id) async {
     GraphQLClient client = GraphQLProvider.of(context).value;
     var fetchManagers = await client.query(QueryOptions(
+        fetchPolicy: FetchPolicy.networkOnly,
         operationName: "GetFarmManagers",
         document: gql(context.queries.getFarmManagers()),
         variables: {"farmId": controller.farm.value['id']}));

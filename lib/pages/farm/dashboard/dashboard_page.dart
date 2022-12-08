@@ -8,6 +8,7 @@ import 'package:epoultry/pages/farm/reports/view_report_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:hive/hive.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 import 'package:string_extensions/string_extensions.dart';
@@ -31,15 +32,11 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
-  final FarmsController controller =
-      Get.put(FarmsController(), permanent: true);
-
-  final UserController userController =
-      Get.put(UserController(), permanent: true);
+  final controller = Get.find<FarmsController>();
+  final userController = Get.find<UserController>();
 
   @override
   Widget build(BuildContext context) {
-    log("${controller.farm.value['id']}");
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: CustomSpacing.s2),
       child: Column(
@@ -316,6 +313,7 @@ class _DashboardPageState extends State<DashboardPage> {
   ) async {
     GraphQLClient client = GraphQLProvider.of(context).value;
     var fetchReports = await client.query(QueryOptions(
+        fetchPolicy: FetchPolicy.networkOnly,
         operationName: "GetFarmReports",
         document: gql(context.queries.getFarmReports()),
         variables: {
@@ -334,6 +332,7 @@ class _DashboardPageState extends State<DashboardPage> {
   Future<void> getFeeds(BuildContext context) async {
     GraphQLClient client = GraphQLProvider.of(context).value;
     var fetchFeeds = await client.query(QueryOptions(
+        fetchPolicy: FetchPolicy.networkOnly,
         operationName: "StoreItems",
         document: gql(context.queries.storeItems()),
         variables: {
@@ -352,6 +351,8 @@ class _DashboardPageState extends State<DashboardPage> {
     feedsList.forEach((element) {
       feeds.add((element["name"] as String).toUpperCase());
     });
+
+    log("${feeds}");
 
     List kienyejiFeeds = feeds
         .where((feed) =>
