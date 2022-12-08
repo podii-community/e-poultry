@@ -93,7 +93,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                       InkWell(
                         onTap: () {
-                          Get.to(() => EditProfilePage());
+                          Get.to(() => const EditProfilePage());
                         },
                         child: Wrap(
                           children: [

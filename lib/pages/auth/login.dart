@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:epoultry/pages/auth/registration.dart';
 import 'package:epoultry/graphql/query_document_provider.dart';
@@ -161,7 +160,7 @@ class _LoginPageState extends State<LoginPage> {
                             decoration: TextDecoration.underline),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            Get.to(() => RegistrationPage());
+                            Get.to(() => const RegistrationPage());
                           })
                   ]),
             )

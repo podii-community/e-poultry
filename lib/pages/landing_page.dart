@@ -8,10 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
-import '../controllers/farm_controller.dart';
 
 class LandingPage extends StatelessWidget {
-  LandingPage({Key? key}) : super(key: key);
+  const LandingPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +65,7 @@ class LandingPage extends StatelessWidget {
                 child: GradientWidget(
                   child: ElevatedButton(
                     onPressed: () {
-                      Get.to(() => RegistrationPage());
+                      Get.to(() => const RegistrationPage());
                     },
                     style: ElevatedButton.styleFrom(
                         foregroundColor: CustomColors.background,
@@ -106,7 +105,7 @@ class LandingPage extends StatelessWidget {
                               decoration: TextDecoration.underline),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
-                              Get.to(() => LoginPage());
+                              Get.to(() => const LoginPage());
                             })
                     ]),
               )

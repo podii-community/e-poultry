@@ -99,7 +99,7 @@ class _SelectBatchPageState extends State<SelectBatchPage> {
                   ),
                 ),
                 InkWell(
-                  onTap: () => Get.to(() => CreateBatchPage()),
+                  onTap: () => Get.to(() => const CreateBatchPage()),
                   child: Wrap(
                     crossAxisAlignment: WrapCrossAlignment.center,
                     children: [

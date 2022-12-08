@@ -218,7 +218,7 @@ class _OtpPageState extends State<OtpPage> {
               route: widget.route,
             ));
       } else {
-        Get.to(() => JoinFarmPage());
+        Get.to(() => const JoinFarmPage());
       }
     }
   }

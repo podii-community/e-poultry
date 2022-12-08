@@ -148,7 +148,7 @@ class _AllReportsPageState extends State<AllReportsPage> {
                 alignment: Alignment.bottomRight,
                 child: OutlinedButton(
                     onPressed: () {
-                      Get.to(() => FilterReportsPage());
+                      Get.to(() => const FilterReportsPage());
                     },
                     style: OutlinedButton.styleFrom(fixedSize: Size(50.w, 6.h)),
                     child: GradientText("EXPORT REPORTS",

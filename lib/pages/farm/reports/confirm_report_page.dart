@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:epoultry/data/data_export.dart';
 import 'package:epoultry/graphql/query_document_provider.dart';
@@ -6,7 +5,6 @@ import 'package:epoultry/pages/farm/reports/briquettes-used.dart';
 import 'package:epoultry/pages/farm/reports/broiler-weight.dart';
 import 'package:epoultry/pages/farm/reports/eggs_collected_page.dart';
 import 'package:epoultry/pages/farm/reports/number_birds_page.dart';
-import 'package:epoultry/services/farm_service.dart';
 import 'package:epoultry/theme/spacing.dart';
 import 'package:epoultry/widgets/gradient_widget.dart';
 import 'package:flutter/material.dart';

@@ -101,14 +101,14 @@ class _JoinFarmPageState extends State<JoinFarmPage> {
                                       break;
                                     case "request":
                                       if (!widget.isUnAssigned) {
-                                        Get.to(() => RequestQuotationPage(
+                                        Get.to(() => const RequestQuotationPage(
                                               isUnAssignedRole: true,
                                             ));
                                       }
 
                                       break;
                                     case "manage":
-                                      Get.to(() => CreateFarmPage());
+                                      Get.to(() => const CreateFarmPage());
 
                                       userController.updateRole('farmer');
                                       break;

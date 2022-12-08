@@ -1,8 +1,6 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:epoultry/controllers/user_controller.dart';
-import 'package:epoultry/graphql/query_document_provider.dart';
 import 'package:epoultry/pages/farm/batch/list_batches_page.dart';
 import 'package:epoultry/pages/farm/dashboard/farm_dashboard_page.dart';
 import 'package:epoultry/pages/farm/farm-managers/manage-farm-managers_page.dart';
@@ -11,8 +9,6 @@ import 'package:epoultry/theme/colors.dart';
 import 'package:epoultry/theme/spacing.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:hive/hive.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
@@ -42,15 +38,15 @@ class _SuccessWidgetState extends State<SuccessWidget> {
     _timer = Timer(const Duration(milliseconds: 1200), () {
       switch (widget.route) {
         case "login":
-          Get.off(() => FarmDashboardPage());
+          Get.off(() => const FarmDashboardPage());
 
           break;
         case "register":
-          Get.to(() => JoinFarmPage());
+          Get.to(() => const JoinFarmPage());
           break;
 
         case "dashboard":
-          Get.off(() => FarmDashboardPage());
+          Get.off(() => const FarmDashboardPage());
 
           break;
         case "isUnAssigned":
@@ -61,7 +57,7 @@ class _SuccessWidgetState extends State<SuccessWidget> {
           break;
 
         case "batches":
-          Get.to(() => ListBatchPage());
+          Get.to(() => const ListBatchPage());
           break;
 
         case "manager":
