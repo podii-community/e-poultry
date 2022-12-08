@@ -74,7 +74,6 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
 
   @override
   Widget build(BuildContext context) {
-    log("${controller.broilerFeeds.value}");
     return Scaffold(
         // resizeToAvoidBottomInset: false,
         appBar: AppBar(

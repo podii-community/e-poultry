@@ -84,9 +84,11 @@ class _FarmDashboardPageState extends State<FarmDashboardPage> {
         List farms = managingFarms + ownedFarms;
 
         controller.updateFarms(farms);
-        controller.updateFarm(farms[0]);
-        controller.selectedFarmId.value = farms[0]['id'];
-        controller.updateBatches(farms[0]['batches']);
+        if (controller.selectedFarmId.value.isEmpty) {
+          controller.updateFarm(farms[0]);
+          controller.selectedFarmId.value = farms[0]['id'];
+          controller.updateBatches(farms[0]['batches']);
+        }
       }
     }
   }

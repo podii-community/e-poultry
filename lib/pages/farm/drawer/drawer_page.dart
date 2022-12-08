@@ -208,6 +208,8 @@ class DrawerPage extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                         fontSize: 1.8.h)),
                 onTap: () async {
+                  controller.selectedFarmId.value = "";
+                  controller.farm.clear();
                   final box = Hive.box('appData');
                   box.clear();
 
