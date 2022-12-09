@@ -8,10 +8,8 @@ import 'package:epoultry/pages/farm/reports/view_report_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:hive/hive.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
-import 'package:string_extensions/string_extensions.dart';
 
 import '../../../controllers/user_controller.dart';
 import '../../../data/models/error.dart';
@@ -189,7 +187,7 @@ class _DashboardPageState extends State<DashboardPage> {
                   GradientWidget(
                     child: ListTile(
                       onTap: () {
-                        Get.to(() => SelectBatchPage());
+                        Get.to(() => const SelectBatchPage());
                       },
                       leading: const Icon(
                         PhosphorIcons.plusCircleFill,
@@ -227,7 +225,7 @@ class _DashboardPageState extends State<DashboardPage> {
                         ),
                         InkWell(
                           onTap: () {
-                            Get.to(() => AllReportsPage());
+                            Get.to(() => const AllReportsPage());
                           },
                           child: Text('SEE ALL',
                               style: TextStyle(fontSize: 2.0.h)),
@@ -348,11 +346,11 @@ class _DashboardPageState extends State<DashboardPage> {
 
     List<String> feeds = [];
 
-    feedsList.forEach((element) {
+    for (var element in feedsList) {
       feeds.add((element["name"] as String).toUpperCase());
-    });
+    }
 
-    log("${feeds}");
+    log("$feeds");
 
     List kienyejiFeeds = feeds
         .where((feed) =>

@@ -65,7 +65,7 @@ class _ManageFarmManagersState extends State<ManageFarmManagers> {
             GradientWidget(
               child: ListTile(
                 onTap: () {
-                  Get.to(() => AddFarmManagerPage());
+                  Get.to(() => const AddFarmManagerPage());
                 },
                 leading: const Icon(
                   PhosphorIcons.plusCircleFill,

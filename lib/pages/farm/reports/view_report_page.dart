@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:epoultry/graphql/query_document_provider.dart';
 import 'package:flutter/material.dart';

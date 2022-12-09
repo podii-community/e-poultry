@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:gql_http_link/gql_http_link.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 import '../controllers/farm_controller.dart';

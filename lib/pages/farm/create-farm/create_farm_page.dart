@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:epoultry/graphql/query_document_provider.dart';
@@ -453,7 +452,7 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
       };
       controller.farms.value.add(farm);
 
-      Get.to(() => SuccessWidget(
+      Get.to(() => const SuccessWidget(
             message: 'Farm Created',
             route: 'dashboard',
           ));

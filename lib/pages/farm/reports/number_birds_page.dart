@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:epoultry/data/data_export.dart';

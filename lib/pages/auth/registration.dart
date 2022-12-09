@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:epoultry/pages/auth/login.dart';
 import 'package:epoultry/pages/auth/otp_page.dart';
@@ -298,7 +297,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                 decoration: TextDecoration.underline),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
-                                Get.to(() => LoginPage());
+                                Get.to(() => const LoginPage());
                               })
                       ]),
                 )

@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:epoultry/controllers/user_controller.dart';
 import 'package:epoultry/pages/farm/notifications/view-notification.dart';
@@ -53,7 +52,7 @@ class AppbarWidget extends StatelessWidget implements PreferredSizeWidget {
         actions: [
           IconButton(
               onPressed: () {
-                Get.to(() => ViewNotification());
+                Get.to(() => const ViewNotification());
               },
               icon: const Icon(
                 PhosphorIcons.bell,

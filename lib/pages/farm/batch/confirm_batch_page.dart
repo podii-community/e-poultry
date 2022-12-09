@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:epoultry/data/models/batch_model.dart';
 import 'package:epoultry/graphql/query_document_provider.dart';
@@ -193,7 +192,7 @@ class ConfirmBatchPage extends StatelessWidget {
 
   Future<void> _onCompleted(data, BuildContext context) async {
     if ((data['createBatch']['id']).toString().isNotEmpty) {
-      Get.to(() => SuccessWidget(
+      Get.to(() => const SuccessWidget(
             message: 'You have successfully created a batch',
             route: 'dashboard',
           ));

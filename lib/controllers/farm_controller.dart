@@ -1,7 +1,4 @@
-import 'package:epoultry/services/farm_service.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:path/path.dart';
 
 class FarmsController extends GetxController {
   final farm = {}.obs;

@@ -1,13 +1,10 @@
-import 'dart:developer';
 
 import 'package:epoultry/controllers/user_controller.dart';
 import 'package:epoultry/graphql/query_document_provider.dart';
-import 'package:epoultry/pages/auth/login.dart';
 import 'package:epoultry/pages/farm/farm-managers/manage-farm-managers_page.dart';
 import 'package:epoultry/pages/farm/farm-managers/profile_page.dart';
 import 'package:epoultry/pages/farm/quotation/request_quotation_page.dart';
 import 'package:epoultry/pages/landing_page.dart';
-import 'package:epoultry/services/farm_service.dart';
 import 'package:epoultry/theme/colors.dart';
 import 'package:epoultry/theme/spacing.dart';
 import 'package:flutter/material.dart';
@@ -141,7 +138,7 @@ class DrawerPage extends StatelessWidget {
                         fontSize: 1.8.h),
                   ),
                   onTap: () {
-                    Get.to(() => CreateFarmPage());
+                    Get.to(() => const CreateFarmPage());
                   },
                 )
               : Container(),
@@ -158,7 +155,7 @@ class DrawerPage extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                           fontSize: 1.8.h)),
                   onTap: () {
-                    Get.to(() => ManageFarmManagers());
+                    Get.to(() => const ManageFarmManagers());
                   },
                 )
               : Container(),
@@ -175,7 +172,7 @@ class DrawerPage extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                           fontSize: 1.8.h)),
                   onTap: () {
-                    Get.to(() => RequestQuotationPage());
+                    Get.to(() => const RequestQuotationPage());
                   },
                 )
               : Container(),
@@ -191,7 +188,7 @@ class DrawerPage extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                     fontSize: 1.8.h)),
             onTap: () {
-              Get.to(() => ProfilePage());
+              Get.to(() => const ProfilePage());
             },
           ),
           Column(
@@ -213,7 +210,7 @@ class DrawerPage extends StatelessWidget {
                   final box = Hive.box('appData');
                   box.clear();
 
-                  Get.to(() => LandingPage());
+                  Get.to(() => const LandingPage());
 
                   // await Get.deleteAll(force: true)
                   //     .then((value) => Get.to(() => LandingPage()));

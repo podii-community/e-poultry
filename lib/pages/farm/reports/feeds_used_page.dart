@@ -1,8 +1,6 @@
-import 'dart:developer';
 
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:epoultry/data/data_export.dart';
-import 'package:epoultry/graphql/query_document_provider.dart';
 import 'package:epoultry/pages/farm/reports/received/feed-received.dart';
 import 'package:epoultry/pages/farm/reports/sawdust-used.dart';
 
@@ -10,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
@@ -223,6 +220,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                     if (_selectedFeeds.isEmpty) {
                                       return "Please choose a feed";
                                     }
+                                    return null;
                                   },
                                 )
                               : Container(),
@@ -260,6 +258,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                     if (_selectedFeeds.isEmpty) {
                                       return "Please choose a feed";
                                     }
+                                    return null;
                                   },
                                 )
                               : Container(),
@@ -297,6 +296,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                     if (_selectedFeeds.isEmpty) {
                                       return "Please choose a feed";
                                     }
+                                    return null;
                                   },
                                 )
                               : Container(),

@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:epoultry/data/queries.dart';
 import 'package:epoultry/graphql/graphql_config.dart';
@@ -22,11 +21,11 @@ void main() async {
   await Hive.initFlutter();
   await Hive.openBox('appData');
   final box = Hive.box('appData');
-  runApp(Epoultry());
+  runApp(const Epoultry());
 }
 
 class Epoultry extends StatefulWidget {
-  Epoultry({
+  const Epoultry({
     Key? key,
   }) : super(key: key);
 
@@ -108,8 +107,8 @@ class _EpoultryState extends State<Epoultry> {
                   FormBuilderLocalizations.delegate,
                 ],
                 home: token.toString().isNotEmpty && token != null
-                    ? FarmDashboardPage()
-                    : LandingPage()),
+                    ? const FarmDashboardPage()
+                    : const LandingPage()),
           ),
         );
       },

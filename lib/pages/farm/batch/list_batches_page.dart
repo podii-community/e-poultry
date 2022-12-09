@@ -42,7 +42,7 @@ class _ListBatchPageState extends State<ListBatchPage> {
           GradientWidget(
             child: ListTile(
               onTap: () {
-                Get.to(() => CreateBatchPage());
+                Get.to(() => const CreateBatchPage());
               },
               leading: const Icon(
                 PhosphorIcons.plusCircleFill,
