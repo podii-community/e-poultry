@@ -25,37 +25,17 @@ class LandingPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
-                height: 55.h,
-                width: 100.w,
-                child: Image.asset(
-                  'assets/landing.png',
-                  scale: 0.1,
-                  fit: BoxFit.cover,
-                ),
+                height: 15.h,
               ),
               const SizedBox(
                 height: CustomSpacing.s2,
               ),
               Image.asset(
-                'assets/logo.png',
+                'assets/landing.png',
                 scale: 1.5,
               ),
               const SizedBox(
                 height: CustomSpacing.s2,
-              ),
-              Text(
-                "Welcome to Epoultry!",
-                style: TextStyle(fontSize: 2.8.h, fontWeight: FontWeight.w600),
-              ),
-              const SizedBox(
-                height: CustomSpacing.s2,
-              ),
-              Text(
-                "Farmer or Farm Manager, \n  there is something for everyone.",
-                style: TextStyle(
-                  fontSize: 2.1.h,
-                ),
-                textAlign: TextAlign.center,
               ),
               const SizedBox(
                 height: CustomSpacing.s3,
