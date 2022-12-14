@@ -1,3 +1,4 @@
+import 'dart:developer';
 
 import 'package:epoultry/controllers/user_controller.dart';
 import 'package:epoultry/graphql/query_document_provider.dart';
@@ -31,9 +32,12 @@ class DrawerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final box = Hive.box('appData');
+    final selectedFarmId =
+        TextEditingController(text: controller.farm.value['id']);
 
     // final role = box.get('role');
     return Drawer(
+      backgroundColor: CustomColors.drawerBackground,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
             topRight: Radius.circular(CustomSpacing.s1),
@@ -41,101 +45,72 @@ class DrawerPage extends StatelessWidget {
       ),
       child: ListView(
         children: [
-          Query(
-            options: QueryOptions(
-              document: gql(context.queries.getUserDetails()),
-              fetchPolicy: FetchPolicy.noCache,
-              pollInterval: const Duration(minutes: 2),
-            ),
-            builder: (QueryResult result,
-                {VoidCallback? refetch, FetchMore? fetchMore}) {
-              if (result.isLoading) {
-                return const LoadingSpinner();
-              }
-              if (result.hasException) {
-                return AppErrorWidget(
-                  error: ErrorModel.fromString(
-                    result.exception.toString(),
-                  ),
-                );
-              }
-
-              final user = result.data?['user'];
-
-              // final name = user["firstName"] + " " + user["lastName"];
-              // userController.updateName(name);
-              // userController.updatePhone(user["phoneNumber"]);
-
-              return UserAccountsDrawerHeader(
-                accountName: Text(userController.userName.value),
-                accountEmail: Text(user["phoneNumber"]),
-                currentAccountPicture: CircleAvatar(
-                  backgroundColor: CustomColors.background,
-                  child: Text(
-                    user["firstName"][0],
-                    style: TextStyle(fontSize: 4.0.h),
-                  ),
-                ),
-                decoration: const BoxDecoration(color: CustomColors.secondary),
-              );
-            },
+          Container(
+            height: 15.h,
+            child: Image.asset('assets/logo.png'),
           ),
-          const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Text("ALL FARMS"),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 5.2.w),
+            child: Text(userController.userName.value,
+                style: TextStyle(
+                    color: CustomColors.textPrimary,
+                    fontSize: 2.6.h,
+                    fontWeight: FontWeight.w500)),
           ),
           Obx(
             () => controller.farms.isEmpty
                 ? const Center(
                     child: Text("No Farms"),
                   )
-                : ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: controller.farms.length,
-                    physics: const ClampingScrollPhysics(),
-                    itemBuilder: (context, position) {
-                      return Card(
-                        elevation: 0.2,
-                        child: ListTile(
-                          onTap: () async {
-                            final farm = controller.farms[position]! ?? {};
-                            final batches = farm!["batches"] ?? [];
-                            controller.updateFarm(farm);
-                            controller.batchesList(batches);
-                            // await FarmService().getFarmReports(
-                            //     context, controller.farm.value['id']);
-                            getFarmManager(
-                                context, controller.farms[position]['id']);
+                : Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 5.2.w),
+                    child: DropdownButton<String>(
+                      isExpanded: true,
+                      underline: Container(),
+                      dropdownColor: CustomColors.drawerBackground,
+                      style: TextStyle(
+                          color: CustomColors.textPrimary, fontSize: 2.3.h),
+                      value: selectedFarmId.text,
+                      hint: const Text(
+                        'Select Farm',
+                      ),
+                      onChanged: (String? farmId) {
+                        var selectedFarm = controller.farms
+                            .firstWhere((farm) => farm['id'] == farmId);
 
-                            Get.back();
-                          },
-                          title: Text(
-                            "${controller.farms[position]["name"]}",
-                            style: TextStyle(
-                                color: CustomColors.secondary,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 1.8.h),
-                          ),
-                        ),
-                      );
-                    }),
+                        final farm = selectedFarm ?? {};
+                        final batches = farm!["batches"] ?? [];
+                        controller.updateFarm(farm);
+                        controller.batchesList(batches);
+
+                        getFarmManager(context, selectedFarmId.text);
+
+                        Get.back();
+                      },
+                      items: controller.farms.map((value) {
+                        return DropdownMenuItem(
+                          value: value["id"].toString(),
+                          child: Text(value["name"]),
+                        );
+                      }).toList(),
+                    ),
+                  ),
           ),
           const SizedBox(
             height: CustomSpacing.s1,
           ),
+          Divider(),
           userController.userRole.value == 'farmer'
               ? ListTile(
                   leading: Icon(
                     PhosphorIcons.plusCircleFill,
-                    color: CustomColors.secondary,
+                    color: CustomColors.textPrimary,
                     size: 3.h,
                   ),
                   title: Text(
                     'Add Another Farm',
                     style: TextStyle(
-                        color: CustomColors.secondary,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 1.8.h),
+                        color: CustomColors.textPrimary, fontSize: 2.2.h),
                   ),
                   onTap: () {
                     Get.to(() => const CreateFarmPage());
@@ -146,14 +121,12 @@ class DrawerPage extends StatelessWidget {
               ? ListTile(
                   leading: Icon(
                     PhosphorIcons.usersFill,
-                    color: CustomColors.secondary,
+                    color: CustomColors.textPrimary,
                     size: 3.h,
                   ),
                   title: Text('Manage Farm Managers',
                       style: TextStyle(
-                          color: CustomColors.secondary,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 1.8.h)),
+                          color: CustomColors.textPrimary, fontSize: 2.2.h)),
                   onTap: () {
                     Get.to(() => const ManageFarmManagers());
                   },
@@ -163,14 +136,12 @@ class DrawerPage extends StatelessWidget {
               ? ListTile(
                   leading: Icon(
                     PhosphorIcons.tagFill,
-                    color: CustomColors.secondary,
+                    color: CustomColors.textPrimary,
                     size: 3.h,
                   ),
                   title: Text('Request Quotation',
                       style: TextStyle(
-                          color: CustomColors.secondary,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 1.8.h)),
+                          color: CustomColors.textPrimary, fontSize: 2.2.h)),
                   onTap: () {
                     Get.to(() => const RequestQuotationPage());
                   },
@@ -179,14 +150,12 @@ class DrawerPage extends StatelessWidget {
           ListTile(
             leading: Icon(
               PhosphorIcons.pencilFill,
-              color: CustomColors.secondary,
+              color: CustomColors.textPrimary,
               size: 3.h,
             ),
             title: Text('Profile',
                 style: TextStyle(
-                    color: CustomColors.secondary,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 1.8.h)),
+                    color: CustomColors.textPrimary, fontSize: 2.2.h)),
             onTap: () {
               Get.to(() => const ProfilePage());
             },
@@ -201,9 +170,7 @@ class DrawerPage extends StatelessWidget {
                 ),
                 title: Text('Log Out',
                     style: TextStyle(
-                        color: CustomColors.primary,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 1.8.h)),
+                        color: CustomColors.primary, fontSize: 2.2.h)),
                 onTap: () async {
                   controller.selectedFarmId.value = "";
                   controller.farm.clear();

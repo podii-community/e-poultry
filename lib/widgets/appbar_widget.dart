@@ -1,4 +1,3 @@
-
 import 'package:epoultry/controllers/user_controller.dart';
 import 'package:epoultry/pages/farm/notifications/view-notification.dart';
 import 'package:flutter/material.dart';
@@ -34,21 +33,13 @@ class AppbarWidget extends StatelessWidget implements PreferredSizeWidget {
         backgroundColor: CustomColors.white,
         elevation: 0.5,
         leading: InkWell(
-          onTap: () {
-            drawerKey.currentState!.openDrawer();
-          },
-          child: CircleAvatar(
-            radius: 10,
-            backgroundColor: CustomColors.secondary,
-            child: Obx(() => Text(
-                  userController.userName.value.isNotEmpty
-                      ? userController.userName.value.substring(0, 1)
-                      : "",
-                  style:
-                      TextStyle(fontSize: 4.h, color: CustomColors.background),
-                )),
-          ),
-        ),
+            onTap: () {
+              drawerKey.currentState!.openDrawer();
+            },
+            child: Image.asset(
+              'assets/logo.png',
+              scale: 2.1,
+            )),
         actions: [
           IconButton(
               onPressed: () {
