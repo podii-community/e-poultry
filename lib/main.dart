@@ -1,4 +1,3 @@
-
 import 'package:epoultry/data/queries.dart';
 import 'package:epoultry/graphql/graphql_config.dart';
 
