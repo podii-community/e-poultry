@@ -126,6 +126,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           height: CustomSpacing.s3,
                         ),
                         TextFormField(
+                          enabled: false,
                           controller: phoneNumber,
                           keyboardType: TextInputType.phone,
                           decoration: InputDecoration(
