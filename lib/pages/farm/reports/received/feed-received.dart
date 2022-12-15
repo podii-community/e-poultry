@@ -188,7 +188,7 @@ class _FeedReceivedState extends State<FeedReceived> {
                                                   width: 0.3.w,
                                                   color: CustomColors
                                                       .secondary)))),
-                                  items: controller.layersFeeds.value,
+                                  items: layersFeeds,
                                   popupProps:
                                       const PopupPropsMultiSelection.menu(
                                     showSelectedItems: true,
@@ -226,7 +226,7 @@ class _FeedReceivedState extends State<FeedReceived> {
                                                   width: 0.3.w,
                                                   color: CustomColors
                                                       .secondary)))),
-                                  items: controller.broilerFeeds.value,
+                                  items: broilersFeeds,
                                   popupProps:
                                       const PopupPropsMultiSelection.menu(
                                     showSelectedItems: true,
@@ -264,7 +264,7 @@ class _FeedReceivedState extends State<FeedReceived> {
                                                   width: 0.3.w,
                                                   color: CustomColors
                                                       .secondary)))),
-                                  items: controller.kienyejiFeed.value,
+                                  items: kienyejiFeeds,
                                   popupProps:
                                       const PopupPropsMultiSelection.menu(
                                     showSelectedItems: true,
