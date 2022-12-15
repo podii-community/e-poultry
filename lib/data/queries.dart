@@ -529,6 +529,49 @@ class EpoultryQueries {
   """;
   }
 
+  String counties() {
+    return """
+      query Counties{
+          counties{
+              code,
+              name,
+              subcounties{
+                code,
+                name
+              }
+        
+          }
+      }
+
+  """;
+  }
+
+  String subcounties() {
+    return """
+      query Subcounties(\$code: Int!){
+          subcounty(code: \$code){
+              code,
+              name,
+          }
+      }
+  """;
+  }
+
+  String wards() {
+    return """
+      query Wards(\$code: Int!){
+          subcounty(code: \$code){
+              code,
+              name,
+              wards{
+                code,
+                name
+              }
+          }
+      }
+  """;
+  }
+
   String storeItems() {
     return """
     query StoreItems(\$filter: StoreItemsFilterInput!){
