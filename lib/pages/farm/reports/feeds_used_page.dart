@@ -1,4 +1,3 @@
-
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:epoultry/data/data_export.dart';
 import 'package:epoultry/pages/farm/reports/received/feed-received.dart';
@@ -49,16 +48,16 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
 
   String feedsReceived = "";
 
-  var kienyejiFeeds = ["Chicken Duck Mash", "Kienyeji Growers Mash"];
+  var kienyejiFeeds = ["CHICK & DUCK Mash", "Kienyeji Growers Mash"];
 
   var layersFeeds = [
-    "Chicken Duck Mash",
+    "CHICK & DUCK Mash",
     "Growers Mash",
     "Layers Mash",
   ];
 
   var broilersFeeds = [
-    "Starter Crumbs",
+    "Starter Crumb",
     "Finisher Pellets",
   ];
 
@@ -244,7 +243,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                                   width: 0.3.w,
                                                   color: CustomColors
                                                       .secondary)))),
-                                  items: controller.broilerFeeds.value,
+                                  items: controller.broilerFeeds,
                                   popupProps:
                                       const PopupPropsMultiSelection.menu(
                                     showSelectedItems: true,
@@ -373,9 +372,9 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                           const SizedBox(
                             height: CustomSpacing.s3,
                           ),
-                          _selectedFeeds.contains("CHICKEN_DUCK_MASH") ||
+                          _selectedFeeds.contains("CHICK & DUCK MASH") ||
                                   _selectedFeeds
-                                          .contains("Chicken Duck Mash") &&
+                                          .contains("Chick & Duck Mash") &&
                                       ((widget.batchDetails.type!.name) ==
                                               "LAYERS" ||
                                           (widget.batchDetails.type!.name) ==
@@ -566,7 +565,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                               DateTime(now.year, now.month, now.day);
                           var feedsUsageReports = [
                             {
-                              "feedType": "CHICKEN_DUCK_MASH",
+                              "feedType": "CHICK & DUCK_MASH",
                               "quantity": chickDuckMashUsed.text.isEmpty
                                   ? 0
                                   : int.parse(chickDuckMashUsed.text)

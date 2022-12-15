@@ -24,6 +24,8 @@ class AddFarmManagerPage extends StatefulWidget {
 class _AddFarmManagerPageState extends State<AddFarmManagerPage> {
   final controller = Get.find<FarmsController>();
   final selectedFarmId = TextEditingController();
+  bool valueSelected = false;
+  String selectedFarmName = "";
 
   @override
   void initState() {
@@ -91,21 +93,24 @@ class _AddFarmManagerPageState extends State<AddFarmManagerPage> {
                   }
                 }
                 return DropdownButtonFormField<String>(
-                    value: selectedFarmId.text,
-                    hint: const Text(
-                      'Select Farm',
+                    // value: selectedFarmId.text,
+                    hint: Text(
+                      valueSelected ? selectedFarmName : 'Select Farm',
                     ),
-                    onChanged: (String? farmId) {
+                    onChanged: (farmId) {
                       setState(() {
                         selectedFarmId.text = farmId!;
+                        valueSelected = true;
                       });
-
                       _farmIdChanged(context, runMutation);
                     },
                     validator: (value) =>
                         value == null ? 'field required' : null,
                     items: controller.farms.map((value) {
                       return DropdownMenuItem(
+                        onTap: () {
+                          selectedFarmName = value["name"];
+                        },
                         value: value["id"].toString(),
                         child: Text(value["name"]),
                       );
