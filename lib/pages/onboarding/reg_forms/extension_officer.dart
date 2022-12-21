@@ -145,6 +145,32 @@ class _ExtensionOfficerState extends State<ExtensionOfficer> {
                           height: CustomSpacing.s3,
                         ),
                         TextFormField(
+                          keyboardType: TextInputType.text,
+                          controller: lastName,
+                          validator: (String? value) {
+                            if (value!.isEmpty) {
+                              return 'National ID is required';
+                            }
+                            return null;
+                          },
+                          decoration: InputDecoration(
+                              labelText: "National ID",
+                              labelStyle: TextStyle(
+                                  fontSize: 2.2.h,
+                                  color: CustomColors.secondary),
+                              border: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      width: 0.3.w,
+                                      color: CustomColors.secondary)),
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      width: 0.3.w,
+                                      color: CustomColors.secondary))),
+                        ),
+                        const SizedBox(
+                          height: CustomSpacing.s3,
+                        ),
+                        TextFormField(
                           controller: phoneNumber,
                           keyboardType: TextInputType.phone,
                           validator: (String? value) {
