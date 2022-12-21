@@ -1,8 +1,8 @@
-
 import 'package:epoultry/graphql/query_document_provider.dart';
 import 'package:epoultry/pages/farm/batch/list_batches_page.dart';
 import 'package:epoultry/pages/farm/dashboard/dashboard_page.dart';
 import 'package:epoultry/pages/farm/drawer/drawer_page.dart';
+import 'package:epoultry/pages/farm/e-extension/extension_services.dart';
 import 'package:epoultry/pages/farm/farm-managers/profile_page.dart';
 import 'package:epoultry/theme/colors.dart';
 import 'package:epoultry/widgets/appbar_widget.dart';
@@ -31,6 +31,7 @@ class _FarmDashboardPageState extends State<FarmDashboardPage> {
 
   static final List<Widget> _pages = <Widget>[
     const DashboardPage(),
+    const ExtensionService(),
     const ListBatchPage(),
     const ProfilePage(
       showAppbar: false,
@@ -98,7 +99,6 @@ class _FarmDashboardPageState extends State<FarmDashboardPage> {
         options: QueryOptions(
           document: gql(context.queries.getContractors()),
           fetchPolicy: FetchPolicy.noCache,
-          pollInterval: const Duration(minutes: 2),
         ),
         builder: (QueryResult result,
             {VoidCallback? refetch, FetchMore? fetchMore}) {
@@ -134,6 +134,10 @@ class _FarmDashboardPageState extends State<FarmDashboardPage> {
                 BottomNavigationBarItem(
                   icon: Icon(PhosphorIcons.houseLine),
                   label: "Home",
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(PhosphorIcons.person),
+                  label: "E-extension",
                 ),
                 BottomNavigationBarItem(
                     icon: Icon(PhosphorIcons.plus), label: "Manage Batch"),
