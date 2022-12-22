@@ -12,6 +12,7 @@ import 'package:sizer/sizer.dart';
 import '../../../data/models/error.dart';
 import '../../../theme/colors.dart';
 import '../../../widgets/loading_spinner.dart';
+import '../../extensions/extension_officer_profile.dart';
 import '../group_registration/group_dashboard.dart';
 
 class ExtensionOfficer extends StatefulWidget {
@@ -296,7 +297,7 @@ class _ExtensionOfficerState extends State<ExtensionOfficer> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        const GroupDashboardPage()));
+                                        ExtensionOfficerProfile()));
                           },
                           style: ElevatedButton.styleFrom(
                               foregroundColor: CustomColors.background,
@@ -308,7 +309,7 @@ class _ExtensionOfficerState extends State<ExtensionOfficer> {
                               shadowColor: Colors.transparent,
                               fixedSize: Size(100.w, 6.h)),
                           child: Text(
-                            'REGISTER',
+                            'SIGN UP',
                             style: TextStyle(
                               fontSize: 2.4.h,
                             ),
