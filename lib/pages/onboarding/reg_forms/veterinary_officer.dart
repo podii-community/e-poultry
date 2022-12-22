@@ -12,6 +12,7 @@ import 'package:sizer/sizer.dart';
 import '../../../data/models/error.dart';
 import '../../../theme/colors.dart';
 import '../../../widgets/loading_spinner.dart';
+import '../../veterinary/vet_profile.dart';
 import '../group_registration/group_dashboard.dart';
 
 class VeterinaryOfficer extends StatefulWidget {
@@ -321,8 +322,7 @@ class _VeterinaryOfficerState extends State<VeterinaryOfficer> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        const GroupDashboardPage()));
+                                    builder: (context) => VeterinaryProfile()));
                           },
                           style: ElevatedButton.styleFrom(
                               foregroundColor: CustomColors.background,
@@ -334,7 +334,7 @@ class _VeterinaryOfficerState extends State<VeterinaryOfficer> {
                               shadowColor: Colors.transparent,
                               fixedSize: Size(100.w, 6.h)),
                           child: Text(
-                            'REGISTER',
+                            'SIGN UP',
                             style: TextStyle(
                               fontSize: 2.4.h,
                             ),
