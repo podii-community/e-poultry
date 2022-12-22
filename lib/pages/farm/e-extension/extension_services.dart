@@ -1,7 +1,9 @@
+import 'package:epoultry/pages/farm/e-extension/farm-visit/farm_visit.dart';
 import 'package:epoultry/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:get/get.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
@@ -41,6 +43,9 @@ class ExtensionService extends StatelessWidget {
               color: CustomColors.textPrimary,
               size: 3.h,
             ),
+            onTap: () {
+              Get.to(() => RequestFarmVisit());
+            },
             title: Text('Request Farm Visit',
                 style: TextStyle(
                     color: CustomColors.textPrimary, fontSize: 2.2.h)),
