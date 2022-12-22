@@ -1,49 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:sizer/sizer.dart';
 
-import '../../theme/colors.dart';
-
-class ProfilePage extends StatefulWidget {
+class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
   @override
-  State<ProfilePage> createState() => _ProfilePageState();
-}
-
-class _ProfilePageState extends State<ProfilePage> {
-  int _selectedIndex = 0;
-
-  @override
   Widget build(BuildContext context) {
-    void onItemTapped(int index) {
-      setState(() {
-        _selectedIndex = index;
-      });
-    }
-
     return Scaffold(
-      // appBar: AppBar(
-      //   automaticallyImplyLeading: false,
-      //   centerTitle: true,
-      //   toolbarHeight: 8.h,
-      //   backgroundColor: CustomColors.white,
-      //   elevation: 0.5,
-      //   // leading: IconButton(
-      //   //   icon: const Icon(
-      //   //     PhosphorIcons.arrowLeft,
-      //   //     color: Colors.black,
-      //   //   ),
-      //   //   onPressed: () {
-      //   //     Get.back();
-      //   //   },
-      //   // ),
-      //   title: const Text(
-      //     "Profile",
-      //     style: TextStyle(color: Colors.black),
-      //   ),
-      // ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -184,25 +147,6 @@ class _ProfilePageState extends State<ProfilePage> {
           ],
         ),
       ),
-      // bottomNavigationBar: BottomNavigationBar(
-      //   backgroundColor: CustomColors.background,
-      //   selectedItemColor: CustomColors.primary,
-      //   unselectedItemColor: CustomColors.secondary,
-      //   currentIndex: _selectedIndex,
-      //   onTap: onItemTapped,
-      //   items: const [
-      //     BottomNavigationBarItem(
-      //       icon: Icon(PhosphorIcons.houseLine),
-      //       label: "Home",
-      //     ),
-      //     BottomNavigationBarItem(
-      //         icon: Icon(PhosphorIcons.clipboardBold), label: "Farm Visits"),
-      //     BottomNavigationBarItem(
-      //         icon: Icon(PhosphorIcons.userCircle), label: "Profile"),
-      //     // BottomNavigationBarItem(
-      //     //     icon: Icon(PhosphorIcons.shoppingCart), label: "Ecommerce"),
-      //   ],
-      // ),
     );
   }
 }

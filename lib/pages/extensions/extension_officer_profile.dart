@@ -1,4 +1,4 @@
-import 'package:epoultry/pages/extensions/profile_page.dart';
+import 'package:epoultry/pages/extensions/extension_homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sizer/sizer.dart';
@@ -25,15 +25,6 @@ class ExtensionOfficerProfile extends StatelessWidget {
         toolbarHeight: 8.h,
         backgroundColor: CustomColors.white,
         elevation: 0.5,
-        // leading: IconButton(
-        //   icon: const Icon(
-        //     PhosphorIcons.arrowLeft,
-        //     color: Colors.black,
-        //   ),
-        //   onPressed: () {
-        //     Get.back();
-        //   },
-        // ),
         title: const Text(
           "Complete Profile",
           style: TextStyle(color: Colors.black),
@@ -217,7 +208,7 @@ class ExtensionOfficerProfile extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const ProfilePage()));
+                              builder: (context) => const ExtensionHomePage()));
                     },
                     style: ElevatedButton.styleFrom(
                         foregroundColor: CustomColors.background,
