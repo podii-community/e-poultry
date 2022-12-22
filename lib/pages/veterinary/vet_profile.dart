@@ -1,4 +1,5 @@
 import 'package:epoultry/pages/veterinary/profile_page.dart';
+import 'package:epoultry/pages/veterinary/vet_homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sizer/sizer.dart';
@@ -217,7 +218,8 @@ class VeterinaryProfile extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const ProfilePage()));
+                              builder: (context) =>
+                                  const VeterinaryHomePage()));
                     },
                     style: ElevatedButton.styleFrom(
                         foregroundColor: CustomColors.background,
