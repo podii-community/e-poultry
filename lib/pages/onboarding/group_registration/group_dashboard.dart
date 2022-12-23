@@ -86,9 +86,11 @@ class _GroupDashboardPageState extends State<GroupDashboardPage> {
             InkWell(
               onTap: () {
                 Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const GroupRegistrationPage()));
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const GroupRegistrationPage(),
+                  ),
+                );
               },
               child: Container(
                 padding: const EdgeInsets.all(20),
