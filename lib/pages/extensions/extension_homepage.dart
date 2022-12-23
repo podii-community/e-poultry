@@ -1,4 +1,5 @@
 import 'package:epoultry/pages/extensions/dashboard_page.dart';
+import 'package:epoultry/pages/extensions/farm_visits.dart';
 import 'package:epoultry/pages/extensions/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -17,6 +18,7 @@ class _ExtensionHomePageState extends State<ExtensionHomePage> {
   int _selectedIndex = 0;
   static final List<Widget> _pages = <Widget>[
     const DashboardPage(),
+    const FarmVisits(),
     const ProfilePage()
   ];
 
