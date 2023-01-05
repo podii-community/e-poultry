@@ -1,3 +1,4 @@
+import 'package:epoultry/pages/farm/e-extension/request-status/list_requests.dart';
 import 'package:epoultry/pages/farm/e-extension/farm-visit/farm_visit.dart';
 import 'package:epoultry/theme/colors.dart';
 import 'package:flutter/material.dart';
@@ -60,6 +61,9 @@ class ExtensionService extends StatelessWidget {
             title: Text('Status of Request',
                 style: TextStyle(
                     color: CustomColors.textPrimary, fontSize: 2.2.h)),
+            onTap: () {
+              Get.to(() => ListRequest());
+            },
           ),
           Divider(),
         ],
