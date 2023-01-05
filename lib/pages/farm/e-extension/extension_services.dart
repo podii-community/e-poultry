@@ -1,5 +1,6 @@
 import 'package:epoultry/pages/farm/e-extension/request-status/list_requests.dart';
 import 'package:epoultry/pages/farm/e-extension/farm-visit/farm_visit.dart';
+import 'package:epoultry/pages/farm/e-extension/vaccination/select_batch.dart';
 import 'package:epoultry/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -22,6 +23,9 @@ class ExtensionService extends StatelessWidget {
               color: CustomColors.textPrimary,
               size: 3.h,
             ),
+            onTap: () {
+              Get.to(() => SelectBatch());
+            },
             title: Text('Vaccination',
                 style: TextStyle(
                     color: CustomColors.textPrimary, fontSize: 2.2.h)),
