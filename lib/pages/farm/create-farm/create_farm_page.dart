@@ -164,7 +164,6 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
                               return DropdownButtonFormField<String>(
                                   value: county.text,
                                   onChanged: (countyCode) {
-                                    log("${countyCode}");
                                     setState(() =>
                                         county.text = countyCode.toString());
 
