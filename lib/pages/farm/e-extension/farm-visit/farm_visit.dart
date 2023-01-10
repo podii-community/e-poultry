@@ -1,21 +1,32 @@
 import 'dart:developer';
 
+import 'package:epoultry/graphql/query_document_provider.dart';
 import 'package:epoultry/theme/spacing.dart';
 import 'package:epoultry/widgets/gradient_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../../controllers/farm_controller.dart';
+import '../../../../data/models/error.dart';
 import '../../../../theme/colors.dart';
+import '../../../../widgets/loading_spinner.dart';
+import '../../../../widgets/success_widget.dart';
 
-class RequestFarmVisit extends StatelessWidget {
+class RequestFarmVisit extends StatefulWidget {
   RequestFarmVisit({super.key});
 
+  @override
+  State<RequestFarmVisit> createState() => _RequestFarmVisitState();
+}
+
+class _RequestFarmVisitState extends State<RequestFarmVisit> {
   final date = TextEditingController();
   final purpose = TextEditingController();
+  final controller = Get.find<FarmsController>();
   bool agree = false;
 
   @override
@@ -59,6 +70,9 @@ class RequestFarmVisit extends StatelessWidget {
                       height: CustomSpacing.s2,
                     ),
                     TextFormField(
+                      onTap: () {
+                        _selectDate(context);
+                      },
                       controller: date,
                       keyboardType: TextInputType.text,
                       validator: (value) {
@@ -108,11 +122,13 @@ class RequestFarmVisit extends StatelessWidget {
                       height: CustomSpacing.s2,
                     ),
                     CheckboxListTile(
-                      title: Text(
+                      title: const Text(
                           "I understand that this service may accrue a charge that will be agreed upon by both the officer and I"),
                       value: agree,
                       onChanged: (newValue) {
-                        log("${newValue}");
+                        setState(() {
+                          agree = newValue!;
+                        });
                       },
                       controlAffinity: ListTileControlAffinity
                           .leading, //  <-- leading Checkbox
@@ -120,27 +136,97 @@ class RequestFarmVisit extends StatelessWidget {
                     SizedBox(
                       height: 10.h,
                     ),
-                    GradientWidget(
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                            foregroundColor: CustomColors.background,
-                            backgroundColor: Colors.transparent,
-                            disabledForegroundColor:
-                                Colors.transparent.withOpacity(0.38),
-                            disabledBackgroundColor:
-                                Colors.transparent.withOpacity(0.12),
-                            shadowColor: Colors.transparent,
-                            fixedSize: Size(100.w, 6.h)),
-                        child: Text(
-                          'REQUEST',
-                          style: TextStyle(
-                            fontSize: 1.8.h,
-                          ),
+                    Mutation(
+                        options: MutationOptions(
+                          document: gql(context.queries.requestFarmVisit()),
+                          onCompleted: (data) => _onCompleted(data, context),
                         ),
-                      ),
-                    ),
+                        builder:
+                            (RunMutation runMutation, QueryResult? result) {
+                          log("${result}");
+                          if (result != null) {
+                            if (result.isLoading) {
+                              return const LoadingSpinner();
+                            }
+
+                            if (result.hasException) {
+                              context.showError(
+                                ErrorModel.fromGraphError(
+                                  result.exception?.graphqlErrors ?? [],
+                                ),
+                              );
+                            }
+                          }
+
+                          return GradientWidget(
+                            child: ElevatedButton(
+                              onPressed: () =>
+                                  _requestVisitPressed(context, runMutation),
+                              style: ElevatedButton.styleFrom(
+                                  foregroundColor: CustomColors.background,
+                                  backgroundColor: Colors.transparent,
+                                  disabledForegroundColor:
+                                      Colors.transparent.withOpacity(0.38),
+                                  disabledBackgroundColor:
+                                      Colors.transparent.withOpacity(0.12),
+                                  shadowColor: Colors.transparent,
+                                  fixedSize: Size(100.w, 6.h)),
+                              child: Text(
+                                'REQUEST',
+                                style: TextStyle(
+                                  fontSize: 1.8.h,
+                                ),
+                              ),
+                            ),
+                          );
+                        })
                   ],
                 ))));
+  }
+
+  _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(), // Refer step 1
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2025),
+    );
+    if (picked != null &&
+        DateFormat('yyyy-MM-dd').format(picked) != date.text) {
+      setState(() {
+        date.text = DateFormat('yyyy-MM-dd').format(picked);
+      });
+    }
+  }
+
+  Future<void> _onCompleted(data, BuildContext context) async {
+    log("${data}");
+    if ((data['requestFarmVisit']['farmId']).toString().isNotEmpty) {
+      Get.to(() => const SuccessWidget(
+            message:
+                'You have sucessfully requested a farm visit. Well notifying you as soon as an extension officer accepts the visit.',
+            route: 'dashboard',
+          ));
+    }
+  }
+
+  Future<void> _requestVisitPressed(
+      BuildContext context, RunMutation runMutation) async {
+    final DateFormat formatter = DateFormat('yyyy-MM-dd');
+    log("${{
+      "data": {
+        "farmId": controller.farm.value['id'],
+        "visitDate": date.text,
+        "visitPurpose": purpose.text
+      },
+    }}");
+
+    runMutation({
+      "data": {
+        "farmId": controller.farm.value['id'],
+        "visitDate": date.text,
+        "visitPurpose": purpose.text
+      },
+    });
   }
 }

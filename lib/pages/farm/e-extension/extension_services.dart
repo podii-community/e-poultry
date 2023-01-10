@@ -1,3 +1,4 @@
+import 'package:epoultry/pages/farm/e-extension/medical-help/select_option.dart';
 import 'package:epoultry/pages/farm/e-extension/request-status/list_requests.dart';
 import 'package:epoultry/pages/farm/e-extension/farm-visit/farm_visit.dart';
 import 'package:epoultry/pages/farm/e-extension/vaccination/select_batch.dart';
@@ -32,6 +33,9 @@ class ExtensionService extends StatelessWidget {
           ),
           Divider(),
           ListTile(
+            onTap: () {
+              Get.to(() => SelectOption());
+            },
             leading: Icon(
               PhosphorIcons.prescriptionBold,
               color: CustomColors.textPrimary,

@@ -583,4 +583,14 @@ class EpoultryQueries {
     }
     """;
   }
+
+  String requestFarmVisit() {
+    return """
+    mutation RequestFarmVisit(\$data: RequestFarmVisitInput!){
+      requestFarmVisit(data: \$data){
+        farmId
+      }
+    }
+    """;
+  }
 }
