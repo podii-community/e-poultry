@@ -13,6 +13,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
 import '../controllers/farm_controller.dart';
+import '../pages/veterinary/vet_profile.dart';
 
 class SuccessWidget extends StatefulWidget {
   const SuccessWidget({
@@ -43,6 +44,10 @@ class _SuccessWidgetState extends State<SuccessWidget> {
           break;
         case "register":
           Get.to(() => const JoinFarmPage());
+          break;
+
+        case "registerVetOfficer":
+          Get.to(() => VeterinaryProfile());
           break;
 
         case "dashboard":

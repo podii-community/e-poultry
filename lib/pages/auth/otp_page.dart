@@ -200,6 +200,7 @@ class _OtpPageState extends State<OtpPage> {
       GraphQLConfiguration.setToken(data['verifyOtp']['apiKey']);
 
       if (data['verifyOtp']['user']['managingFarms'].isNotEmpty ||
+          data['verifyOtp']['user'].isNotEmpty ||
           data['verifyOtp']['user']['ownedFarms'].isNotEmpty) {
         // List managingFarms = data['verifyOtp']['user']!["managingFarms"];
         // List ownedFarms = data['verifyOtp']['user']!["ownedFarms"];

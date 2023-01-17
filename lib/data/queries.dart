@@ -11,6 +11,17 @@ class EpoultryQueries {
       """;
   }
 
+  String registerVeterinaryOfficer() {
+    return """
+        mutation RegisterVetOfficer(\$data: RegisterVetOfficerInput!){
+            registerVetOfficer(data:\$data){
+                 firstName,
+                 lastName
+            }
+        }
+      """;
+  }
+
   String login() {
     return """
         mutation RequestLoginOtp(\$phoneNumber: String!){
