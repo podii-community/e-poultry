@@ -1,3 +1,4 @@
+import 'package:epoultry/pages/farm/e-extension/medical-help/send_request.dart';
 import 'package:epoultry/theme/colors.dart';
 import 'package:epoultry/theme/spacing.dart';
 import 'package:flutter/material.dart';
@@ -61,6 +62,9 @@ class SelectOption extends StatelessWidget {
                     ),
                     Divider(),
                     ListTile(
+                      onTap: () {
+                        Get.to(() => GetMedicalHelp());
+                      },
                       leading: Icon(PhosphorIcons.clipboardText),
                       title: Text("Send a request on app"),
                     ),

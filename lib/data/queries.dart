@@ -596,6 +596,16 @@ class EpoultryQueries {
     """;
   }
 
+  String requestMedicalVisit() {
+    return """
+      mutation RequestMedicalVisit(\$data: RequestMedicalVisitInput!){
+        requestMedicalVisit(data: \$data){
+          farmId
+        }
+      }
+      """;
+  }
+
   String farmRequests() {
     return """
     query FarmRequests(\$filter: ExtensionServiceFilterInput!){
