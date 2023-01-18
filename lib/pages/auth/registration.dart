@@ -1,4 +1,3 @@
-
 import 'package:epoultry/pages/auth/login.dart';
 import 'package:epoultry/pages/auth/otp_page.dart';
 import 'package:epoultry/graphql/query_document_provider.dart';

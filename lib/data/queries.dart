@@ -11,10 +11,10 @@ class EpoultryQueries {
       """;
   }
 
-  String registerVeterinaryOfficer() {
+  String registerExtensionOfficer() {
     return """
-        mutation RegisterVetOfficer(\$data: RegisterVetOfficerInput!){
-            registerVetOfficer(data:\$data){
+        mutation RegisterExtensionOfficer(\$data: RegisterExtensionOfficerInput!){
+            registerExtensionOfficer(data:\$data){
                  firstName,
                  lastName
             }
