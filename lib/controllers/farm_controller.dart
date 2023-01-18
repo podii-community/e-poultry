@@ -6,6 +6,7 @@ class FarmsController extends GetxController {
   final selectedFarmId = "".obs;
   final batchesList = [].obs;
   final reportsList = [].obs;
+  final requestsList = [].obs;
   final filteredReports = [].obs;
   final selectedBatch = {}.obs;
   final storeItems = [].obs;
