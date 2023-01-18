@@ -1,9 +1,36 @@
+import 'package:epoultry/graphql/query_document_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:intl/intl.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:sizer/sizer.dart';
 
+import '../../controllers/farm_controller.dart';
+import '../../controllers/user_controller.dart';
+import '../../theme/colors.dart';
 import '../../theme/spacing.dart';
 
-class DashboardPage extends StatelessWidget {
+class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
+
+  @override
+  State<DashboardPage> createState() => _DashboardPageState();
+}
+
+class _DashboardPageState extends State<DashboardPage> {
+  final controller = Get.find<FarmsController>();
+  final userController = Get.find<UserController>();
+  @override
+  void didChangeDependencies() {
+    getFarmRequests(context);
+    super.didChangeDependencies();
+  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   getFarmRequests;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -14,8 +41,11 @@ class DashboardPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const SizedBox(
+              height: 18,
+            ),
             const Text(
-              'REQUESTS',
+              'NEW REQUESTS',
               textAlign: TextAlign.left,
               style: TextStyle(
                   color: Color.fromRGBO(1, 33, 56, 0.6000000238418579),
@@ -28,35 +58,180 @@ class DashboardPage extends StatelessWidget {
             const SizedBox(
               height: 8,
             ),
-            Container(
-              width: double.infinity,
-              height: 131,
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(10),
-                  topRight: Radius.circular(10),
-                  bottomLeft: Radius.circular(10),
-                  bottomRight: Radius.circular(10),
-                ),
-                color: Color.fromRGBO(246, 251, 255, 1),
-              ),
-              child: const Center(
-                child: Text(
-                  'All your service requests will appear here',
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                      color: Color.fromRGBO(1, 33, 56, 0.3799999952316284),
-                      fontFamily: 'DM Sans',
-                      fontSize: 16,
-                      letterSpacing: -0.23999999463558197,
-                      fontWeight: FontWeight.normal,
-                      height: 1.375),
-                ),
-              ),
+            Expanded(
+              child: Obx(() {
+                // getFarmReports;
+                return controller.requestsList.isEmpty
+                    ? Container(
+                        margin: EdgeInsets.symmetric(vertical: 5),
+                        padding: EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Color(0xfff6fbff)),
+                        child:
+                            Text("All your service requests will appear here"),
+                      )
+                    // Card(
+                    //     elevation: 4,
+                    //     shadowColor: CustomColors.secondary,
+                    //     child: Padding(
+                    //       padding: EdgeInsets.symmetric(
+                    //           horizontal: 4.w, vertical: 1.5.h),
+                    //       child: Row(
+                    //         children: [
+                    //           Icon(
+                    //             PhosphorIcons.info,
+                    //             size: 8.w,
+                    //           ),
+                    //           SizedBox(
+                    //             width: 2.w,
+                    //           ),
+                    //           Column(
+                    //             crossAxisAlignment: CrossAxisAlignment.start,
+                    //             children: [
+                    //               Text(
+                    //                 'What is a report?',
+                    //                 style: TextStyle(fontSize: 4.w),
+                    //               ),
+                    //               Text(
+                    //                 'A general overview of the farm',
+                    //                 style: TextStyle(
+                    //                     fontSize: 3.w, color: Colors.grey),
+                    //               )
+                    //             ],
+                    //           )
+                    //         ],
+                    //       ),
+                    //     ),
+                    //   )
+                    : ListView.builder(
+                        itemCount: controller.requestsList.length,
+                        itemBuilder: (context, index) {
+                          String farmName =
+                              controller.requestsList[index]["farm"]["name"];
+                          String name = controller.requestsList[index]["farm"]
+                                  ["owner"]["firstName"]! +
+                              " " +
+                              controller.requestsList[index]["farm"]["owner"]
+                                  ["lastName"]!;
+                          String county = controller.requestsList[index]["farm"]
+                              ["address"]["county"];
+                          String subCounty = controller.requestsList[index]
+                              ["farm"]["address"]["subcounty"];
+                          String visitPorpose = controller.requestsList[index]
+                              ["farmVisit"]["visitPurpose"];
+                          DateTime date = DateTime.parse(controller
+                              .requestsList[index]["farmVisit"]["visitDate"]);
+
+                          DateTime time = DateTime.parse(
+                              controller.requestsList[index]['createdAt']);
+
+                          String formattedTime = DateFormat.jms().format(time);
+
+                          String day = DateFormat.EEEE().format(date);
+                          String dayNumberSuffix = 'th';
+                          int dayNumber = date.day;
+                          if (dayNumber == 1 ||
+                              dayNumber == 21 ||
+                              dayNumber == 31) {
+                            dayNumberSuffix = 'st';
+                          } else if (dayNumber == 2 || dayNumber == 22) {
+                            dayNumberSuffix = 'nd';
+                          } else if (dayNumber == 3 || dayNumber == 23) {
+                            dayNumberSuffix = 'rd';
+                          }
+                          String formattedDate =
+                              "$day, ${dayNumber}$dayNumberSuffix ${DateFormat.MMMM().format(date)} ${date.year.toString().substring(2)}";
+
+                          return Container(
+                            margin: EdgeInsets.symmetric(vertical: 5),
+                            padding: EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Color(0xfff6fbff)),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "#$visitPorpose",
+                                      style: TextStyle(
+                                        color: Colors.red,
+                                      ),
+                                      // style: TextStyelsjn,
+                                    ),
+                                    Text(
+                                      "$formattedTime",
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 12,
+                                      ),
+                                      // style: TextStyelsjn,
+                                    )
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  "$farmName visit request on $formattedDate.",
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                        child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text("Request by $name"),
+                                        Text("$farmName, $county, $subCounty"),
+                                      ],
+                                    )),
+                                    IconButton(
+                                        onPressed: () {},
+                                        icon: const Icon(
+                                            PhosphorIcons.arrowCircleRightBold))
+                                  ],
+                                )
+                              ],
+                            ),
+                          );
+                        },
+                      );
+              }),
             ),
           ],
         ),
       ),
     );
+  }
+
+  Future<void> getFarmRequests(
+    BuildContext context,
+  ) async {
+    GraphQLClient client = GraphQLProvider.of(context).value;
+    var fetchRequests = await client.query(
+      QueryOptions(
+        fetchPolicy: FetchPolicy.networkOnly,
+        operationName: "FarmRequests",
+        document: gql(context.queries.farmRequests()),
+        variables: const {
+          "filter": {"status": "ALL"}
+        },
+      ),
+    );
+    // final data = fetchRequests.data?['extensionServiceRequests'];
+
+    List requests = [];
+
+    for (var request in fetchRequests.data!["extensionServiceRequests"]) {
+      requests.add(request);
+    }
+
+    controller.requestsList.value = requests;
   }
 }

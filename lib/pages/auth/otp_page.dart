@@ -213,10 +213,19 @@ class _OtpPageState extends State<OtpPage> {
         // controller.farm.value = farms[0];
         // controller.selectedFarmId.value = farms[0]['id'];
         // controller.updateBatches(farms[0]['batches']);
+        final role = data['verifyOtp']['user']["role"];
+        // final tokenrole = data['verifyOtp']['user']["role"];
+        String route = widget.route;
+        box.put('tokenRole', role);
+
+        if (role == "FARMER") route = "farmer";
+        if (role == "FARM_MABAGER") route = 'farm_manager';
+        if (role == "VET_OFFICER") route = 'vet';
+        if (role == "EXTENSION_OFFICER") route = 'extension';
 
         Get.offAll(() => SuccessWidget(
               message: 'Your phone number has been verified',
-              route: widget.route,
+              route: route,
             ));
       } else {
         Get.to(() => const JoinFarmPage());

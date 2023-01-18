@@ -36,6 +36,7 @@ class EpoultryQueries {
          verifyOtp(otpCode: \$otpCode,phoneNumber: \$phoneNumber){
               apiKey,
               user{
+                role,
                 managingFarms{
                   id,
                   name,
@@ -593,6 +594,33 @@ class EpoultryQueries {
       }
     }
     """;
+  }
+
+  String farmRequests() {
+    return """
+    query FarmRequests(\$filter: ExtensionServiceFilterInput!){
+      extensionServiceRequests(filter: \$filter){
+        createdAt
+        farmId
+        status
+        farmVisit{
+          visitDate
+          visitPurpose
+        }
+        farm{
+          name
+          address{
+            county
+            subcounty
+          }
+          owner{
+            firstName
+            lastName
+          }
+        }
+      }
+}
+""";
   }
 
   String requestFarmVisit() {
