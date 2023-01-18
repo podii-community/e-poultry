@@ -5,7 +5,6 @@ import 'package:epoultry/theme/spacing.dart';
 import 'package:epoultry/widgets/gradient_widget.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
@@ -13,6 +12,8 @@ import 'package:sizer/sizer.dart';
 import '../../../data/models/error.dart';
 import '../../../theme/colors.dart';
 import '../../../widgets/loading_spinner.dart';
+import '../../veterinary/vet_profile.dart';
+import '../group_registration/group_dashboard.dart';
 
 class VeterinaryOfficer extends StatefulWidget {
   const VeterinaryOfficer({Key? key}) : super(key: key);
@@ -23,12 +24,14 @@ class VeterinaryOfficer extends StatefulWidget {
 
 class _VeterinaryOfficerState extends State<VeterinaryOfficer> {
   bool _obscurePassword = true;
-  bool _obscureConfirmPassword = true;
-  final _formKey = GlobalKey<FormState>();
-  final firstName = TextEditingController();
   final lastName = TextEditingController();
-  final idNumber = TextEditingController();
-  final vetNumber = TextEditingController();
+  bool _obscureConfirmPassword = true;
+  final firstName = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  final location = TextEditingController();
+  final name_of_contact_person = TextEditingController();
+  final groupName = TextEditingController();
+  final groupType = TextEditingController();
   final phoneNumber = TextEditingController();
   final password = TextEditingController();
   final confirmPassword = TextEditingController();
@@ -144,7 +147,7 @@ class _VeterinaryOfficerState extends State<VeterinaryOfficer> {
                         ),
                         TextFormField(
                           keyboardType: TextInputType.text,
-                          controller: idNumber,
+                          controller: lastName,
                           validator: (String? value) {
                             if (value!.isEmpty) {
                               return 'National ID is required';
@@ -196,7 +199,7 @@ class _VeterinaryOfficerState extends State<VeterinaryOfficer> {
                         ),
                         TextFormField(
                           keyboardType: TextInputType.text,
-                          controller: vetNumber,
+                          controller: lastName,
                           validator: (String? value) {
                             if (value!.isEmpty) {
                               return 'Vet Number is required';
@@ -294,8 +297,8 @@ class _VeterinaryOfficerState extends State<VeterinaryOfficer> {
                 ),
                 Mutation(
                   options: MutationOptions(
-                    operationName: "RegisterVetOfficer",
-                    document: gql(context.queries.registerVeterinaryOfficer()),
+                    operationName: "RegisterUser",
+                    document: gql(context.queries.register()),
                     onCompleted: (data) => _onCompleted(data, context),
                   ),
                   builder: (RunMutation runMutation, QueryResult? result) {
@@ -316,9 +319,10 @@ class _VeterinaryOfficerState extends State<VeterinaryOfficer> {
                     return GradientWidget(
                       child: ElevatedButton(
                           onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                              _registerButtonPressed(context, runMutation);
-                            }
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => VeterinaryProfile()));
                           },
                           style: ElevatedButton.styleFrom(
                               foregroundColor: CustomColors.background,
@@ -379,16 +383,16 @@ class _VeterinaryOfficerState extends State<VeterinaryOfficer> {
   }
 
   void _onCompleted(data, BuildContext context) {
-    var phone = phoneNumber.text;
-
-    if (phoneNumber.text.startsWith('0')) {
-      phone = phoneNumber.text.replaceFirst('0', '');
-    }
+    var phone = phoneNumber.text.replaceFirst('0', '');
     if ((data != null)) {
-      Get.to(() => OtpPage(
-            route: "registerVetOfficer",
-            phone: phone,
-          ));
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => OtpPage(
+                  route: "register",
+                  phone: phone,
+                )),
+      );
     }
   }
 
@@ -397,12 +401,12 @@ class _VeterinaryOfficerState extends State<VeterinaryOfficer> {
     runMutation(
       {
         "data": {
-          'firstName': firstName.text,
-          "lastName": lastName.text,
-          "nationalId": idNumber.text,
-          "password": password.text,
+          'name_of_contact_person': name_of_contact_person,
+          'location': location.text,
           'phoneNumber': phoneNumber.text,
-          "vetNumber": vetNumber.text,
+          "groupName": groupName.text,
+          "lastName": groupType.text,
+          "password": password.text
         }
       },
     );

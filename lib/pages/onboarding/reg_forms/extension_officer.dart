@@ -5,6 +5,7 @@ import 'package:epoultry/theme/spacing.dart';
 import 'package:epoultry/widgets/gradient_widget.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
@@ -12,8 +13,6 @@ import 'package:sizer/sizer.dart';
 import '../../../data/models/error.dart';
 import '../../../theme/colors.dart';
 import '../../../widgets/loading_spinner.dart';
-import '../../extensions/extension_officer_profile.dart';
-import '../group_registration/group_dashboard.dart';
 
 class ExtensionOfficer extends StatefulWidget {
   const ExtensionOfficer({Key? key}) : super(key: key);
@@ -24,14 +23,12 @@ class ExtensionOfficer extends StatefulWidget {
 
 class _ExtensionOfficerState extends State<ExtensionOfficer> {
   bool _obscurePassword = true;
-  final lastName = TextEditingController();
+
   bool _obscureConfirmPassword = true;
   final firstName = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  final location = TextEditingController();
-  final name_of_contact_person = TextEditingController();
-  final groupName = TextEditingController();
-  final groupType = TextEditingController();
+  final lastName = TextEditingController();
+  final idNumber = TextEditingController();
   final phoneNumber = TextEditingController();
   final password = TextEditingController();
   final confirmPassword = TextEditingController();
@@ -147,7 +144,7 @@ class _ExtensionOfficerState extends State<ExtensionOfficer> {
                         ),
                         TextFormField(
                           keyboardType: TextInputType.text,
-                          controller: lastName,
+                          controller: idNumber,
                           validator: (String? value) {
                             if (value!.isEmpty) {
                               return 'National ID is required';
@@ -271,8 +268,8 @@ class _ExtensionOfficerState extends State<ExtensionOfficer> {
                 ),
                 Mutation(
                   options: MutationOptions(
-                    operationName: "RegisterUser",
-                    document: gql(context.queries.register()),
+                    operationName: "RegisterExtensionOfficer",
+                    document: gql(context.queries.registerExtensionOfficer()),
                     onCompleted: (data) => _onCompleted(data, context),
                   ),
                   builder: (RunMutation runMutation, QueryResult? result) {
@@ -293,11 +290,9 @@ class _ExtensionOfficerState extends State<ExtensionOfficer> {
                     return GradientWidget(
                       child: ElevatedButton(
                           onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        ExtensionOfficerProfile()));
+                            if (_formKey.currentState!.validate()) {
+                              _registerButtonPressed(context, runMutation);
+                            }
                           },
                           style: ElevatedButton.styleFrom(
                               foregroundColor: CustomColors.background,
@@ -358,16 +353,16 @@ class _ExtensionOfficerState extends State<ExtensionOfficer> {
   }
 
   void _onCompleted(data, BuildContext context) {
-    var phone = phoneNumber.text.replaceFirst('0', '');
+    var phone = phoneNumber.text;
+
+    if (phoneNumber.text.startsWith('0')) {
+      phone = phoneNumber.text.replaceFirst('0', '');
+    }
     if ((data != null)) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => OtpPage(
-                  route: "register",
-                  phone: phone,
-                )),
-      );
+      Get.to(() => OtpPage(
+            route: "registerExtensionOfficer",
+            phone: phone,
+          ));
     }
   }
 
@@ -376,11 +371,10 @@ class _ExtensionOfficerState extends State<ExtensionOfficer> {
     runMutation(
       {
         "data": {
-          'name_of_contact_person': name_of_contact_person,
-          'location': location.text,
+          'firstName': firstName.text,
           'phoneNumber': phoneNumber.text,
-          "groupName": groupName.text,
-          "lastName": groupType.text,
+          "nationalId": idNumber.text,
+          "lastName": lastName.text,
           "password": password.text
         }
       },

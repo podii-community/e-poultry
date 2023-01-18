@@ -56,7 +56,7 @@ class _EpoultryState extends State<Epoultry> {
     return Link.split((request) {
       return request.operation.operationName == 'RequestLoginOtp' ||
           request.operation.operationName == "VerifyOtp" ||
-          request.operation.operationName == "RegisterVetOfficer" ||
+          request.operation.operationName == "RegisterExtensionOfficer" ||
           request.operation.operationName == "RegisterUser";
     }, authentication, link);
   }
