@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:epoultry/graphql/query_document_provider.dart';
 import 'package:epoultry/pages/farm/batch/list_batches_page.dart';
 import 'package:epoultry/pages/farm/dashboard/dashboard_page.dart';
@@ -42,6 +44,7 @@ class _FarmDashboardPageState extends State<FarmDashboardPage> {
   final controller = Get.find<FarmsController>();
   final userController = Get.find<UserController>();
   final box = Hive.box('appData');
+
   @override
   void didChangeDependencies() {
     getUserDetails(context);
@@ -84,6 +87,7 @@ class _FarmDashboardPageState extends State<FarmDashboardPage> {
         List farms = managingFarms + ownedFarms;
 
         controller.updateFarms(farms);
+
         if (controller.selectedFarmId.value.isEmpty) {
           controller.updateFarm(farms[0]);
           controller.selectedFarmId.value = farms[0]['id'];

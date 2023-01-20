@@ -709,6 +709,27 @@ class EpoultryQueries {
     """;
   }
 
+  String getExtensionServiceRequests() {
+    return """
+    query ExtensionServiceRequest(\$filter: ExtensionServiceFilterInput!){
+        extensionServiceRequests(filter: \$filter){
+          farmId,
+          status,
+          createdAt,
+          farmVisit{
+            visitPurpose
+          },
+          medicalVisit{
+            ageType,
+            birdAge,
+            birdCount,
+            birdType
+          }
+        }
+    }
+    """;
+  }
+
   String acceptExtensionRequest() {
     return """
     mutation AcceptExtensionRequestService(\$extensionServiceId: UUID!) {

@@ -143,7 +143,6 @@ class _RequestFarmVisitState extends State<RequestFarmVisit> {
                         ),
                         builder:
                             (RunMutation runMutation, QueryResult? result) {
-                          log("${result}");
                           if (result != null) {
                             if (result.isLoading) {
                               return const LoadingSpinner();
@@ -160,8 +159,9 @@ class _RequestFarmVisitState extends State<RequestFarmVisit> {
 
                           return GradientWidget(
                             child: ElevatedButton(
-                              onPressed: () =>
-                                  _requestVisitPressed(context, runMutation),
+                              onPressed: () => agree
+                                  ? _requestVisitPressed(context, runMutation)
+                                  : null,
                               style: ElevatedButton.styleFrom(
                                   foregroundColor: CustomColors.background,
                                   backgroundColor: Colors.transparent,
