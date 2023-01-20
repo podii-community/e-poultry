@@ -4,11 +4,9 @@ import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:sizer/sizer.dart';
 
 import '../../controllers/farm_controller.dart';
 import '../../controllers/user_controller.dart';
-import '../../theme/colors.dart';
 import '../../theme/spacing.dart';
 
 class DashboardPage extends StatefulWidget {
@@ -26,11 +24,6 @@ class _DashboardPageState extends State<DashboardPage> {
     getFarmRequests(context);
     super.didChangeDependencies();
   }
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   getFarmRequests;
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -62,48 +55,25 @@ class _DashboardPageState extends State<DashboardPage> {
               child: Obx(() {
                 // getFarmReports;
                 return controller.requestsList.isEmpty
-                    ? Container(
-                        margin: EdgeInsets.symmetric(vertical: 5),
-                        padding: EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Color(0xfff6fbff)),
-                        child:
-                            Text("All your service requests will appear here"),
+                    ? Align(
+                        alignment: Alignment.topLeft,
+                        child: Container(
+                          width: double.infinity,
+                          margin: const EdgeInsets.symmetric(vertical: 15),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 40, vertical: 40),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: const Color(0xfff6fbff)),
+                          child: const Text(
+                            "Your new service requests will appear here .",
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
                       )
-                    // Card(
-                    //     elevation: 4,
-                    //     shadowColor: CustomColors.secondary,
-                    //     child: Padding(
-                    //       padding: EdgeInsets.symmetric(
-                    //           horizontal: 4.w, vertical: 1.5.h),
-                    //       child: Row(
-                    //         children: [
-                    //           Icon(
-                    //             PhosphorIcons.info,
-                    //             size: 8.w,
-                    //           ),
-                    //           SizedBox(
-                    //             width: 2.w,
-                    //           ),
-                    //           Column(
-                    //             crossAxisAlignment: CrossAxisAlignment.start,
-                    //             children: [
-                    //               Text(
-                    //                 'What is a report?',
-                    //                 style: TextStyle(fontSize: 4.w),
-                    //               ),
-                    //               Text(
-                    //                 'A general overview of the farm',
-                    //                 style: TextStyle(
-                    //                     fontSize: 3.w, color: Colors.grey),
-                    //               )
-                    //             ],
-                    //           )
-                    //         ],
-                    //       ),
-                    //     ),
-                    //   )
                     : ListView.builder(
                         itemCount: controller.requestsList.length,
                         itemBuilder: (context, index) {
@@ -141,14 +111,14 @@ class _DashboardPageState extends State<DashboardPage> {
                             dayNumberSuffix = 'rd';
                           }
                           String formattedDate =
-                              "$day, ${dayNumber}$dayNumberSuffix ${DateFormat.MMMM().format(date)} ${date.year.toString().substring(2)}";
+                              "$day, $dayNumber$dayNumberSuffix ${DateFormat.MMMM().format(date)} ${date.year.toString().substring(2)}";
 
                           return Container(
-                            margin: EdgeInsets.symmetric(vertical: 5),
-                            padding: EdgeInsets.all(8),
+                            margin: const EdgeInsets.symmetric(vertical: 5),
+                            padding: const EdgeInsets.all(8),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                color: Color(0xfff6fbff)),
+                                color: const Color(0xfff6fbff)),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -158,14 +128,14 @@ class _DashboardPageState extends State<DashboardPage> {
                                   children: [
                                     Text(
                                       "#$visitPorpose",
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         color: Colors.red,
                                       ),
                                       // style: TextStyelsjn,
                                     ),
                                     Text(
-                                      "$formattedTime",
-                                      style: TextStyle(
+                                      formattedTime,
+                                      style: const TextStyle(
                                         color: Colors.grey,
                                         fontSize: 12,
                                       ),
@@ -173,12 +143,12 @@ class _DashboardPageState extends State<DashboardPage> {
                                     )
                                   ],
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 5,
                                 ),
                                 Text(
                                   "$farmName visit request on $formattedDate.",
-                                  style: TextStyle(fontSize: 18),
+                                  style: const TextStyle(fontSize: 18),
                                 ),
                                 Row(
                                   children: [

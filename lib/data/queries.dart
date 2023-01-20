@@ -22,6 +22,17 @@ class EpoultryQueries {
       """;
   }
 
+  String registerVeterinaryOfficer() {
+    return """
+        mutation RegisterVetOfficer(\$data: RegisterVetOfficerInput!){
+            registerVetOfficer(data:\$data){
+                 firstName,
+                 lastName
+            }
+        }
+      """;
+  }
+
   String login() {
     return """
         mutation RequestLoginOtp(\$phoneNumber: String!){
@@ -613,10 +624,18 @@ class EpoultryQueries {
         createdAt
         farmId
         status
+        id
         farmVisit{
           visitDate
           visitPurpose
         }
+        
+        medicalVisit{
+          ageType
+          birdAge
+          birdCount
+          birdType
+    }
         farm{
           name
           address{
@@ -633,6 +652,53 @@ class EpoultryQueries {
 """;
   }
 
+  String createFarmVisitReport() {
+    return """
+    mutation CreateFarmVisitReport(\$data:CreateFarmVisitReportInput!){
+      createFarmVisitReport(data: \$data) {
+        compound{
+          landscape
+          security
+          tankCleanliness
+        }
+        farmInformation{
+          ageType
+          birdAge
+          birdType
+          deliveredBirdCount
+          farmOfficerContact
+          farmOfficerContact
+          mortality
+          remainingBirdCount
+        }
+        farmTeam{
+          cleanliness
+          gumboots
+          uniforms
+        }
+        generalObservation
+        housingInspection{
+          bioSecurity
+          cobwebs
+          dust
+          drinkers
+          feeders
+          lighting
+          repairAndMaintainance
+          ventilation
+        }
+        id
+        recommendations
+        store{
+          arrangement
+          cleanliness
+          stockTake
+        }
+      }
+}
+""";
+  }
+
   String requestFarmVisit() {
     return """
     mutation RequestFarmVisit(\$data: RequestFarmVisitInput!){
@@ -640,6 +706,16 @@ class EpoultryQueries {
         farmId
       }
     }
+    """;
+  }
+
+  String acceptExtensionRequest() {
+    return """
+    mutation AcceptExtensionRequestService(\$extensionServiceId: UUID!) {
+      acceptExtensionRequest(extensionServiceId: \$extensionServiceId) {
+        status
+  }
+}
     """;
   }
 }
