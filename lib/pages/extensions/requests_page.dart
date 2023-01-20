@@ -1,11 +1,8 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../theme/colors.dart';
-import '../../widgets/gradient_widget.dart';
 
 class RequestsPage extends StatelessWidget {
   const RequestsPage({super.key});
@@ -14,7 +11,6 @@ class RequestsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: true,
         centerTitle: true,
         toolbarHeight: 8.h,
         backgroundColor: CustomColors.white,
