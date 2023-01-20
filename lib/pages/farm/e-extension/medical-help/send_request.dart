@@ -152,7 +152,6 @@ class _GetMedicalHelpState extends State<GetMedicalHelp> {
                   onCompleted: (data) => _onCompleted(data, context),
                 ),
                 builder: (RunMutation runMutation, QueryResult? result) {
-                  log("${result}");
                   if (result != null) {
                     if (result.isLoading) {
                       return const LoadingSpinner();
@@ -169,8 +168,9 @@ class _GetMedicalHelpState extends State<GetMedicalHelp> {
 
                   return GradientWidget(
                     child: ElevatedButton(
-                      onPressed: () =>
-                          _requestMedicalVisitPressed(context, runMutation),
+                      onPressed: () => agree
+                          ? _requestMedicalVisitPressed(context, runMutation)
+                          : null,
                       style: ElevatedButton.styleFrom(
                           foregroundColor: CustomColors.background,
                           backgroundColor: Colors.transparent,
@@ -196,7 +196,7 @@ class _GetMedicalHelpState extends State<GetMedicalHelp> {
   }
 
   Future<void> _onCompleted(data, BuildContext context) async {
-    if ((data['requestMedicalVisit(']['farmId']).toString().isNotEmpty) {
+    if ((data['requestMedicalVisit']['farmId']).toString().isNotEmpty) {
       Get.to(() => const SuccessWidget(
             message:
                 'You have sucessfully requested for medical help. We’ll notify you as soon as there is a Vetinary officer available.',

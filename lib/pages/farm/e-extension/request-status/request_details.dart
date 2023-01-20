@@ -1,17 +1,21 @@
+import 'dart:developer';
+
 import 'package:epoultry/theme/colors.dart';
 import 'package:epoultry/theme/spacing.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
 class RequestDetails extends StatelessWidget {
-  const RequestDetails({super.key});
+  RequestDetails({super.key, this.request});
 
+  final request;
+  final DateFormat formatter = DateFormat('yyyy-MM-dd');
   @override
   Widget build(BuildContext context) {
+    log("${this.request}");
     return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
@@ -38,23 +42,23 @@ class RequestDetails extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
+              const SizedBox(
                 height: CustomSpacing.s2,
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('STATUS OF REQUEST'),
-                  SizedBox(
+                  const Text('STATUS OF REQUEST'),
+                  const SizedBox(
                     height: CustomSpacing.s1,
                   ),
                   Text(
-                    'Pending',
-                    style: TextStyle(color: Colors.yellow),
+                    '${request["status"]}',
+                    style: const TextStyle(color: Colors.yellow),
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: CustomSpacing.s3,
               ),
               Column(
@@ -65,22 +69,22 @@ class RequestDetails extends StatelessWidget {
                     height: CustomSpacing.s1,
                   ),
                   Text(
-                    '1ST June 2022',
+                    formatter.format(formatter.parse(request['createdAt'])),
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: CustomSpacing.s3,
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('PURPOSE OF VISIT'),
-                  SizedBox(
+                  const Text('PURPOSE OF VISIT'),
+                  const SizedBox(
                     height: CustomSpacing.s1,
                   ),
                   Text(
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit...',
+                    '${request["farmVisit"] != null ? request["farmVisit"]["visitPurpose"] : "Medical Visit"}',
                   ),
                 ],
               ),
