@@ -48,6 +48,12 @@ class EpoultryQueries {
               apiKey,
               user{
                 role,
+                extensionOfficer{
+                      dateApproved
+                  }
+                vetOfficer{
+                    dateApproved
+                }
                 managingFarms{
                   id,
                   name,
@@ -622,10 +628,56 @@ class EpoultryQueries {
     query FarmRequests(\$filter: ExtensionServiceFilterInput!){
       extensionServiceRequests(filter: \$filter){
         createdAt
+    id
         farmId
+    farmVisitReport{
+      id
+      compound{
+              security
+              tankCleanliness
+              landscape
+            }
+            farmInformation{
+              ageType
+              birdAge
+              birdType
+              deliveredBirdCount
+              remainingBirdCount
+              mortality
+              farmOfficerContact
+              farmAssistantContact
+            }
+            farmTeam{
+              cleanliness
+              gumboots
+              uniforms
+            }
+            generalObservation
+            housingInspection{
+              bioSecurity
+              cobwebs
+              drinkers
+              dust
+              feeders
+              lighting
+              repairAndMaintainance
+              ventilation
+            }
+            recommendations
+            store{
+              arrangement
+              cleanliness
+              stockTake
+            }
+    }
+    
         status
         id
         farmVisit{
+          report{
+            id
+            
+          }
           visitDate
           visitPurpose
         }
@@ -767,6 +819,16 @@ class EpoultryQueries {
     return """
     mutation AcceptExtensionRequestService(\$extensionServiceId: UUID!) {
       acceptExtensionRequest(extensionServiceId: \$extensionServiceId) {
+        status
+  }
+}
+    """;
+  }
+
+  String cancelExtensionRequest() {
+    return """
+    mutation CancelExtensionRequestService(\$extensionServiceId: UUID!) {
+      cancelExtensionRequest(extensionServiceId: \$extensionServiceId) {
         status
   }
 }

@@ -7,6 +7,7 @@ import 'package:epoultry/pages/farm/dashboard/farm_dashboard_page.dart';
 import 'package:epoultry/pages/landing_page.dart';
 import 'package:epoultry/pages/veterinary/vet_homepage.dart';
 import 'package:epoultry/theme/custom_theme.dart';
+import 'package:epoultry/widgets/extension_verify.dart';
 import 'package:flutter/material.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
@@ -92,6 +93,8 @@ class _EpoultryState extends State<Epoultry> {
   //rather than assigning the values
   late final token = box.get("token");
   late final role = box.get("tokenRole");
+  late final extVerify = box.get("extApproved");
+  late final vetVerify = box.get("vetApproved");
   // print(role);
   final FarmsController controller =
       Get.put(FarmsController(), permanent: true);
@@ -113,14 +116,14 @@ class _EpoultryState extends State<Epoultry> {
                 localizationsDelegates: const [
                   FormBuilderLocalizations.delegate,
                 ],
-                home: checkAuth(token, role)),
+                home: checkAuth(token, role, extVerify, vetVerify)),
           ),
         );
       },
     );
   }
 
-  Widget checkAuth(token, role) {
+  Widget checkAuth(token, role, extVerify, vetVerify) {
     if (token?.toString().isNotEmpty != true) {
       return const LandingPage();
     }
@@ -131,9 +134,17 @@ class _EpoultryState extends State<Epoultry> {
       case "FARM_MANAGER":
         return const FarmDashboardPage();
       case "VET_OFFICER":
-        return const VeterinaryHomePage();
+        if (vetVerify != null) {
+          return const VeterinaryHomePage();
+        } else {
+          return const ExtensionVerify();
+        }
       case "EXTENSION_OFFICER":
-        return const ExtensionHomePage();
+        if (extVerify != null) {
+          return const ExtensionHomePage();
+        } else {
+          return const ExtensionVerify();
+        }
       default:
         return const LandingPage();
     }

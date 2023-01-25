@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
+import 'package:string_extensions/string_extensions.dart';
 
 import '../../../theme/colors.dart';
 import '../../../theme/spacing.dart';
 import '../../../widgets/gradient_widget.dart';
+import '../../controllers/farm_controller.dart';
 import 'housing_inspection.dart';
 
 class ConfirmFarmInformation extends StatelessWidget {
-  const ConfirmFarmInformation({
-    Key? key,
-  }) : super(key: key);
+  ConfirmFarmInformation({Key? key, this.report}) : super(key: key);
+
+  final report;
+  final controller = Get.find<FarmsController>();
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +32,9 @@ class ConfirmFarmInformation extends StatelessWidget {
               PhosphorIcons.arrowLeft,
               color: Colors.black,
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
         ),
         body: Container(
@@ -46,16 +52,38 @@ class ConfirmFarmInformation extends StatelessWidget {
                   const SizedBox(
                     height: CustomSpacing.s2,
                   ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: (controller
+                            .farmVisitReport["data"]!['farmInformation'] as Map)
+                        .keys
+                        .map((key) => Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      (key as String).toTitleCase!,
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 2.3.h),
+                                    ),
+                                    Text(
+                                      "${((controller.farmVisitReport["data"]!['farmInformation'] as Map)[key].toString())}  ",
+                                      style: TextStyle(
+                                          fontSize: 1.8.h, color: Colors.black),
+                                    ),
+                                  ],
+                                ),
+                                const Divider(),
+                              ],
+                            ))
+                        .toList(),
+                  ),
                   GradientWidget(
                     child: ElevatedButton(
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const HousingInspection(),
-                            ),
-                          );
-                          // _confirmBatchPressed(context, runMutation);
+                          Get.to(() => const HousingInspection());
                         },
                         style: ElevatedButton.styleFrom(
                             foregroundColor: CustomColors.background,
@@ -68,60 +96,8 @@ class ConfirmFarmInformation extends StatelessWidget {
                             fixedSize: Size(100.w, 6.h)),
                         child: const Text('CONFIRM')),
                   )
-                  // Mutation(
-                  //   options: MutationOptions(
-                  //     document: gql(context.queries.createBatch()),
-                  //     onCompleted: (data) => _onCompleted(data, context),
-                  //   ),
-                  //   builder: (RunMutation runMutation, QueryResult? result) {
-                  //     if (result != null) {
-                  //       if (result.isLoading) {
-                  //         return const LoadingSpinner();
-                  //       }
-
-                  //       if (result.hasException) {
-                  //         context.showError(
-                  //           ErrorModel.fromGraphError(
-                  //             result.exception?.graphqlErrors ?? [],
-                  //           ),
-                  //         );
-                  //       }
-                  //     }
-
-                  //     return
-                  //   },
-                  // ),
                 ],
               ),
             )));
   }
-
-  // Future<void> _onCompleted(data, BuildContext context) async {
-  //   if ((data['createBatch']['id']).toString().isNotEmpty) {
-  //     Get.to(() => const SuccessWidget(
-  //           message: 'You have successfully created a batch',
-  //           route: 'dashboard',
-  //         ));
-  //   }
-  // }
-
-  // Future<void> _confirmBatchPressed(
-  //     BuildContext context, RunMutation runMutation) async {
-  //   final DateFormat formatter = DateFormat('yyyy-MM-dd');
-  //   DateTime now = DateTime.now();
-  //   DateTime date = DateTime(now.year, now.month, now.day);
-
-  //   runMutation({
-  //     "data": {
-  //       'acquiredDate':
-  //           formatter.format(DateFormat('dd-MM-yyyy').parse(date.toString())),
-  //       'ageType': newBatch.ageType!.name,
-  //       'birdAge': newBatch.birdAge,
-  //       'birdCount': newBatch.birdCount,
-  //       'birdType': newBatch.type!.name,
-  //       'name': newBatch.name,
-  //       'farmId': newBatch.farmId
-  //     },
-  //   });
-  // }
 }

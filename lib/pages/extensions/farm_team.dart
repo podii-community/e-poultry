@@ -1,8 +1,10 @@
 import 'package:epoultry/pages/extensions/store_compound_summary.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../controllers/farm_controller.dart';
 import '../../theme/colors.dart';
 import '../../theme/spacing.dart';
 import '../../widgets/gradient_widget.dart';
@@ -16,6 +18,10 @@ class FarmTeam extends StatefulWidget {
 }
 
 class _FarmTeamState extends State<FarmTeam> {
+  final controller = Get.find<FarmsController>();
+  final cleanliness = TextEditingController();
+  final gumboots = TextEditingController();
+  final uniforms = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,7 +60,7 @@ class _FarmTeamState extends State<FarmTeam> {
                       child: Column(
                         children: [
                           TextFormField(
-                            // controller: name,
+                            controller: cleanliness,
                             keyboardType: TextInputType.name,
                             decoration: InputDecoration(
                                 labelText: "Cleaniliness",
@@ -74,7 +80,7 @@ class _FarmTeamState extends State<FarmTeam> {
                             height: CustomSpacing.s3,
                           ),
                           TextFormField(
-                            // controller: name,
+                            controller: uniforms,
                             keyboardType: TextInputType.name,
                             decoration: InputDecoration(
                                 labelText: "Uniforms/Overalls",
@@ -94,7 +100,7 @@ class _FarmTeamState extends State<FarmTeam> {
                             height: CustomSpacing.s3,
                           ),
                           TextFormField(
-                            // controller: name,
+                            controller: gumboots,
                             keyboardType: TextInputType.name,
                             decoration: InputDecoration(
                                 labelText: "Gumboots",
@@ -119,12 +125,15 @@ class _FarmTeamState extends State<FarmTeam> {
                     GradientWidget(
                       child: ElevatedButton(
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const ConfirmFarmTeam(),
-                              ),
-                            );
+                            (controller.farmVisitReport["data"]!["farmTeam"]
+                                as Map)["cleanliness"](cleanliness.text);
+                            (controller.farmVisitReport["data"]!["farmTeam"]
+                                as Map)["gumboots"](gumboots.text);
+
+                            (controller.farmVisitReport["data"]!["farmTeam"]
+                                as Map)["uniforms"](uniforms.text);
+
+                            Get.to(() => ConfirmFarmTeam());
                           },
                           style: ElevatedButton.styleFrom(
                               foregroundColor: CustomColors.background,

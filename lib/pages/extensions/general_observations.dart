@@ -1,12 +1,12 @@
-import 'package:epoultry/pages/extensions/store_compound_summary.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../controllers/farm_controller.dart';
 import '../../theme/colors.dart';
 import '../../theme/spacing.dart';
 import '../../widgets/gradient_widget.dart';
-import 'farm_team_summary.dart';
 import 'general_observation_summary.dart';
 
 class GeneralObservations extends StatefulWidget {
@@ -17,6 +17,9 @@ class GeneralObservations extends StatefulWidget {
 }
 
 class _GeneralObservationsState extends State<GeneralObservations> {
+  final controller = Get.find<FarmsController>();
+  final recommendations = TextEditingController();
+  final generalObservation = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,7 +58,7 @@ class _GeneralObservationsState extends State<GeneralObservations> {
                       child: Column(
                         children: [
                           TextFormField(
-                            // controller: name,
+                            controller: generalObservation,
                             keyboardType: TextInputType.name,
                             minLines: 7,
                             maxLines: 8,
@@ -79,7 +82,7 @@ class _GeneralObservationsState extends State<GeneralObservations> {
                           TextFormField(
                             minLines: 7,
                             maxLines: 8,
-                            // controller: name,
+                            controller: recommendations,
                             keyboardType: TextInputType.name,
                             decoration: InputDecoration(
                                 labelText: "Recommendations",
@@ -104,13 +107,11 @@ class _GeneralObservationsState extends State<GeneralObservations> {
                     GradientWidget(
                       child: ElevatedButton(
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const ConfirmGeneralObseravtions(),
-                              ),
-                            );
+                            controller.farmVisitReport["data"]![
+                                "generalObservation"] = generalObservation.text;
+                            controller.farmVisitReport["data"]![
+                                "recommendations"] = recommendations.text;
+                            Get.to(() => ConfirmGeneralObseravtions());
                           },
                           style: ElevatedButton.styleFrom(
                               foregroundColor: CustomColors.background,

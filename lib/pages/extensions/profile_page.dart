@@ -51,7 +51,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                       width: 2,
                                     ),
                                     image: const DecorationImage(
-                                        image: AssetImage('assets/logo.png'),
+                                        image: AssetImage(
+                                            'assets/placeholder.png'),
                                         fit: BoxFit.fitWidth),
                                     borderRadius: const BorderRadius.all(
                                         Radius.elliptical(88, 88)),
