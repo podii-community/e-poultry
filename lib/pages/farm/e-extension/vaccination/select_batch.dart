@@ -14,15 +14,27 @@ import 'package:sizer/sizer.dart';
 
 import '../../batch/create_batch_page.dart';
 
-class SelectBatch extends StatelessWidget {
+class SelectBatch extends StatefulWidget {
   SelectBatch({super.key});
 
+  @override
+  State<SelectBatch> createState() => _SelectBatchState();
+}
+
+class _SelectBatchState extends State<SelectBatch> {
   final controller = Get.find<FarmsController>();
+
   final selectedBatch = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    // TODO: implement initState
     selectedBatch.text = controller.batchesList.first['id'];
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -79,7 +91,11 @@ class SelectBatch extends StatelessWidget {
                       borderSide: BorderSide(
                           width: 0.3.w, color: CustomColors.secondary))),
 
-              onChanged: (val) {},
+              onChanged: (val) {
+                setState(() {
+                  selectedBatch.text = val;
+                });
+              },
               items: controller.batchesList.map((batch) {
                 return DropdownMenuItem<dynamic>(
                   value: batch['id'],
@@ -93,7 +109,9 @@ class SelectBatch extends StatelessWidget {
             GradientWidget(
               child: ElevatedButton(
                   onPressed: () {
-                    Get.to(() => VaccinationList());
+                    Get.to(() => VaccinationList(
+                          batchId: selectedBatch.text,
+                        ));
                   },
                   style: ElevatedButton.styleFrom(
                       foregroundColor: CustomColors.background,

@@ -1,20 +1,41 @@
+import 'dart:developer';
+
 import 'package:epoultry/controllers/farm_controller.dart';
+import 'package:epoultry/graphql/query_document_provider.dart';
+import 'package:epoultry/pages/farm/dashboard/dashboard_page.dart';
+import 'package:epoultry/pages/farm/dashboard/farm_dashboard_page.dart';
 import 'package:epoultry/pages/farm/e-extension/vaccination/vaccine_details.dart';
 import 'package:epoultry/theme/spacing.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
-import 'package:get/get_utils/src/extensions/string_extensions.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../../data/models/error.dart';
 import '../../../../theme/colors.dart';
+import '../../../../widgets/error_widget.dart';
+import '../../../../widgets/loading_spinner.dart';
 
-class VaccinationList extends StatelessWidget {
-  VaccinationList({super.key});
+class VaccinationList extends StatefulWidget {
+  VaccinationList({super.key, this.batchId});
 
+  final batchId;
+
+  @override
+  State<VaccinationList> createState() => _VaccinationListState();
+}
+
+class _VaccinationListState extends State<VaccinationList> {
   final controller = Get.find<FarmsController>();
+  final DateFormat formatter = DateFormat('yyyy-MM-dd');
+
+  @override
+  void didChangeDependencies() {
+    // getVaccinationList(context);
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,22 +84,98 @@ class VaccinationList extends StatelessWidget {
             const SizedBox(
               height: CustomSpacing.s3,
             ),
-            Card(
-                elevation: 0,
-                child: ListTile(
-                    onTap: () {},
-                    title: Text('RDV Vaccine'),
-                    subtitle: Text("3rd December 2022"),
-                    trailing: Wrap(
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      children: [
-                        Text('Complete Vaccination',
-                            style:
-                                TextStyle(fontSize: 1.5.h, color: Colors.blue)),
-                        const Icon(PhosphorIcons.arrowRight,
-                            color: Colors.blue),
-                      ],
-                    ))),
+            Query(
+                options: QueryOptions(
+                  operationName: "ListBatchVaccination",
+                  variables: {"batchId": widget.batchId},
+                  document: gql(context.queries.listBatchVaccination()),
+                  // pollInterval: const Duration(seconds: 2),
+                ),
+                builder: (QueryResult result,
+                    {VoidCallback? refetch, FetchMore? fetchMore}) {
+                  if (result.isLoading) {
+                    return const LoadingSpinner();
+                  }
+                  if (result.hasException) {
+                    return AppErrorWidget(
+                      error: ErrorModel.fromString(
+                        result.exception.toString(),
+                      ),
+                    );
+                  }
+
+                  List vaccinationList = result.data!["listBatchVaccinations"];
+                  List pending = vaccinationList
+                      .where((vaccine) =>
+                          vaccine['status'].toString() == "PENDING")
+                      .toList();
+
+                  log("${pending}");
+
+                  return Expanded(
+                    child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: pending.length,
+                        itemBuilder: (context, index) {
+                          return Card(
+                              elevation: 0,
+                              child: ListTile(
+                                title: Text(
+                                    '${pending[index]["vaccinationSchedule"]["vaccineName"]}'),
+                                subtitle: Text(formatter.format(formatter
+                                    .parse(pending[index]['dateScheduled']))),
+                                trailing: SizedBox(
+                                  width: 40.w,
+                                  child: Mutation(
+                                    options: MutationOptions(
+                                      operationName: "CompleteBatchVaccination",
+                                      document: gql(context.queries
+                                          .completeBatchVaccination()),
+                                      onCompleted: (data) =>
+                                          _onCompleted(data, context),
+                                    ),
+                                    builder: (RunMutation runMutation,
+                                        QueryResult? result) {
+                                      if (result != null) {
+                                        if (result.isLoading) {
+                                          return const LoadingSpinner();
+                                        }
+                                        if (result.hasException) {
+                                          context.showError(
+                                            ErrorModel.fromGraphError(
+                                              result.exception?.graphqlErrors ??
+                                                  [],
+                                            ),
+                                          );
+                                        }
+                                      }
+
+                                      return InkWell(
+                                        onTap: () =>
+                                            _completeVacccinationPressed(
+                                                context,
+                                                runMutation,
+                                                pending[index]['id']),
+                                        child: Wrap(
+                                          crossAxisAlignment:
+                                              WrapCrossAlignment.center,
+                                          children: [
+                                            Text('Complete Vaccination',
+                                                style: TextStyle(
+                                                    fontSize: 1.5.h,
+                                                    color: Colors.blue)),
+                                            const Icon(PhosphorIcons.arrowRight,
+                                                color: Colors.blue),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ));
+                        }),
+                  );
+                }),
             const SizedBox(
               height: CustomSpacing.s3,
             ),
@@ -107,25 +204,79 @@ class VaccinationList extends StatelessWidget {
             const SizedBox(
               height: CustomSpacing.s3,
             ),
-            Card(
-                elevation: 0,
-                child: ListTile(
-                    onTap: () {
-                      Get.to(() => VaccineDetails());
-                    },
-                    title: Text('RDV Vaccine'),
-                    subtitle: Text("3rd December 2022"),
-                    trailing: Wrap(
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      children: [
-                        Text('Complete',
-                            style: TextStyle(
-                                fontSize: 1.5.h, color: Colors.green)),
-                      ],
-                    ))),
+            Query(
+                options: QueryOptions(
+                  operationName: "ListBatchVaccination",
+                  variables: {"batchId": widget.batchId},
+                  document: gql(context.queries.listBatchVaccination()),
+                  // pollInterval: const Duration(seconds: 2),
+                ),
+                builder: (QueryResult result,
+                    {VoidCallback? refetch, FetchMore? fetchMore}) {
+                  if (result.isLoading) {
+                    return const LoadingSpinner();
+                  }
+                  if (result.hasException) {
+                    return AppErrorWidget(
+                      error: ErrorModel.fromString(
+                        result.exception.toString(),
+                      ),
+                    );
+                  }
+
+                  List vaccinationList = result.data!["listBatchVaccinations"];
+                  List completed = vaccinationList
+                      .where((vaccine) =>
+                          vaccine['status'].toString() == "COMPLETED")
+                      .toList();
+
+                  return Expanded(
+                    child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: completed.length,
+                        itemBuilder: (context, index) {
+                          return Card(
+                              elevation: 0,
+                              child: ListTile(
+                                  onTap: () {
+                                    Get.to(() => VaccineDetails(
+                                          vaccine: completed[index],
+                                        ));
+                                  },
+                                  title: Text(
+                                      '${completed[index]["vaccinationSchedule"]["vaccineName"]}'),
+                                  subtitle: Text(formatter.format(
+                                      formatter.parse(
+                                          completed[index]['dateScheduled']))),
+                                  trailing: Wrap(
+                                    crossAxisAlignment:
+                                        WrapCrossAlignment.center,
+                                    children: [
+                                      Text('Complete',
+                                          style: TextStyle(
+                                              fontSize: 1.5.h,
+                                              color: Colors.green)),
+                                    ],
+                                  )));
+                        }),
+                  );
+                }),
           ],
         ),
       ),
+    );
+  }
+
+  void _onCompleted(data, BuildContext context) {
+    if ((data != null)) {
+      Get.to(() => FarmDashboardPage());
+    }
+  }
+
+  Future<void> _completeVacccinationPressed(
+      BuildContext context, RunMutation runMutation, id) async {
+    runMutation(
+      {"vaccinationId": id},
     );
   }
 }

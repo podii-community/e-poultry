@@ -709,6 +709,39 @@ class EpoultryQueries {
     """;
   }
 
+  String listBatchVaccination() {
+    return """
+      query ListBatchVaccination(\$batchId: UUID){
+         listBatchVaccinations(batchId: \$batchId){
+            id,
+            status,
+            dateScheduled,
+            batchId,
+            vaccinationSchedule{
+              vaccineName,
+              description
+            }
+         } 
+      }
+    """;
+  }
+
+  String completeBatchVaccination() {
+    return """
+      mutation CompleteBatchVaccination(\$vaccinationId: UUID!){
+          completeBatchVaccination(vaccinationId: \$vaccinationId){
+            batchId,
+            id,
+            status,
+            completer{
+              id
+            }
+          }
+      }
+
+      """;
+  }
+
   String getExtensionServiceRequests() {
     return """
     query ExtensionServiceRequest(\$filter: ExtensionServiceFilterInput!){
