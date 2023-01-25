@@ -73,66 +73,73 @@ class _ListRequestState extends State<ListRequest> {
         ),
         body: Container(
             padding: const EdgeInsets.symmetric(horizontal: CustomSpacing.s2),
-            child: ListView.builder(
-                itemCount: controller.extensionRequests.length,
-                itemBuilder: ((context, index) {
-                  return InkWell(
-                    onTap: () {
-                      Get.to(() => RequestDetails(
-                            request: controller.extensionRequests[index],
-                          ));
-                    },
-                    child: Card(
-                      elevation: 0,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text('TODAY'),
-                            const SizedBox(
-                              height: CustomSpacing.s1,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: controller.extensionRequests.isEmpty
+                ? const Center(
+                    child: Text("No Extension Service Requests"),
+                  )
+                : Obx((() => ListView.builder(
+                    itemCount: controller.extensionRequests.length,
+                    itemBuilder: ((context, index) {
+                      return InkWell(
+                        onTap: () {
+                          Get.to(() => RequestDetails(
+                                request: controller.extensionRequests[index],
+                              ));
+                        },
+                        child: Card(
+                          elevation: 0,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  controller.extensionRequests[index]
-                                              ["farmVisit"] !=
-                                          null
-                                      ? "Farm Visit Request"
-                                      : "Medical Visit",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 2.1.h),
+                                const Text('TODAY'),
+                                const SizedBox(
+                                  height: CustomSpacing.s1,
                                 ),
-                                Text(formatter.format(formatter.parse(controller
-                                    .extensionRequests[index]['createdAt'])))
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      controller.extensionRequests[index]
+                                                  ["farmVisit"] !=
+                                              null
+                                          ? "Farm Visit Request"
+                                          : "Medical Visit",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 2.1.h),
+                                    ),
+                                    Text(formatter.format(formatter.parse(
+                                        controller.extensionRequests[index]
+                                            ['createdAt'])))
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: CustomSpacing.s1,
+                                ),
+                                Text(
+                                    "${controller.extensionRequests[index]["farmVisit"] != null ? controller.extensionRequests[index]["farmVisit"]["visitPurpose"] : "Medical Visit"}"),
+                                const SizedBox(
+                                  height: CustomSpacing.s2,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      '#${controller.extensionRequests[index]["status"]}',
+                                      style: TextStyle(color: Colors.yellow),
+                                    ),
+                                    Icon(PhosphorIcons.arrowRight)
+                                  ],
+                                ),
                               ],
                             ),
-                            const SizedBox(
-                              height: CustomSpacing.s1,
-                            ),
-                            Text(
-                                "${controller.extensionRequests[index]["farmVisit"] != null ? controller.extensionRequests[index]["farmVisit"]["visitPurpose"] : "Medical Visit"}"),
-                            const SizedBox(
-                              height: CustomSpacing.s2,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  '#${controller.extensionRequests[index]["status"]}',
-                                  style: TextStyle(color: Colors.yellow),
-                                ),
-                                Icon(PhosphorIcons.arrowRight)
-                              ],
-                            ),
-                          ],
+                          ),
                         ),
-                      ),
-                    ),
-                  );
-                }))));
+                      );
+                    }))))));
   }
 }
