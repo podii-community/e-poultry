@@ -1,13 +1,13 @@
 import 'package:epoultry/pages/extensions/store_compound_summary.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../controllers/farm_controller.dart';
 import '../../theme/colors.dart';
 import '../../theme/spacing.dart';
 import '../../widgets/gradient_widget.dart';
-
-import 'housing_inspection_summary.dart';
 
 class StoreAndCompound extends StatefulWidget {
   const StoreAndCompound({super.key});
@@ -17,6 +17,14 @@ class StoreAndCompound extends StatefulWidget {
 }
 
 class _StoreAndCompoundState extends State<StoreAndCompound> {
+  final controller = Get.find<FarmsController>();
+  final landscape = TextEditingController();
+  final security = TextEditingController();
+  final tankCleanliness = TextEditingController();
+  final cleanliness = TextEditingController();
+  final arrangement = TextEditingController();
+  final stockTake = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,7 +63,7 @@ class _StoreAndCompoundState extends State<StoreAndCompound> {
                       child: Column(
                         children: [
                           TextFormField(
-                            // controller: name,
+                            controller: stockTake,
                             keyboardType: TextInputType.name,
                             decoration: InputDecoration(
                                 labelText: "Stock Take",
@@ -75,7 +83,7 @@ class _StoreAndCompoundState extends State<StoreAndCompound> {
                             height: CustomSpacing.s3,
                           ),
                           TextFormField(
-                            // controller: name,
+                            controller: arrangement,
                             keyboardType: TextInputType.name,
                             decoration: InputDecoration(
                                 labelText: "Arrangement",
@@ -95,7 +103,7 @@ class _StoreAndCompoundState extends State<StoreAndCompound> {
                             height: CustomSpacing.s3,
                           ),
                           TextFormField(
-                            // controller: name,
+                            controller: cleanliness,
                             keyboardType: TextInputType.name,
                             decoration: InputDecoration(
                                 labelText: "Cleaniliness",
@@ -125,8 +133,8 @@ class _StoreAndCompoundState extends State<StoreAndCompound> {
                       height: CustomSpacing.s3,
                     ),
                     TextFormField(
-                      // controller: age,
-                      keyboardType: TextInputType.number,
+                      controller: landscape,
+                      keyboardType: TextInputType.text,
                       decoration: InputDecoration(
                           labelText: "Landscape",
                           labelStyle: TextStyle(
@@ -143,7 +151,7 @@ class _StoreAndCompoundState extends State<StoreAndCompound> {
                       height: CustomSpacing.s3,
                     ),
                     TextFormField(
-                      // controller: name,
+                      controller: security,
                       keyboardType: TextInputType.name,
                       decoration: InputDecoration(
                           labelText: "Security",
@@ -161,7 +169,7 @@ class _StoreAndCompoundState extends State<StoreAndCompound> {
                       height: CustomSpacing.s3,
                     ),
                     TextFormField(
-                      // controller: name,
+                      controller: tankCleanliness,
                       keyboardType: TextInputType.name,
                       decoration: InputDecoration(
                           labelText: "Tank Cleaniliness",
@@ -181,13 +189,25 @@ class _StoreAndCompoundState extends State<StoreAndCompound> {
                     GradientWidget(
                       child: ElevatedButton(
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const ConfirmStoreCompound(),
-                              ),
-                            );
+                            (controller.farmVisitReport["data"]!["compound"]
+                                as Map)["landscape"](landscape.text);
+
+                            (controller.farmVisitReport["data"]!["compound"]
+                                as Map)["security"](security.text);
+
+                            (controller.farmVisitReport["data"]!["compound"]
+                                    as Map)["tankCleanliness"](
+                                tankCleanliness.text);
+
+                            (controller.farmVisitReport["data"]!["store"]
+                                as Map)["cleanliness"](cleanliness.text);
+
+                            (controller.farmVisitReport["data"]!["store"]
+                                as Map)["arrangement"](arrangement.text);
+
+                            (controller.farmVisitReport["data"]!["store"]
+                                as Map)["stockTake"](stockTake.text);
+                            Get.to(() => ConfirmStoreCompound());
                           },
                           style: ElevatedButton.styleFrom(
                               foregroundColor: CustomColors.background,

@@ -2,16 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
+import 'package:string_extensions/string_extensions.dart';
 
 import '../../../theme/colors.dart';
 import '../../../theme/spacing.dart';
 import '../../../widgets/gradient_widget.dart';
+import '../../controllers/farm_controller.dart';
 import 'general_observations.dart';
 
 class ConfirmFarmTeam extends StatelessWidget {
-  const ConfirmFarmTeam({
+  ConfirmFarmTeam({
     Key? key,
   }) : super(key: key);
+  final controller = Get.find<FarmsController>();
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +49,36 @@ class ConfirmFarmTeam extends StatelessWidget {
                   ),
                   const SizedBox(
                     height: CustomSpacing.s2,
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children:
+                        (controller.farmVisitReport["data"]!['farmTeam'] as Map)
+                            .keys
+                            .map((key) => Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          (key as String).toTitleCase!,
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 2.3.h),
+                                        ),
+                                        Text(
+                                          "${((controller.farmVisitReport["data"]!['farmTeam'] as Map)[key].toString())}  ",
+                                          style: TextStyle(
+                                              fontSize: 1.8.h,
+                                              color: Colors.black),
+                                        ),
+                                      ],
+                                    ),
+                                    const Divider(),
+                                  ],
+                                ))
+                            .toList(),
                   ),
                   GradientWidget(
                     child: ElevatedButton(

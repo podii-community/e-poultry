@@ -1,4 +1,5 @@
 import 'package:epoultry/graphql/query_document_provider.dart';
+import 'package:epoultry/pages/extensions/requests_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -83,6 +84,7 @@ class _DashboardPageState extends State<DashboardPage> {
                               " " +
                               controller.requestsList[index]["farm"]["owner"]
                                   ["lastName"]!;
+                          String id = controller.requestsList[index]["id"];
                           String? county = controller.requestsList[index]
                               ["farm"]["address"]["county"];
                           String? subCounty = controller.requestsList[index]
@@ -129,68 +131,80 @@ class _DashboardPageState extends State<DashboardPage> {
                           String? formattedDate =
                               "$day, $dayNumber$dayNumberSuffix ${DateFormat.MMMM().format(date)} ${date.year.toString()}";
 
-                          return Container(
-                            margin: const EdgeInsets.symmetric(vertical: 5),
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: const Color(0xfff6fbff)),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "#$visitPorpose",
-                                      style: TextStyle(
-                                        color: visitPorpose == "Medical Help"
-                                            ? Colors.red
-                                            : Colors.blue,
+                          return (controller.requestsList[index]["farmVisit"] ==
+                                  null)
+                              ? Container(
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 5),
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: const Color(0xfff6fbff)),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            "#$visitPorpose",
+                                            style: TextStyle(
+                                              color:
+                                                  visitPorpose == "Medical Help"
+                                                      ? Colors.red
+                                                      : Colors.blue,
+                                            ),
+                                            // style: TextStyelsjn,
+                                          ),
+                                          Text(
+                                            formattedTime,
+                                            style: const TextStyle(
+                                              color: Colors.grey,
+                                              fontSize: 12,
+                                            ),
+                                            // style: TextStyelsjn,
+                                          )
+                                        ],
                                       ),
-                                      // style: TextStyelsjn,
-                                    ),
-                                    Text(
-                                      formattedTime,
-                                      style: const TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 12,
+                                      const SizedBox(
+                                        height: 5,
                                       ),
-                                      // style: TextStyelsjn,
-                                    )
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: 5,
-                                ),
-                                Text(
-                                  "$farmName visit request on $formattedDate .",
-                                  style: const TextStyle(fontSize: 18),
-                                ),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                        child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text("Request by $name"),
-                                        Text("$farmName, $county, $subCounty"),
-                                      ],
-                                    )),
-                                    IconButton(
-                                        onPressed: () {
-                                          // controller.requestsList[index];
-                                          // Get.to(() => const RequestsPage());
-                                        },
-                                        icon: const Icon(
-                                            PhosphorIcons.arrowCircleRightBold))
-                                  ],
+                                      Text(
+                                        "$farmName visit request on $formattedDate .",
+                                        style: const TextStyle(fontSize: 18),
+                                      ),
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                              child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text("Request by $name"),
+                                              Text(
+                                                  "$farmName, $county, $subCounty"),
+                                            ],
+                                          )),
+                                          IconButton(
+                                              onPressed: () {
+                                                Get.to(
+                                                  () => RequestsPage(
+                                                    extensionServiceId: id,
+                                                  ),
+                                                );
+                                                // controller.requestsList[index];
+                                                // Get.to(() => const RequestsPage());
+                                              },
+                                              icon: const Icon(PhosphorIcons
+                                                  .arrowCircleRightBold))
+                                        ],
+                                      )
+                                    ],
+                                  ),
                                 )
-                              ],
-                            ),
-                          );
+                              : Container();
                         },
                       );
               }),

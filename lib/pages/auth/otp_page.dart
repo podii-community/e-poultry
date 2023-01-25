@@ -214,14 +214,45 @@ class _OtpPageState extends State<OtpPage> {
         // controller.selectedFarmId.value = farms[0]['id'];
         // controller.updateBatches(farms[0]['batches']);
         final role = data['verifyOtp']['user']["role"];
-        // final tokenrole = data['verifyOtp']['user']["role"];
         String route = widget.route;
         box.put('tokenRole', role);
 
+        if (data['verifyOtp'] != null && data['verifyOtp']['user'] != null) {
+          if (data['verifyOtp']['user']["extensionOfficer"] != null) {
+            final extApproved =
+                data['verifyOtp']['user']["extensionOfficer"]["dateApproved"];
+            box.put('extApproved', extApproved);
+            if (role == "EXTENSION_OFFICER" && extApproved != null) {
+              route = 'extension';
+            } else {
+              route = "ext_pending";
+            }
+          }
+          if (data['verifyOtp']['user']["vetOfficer"] != null) {
+            final vetApproved =
+                data['verifyOtp']['user']["vetOfficer"]["dateApproved"];
+            box.put('vetApproved', vetApproved);
+            if (role == "VET_OFFICER" && vetApproved != null) {
+              route = 'vet';
+            } else {
+              route = "vet_pending";
+            }
+          }
+        }
+        // final tokenrole = data['verifyOtp']['user']["role"];
+
         if (role == "FARMER") route = "farmer";
         if (role == "FARM_MABAGER") route = 'farm_manager';
-        if (role == "VET_OFFICER") route = 'vet';
-        if (role == "EXTENSION_OFFICER") route = 'extension';
+        // if (role == "VET_OFFICER" && vetApproved != null) {
+        //   route = 'vet';
+        // } else {
+        //   route = "vet_pending";
+        // }
+        // if (role == "EXTENSION_OFFICER" && extApproved != null) {
+        //   route = 'extension';
+        // } else {
+        //   route = "ext_pending";
+        // }
 
         Get.offAll(() => SuccessWidget(
               message: 'Your phone number has been verified',

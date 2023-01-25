@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
+
+import '../theme/colors.dart';
 
 class ExtensionVerify extends StatelessWidget {
   const ExtensionVerify({super.key});
@@ -6,6 +9,17 @@ class ExtensionVerify extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+          automaticallyImplyLeading: false,
+          leadingWidth: 80,
+          toolbarHeight: 8.h,
+          backgroundColor: CustomColors.white,
+          elevation: 0.5,
+          centerTitle: true,
+          title: const Text(
+            "Profile",
+            style: TextStyle(color: Colors.black),
+          )),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -45,7 +59,8 @@ class ExtensionVerify extends StatelessWidget {
                                       width: 2,
                                     ),
                                     image: const DecorationImage(
-                                        image: AssetImage('assets/logo.png'),
+                                        image: AssetImage(
+                                            'assets/placeholder.png'),
                                         fit: BoxFit.fitWidth),
                                     borderRadius: const BorderRadius.all(
                                         Radius.elliptical(88, 88)),
@@ -99,24 +114,35 @@ class ExtensionVerify extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 32),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                Text(
-                  'ACCOUNT',
-                  style: TextStyle(
-                      color: Color.fromRGBO(1, 33, 56, 0.6000000238418579),
-                      fontFamily: 'Roboto',
-                      fontSize: 12,
-                      letterSpacing: 0.15000000596046448,
-                      fontWeight: FontWeight.normal,
-                      height: 1),
-                ),
-                Divider(),
-                Text(
-                    "We are reviewing your account details.\n We’ll notify you as soon as it has been\n approved, till then you might not be able\n to acces some features.")
-              ],
+            const SizedBox(height: 20),
+            // const Divider(),
+            Container(
+              width: double.infinity,
+              margin: const EdgeInsets.symmetric(vertical: 15),
+              padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 40),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: const Color(0xfff6fbff)),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: const [
+                  Text("#Pending Approval",
+                      style: TextStyle(
+                        color: Colors.blue,
+                        fontSize: 22,
+                      )),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    "We are reviewing your account details. We’ll notify you as soon as it has been approved, till then you might not be able to acces some features.",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 18,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
