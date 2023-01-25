@@ -4,12 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
 class VaccineDetails extends StatelessWidget {
-  const VaccineDetails({super.key});
+  VaccineDetails({super.key, this.vaccine});
 
+  final vaccine;
+
+  final DateFormat formatter = DateFormat('yyyy-MM-dd');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,8 +32,8 @@ class VaccineDetails extends StatelessWidget {
             Get.back();
           },
         ),
-        title: const Text(
-          'RDV Vaccine',
+        title: Text(
+          '${vaccine['vaccinationSchedule']['vaccineName']}',
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500),
         ),
       ),
@@ -48,7 +52,7 @@ class VaccineDetails extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "RDV Vaccine",
+                  "${vaccine['vaccinationSchedule']['vaccineName']}",
                   style: TextStyle(
                       fontSize: 2.2.h, color: CustomColors.textPrimary),
                 ),
@@ -58,7 +62,7 @@ class VaccineDetails extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "DUE 3rd Dec 2022",
+                  "DUE ${formatter.format(formatter.parse(vaccine['dateScheduled']))}",
                   style: TextStyle(
                       fontSize: 1.7.h, color: CustomColors.textPrimary),
                 ),
@@ -68,8 +72,7 @@ class VaccineDetails extends StatelessWidget {
               height: CustomSpacing.s3,
             ),
             Card(elevation: 0, child: Image.asset('assets/chicken.png')),
-            Text(
-                "This vaccine is for adult chicken. It can be found as tablet in vial in dry freezing condition. This tablet become white colored."),
+            Text("${vaccine['vaccinationSchedule']["description"]}"),
             const SizedBox(
               height: CustomSpacing.s3,
             ),
