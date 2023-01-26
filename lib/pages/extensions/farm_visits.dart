@@ -424,7 +424,7 @@ class _FarmVisitsState extends State<FarmVisits> {
                                         style: TextButton.styleFrom(
                                           foregroundColor: Colors.blue,
                                         ),
-                                        child: const Text("view Report"),
+                                        child: const Text("View Report"),
                                       ),
                                     ],
                                   ),
