@@ -31,8 +31,10 @@ class _FarmVisitReportState extends State<FarmVisitReport> {
   late var filteredList = List.from(controller.requestsList
       .where((element) => element["id"] == widget.extensionServiceId));
   late String farmName = filteredList.first["farm"]["name"];
-  late String? county = filteredList[0]["farm"]["address"]["county"];
-  late String? subCounty = filteredList[0]["farm"]["address"]["subcounty"];
+  late String? county =
+      filteredList[0]["farm"]["address"]["county"] ?? "Kisumu";
+  late String? subCounty =
+      filteredList[0]["farm"]["address"]["subcounty"] ?? "Kisumu East";
   late DateTime dateTime =
       DateTime.parse(filteredList[0]["farmVisit"]["visitDate"]);
   late String formattedDate = DateFormat('dd/MM/yyyy').format(dateTime);

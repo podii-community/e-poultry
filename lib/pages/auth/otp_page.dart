@@ -214,8 +214,34 @@ class _OtpPageState extends State<OtpPage> {
         // controller.selectedFarmId.value = farms[0]['id'];
         // controller.updateBatches(farms[0]['batches']);
         final role = data['verifyOtp']['user']["role"];
+        final phone = data['verifyOtp']['user']["phoneNumber"];
         String route = widget.route;
         box.put('tokenRole', role);
+        box.put('tokenPhone', phone);
+
+        if (data['verifyOtp'] != null && data['verifyOtp']['user'] != null) {
+          if (data['verifyOtp']['user']["extensionOfficer"] != null) {
+            final extApproved =
+                data['verifyOtp']['user']["extensionOfficer"]["dateApproved"];
+            box.put('extApproved', extApproved);
+            if (role == "EXTENSION_OFFICER" && extApproved != null) {
+              route = 'extension';
+            } else {
+              route = "ext_pending";
+            }
+          }
+          if (data['verifyOtp']['user']["vetOfficer"] != null) {
+            final vetApproved =
+                data['verifyOtp']['user']["vetOfficer"]["dateApproved"];
+            box.put('vetApproved', vetApproved);
+            if (role == "VET_OFFICER" && vetApproved != null) {
+              route = 'vet';
+            } else {
+              route = "vet_pending";
+            }
+          }
+        }
+        // final tokenrole = data['verifyOtp']['user']["role"];
 
         if (data['verifyOtp'] != null && data['verifyOtp']['user'] != null) {
           if (data['verifyOtp']['user']["extensionOfficer"] != null) {

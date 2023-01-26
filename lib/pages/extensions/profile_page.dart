@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:hive/hive.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -9,6 +10,13 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  // final controller = Get.find<FarmsController>();
+  // final userController = Get.find<UserController>();
+  final box = Hive.box('appData');
+  late final name = box.get('name');
+
+  late final role = box.get('tokenRole');
+  late final phone = box.get('tokenPhone');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,9 +70,21 @@ class _ProfilePageState extends State<ProfilePage> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisSize: MainAxisSize.min,
-                          children: const <Widget>[
+                          children: <Widget>[
                             Text(
-                              'Margaret WN.',
+                              name ?? "E-Poultry Farming",
+                              textAlign: TextAlign.left,
+                              style: const TextStyle(
+                                  color: Color.fromRGBO(246, 251, 255, 1),
+                                  fontFamily: 'DM Sans',
+                                  fontSize: 16,
+                                  letterSpacing: 0.15000000596046448,
+                                  fontWeight: FontWeight.normal,
+                                  height: 1.5),
+                            ),
+                            const SizedBox(height: 4),
+                            const Text(
+                              "Extension Officer",
                               textAlign: TextAlign.left,
                               style: TextStyle(
                                   color: Color.fromRGBO(246, 251, 255, 1),
@@ -74,23 +94,11 @@ class _ProfilePageState extends State<ProfilePage> {
                                   fontWeight: FontWeight.normal,
                                   height: 1.5),
                             ),
-                            SizedBox(height: 4),
+                            const SizedBox(height: 4),
                             Text(
-                              'Extension officer',
+                              phone ?? '  0701 234 567',
                               textAlign: TextAlign.left,
-                              style: TextStyle(
-                                  color: Color.fromRGBO(246, 251, 255, 1),
-                                  fontFamily: 'DM Sans',
-                                  fontSize: 16,
-                                  letterSpacing: 0.15000000596046448,
-                                  fontWeight: FontWeight.normal,
-                                  height: 1.5),
-                            ),
-                            SizedBox(height: 4),
-                            Text(
-                              '0701 234 567',
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
+                              style: const TextStyle(
                                   color: Color.fromRGBO(246, 251, 255, 1),
                                   fontFamily: 'DM Sans',
                                   fontSize: 16,

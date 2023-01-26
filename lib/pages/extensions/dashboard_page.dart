@@ -86,9 +86,11 @@ class _DashboardPageState extends State<DashboardPage> {
                                   ["lastName"]!;
                           String id = controller.requestsList[index]["id"];
                           String? county = controller.requestsList[index]
-                              ["farm"]["address"]["county"];
+                                  ["farm"]["address"]["county"] ??
+                              "Kisumu";
                           String? subCounty = controller.requestsList[index]
-                              ["farm"]["address"]["subcounty"];
+                                  ["farm"]["address"]["subcounty"] ??
+                              "Kisumu East";
                           String? visitPorpose;
                           if (controller.requestsList[index]["farmVisit"] !=
                               null) {
