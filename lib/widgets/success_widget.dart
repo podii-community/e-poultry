@@ -17,7 +17,6 @@ import '../pages/extensions/extension_homepage.dart';
 import '../pages/extensions/extension_officer_profile.dart';
 import '../pages/veterinary/vet_homepage.dart';
 import '../pages/veterinary/vet_profile.dart';
-import 'extension_verify.dart';
 
 class SuccessWidget extends StatefulWidget {
   const SuccessWidget({
@@ -60,12 +59,12 @@ class _SuccessWidgetState extends State<SuccessWidget> {
           break;
 
         case "vet_pending":
-          Get.off(() => const ExtensionVerify());
+          Get.off(() => const VeterinaryHomePage());
 
           break;
 
         case "ext_pending":
-          Get.off(() => const ExtensionVerify());
+          Get.off(() => const ExtensionHomePage());
 
           break;
         case "register":

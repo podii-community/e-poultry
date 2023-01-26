@@ -7,6 +7,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../controllers/farm_controller.dart';
 import '../../controllers/user_controller.dart';
@@ -15,6 +16,7 @@ import '../../theme/colors.dart';
 import '../../theme/spacing.dart';
 import '../../widgets/gradient_widget.dart';
 import '../../widgets/loading_spinner.dart';
+import '../../widgets/success_widget.dart';
 import '../extensions/farm_visit_report.dart';
 import '../extensions/farm_visit_report_summary.dart';
 
@@ -102,10 +104,12 @@ class _FarmVisitsState extends State<FarmVisits> {
                                   ["firstName"]! +
                               " " +
                               filteredList[index]["farm"]["owner"]["lastName"]!;
-                          String? county =
-                              filteredList[index]["farm"]["address"]["county"];
+                          String? county = filteredList[index]["farm"]
+                                  ["address"]["county"] ??
+                              "Kisumu";
                           String? subCounty = filteredList[index]["farm"]
-                              ["address"]["subcounty"];
+                                  ["address"]["subcounty"] ??
+                              "Kisumu East";
                           String? visitPorpose =
                               filteredList[index]["farmVisit"]["visitPurpose"];
 
@@ -262,13 +266,14 @@ class _FarmVisitsState extends State<FarmVisits> {
                                         Expanded(
                                           child: TextButton.icon(
                                             onPressed: () {
-                                              setState(() {
-                                                testid = id;
-                                              });
-                                              rejectRequestDialog(
-                                                context,
-                                                id,
-                                              );
+                                              launch('tel:+0700 111 111');
+                                              // setState(() {
+                                              //   testid = id;
+                                              // });
+                                              // rejectRequestDialog(
+                                              //   context,
+                                              //   id,
+                                              // );
                                             },
                                             icon: const Icon(Icons.call),
                                             label: const Text('Call'),
@@ -349,10 +354,12 @@ class _FarmVisitsState extends State<FarmVisits> {
                                   ["firstName"]! +
                               " " +
                               filteredList[index]["farm"]["owner"]["lastName"]!;
-                          String? county =
-                              filteredList[index]["farm"]["address"]["county"];
+                          String? county = filteredList[index]["farm"]
+                                  ["address"]["county"] ??
+                              "Kisumu";
                           String? subCounty = filteredList[index]["farm"]
-                              ["address"]["subcounty"];
+                                  ["address"]["subcounty"] ??
+                              "Kisumu East";
                           String? visitPorpose =
                               filteredList[index]["farmVisit"]["visitPurpose"];
 
@@ -700,14 +707,21 @@ class _FarmVisitsState extends State<FarmVisits> {
   }
 
   Future<void> _onCompleted(data, BuildContext context) async {
-    Get.back();
-    // if ((data['requestMedicalVisit(']['farmId']).toString().isNotEmpty) {
+    if (data != null) {
+      Get.to(() => const SuccessWidget(
+            message:
+                'You have sucessfully requested for medical help. We’ll notify you as soon as there is a Vetinary officer available.',
+            route: 'extension',
+          ));
+    }
+    // Get.back();
+    // // if ((data['requestMedicalVisit(']['farmId']).toString().isNotEmpty) {
     // Get.to(() => const SuccessWidget(
     //       message:
     //           'You have sucessfully requested for medical help. We’ll notify you as soon as there is a Vetinary officer available.',
     //       route: 'dashboard',
     //     ));
-    // }
+    // // }
   }
 
   Future<void> _acceptFarmVisitRequest(

@@ -7,7 +7,6 @@ import 'package:epoultry/pages/farm/dashboard/farm_dashboard_page.dart';
 import 'package:epoultry/pages/landing_page.dart';
 import 'package:epoultry/pages/veterinary/vet_homepage.dart';
 import 'package:epoultry/theme/custom_theme.dart';
-import 'package:epoultry/widgets/extension_verify.dart';
 import 'package:flutter/material.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
@@ -134,17 +133,10 @@ class _EpoultryState extends State<Epoultry> {
       case "FARM_MANAGER":
         return const FarmDashboardPage();
       case "VET_OFFICER":
-        if (vetVerify != null) {
-          return const VeterinaryHomePage();
-        } else {
-          return const ExtensionVerify();
-        }
+        return const VeterinaryHomePage();
       case "EXTENSION_OFFICER":
-        if (extVerify != null) {
-          return const ExtensionHomePage();
-        } else {
-          return const ExtensionVerify();
-        }
+        return const ExtensionHomePage();
+
       default:
         return const LandingPage();
     }

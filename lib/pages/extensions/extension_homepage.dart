@@ -2,6 +2,7 @@ import 'package:epoultry/graphql/query_document_provider.dart';
 import 'package:epoultry/pages/extensions/dashboard_page.dart';
 import 'package:epoultry/pages/extensions/farm_visits.dart';
 import 'package:epoultry/pages/extensions/profile_page.dart';
+import 'package:epoultry/pages/landing_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -90,10 +91,10 @@ class _ExtensionHomePageState extends State<ExtensionHomePage> {
           actions: [
             IconButton(
                 onPressed: () {
-                  Get.to(() => const ViewNotification());
+                  Get.to(() => const LandingPage());
                 },
                 icon: const Icon(
-                  PhosphorIcons.bell,
+                  PhosphorIcons.signOut,
                   color: CustomColors.secondary,
                 ))
           ],

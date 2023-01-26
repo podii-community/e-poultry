@@ -48,6 +48,7 @@ class EpoultryQueries {
               apiKey,
               user{
                 role,
+                phoneNumber
                 extensionOfficer{
                       dateApproved
                   }
@@ -674,6 +675,7 @@ class EpoultryQueries {
         status
         id
         farmVisit{
+          description
           report{
             id
             
@@ -683,6 +685,7 @@ class EpoultryQueries {
         }
         
         medicalVisit{
+          description
           ageType
           birdAge
           birdCount

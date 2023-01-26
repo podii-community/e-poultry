@@ -1,9 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:hive/hive.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  final box = Hive.box('appData');
+  late final name = box.get('name');
+
+  late final role = box.get('tokenRole');
+  late final phone = box.get('tokenPhone');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,7 +57,8 @@ class ProfilePage extends StatelessWidget {
                                       width: 2,
                                     ),
                                     image: const DecorationImage(
-                                        image: AssetImage('assets/logo.png'),
+                                        image: AssetImage(
+                                            'assets/placeholder.png'),
                                         fit: BoxFit.fitWidth),
                                     borderRadius: const BorderRadius.all(
                                         Radius.elliptical(88, 88)),
@@ -56,9 +68,21 @@ class ProfilePage extends StatelessWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisSize: MainAxisSize.min,
-                          children: const <Widget>[
+                          children: <Widget>[
                             Text(
-                              'Margaret WN.',
+                              name ?? "E-Poultry Farming",
+                              textAlign: TextAlign.left,
+                              style: const TextStyle(
+                                  color: Color.fromRGBO(246, 251, 255, 1),
+                                  fontFamily: 'DM Sans',
+                                  fontSize: 16,
+                                  letterSpacing: 0.15000000596046448,
+                                  fontWeight: FontWeight.normal,
+                                  height: 1.5),
+                            ),
+                            const SizedBox(height: 4),
+                            const Text(
+                              "Extension Officer",
                               textAlign: TextAlign.left,
                               style: TextStyle(
                                   color: Color.fromRGBO(246, 251, 255, 1),
@@ -68,23 +92,11 @@ class ProfilePage extends StatelessWidget {
                                   fontWeight: FontWeight.normal,
                                   height: 1.5),
                             ),
-                            SizedBox(height: 4),
+                            const SizedBox(height: 4),
                             Text(
-                              'Extension officer',
+                              phone ?? '  0701 234 567',
                               textAlign: TextAlign.left,
-                              style: TextStyle(
-                                  color: Color.fromRGBO(246, 251, 255, 1),
-                                  fontFamily: 'DM Sans',
-                                  fontSize: 16,
-                                  letterSpacing: 0.15000000596046448,
-                                  fontWeight: FontWeight.normal,
-                                  height: 1.5),
-                            ),
-                            SizedBox(height: 4),
-                            Text(
-                              '0701 234 567',
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
+                              style: const TextStyle(
                                   color: Color.fromRGBO(246, 251, 255, 1),
                                   fontFamily: 'DM Sans',
                                   fontSize: 16,
