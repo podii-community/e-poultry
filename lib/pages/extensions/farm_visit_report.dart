@@ -64,7 +64,9 @@ class _FarmVisitReportState extends State<FarmVisitReport> {
               PhosphorIcons.arrowLeft,
               color: Colors.black,
             ),
-            onPressed: () {},
+            onPressed: () {
+              Get.back();
+            },
           ),
         ),
         body: SingleChildScrollView(
