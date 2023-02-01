@@ -82,7 +82,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                             const SizedBox(height: 4),
                             const Text(
-                              "Extension Officer",
+                              "Veterinary Officer",
                               textAlign: TextAlign.left,
                               style: TextStyle(
                                   color: Color.fromRGBO(246, 251, 255, 1),

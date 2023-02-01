@@ -16,7 +16,6 @@ import '../controllers/farm_controller.dart';
 import '../pages/extensions/extension_homepage.dart';
 import '../pages/extensions/extension_officer_profile.dart';
 import '../pages/veterinary/vet_homepage.dart';
-import '../pages/veterinary/vet_profile.dart';
 
 class SuccessWidget extends StatefulWidget {
   const SuccessWidget({
@@ -57,22 +56,8 @@ class _SuccessWidgetState extends State<SuccessWidget> {
           Get.off(() => const ExtensionHomePage());
 
           break;
-
-        case "vet_pending":
-          Get.off(() => const VeterinaryHomePage());
-
-          break;
-
-        case "ext_pending":
-          Get.off(() => const ExtensionHomePage());
-
-          break;
         case "register":
           Get.to(() => const JoinFarmPage());
-          break;
-
-        case "registerExtensionOfficer":
-          Get.to(() => ExtensionOfficerProfile());
           break;
 
         case "dashboard":

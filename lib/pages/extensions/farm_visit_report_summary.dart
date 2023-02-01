@@ -105,12 +105,15 @@ class FarmVisitReportSummary extends StatelessWidget {
                                                       .spaceBetween,
                                               children: [
                                                 Text(
-                                                  " ${toBeginningOfSentenceCase(innerEntry.key)}",
+                                                  " ${toBeginningOfSentenceCase(innerEntry.key)} :",
                                                   style: TextStyle(
                                                     color: Colors.grey.shade800,
                                                     fontSize: 20,
                                                   ),
                                                 ),
+                                                // const SizedBox(
+                                                //   width: 25,
+                                                // ),
                                                 Text(
                                                   "${innerEntry.value}",
                                                   style: const TextStyle(
@@ -137,19 +140,26 @@ class FarmVisitReportSummary extends StatelessWidget {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text(
-                                          toBeginningOfSentenceCase(
-                                              outerEntry.key),
-                                          style: TextStyle(
-                                            color: Colors.grey.shade800,
-                                            fontSize: 20,
+                                        Expanded(
+                                          child: Text(
+                                            toBeginningOfSentenceCase(
+                                                outerEntry.key),
+                                            style: TextStyle(
+                                              color: Colors.grey.shade800,
+                                              fontSize: 20,
+                                            ),
                                           ),
                                         ),
-                                        Text("${outerEntry.value}",
-                                            style: const TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 18,
-                                            )),
+                                        const SizedBox(
+                                          width: 2,
+                                        ),
+                                        Expanded(
+                                          child: Text("${outerEntry.value}",
+                                              style: const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 18,
+                                              )),
+                                        ),
                                       ],
                                     ),
                                     const Divider(),

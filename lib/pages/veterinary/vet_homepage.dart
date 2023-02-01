@@ -12,7 +12,7 @@ import '../../controllers/farm_controller.dart';
 import '../../controllers/user_controller.dart';
 import '../../theme/colors.dart';
 import '../extensions/farm_visits.dart';
-import '../farm/notifications/view-notification.dart';
+import '../landing_page.dart';
 
 class VeterinaryHomePage extends StatefulWidget {
   const VeterinaryHomePage({super.key});
@@ -26,7 +26,7 @@ class _VeterinaryHomePageState extends State<VeterinaryHomePage> {
   bool isLoading = false;
   static final List<Widget> _pages = <Widget>[
     const DashboardPage(),
-    const FarmVisits(),
+    // const FarmVisits(),
     const ProfilePage()
   ];
   final GlobalKey<ScaffoldState> _dashboardkey = GlobalKey();
@@ -91,10 +91,10 @@ class _VeterinaryHomePageState extends State<VeterinaryHomePage> {
           actions: [
             IconButton(
                 onPressed: () {
-                  Get.to(() => const ViewNotification());
+                  Get.off(() => const LandingPage());
                 },
                 icon: const Icon(
-                  PhosphorIcons.bell,
+                  PhosphorIcons.signOut,
                   color: CustomColors.secondary,
                 ))
           ],
@@ -118,8 +118,8 @@ class _VeterinaryHomePageState extends State<VeterinaryHomePage> {
             icon: Icon(PhosphorIcons.houseLine),
             label: "Home",
           ),
-          BottomNavigationBarItem(
-              icon: Icon(PhosphorIcons.clipboardBold), label: "Farm Visits"),
+          // BottomNavigationBarItem(
+          //     icon: Icon(PhosphorIcons.clipboardBold), label: "Farm Visits"),
           BottomNavigationBarItem(
               icon: Icon(PhosphorIcons.userCircle), label: "Profile"),
           // BottomNavigationBarItem(

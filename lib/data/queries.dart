@@ -49,12 +49,6 @@ class EpoultryQueries {
               user{
                 role,
                 phoneNumber
-                extensionOfficer{
-                      dateApproved
-                  }
-                vetOfficer{
-                    dateApproved
-                }
                 managingFarms{
                   id,
                   name,

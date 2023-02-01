@@ -290,6 +290,10 @@ class _ExtensionOfficerState extends State<ExtensionOfficer> {
                     return GradientWidget(
                       child: ElevatedButton(
                           onPressed: () {
+                            if (phoneNumber.text.startsWith('+254')) {
+                              phoneNumber.text =
+                                  phoneNumber.text.replaceFirst('+254', '0');
+                            }
                             if (_formKey.currentState!.validate()) {
                               _registerButtonPressed(context, runMutation);
                             }

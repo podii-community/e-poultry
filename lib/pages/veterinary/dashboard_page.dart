@@ -91,7 +91,8 @@ class _DashboardPageState extends State<DashboardPage> {
                                   ["farm"]["address"]["subcounty"] ??
                               "none";
                           String visitPorpose = controller.requestsList[index]
-                              ["farmVisit"]["visitPurpose"];
+                                  ["farmVisit"]["visitPurpose"] ??
+                              "none";
                           DateTime date = DateTime.parse(controller
                               .requestsList[index]["farmVisit"]["visitDate"]);
 
