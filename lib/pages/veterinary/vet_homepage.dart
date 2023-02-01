@@ -11,8 +11,8 @@ import 'package:sizer/sizer.dart';
 import '../../controllers/farm_controller.dart';
 import '../../controllers/user_controller.dart';
 import '../../theme/colors.dart';
-import '../extensions/farm_visits.dart';
 import '../landing_page.dart';
+import 'farm_visits.dart';
 
 class VeterinaryHomePage extends StatefulWidget {
   const VeterinaryHomePage({super.key});
@@ -26,7 +26,7 @@ class _VeterinaryHomePageState extends State<VeterinaryHomePage> {
   bool isLoading = false;
   static final List<Widget> _pages = <Widget>[
     const DashboardPage(),
-    // const FarmVisits(),
+    const FarmVisits(),
     const ProfilePage()
   ];
   final GlobalKey<ScaffoldState> _dashboardkey = GlobalKey();
@@ -75,33 +75,34 @@ class _VeterinaryHomePageState extends State<VeterinaryHomePage> {
 
     return Scaffold(
       appBar: AppBar(
-          automaticallyImplyLeading: false,
-          leadingWidth: 80,
-          toolbarHeight: 8.h,
-          backgroundColor: CustomColors.white,
-          elevation: 0.5,
-          leading: InkWell(
-              onTap: () {
-                // widget.drawerKey.currentState!.openDrawer();
+        automaticallyImplyLeading: false,
+        leadingWidth: 80,
+        toolbarHeight: 8.h,
+        backgroundColor: CustomColors.white,
+        elevation: 0.5,
+        leading: InkWell(
+            onTap: () {
+              // widget.drawerKey.currentState!.openDrawer();
+            },
+            child: Image.asset(
+              'assets/logo.png',
+              scale: 2.1,
+            )),
+        actions: [
+          IconButton(
+              onPressed: () {
+                Get.off(() => const LandingPage());
               },
-              child: Image.asset(
-                'assets/logo.png',
-                scale: 2.1,
-              )),
-          actions: [
-            IconButton(
-                onPressed: () {
-                  Get.off(() => const LandingPage());
-                },
-                icon: const Icon(
-                  PhosphorIcons.signOut,
-                  color: CustomColors.secondary,
-                ))
-          ],
-          title: Text(
-            name ?? "E-Poultry Farming",
-            style: const TextStyle(color: Colors.black),
-          )),
+              icon: const Icon(
+                PhosphorIcons.signOut,
+                color: CustomColors.secondary,
+              ))
+        ],
+        title: Text(
+          name ?? "E-Poultry Farming",
+          style: const TextStyle(color: Colors.black),
+        ),
+      ),
       body: IndexedStack(
         key: UniqueKey(),
         index: _selectedIndex,
@@ -118,8 +119,8 @@ class _VeterinaryHomePageState extends State<VeterinaryHomePage> {
             icon: Icon(PhosphorIcons.houseLine),
             label: "Home",
           ),
-          // BottomNavigationBarItem(
-          //     icon: Icon(PhosphorIcons.clipboardBold), label: "Farm Visits"),
+          BottomNavigationBarItem(
+              icon: Icon(PhosphorIcons.clipboardBold), label: "Farm Visits"),
           BottomNavigationBarItem(
               icon: Icon(PhosphorIcons.userCircle), label: "Profile"),
           // BottomNavigationBarItem(
