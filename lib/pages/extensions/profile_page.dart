@@ -17,6 +17,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   late final role = box.get('tokenRole');
   late final phone = box.get('tokenPhone');
+  late final extVerify = box.get("extApproved");
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -115,49 +116,79 @@ class _ProfilePageState extends State<ProfilePage> {
               ],
             ),
             const SizedBox(height: 32),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'ACCOUNT',
-                  style: TextStyle(
-                      color: Color.fromRGBO(1, 33, 56, 0.6000000238418579),
-                      fontFamily: 'Roboto',
-                      fontSize: 12,
-                      letterSpacing: 0.15000000596046448,
-                      fontWeight: FontWeight.normal,
-                      height: 1),
-                ),
-                const Divider(),
-                ListTile(
-                  leading: SvgPicture.asset('assets/user_edit.svg',
-                      semanticsLabel: 'vector'),
-                  title: const Text("Edit Profile"),
-                  trailing: SvgPicture.asset('assets/greater.svg',
-                      semanticsLabel: 'vector'),
-                ),
-                const Divider(),
-                ListTile(
-                  leading: const Icon(
-                    Icons.shield_moon,
-                    color: Colors.black87,
-                  ),
-                  // SvgPicture.asset('assets/tick.svg',
-                  //     semanticsLabel: 'vector'),
-                  title: const Text("Change Password"),
-                  trailing: SvgPicture.asset('assets/greater.svg',
-                      semanticsLabel: 'vector'),
-                ),
-                const Divider(),
-                ListTile(
-                  leading: SvgPicture.asset('assets/plus.svg',
-                      semanticsLabel: 'vector'),
-                  title: const Text("Add Recovery Phone Number"),
-                  trailing: SvgPicture.asset('assets/greater.svg',
-                      semanticsLabel: 'vector'),
-                ),
-              ],
-            ),
+            (extVerify != null)
+                ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'ACCOUNT',
+                        style: TextStyle(
+                            color:
+                                Color.fromRGBO(1, 33, 56, 0.6000000238418579),
+                            fontFamily: 'Roboto',
+                            fontSize: 12,
+                            letterSpacing: 0.15000000596046448,
+                            fontWeight: FontWeight.normal,
+                            height: 1),
+                      ),
+                      const Divider(),
+                      ListTile(
+                        leading: SvgPicture.asset('assets/user_edit.svg',
+                            semanticsLabel: 'vector'),
+                        title: const Text("Edit Profile"),
+                        trailing: SvgPicture.asset('assets/greater.svg',
+                            semanticsLabel: 'vector'),
+                      ),
+                      const Divider(),
+                      ListTile(
+                        leading: const Icon(
+                          Icons.shield_moon,
+                          color: Colors.black87,
+                        ),
+                        // SvgPicture.asset('assets/tick.svg',
+                        //     semanticsLabel: 'vector'),
+                        title: const Text("Change Password"),
+                        trailing: SvgPicture.asset('assets/greater.svg',
+                            semanticsLabel: 'vector'),
+                      ),
+                      const Divider(),
+                      ListTile(
+                        leading: SvgPicture.asset('assets/plus.svg',
+                            semanticsLabel: 'vector'),
+                        title: const Text("Add Recovery Phone Number"),
+                        trailing: SvgPicture.asset('assets/greater.svg',
+                            semanticsLabel: 'vector'),
+                      ),
+                    ],
+                  )
+                : Container(
+                    width: double.infinity,
+                    margin: const EdgeInsets.symmetric(vertical: 15),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 40, vertical: 40),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: const Color(0xfff6fbff)),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: const [
+                        Text("#Pending Approval",
+                            style: TextStyle(
+                              color: Colors.blue,
+                              fontSize: 22,
+                            )),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          "We are reviewing your account details. We’ll notify you as soon as it has been approved, till then you might not be able to acces some features.",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ],
+                    ))
           ],
         ),
       ),
