@@ -463,26 +463,27 @@ class _FarmVisitsState extends State<FarmVisits> {
                               ),
                             );
                           } else {
-                            return Align(
-                              alignment: Alignment.topLeft,
-                              child: Container(
-                                width: double.infinity,
-                                margin:
-                                    const EdgeInsets.symmetric(vertical: 15),
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 40, vertical: 40),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: const Color(0xfff6fbff)),
-                                child: const Text(
-                                  "All your previous service requests will appear here .",
-                                  style: TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: 18,
-                                  ),
-                                ),
-                              ),
-                            );
+                            return Container();
+                            // return Align(
+                            //   alignment: Alignment.topLeft,
+                            //   child: Container(
+                            //     width: double.infinity,
+                            //     margin:
+                            //         const EdgeInsets.symmetric(vertical: 15),
+                            //     padding: const EdgeInsets.symmetric(
+                            //         horizontal: 40, vertical: 40),
+                            //     decoration: BoxDecoration(
+                            //         borderRadius: BorderRadius.circular(10),
+                            //         color: const Color(0xfff6fbff)),
+                            //     child: const Text(
+                            //       "All your previous service requests will appear here .",
+                            //       style: TextStyle(
+                            //         color: Colors.grey,
+                            //         fontSize: 18,
+                            //       ),
+                            //     ),
+                            //   ),
+                            // );
                           }
                         });
               },
