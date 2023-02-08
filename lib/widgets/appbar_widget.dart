@@ -27,32 +27,35 @@ class AppbarWidget extends StatelessWidget implements PreferredSizeWidget {
     final userController = Get.find<UserController>();
 
     return AppBar(
-        automaticallyImplyLeading: false,
-        leadingWidth: 80,
-        toolbarHeight: 8.h,
-        backgroundColor: CustomColors.white,
-        elevation: 0.5,
-        leading: InkWell(
-            onTap: () {
-              drawerKey.currentState!.openDrawer();
+      automaticallyImplyLeading: false,
+      leadingWidth: 80,
+      toolbarHeight: 8.h,
+      backgroundColor: CustomColors.white,
+      elevation: 0.5,
+      leading: InkWell(
+          onTap: () {
+            drawerKey.currentState!.openDrawer();
+          },
+          child: Image.asset(
+            'assets/logo.png',
+            scale: 2.1,
+          )),
+      actions: [
+        IconButton(
+            onPressed: () {
+              Get.to(() => const ViewNotification());
             },
-            child: Image.asset(
-              'assets/logo.png',
-              scale: 2.1,
-            )),
-        actions: [
-          IconButton(
-              onPressed: () {
-                Get.to(() => const ViewNotification());
-              },
-              icon: const Icon(
-                PhosphorIcons.bell,
-                color: CustomColors.secondary,
-              ))
-        ],
-        title: Obx((() => Text(
+            icon: const Icon(
+              PhosphorIcons.bell,
+              color: CustomColors.secondary,
+            ))
+      ],
+      title: Obx(
+        (() => Text(
               controller.farm.value['name'] ?? 'E-Poultry Farming',
               style: const TextStyle(color: Colors.black),
-            ))));
+            )),
+      ),
+    );
   }
 }

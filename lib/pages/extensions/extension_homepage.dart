@@ -13,7 +13,6 @@ import 'package:sizer/sizer.dart';
 import '../../controllers/farm_controller.dart';
 import '../../controllers/user_controller.dart';
 import '../../theme/colors.dart';
-import '../farm/notifications/view-notification.dart';
 
 class ExtensionHomePage extends StatefulWidget {
   const ExtensionHomePage({super.key});
@@ -91,7 +90,7 @@ class _ExtensionHomePageState extends State<ExtensionHomePage> {
           actions: [
             IconButton(
                 onPressed: () {
-                  Get.to(() => const LandingPage());
+                  Get.off(() => const LandingPage());
                 },
                 icon: const Icon(
                   PhosphorIcons.signOut,

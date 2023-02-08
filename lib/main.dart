@@ -59,6 +59,7 @@ class _EpoultryState extends State<Epoultry> {
       return request.operation.operationName == 'RequestLoginOtp' ||
           request.operation.operationName == "VerifyOtp" ||
           request.operation.operationName == "RegisterExtensionOfficer" ||
+          request.operation.operationName == "RegisterVetOfficer" ||
           request.operation.operationName == "RegisterUser";
     }, authentication, link);
   }
@@ -88,12 +89,8 @@ class _EpoultryState extends State<Epoultry> {
 
   final queries = EpoultryQueries();
 
-  //late is for lazy initialization
-  //rather than assigning the values
   late final token = box.get("token");
   late final role = box.get("tokenRole");
-  late final extVerify = box.get("extApproved");
-  late final vetVerify = box.get("vetApproved");
   // print(role);
   final FarmsController controller =
       Get.put(FarmsController(), permanent: true);
@@ -115,14 +112,14 @@ class _EpoultryState extends State<Epoultry> {
                 localizationsDelegates: const [
                   FormBuilderLocalizations.delegate,
                 ],
-                home: checkAuth(token, role, extVerify, vetVerify)),
+                home: checkAuth(token, role)),
           ),
         );
       },
     );
   }
 
-  Widget checkAuth(token, role, extVerify, vetVerify) {
+  Widget checkAuth(token, role) {
     if (token?.toString().isNotEmpty != true) {
       return const LandingPage();
     }

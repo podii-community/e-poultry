@@ -219,65 +219,34 @@ class _OtpPageState extends State<OtpPage> {
         box.put('tokenRole', role);
         box.put('tokenPhone', phone);
 
-        if (data['verifyOtp'] != null && data['verifyOtp']['user'] != null) {
-          if (data['verifyOtp']['user']["extensionOfficer"] != null) {
-            final extApproved =
-                data['verifyOtp']['user']["extensionOfficer"]["dateApproved"];
-            box.put('extApproved', extApproved);
-            if (role == "EXTENSION_OFFICER" && extApproved != null) {
-              route = 'extension';
-            } else {
-              route = "ext_pending";
-            }
-          }
-          if (data['verifyOtp']['user']["vetOfficer"] != null) {
-            final vetApproved =
-                data['verifyOtp']['user']["vetOfficer"]["dateApproved"];
-            box.put('vetApproved', vetApproved);
-            if (role == "VET_OFFICER" && vetApproved != null) {
-              route = 'vet';
-            } else {
-              route = "vet_pending";
-            }
-          }
-        }
-        // final tokenrole = data['verifyOtp']['user']["role"];
-
-        if (data['verifyOtp'] != null && data['verifyOtp']['user'] != null) {
-          if (data['verifyOtp']['user']["extensionOfficer"] != null) {
-            final extApproved =
-                data['verifyOtp']['user']["extensionOfficer"]["dateApproved"];
-            box.put('extApproved', extApproved);
-            if (role == "EXTENSION_OFFICER" && extApproved != null) {
-              route = 'extension';
-            } else {
-              route = "ext_pending";
-            }
-          }
-          if (data['verifyOtp']['user']["vetOfficer"] != null) {
-            final vetApproved =
-                data['verifyOtp']['user']["vetOfficer"]["dateApproved"];
-            box.put('vetApproved', vetApproved);
-            if (role == "VET_OFFICER" && vetApproved != null) {
-              route = 'vet';
-            } else {
-              route = "vet_pending";
-            }
-          }
-        }
-        // final tokenrole = data['verifyOtp']['user']["role"];
-
         if (role == "FARMER") route = "farmer";
         if (role == "FARM_MABAGER") route = 'farm_manager';
-        // if (role == "VET_OFFICER" && vetApproved != null) {
-        //   route = 'vet';
-        // } else {
-        //   route = "vet_pending";
-        // }
-        // if (role == "EXTENSION_OFFICER" && extApproved != null) {
-        //   route = 'extension';
-        // } else {
-        //   route = "ext_pending";
+        if (data['verifyOtp'] != null && data['verifyOtp']['user'] != null) {
+          if (data['verifyOtp']['user']["extensionOfficer"] != null) {
+            final extApproved =
+                data['verifyOtp']['user']["extensionOfficer"]["dateApproved"];
+            box.put('extApproved', extApproved);
+            if (role == "EXTENSION_OFFICER") {
+              route = 'extension';
+            }
+          }
+          if (data['verifyOtp']['user']["vetOfficer"] != null) {
+            final vetApproved =
+                data['verifyOtp']['user']["vetOfficer"]["dateApproved"];
+            box.put('vetApproved', vetApproved);
+            if (role == "VET_OFFICER") {
+              route = 'vet';
+            }
+          }
+        }
+
+        // if (data['verifyOtp'] != null && data['verifyOtp']['user'] != null) {
+        //   if (data['verifyOtp']['user']["extensionOfficer"] != null) {
+
+        //   }
+        //   if (data['verifyOtp']['user']["vetOfficer"] != null) {
+
+        //   }
         // }
 
         Get.offAll(() => SuccessWidget(

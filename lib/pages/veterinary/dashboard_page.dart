@@ -8,6 +8,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../../controllers/farm_controller.dart';
 import '../../controllers/user_controller.dart';
 import '../../theme/spacing.dart';
+import '../extensions/requests_page.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -53,7 +54,6 @@ class _DashboardPageState extends State<DashboardPage> {
             ),
             Expanded(
               child: Obx(() {
-                // getFarmReports;
                 return controller.requestsList.isEmpty
                     ? Align(
                         alignment: Alignment.topLeft,
@@ -77,28 +77,46 @@ class _DashboardPageState extends State<DashboardPage> {
                     : ListView.builder(
                         itemCount: controller.requestsList.length,
                         itemBuilder: (context, index) {
-                          String farmName =
+                          String? farmName =
                               controller.requestsList[index]["farm"]["name"];
-                          String name = controller.requestsList[index]["farm"]
+                          String? name = controller.requestsList[index]["farm"]
                                   ["owner"]["firstName"]! +
                               " " +
                               controller.requestsList[index]["farm"]["owner"]
                                   ["lastName"]!;
-                          String county = controller.requestsList[index]["farm"]
-                                  ["address"]["county"] ??
-                              "none";
-                          String subCounty = controller.requestsList[index]
+                          String id = controller.requestsList[index]["id"];
+                          String? county = controller.requestsList[index]
+                                  ["farm"]["address"]["county"] ??
+                              "Kisumu";
+                          String? subCounty = controller.requestsList[index]
                                   ["farm"]["address"]["subcounty"] ??
-                              "none";
-                          String visitPorpose = controller.requestsList[index]
-                              ["farmVisit"]["visitPurpose"];
-                          DateTime date = DateTime.parse(controller
-                              .requestsList[index]["farmVisit"]["visitDate"]);
+                              "Kisumu East";
+                          String? visitPorpose;
+                          if (controller.requestsList[index]["farmVisit"] !=
+                              null) {
+                            visitPorpose = controller.requestsList[index]
+                                    ["farmVisit"]["visitPurpose"] ??
+                                "#Medical Help";
+                            // String? visit = controller.requestsList[index]
+                            //     ["farmVisit"]["visitPurpose"];
 
-                          DateTime time = DateTime.parse(
+                          } else {
+                            visitPorpose = "Medical Help";
+                            // DateTime? date = DateTime.parse(controller
+                            //     .requestsList[index]["farmVisit"]["visitDate"]);
+                          }
+
+                          DateTime? time = DateTime.parse(
                               controller.requestsList[index]['createdAt']);
 
-                          String formattedTime = DateFormat.jms().format(time);
+                          DateTime? date = controller.requestsList[index]
+                                      ["farmVisit"] ==
+                                  null
+                              ? DateTime.now()
+                              : DateTime.parse(controller.requestsList[index]
+                                  ["farmVisit"]["visitDate"]);
+
+                          String? formattedTime = DateFormat.jms().format(time);
 
                           String day = DateFormat.EEEE().format(date);
                           String dayNumberSuffix = 'th';
@@ -112,66 +130,83 @@ class _DashboardPageState extends State<DashboardPage> {
                           } else if (dayNumber == 3 || dayNumber == 23) {
                             dayNumberSuffix = 'rd';
                           }
-                          String formattedDate =
-                              "$day, $dayNumber$dayNumberSuffix ${DateFormat.MMMM().format(date)} ${date.year.toString().substring(2)}";
+                          String? formattedDate =
+                              "$day, $dayNumber$dayNumberSuffix ${DateFormat.MMMM().format(date)} ${date.year.toString()}";
 
-                          return Container(
-                            margin: const EdgeInsets.symmetric(vertical: 5),
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: const Color(0xfff6fbff)),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "#$visitPorpose",
-                                      style: const TextStyle(
-                                        color: Colors.red,
+                          return (controller.requestsList[index]["farmVisit"] ==
+                                  null)
+                              ? Container(
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 5),
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: const Color(0xfff6fbff)),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            "#$visitPorpose",
+                                            style: TextStyle(
+                                              color:
+                                                  visitPorpose == "Medical Help"
+                                                      ? Colors.red
+                                                      : Colors.blue,
+                                            ),
+                                            // style: TextStyelsjn,
+                                          ),
+                                          Text(
+                                            formattedTime,
+                                            style: const TextStyle(
+                                              color: Colors.grey,
+                                              fontSize: 12,
+                                            ),
+                                            // style: TextStyelsjn,
+                                          )
+                                        ],
                                       ),
-                                      // style: TextStyelsjn,
-                                    ),
-                                    Text(
-                                      formattedTime,
-                                      style: const TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 12,
+                                      const SizedBox(
+                                        height: 5,
                                       ),
-                                      // style: TextStyelsjn,
-                                    )
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: 5,
-                                ),
-                                Text(
-                                  "$farmName visit request on $formattedDate.",
-                                  style: const TextStyle(fontSize: 18),
-                                ),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                        child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text("Request by $name"),
-                                        Text("$farmName, $county, $subCounty"),
-                                      ],
-                                    )),
-                                    IconButton(
-                                        onPressed: () {},
-                                        icon: const Icon(
-                                            PhosphorIcons.arrowCircleRightBold))
-                                  ],
+                                      Text(
+                                        "$farmName visit request on $formattedDate .",
+                                        style: const TextStyle(fontSize: 18),
+                                      ),
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                              child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text("Request by $name"),
+                                              Text(
+                                                  "$farmName, $county, $subCounty"),
+                                            ],
+                                          )),
+                                          IconButton(
+                                              onPressed: () {
+                                                Get.to(
+                                                  () => RequestsPage(
+                                                    extensionServiceId: id,
+                                                  ),
+                                                );
+                                                // controller.requestsList[index];
+                                                // Get.to(() => const RequestsPage());
+                                              },
+                                              icon: const Icon(PhosphorIcons
+                                                  .arrowCircleRightBold))
+                                        ],
+                                      )
+                                    ],
+                                  ),
                                 )
-                              ],
-                            ),
-                          );
+                              : Container();
                         },
                       );
               }),
@@ -196,7 +231,6 @@ class _DashboardPageState extends State<DashboardPage> {
         },
       ),
     );
-    // final data = fetchRequests.data?['extensionServiceRequests'];
 
     List requests = [];
 

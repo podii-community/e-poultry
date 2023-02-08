@@ -11,8 +11,8 @@ import 'package:sizer/sizer.dart';
 import '../../controllers/farm_controller.dart';
 import '../../controllers/user_controller.dart';
 import '../../theme/colors.dart';
-import '../extensions/farm_visits.dart';
-import '../farm/notifications/view-notification.dart';
+import '../landing_page.dart';
+import 'farm_visits.dart';
 
 class VeterinaryHomePage extends StatefulWidget {
   const VeterinaryHomePage({super.key});
@@ -75,33 +75,34 @@ class _VeterinaryHomePageState extends State<VeterinaryHomePage> {
 
     return Scaffold(
       appBar: AppBar(
-          automaticallyImplyLeading: false,
-          leadingWidth: 80,
-          toolbarHeight: 8.h,
-          backgroundColor: CustomColors.white,
-          elevation: 0.5,
-          leading: InkWell(
-              onTap: () {
-                // widget.drawerKey.currentState!.openDrawer();
+        automaticallyImplyLeading: false,
+        leadingWidth: 80,
+        toolbarHeight: 8.h,
+        backgroundColor: CustomColors.white,
+        elevation: 0.5,
+        leading: InkWell(
+            onTap: () {
+              // widget.drawerKey.currentState!.openDrawer();
+            },
+            child: Image.asset(
+              'assets/logo.png',
+              scale: 2.1,
+            )),
+        actions: [
+          IconButton(
+              onPressed: () {
+                Get.off(() => const LandingPage());
               },
-              child: Image.asset(
-                'assets/logo.png',
-                scale: 2.1,
-              )),
-          actions: [
-            IconButton(
-                onPressed: () {
-                  Get.to(() => const ViewNotification());
-                },
-                icon: const Icon(
-                  PhosphorIcons.bell,
-                  color: CustomColors.secondary,
-                ))
-          ],
-          title: Text(
-            name ?? "E-Poultry Farming",
-            style: const TextStyle(color: Colors.black),
-          )),
+              icon: const Icon(
+                PhosphorIcons.signOut,
+                color: CustomColors.secondary,
+              ))
+        ],
+        title: Text(
+          name ?? "E-Poultry Farming",
+          style: const TextStyle(color: Colors.black),
+        ),
+      ),
       body: IndexedStack(
         key: UniqueKey(),
         index: _selectedIndex,

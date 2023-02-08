@@ -55,6 +55,7 @@ class EpoultryQueries {
                 vetOfficer{
                     dateApproved
                 }
+
                 managingFarms{
                   id,
                   name,

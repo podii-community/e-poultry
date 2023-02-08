@@ -202,7 +202,7 @@ class _ChooseExtensionState extends State<ChooseExtension> {
                         ),
                         const Expanded(
                           child: Text(
-                            'I\'m a veterinary officer looking to offer services to farmers',
+                            'I\'m a Veterinary officer looking to offer services to farmers',
                             style: TextStyle(fontSize: 18),
                           ),
                         ),
