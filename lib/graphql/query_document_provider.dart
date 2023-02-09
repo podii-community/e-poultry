@@ -38,6 +38,19 @@ extension BuildContextExtension on BuildContext {
   String get retrieveToken =>
       graphQlClient.cache.store.get('AppData')!['token'];
 
+  // void showError(ErrorModel error) {
+  //   SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+  //     final scaffold = Scaffold.of(this);
+  //     Scaffold.of(this).showSnackBar(
+  //       SnackBar(
+  //         content: Text(error.error),
+  //         backgroundColor: Colors.red,
+  //         duration: const Duration(seconds: 5),
+  //       ),
+  //     );
+  //   });
+  // }
+
   void showError(ErrorModel error) {
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       Fluttertoast.showToast(
@@ -49,9 +62,9 @@ extension BuildContextExtension on BuildContext {
           fontSize: 16.0);
       // ScaffoldMessenger.of(this).showMaterialBanner(
       //   MaterialBanner(
-      //     backgroundColor: theme.colorScheme.primary,
-      //     contentTextStyle:
-      //         theme.textTheme.headline5!.copyWith(color: Colors.white),
+      // backgroundColor: theme.colorScheme.primary,
+      // contentTextStyle:
+      //     theme.textTheme.headline5!.copyWith(color: Colors.white),
       //     content: Text(error.error),
       //     actions: [
       //       InkWell(

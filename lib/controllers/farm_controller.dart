@@ -1,3 +1,4 @@
+import 'package:epoultry/pages/extensions/farm_visit_report.dart';
 import 'package:get/get.dart';
 
 class FarmsController extends GetxController {
@@ -8,6 +9,7 @@ class FarmsController extends GetxController {
   List foundBatches = [].obs;
   Iterable<dynamic> results = [].obs;
   final reportsList = [].obs;
+  final requestsList = [].obs;
   final filteredReports = [].obs;
   final selectedBatch = {}.obs;
   final storeItems = [].obs;
@@ -15,6 +17,8 @@ class FarmsController extends GetxController {
   final kienyejiFeed = <String>[].obs;
   final broilerFeeds = <String>[].obs;
   final layersFeeds = <String>[].obs;
+  final vaccinationList = [].obs;
+  final extensionRequests = [].obs;
 
   final selectedCountyName = "".obs;
   final selectedSubCountyName = "Choose subcounty".obs;
@@ -49,6 +53,49 @@ class FarmsController extends GetxController {
       "reportDate": "".obs,
       "sawdustReport": {"inStore": {}.obs, "received": {}.obs, "used": {}.obs},
       "weightReport": {"averageWeight": "".obs}
+    }
+  };
+
+  final farmVisitReport = {
+    "data": {
+      "compound": {
+        "landscape": "".obs,
+        "security": "".obs,
+        "tankCleanliness": "".obs,
+      },
+      "extensionServiceId": "".obs,
+      "farmInformation": {
+        "ageType": "".obs,
+        "birdAge": 0.obs,
+        "birdType": "".obs,
+        "deliveredBirdCount": 0.obs,
+        "farmAssistantContact": "".obs,
+        "farmOfficerContact": "".obs,
+        "mortality": 0.obs,
+        "remainingBirdCount": 0.obs
+      },
+      "farmTeam": {
+        "cleanliness": "".obs,
+        "gumboots": "".obs,
+        "uniforms": "".obs,
+      },
+      "generalObservation": "".obs,
+      "housingInspection": {
+        "bioSecurity": "".obs,
+        "cobwebs": "".obs,
+        "drinkers": "".obs,
+        "dust": "".obs,
+        "feeders": "".obs,
+        "lighting": "".obs,
+        "repairAndMaintainance": "".obs,
+        "ventilation": "".obs,
+      },
+      "recommendations": "".obs,
+      "store": {
+        "cleanliness": "".obs,
+        "arrangement": "".obs,
+        "stockTake": "".obs,
+      },
     }
   };
 

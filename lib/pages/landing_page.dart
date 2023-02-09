@@ -1,5 +1,4 @@
 import 'package:epoultry/pages/auth/login.dart';
-import 'package:epoultry/pages/auth/registration.dart';
 import 'package:epoultry/theme/colors.dart';
 import 'package:epoultry/theme/spacing.dart';
 import 'package:epoultry/widgets/gradient_widget.dart';
@@ -8,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
+import 'onboarding/extension_option.dart';
 
 class LandingPage extends StatelessWidget {
   const LandingPage({Key? key}) : super(key: key);
@@ -45,7 +45,7 @@ class LandingPage extends StatelessWidget {
                 child: GradientWidget(
                   child: ElevatedButton(
                     onPressed: () {
-                      Get.to(() => const RegistrationPage());
+                      Get.to(() => const ChooseExtension());
                     },
                     style: ElevatedButton.styleFrom(
                         foregroundColor: CustomColors.background,

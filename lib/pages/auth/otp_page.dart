@@ -200,6 +200,7 @@ class _OtpPageState extends State<OtpPage> {
       GraphQLConfiguration.setToken(data['verifyOtp']['apiKey']);
 
       if (data['verifyOtp']['user']['managingFarms'].isNotEmpty ||
+          data['verifyOtp']['user'].isNotEmpty ||
           data['verifyOtp']['user']['ownedFarms'].isNotEmpty) {
         // List managingFarms = data['verifyOtp']['user']!["managingFarms"];
         // List ownedFarms = data['verifyOtp']['user']!["ownedFarms"];
@@ -212,10 +213,45 @@ class _OtpPageState extends State<OtpPage> {
         // controller.farm.value = farms[0];
         // controller.selectedFarmId.value = farms[0]['id'];
         // controller.updateBatches(farms[0]['batches']);
+        final role = data['verifyOtp']['user']["role"];
+        final phone = data['verifyOtp']['user']["phoneNumber"];
+        String route = widget.route;
+        box.put('tokenRole', role);
+        box.put('tokenPhone', phone);
+
+        if (role == "FARMER") route = "farmer";
+        if (role == "FARM_MABAGER") route = 'farm_manager';
+        if (data['verifyOtp'] != null && data['verifyOtp']['user'] != null) {
+          if (data['verifyOtp']['user']["extensionOfficer"] != null) {
+            final extApproved =
+                data['verifyOtp']['user']["extensionOfficer"]["dateApproved"];
+            box.put('extApproved', extApproved);
+            if (role == "EXTENSION_OFFICER") {
+              route = 'extension';
+            }
+          }
+          if (data['verifyOtp']['user']["vetOfficer"] != null) {
+            final vetApproved =
+                data['verifyOtp']['user']["vetOfficer"]["dateApproved"];
+            box.put('vetApproved', vetApproved);
+            if (role == "VET_OFFICER") {
+              route = 'vet';
+            }
+          }
+        }
+
+        // if (data['verifyOtp'] != null && data['verifyOtp']['user'] != null) {
+        //   if (data['verifyOtp']['user']["extensionOfficer"] != null) {
+
+        //   }
+        //   if (data['verifyOtp']['user']["vetOfficer"] != null) {
+
+        //   }
+        // }
 
         Get.offAll(() => SuccessWidget(
               message: 'Your phone number has been verified',
-              route: widget.route,
+              route: route,
             ));
       } else {
         Get.to(() => const JoinFarmPage());

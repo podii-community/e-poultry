@@ -11,6 +11,28 @@ class EpoultryQueries {
       """;
   }
 
+  String registerExtensionOfficer() {
+    return """
+        mutation RegisterExtensionOfficer(\$data: RegisterExtensionOfficerInput!){
+            registerExtensionOfficer(data:\$data){
+                 firstName,
+                 lastName
+            }
+        }
+      """;
+  }
+
+  String registerVeterinaryOfficer() {
+    return """
+        mutation RegisterVetOfficer(\$data: RegisterVetOfficerInput!){
+            registerVetOfficer(data:\$data){
+                 firstName,
+                 lastName
+            }
+        }
+      """;
+  }
+
   String login() {
     return """
         mutation RequestLoginOtp(\$phoneNumber: String!){
@@ -25,6 +47,15 @@ class EpoultryQueries {
          verifyOtp(otpCode: \$otpCode,phoneNumber: \$phoneNumber){
               apiKey,
               user{
+                role,
+                phoneNumber
+                extensionOfficer{
+                      dateApproved
+                  }
+                vetOfficer{
+                    dateApproved
+                }
+
                 managingFarms{
                   id,
                   name,
@@ -529,6 +560,49 @@ class EpoultryQueries {
   """;
   }
 
+  String counties() {
+    return """
+      query Counties{
+          counties{
+              code,
+              name,
+              subcounties{
+                code,
+                name
+              }
+        
+          }
+      }
+
+  """;
+  }
+
+  String subcounties() {
+    return """
+      query Subcounties(\$code: Int!){
+          subcounty(code: \$code){
+              code,
+              name,
+          }
+      }
+  """;
+  }
+
+  String wards() {
+    return """
+      query Wards(\$code: Int!){
+          subcounty(code: \$code){
+              code,
+              name,
+              wards{
+                code,
+                name
+              }
+          }
+      }
+  """;
+  }
+
   String storeItems() {
     return """
     query StoreItems(\$filter: StoreItemsFilterInput!){
@@ -538,6 +612,230 @@ class EpoultryQueries {
         name
       }
     }
+    """;
+  }
+
+  String requestMedicalVisit() {
+    return """
+      mutation RequestMedicalVisit(\$data: RequestMedicalVisitInput!){
+        requestMedicalVisit(data: \$data){
+          farmId
+        }
+      }
+      """;
+  }
+
+  String farmRequests() {
+    return """
+    query FarmRequests(\$filter: ExtensionServiceFilterInput!){
+      extensionServiceRequests(filter: \$filter){
+        createdAt
+    id
+        farmId
+    farmVisitReport{
+      id
+      compound{
+              security
+              tankCleanliness
+              landscape
+            }
+            farmInformation{
+              ageType
+              birdAge
+              birdType
+              deliveredBirdCount
+              remainingBirdCount
+              mortality
+              farmOfficerContact
+              farmAssistantContact
+            }
+            farmTeam{
+              cleanliness
+              gumboots
+              uniforms
+            }
+            generalObservation
+            housingInspection{
+              bioSecurity
+              cobwebs
+              drinkers
+              dust
+              feeders
+              lighting
+              repairAndMaintainance
+              ventilation
+            }
+            recommendations
+            store{
+              arrangement
+              cleanliness
+              stockTake
+            }
+    }
+    
+        status
+        id
+        farmVisit{
+          description
+          report{
+            id
+            
+          }
+          visitDate
+          visitPurpose
+        }
+        
+        medicalVisit{
+          description
+          ageType
+          birdAge
+          birdCount
+          birdType
+    }
+        farm{
+          name
+          address{
+            county
+            subcounty
+          }
+          owner{
+            firstName
+            lastName
+          }
+        }
+      }
+}
+""";
+  }
+
+  String createFarmVisitReport() {
+    return """
+    mutation CreateFarmVisitReport(\$data:CreateFarmVisitReportInput!){
+      createFarmVisitReport(data: \$data) {
+        compound{
+          landscape
+          security
+          tankCleanliness
+        }
+        farmInformation{
+          ageType
+          birdAge
+          birdType
+          deliveredBirdCount
+          farmOfficerContact
+          farmOfficerContact
+          mortality
+          remainingBirdCount
+        }
+        farmTeam{
+          cleanliness
+          gumboots
+          uniforms
+        }
+        generalObservation
+        housingInspection{
+          bioSecurity
+          cobwebs
+          dust
+          drinkers
+          feeders
+          lighting
+          repairAndMaintainance
+          ventilation
+        }
+        id
+        recommendations
+        store{
+          arrangement
+          cleanliness
+          stockTake
+        }
+      }
+}
+""";
+  }
+
+  String requestFarmVisit() {
+    return """
+    mutation RequestFarmVisit(\$data: RequestFarmVisitInput!){
+      requestFarmVisit(data: \$data){
+        farmId
+      }
+    }
+    """;
+  }
+
+  String listBatchVaccination() {
+    return """
+      query ListBatchVaccination(\$batchId: UUID){
+         listBatchVaccinations(batchId: \$batchId){
+            id,
+            status,
+            dateScheduled,
+            batchId,
+            vaccinationSchedule{
+              vaccineName,
+              description
+            }
+         } 
+      }
+    """;
+  }
+
+  String completeBatchVaccination() {
+    return """
+      mutation CompleteBatchVaccination(\$vaccinationId: UUID!){
+          completeBatchVaccination(vaccinationId: \$vaccinationId){
+            batchId,
+            id,
+            status,
+            completer{
+              id
+            }
+          }
+      }
+
+      """;
+  }
+
+  String getExtensionServiceRequests() {
+    return """
+    query ExtensionServiceRequest(\$filter: ExtensionServiceFilterInput!){
+        extensionServiceRequests(filter: \$filter){
+          farmId,
+          status,
+          createdAt,
+          farmVisit{
+            visitPurpose
+          },
+          medicalVisit{
+            ageType,
+            birdAge,
+            birdCount,
+            birdType
+          }
+        }
+    }
+    """;
+  }
+
+  String acceptExtensionRequest() {
+    return """
+    mutation AcceptExtensionRequestService(\$extensionServiceId: UUID!) {
+      acceptExtensionRequest(extensionServiceId: \$extensionServiceId) {
+        status
+  }
+}
+    """;
+  }
+
+  String cancelExtensionRequest() {
+    return """
+    mutation CancelExtensionRequestService(\$extensionServiceId: UUID!) {
+      cancelExtensionRequest(extensionServiceId: \$extensionServiceId) {
+        status
+  }
+}
     """;
   }
 }

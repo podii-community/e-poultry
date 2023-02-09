@@ -33,10 +33,10 @@ class _FeedReceivedState extends State<FeedReceived> {
   final kienyejiGrowersReceived = TextEditingController();
   // final chickMashReceived = TextEditingController();
 
-  var kienyejiFeeds = ["Chicken Duck Mash", "Kienyeji Growers Mash"];
+  var kienyejiFeeds = ["CHICK & DUCK Mash", "Kienyeji Growers Mash"];
 
   var layersFeeds = [
-    "Chicken Duck Mash",
+    "CHICK & DUCK Mash",
     "Growers Mash",
     "Layers Mash",
   ];
@@ -188,7 +188,7 @@ class _FeedReceivedState extends State<FeedReceived> {
                                                   width: 0.3.w,
                                                   color: CustomColors
                                                       .secondary)))),
-                                  items: controller.layersFeeds.value,
+                                  items: layersFeeds,
                                   popupProps:
                                       const PopupPropsMultiSelection.menu(
                                     showSelectedItems: true,
@@ -226,7 +226,7 @@ class _FeedReceivedState extends State<FeedReceived> {
                                                   width: 0.3.w,
                                                   color: CustomColors
                                                       .secondary)))),
-                                  items: controller.broilerFeeds.value,
+                                  items: broilersFeeds,
                                   popupProps:
                                       const PopupPropsMultiSelection.menu(
                                     showSelectedItems: true,
@@ -264,7 +264,7 @@ class _FeedReceivedState extends State<FeedReceived> {
                                                   width: 0.3.w,
                                                   color: CustomColors
                                                       .secondary)))),
-                                  items: controller.kienyejiFeed.value,
+                                  items: kienyejiFeeds,
                                   popupProps:
                                       const PopupPropsMultiSelection.menu(
                                     showSelectedItems: true,
@@ -355,9 +355,9 @@ class _FeedReceivedState extends State<FeedReceived> {
                           const SizedBox(
                             height: CustomSpacing.s3,
                           ),
-                          _selectedFeeds.contains("CHICKEN_DUCK_MASH") ||
+                          _selectedFeeds.contains("CHICK & DUCK MASH") ||
                                   _selectedFeeds
-                                          .contains("Chicken Duck Mash") &&
+                                          .contains("Chick & Duck Mash") &&
                                       ((widget.batchDetails.type!.name) ==
                                               "LAYERS" ||
                                           (widget.batchDetails.type!.name) ==
@@ -512,7 +512,7 @@ class _FeedReceivedState extends State<FeedReceived> {
                               DateTime(now.year, now.month, now.day);
                           var feedsReceivedReports = [
                             {
-                              "feedType": "CHICKEN_DUCK_MASH",
+                              "feedType": "CHICK & DUCK_MASH",
                               "quantity": chickDuckMashReceived.text.isEmpty
                                   ? 0
                                   : int.parse(chickDuckMashReceived.text)

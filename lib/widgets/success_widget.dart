@@ -13,6 +13,9 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
 import '../controllers/farm_controller.dart';
+import '../pages/extensions/extension_homepage.dart';
+import '../pages/extensions/extension_officer_profile.dart';
+import '../pages/veterinary/vet_homepage.dart';
 
 class SuccessWidget extends StatefulWidget {
   const SuccessWidget({
@@ -37,8 +40,20 @@ class _SuccessWidgetState extends State<SuccessWidget> {
     super.initState();
     _timer = Timer(const Duration(milliseconds: 1200), () {
       switch (widget.route) {
-        case "login":
+        case "farmer":
           Get.off(() => const FarmDashboardPage());
+
+          break;
+        case "farm_manager":
+          Get.off(() => const FarmDashboardPage());
+
+          break;
+        case "vet":
+          Get.off(() => const VeterinaryHomePage());
+
+          break;
+        case "extension":
+          Get.off(() => const ExtensionHomePage());
 
           break;
         case "register":

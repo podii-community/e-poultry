@@ -1,4 +1,3 @@
-
 import 'package:epoultry/pages/auth/registration.dart';
 import 'package:epoultry/graphql/query_document_provider.dart';
 import 'package:epoultry/widgets/gradient_widget.dart';
@@ -115,6 +114,10 @@ class _LoginPageState extends State<LoginPage> {
                 return GradientWidget(
                   child: ElevatedButton(
                       onPressed: () {
+                        if (phoneNumber.text.startsWith('+254')) {
+                          phoneNumber.text =
+                              phoneNumber.text.replaceFirst('+254', '0');
+                        }
                         if (_formKey.currentState!.validate()) {
                           _loginButtonPressed(context, runMutation);
                         }
@@ -177,6 +180,10 @@ class _LoginPageState extends State<LoginPage> {
     }
 
     if (data["requestLoginOtp"]) {
+      // Get.snackbar(
+      //   "Title",
+      //   "This is a thankyou message",
+      // );
       Get.to(() => OtpPage(route: "login", phone: phone));
     }
   }

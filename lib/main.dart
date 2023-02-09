@@ -1,10 +1,11 @@
-
 import 'package:epoultry/data/queries.dart';
 import 'package:epoultry/graphql/graphql_config.dart';
 
 import 'package:epoultry/graphql/query_document_provider.dart';
+import 'package:epoultry/pages/extensions/extension_homepage.dart';
 import 'package:epoultry/pages/farm/dashboard/farm_dashboard_page.dart';
 import 'package:epoultry/pages/landing_page.dart';
+import 'package:epoultry/pages/veterinary/vet_homepage.dart';
 import 'package:epoultry/theme/custom_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -57,6 +58,8 @@ class _EpoultryState extends State<Epoultry> {
     return Link.split((request) {
       return request.operation.operationName == 'RequestLoginOtp' ||
           request.operation.operationName == "VerifyOtp" ||
+          request.operation.operationName == "RegisterExtensionOfficer" ||
+          request.operation.operationName == "RegisterVetOfficer" ||
           request.operation.operationName == "RegisterUser";
     }, authentication, link);
   }
@@ -86,13 +89,16 @@ class _EpoultryState extends State<Epoultry> {
 
   final queries = EpoultryQueries();
 
+  late final token = box.get("token");
+  late final role = box.get("tokenRole");
+  // print(role);
+  final FarmsController controller =
+      Get.put(FarmsController(), permanent: true);
+  final UserController userController =
+      Get.put(UserController(), permanent: true);
+
   @override
   Widget build(BuildContext context) {
-    final token = box.get("token");
-    final FarmsController controller =
-        Get.put(FarmsController(), permanent: true);
-    final UserController userController =
-        Get.put(UserController(), permanent: true);
     return Sizer(
       builder: (context, orientation, deviceType) {
         return QueriesDocumentProvider(
@@ -106,12 +112,30 @@ class _EpoultryState extends State<Epoultry> {
                 localizationsDelegates: const [
                   FormBuilderLocalizations.delegate,
                 ],
-                home: token.toString().isNotEmpty && token != null
-                    ? const FarmDashboardPage()
-                    : const LandingPage()),
+                home: checkAuth(token, role)),
           ),
         );
       },
     );
+  }
+
+  Widget checkAuth(token, role) {
+    if (token?.toString().isNotEmpty != true) {
+      return const LandingPage();
+    }
+
+    switch (role) {
+      case "FARMER":
+        return const FarmDashboardPage();
+      case "FARM_MANAGER":
+        return const FarmDashboardPage();
+      case "VET_OFFICER":
+        return const VeterinaryHomePage();
+      case "EXTENSION_OFFICER":
+        return const ExtensionHomePage();
+
+      default:
+        return const LandingPage();
+    }
   }
 }

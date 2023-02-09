@@ -9,6 +9,8 @@ class CustomColors {
   static const Color background = Color.fromARGB(255, 253, 253, 253);
   static const Color tertiary = Color(0xFF5B41FF);
   static const Color white = Color(0xFFFFFFFF);
+  static const Color drawerBackground = Color(0xFFF7FBFF);
+  static const Color textPrimary = Color(0xFF012138);
 
   static const LinearGradient primaryGradient = LinearGradient(
     colors: [
