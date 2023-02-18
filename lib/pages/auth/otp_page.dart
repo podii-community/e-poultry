@@ -222,32 +222,45 @@ class _OtpPageState extends State<OtpPage> {
         if (role == "FARMER") route = "farmer";
         if (role == "FARM_MABAGER") route = 'farm_manager';
         if (data['verifyOtp'] != null && data['verifyOtp']['user'] != null) {
+          final name = data['verifyOtp']['user']["firstName"] +
+              " " +
+              data['verifyOtp']['user']["lastName"];
+
+          userController.updateName(name);
+          userController.updatePhone(data['verifyOtp']['user']['phoneNumber']);
+
           if (data['verifyOtp']['user']["extensionOfficer"] != null) {
+            // userController.updateId(data['verifyOtp']['user']["vetOfficer"]['nationalId']);
+            final id = data['verifyOtp']['user']['nationalId'];
+            userController.updateId(id);
             final extApproved =
                 data['verifyOtp']['user']["extensionOfficer"]["dateApproved"];
             box.put('extApproved', extApproved);
-            if (role == "EXTENSION_OFFICER") {
+
+            if (role == "EXTENSION_OFFICER" && extApproved != null) {
               route = 'extension';
+            } else {
+              route = 'ext';
             }
           }
           if (data['verifyOtp']['user']["vetOfficer"] != null) {
+            // userController.updateId(data['verifyOtp']['user']["vetOfficer"]['nationalId']);
+            // userController.updateVetNumber(
+            //     data['verifyOtp']['user']["vetOfficer"]["vetNumber"]);
             final vetApproved =
                 data['verifyOtp']['user']["vetOfficer"]["dateApproved"];
             box.put('vetApproved', vetApproved);
-            if (role == "VET_OFFICER") {
+            userController.updateId(
+                data['verifyOtp']['user']["vetOfficer"]['nationalId']);
+            userController.updateVetNumber(
+                data['verifyOtp']['user']["vetOfficer"]["vetNumber"]);
+            if (role == "VET_OFFICER" && vetApproved != null) {
               route = 'vet';
+            } else {
+              route = 'veterinary';
             }
           }
         }
-
-        // if (data['verifyOtp'] != null && data['verifyOtp']['user'] != null) {
-        //   if (data['verifyOtp']['user']["extensionOfficer"] != null) {
-
-        //   }
-        //   if (data['verifyOtp']['user']["vetOfficer"] != null) {
-
-        //   }
-        // }
 
         Get.offAll(() => SuccessWidget(
               message: 'Your phone number has been verified',

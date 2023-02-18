@@ -98,7 +98,7 @@ class _ExtensionHomePageState extends State<ExtensionHomePage> {
                 ))
           ],
           title: Text(
-            name ?? "E-Poultry Farming",
+            userController.userName.value,
             style: const TextStyle(color: Colors.black),
           )),
       body: IndexedStack(

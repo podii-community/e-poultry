@@ -48,14 +48,17 @@ class EpoultryQueries {
               apiKey,
               user{
                 role,
+                firstName
+                lastName
+                nationalId
                 phoneNumber
                 extensionOfficer{
                       dateApproved
                   }
                 vetOfficer{
+                    vetNumber
                     dateApproved
                 }
-
                 managingFarms{
                   id,
                   name,
@@ -836,6 +839,26 @@ class EpoultryQueries {
         status
   }
 }
+    """;
+  }
+
+  String updateExtProfile() {
+    return """
+     mutation UpdateExtUser(\$data: UpdateExtensionOfficerInput!) {
+         updateExtensionOfficer(data: \$data){
+                  id,
+         }
+    }
+    """;
+  }
+
+  String updateVetProfile() {
+    return """
+     mutation UpdateVetUser(\$data: UpdateVetOfficerInput!) {
+         updateVetOfficer(data: \$data){
+                  id,
+         }
+    }
     """;
   }
 }

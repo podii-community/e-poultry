@@ -16,8 +16,6 @@ void main() {
         // Given
         var batchesList = [
           {'name': 'Rye'},
-          // test failed when i put
-          // {'name': 'Ryers'},
           {'name': 'Layers'},
           {'name': 'Nelly'},
         ];
