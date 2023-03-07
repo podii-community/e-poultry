@@ -57,6 +57,8 @@ class _ExtensionHomePageState extends State<ExtensionHomePage> {
 
       userController.updateName(name);
       userController.updatePhone(fetchDetails.data!['user']['phoneNumber']);
+      userController.updateLoc(
+          fetchDetails.data!['user']["extensionOfficer"]['address']['county']);
 
       box.put('name',
           "${fetchDetails.data!['user']['firstName']} ${fetchDetails.data!['user']['lastName']}");

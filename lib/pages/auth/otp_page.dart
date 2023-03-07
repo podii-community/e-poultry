@@ -230,6 +230,8 @@ class _OtpPageState extends State<OtpPage> {
           userController.updatePhone(data['verifyOtp']['user']['phoneNumber']);
 
           if (data['verifyOtp']['user']["extensionOfficer"] != null) {
+            userController.updateLoc(data['verifyOtp']['user']
+                ["extensionOfficer"]['address']['county']);
             // userController.updateId(data['verifyOtp']['user']["vetOfficer"]['nationalId']);
             final id = data['verifyOtp']['user']['nationalId'];
             userController.updateId(id);
@@ -244,6 +246,8 @@ class _OtpPageState extends State<OtpPage> {
             }
           }
           if (data['verifyOtp']['user']["vetOfficer"] != null) {
+            userController.updateLoc(
+                data['verifyOtp']['user']["vetOfficer"]['address']['county']);
             // userController.updateId(data['verifyOtp']['user']["vetOfficer"]['nationalId']);
             // userController.updateVetNumber(
             //     data['verifyOtp']['user']["vetOfficer"]["vetNumber"]);
