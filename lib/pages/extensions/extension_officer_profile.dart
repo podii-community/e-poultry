@@ -310,6 +310,7 @@ class _ExtensionOfficerProfileState extends State<ExtensionOfficerProfile> {
     ///
 
     if (data["updateExtensionOfficer"]["id"].toString().isNotEmpty) {
+      userController.updateLoc(location.text);
       Get.to(
         () => const SuccessWidget(
           message: 'You have successfully updated your profile',

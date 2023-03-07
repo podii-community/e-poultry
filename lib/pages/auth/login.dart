@@ -1,4 +1,3 @@
-import 'package:epoultry/pages/auth/registration.dart';
 import 'package:epoultry/graphql/query_document_provider.dart';
 import 'package:epoultry/widgets/gradient_widget.dart';
 import 'package:flutter/gestures.dart';
@@ -11,6 +10,7 @@ import '../../data/models/error.dart';
 import '../../theme/colors.dart';
 import '../../theme/spacing.dart';
 import '../../widgets/loading_spinner.dart';
+import '../onboarding/extension_option.dart';
 import 'otp_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -163,7 +163,7 @@ class _LoginPageState extends State<LoginPage> {
                             decoration: TextDecoration.underline),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            Get.to(() => const RegistrationPage());
+                            Get.to(() => const ChooseExtension());
                           })
                   ]),
             )

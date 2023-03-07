@@ -38,6 +38,20 @@ class _DashboardPageState extends State<DashboardPage> {
             const SizedBox(
               height: 18,
             ),
+            Text(
+              'Viewing Requests for ${userController.loc.value}',
+              textAlign: TextAlign.left,
+              style: const TextStyle(
+                  color: Color.fromRGBO(1, 33, 56, 0.6000000238418579),
+                  fontFamily: 'Roboto',
+                  fontSize: 18,
+                  letterSpacing: 0.15000000596046448,
+                  fontWeight: FontWeight.w500,
+                  height: 1),
+            ),
+            const SizedBox(
+              height: 18,
+            ),
             const Text(
               'NEW REQUESTS',
               textAlign: TextAlign.left,

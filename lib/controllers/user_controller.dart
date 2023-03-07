@@ -6,6 +6,7 @@ class UserController extends GetxController {
   final userRole = "".obs;
   final userId = "".obs;
   final vetNumber = "".obs;
+  final loc = "".obs;
 
   updateName(name) {
     userName(name);
@@ -25,5 +26,9 @@ class UserController extends GetxController {
 
   updateId(id) {
     userId(id);
+  }
+
+  updateLoc(location) {
+    loc(location);
   }
 }

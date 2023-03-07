@@ -51,6 +51,20 @@ class _FarmVisitsState extends State<FarmVisits> {
             const SizedBox(
               height: 18,
             ),
+            Text(
+              'Viewing Requests for ${userController.loc.value}',
+              textAlign: TextAlign.left,
+              style: const TextStyle(
+                  color: Color.fromRGBO(1, 33, 56, 0.6000000238418579),
+                  fontFamily: 'Roboto',
+                  fontSize: 18,
+                  letterSpacing: 0.15000000596046448,
+                  fontWeight: FontWeight.w500,
+                  height: 1),
+            ),
+            const SizedBox(
+              height: 18,
+            ),
             const Text(
               'FARM VISIT REQUESTS',
               textAlign: TextAlign.left,
@@ -266,7 +280,7 @@ class _FarmVisitsState extends State<FarmVisits> {
                                         Expanded(
                                           child: TextButton.icon(
                                             onPressed: () {
-                                              launch('tel:+0700 111 111');
+                                              launch('tel:+254742088393');
                                             },
                                             icon: const Icon(Icons.call),
                                             label: const Text('Call'),
