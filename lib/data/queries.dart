@@ -48,14 +48,23 @@ class EpoultryQueries {
               apiKey,
               user{
                 role,
+                firstName
+                lastName
+                nationalId
                 phoneNumber
                 extensionOfficer{
+                  address{
+                          county
+                      }
                       dateApproved
                   }
                 vetOfficer{
+                  address{
+                          county
+                      }
+                    vetNumber
                     dateApproved
                 }
-
                 managingFarms{
                   id,
                   name,
@@ -79,6 +88,19 @@ class EpoultryQueries {
                   farmer{
                     gender
                   },
+                  extensionOfficer{
+                  address{
+                          county
+                      }
+                      dateApproved
+                  }
+                vetOfficer{
+                  address{
+                          county
+                      }
+                    vetNumber
+                    dateApproved
+                }
                   firstName,
                   lastName,
                   phoneNumber,
@@ -676,7 +698,6 @@ class EpoultryQueries {
         status
         id
         farmVisit{
-          description
           report{
             id
             
@@ -686,7 +707,6 @@ class EpoultryQueries {
         }
         
         medicalVisit{
-          description
           ageType
           birdAge
           birdCount
@@ -836,6 +856,26 @@ class EpoultryQueries {
         status
   }
 }
+    """;
+  }
+
+  String updateExtProfile() {
+    return """
+     mutation UpdateExtUser(\$data: UpdateExtensionOfficerInput!) {
+         updateExtensionOfficer(data: \$data){
+                  id,
+         }
+    }
+    """;
+  }
+
+  String updateVetProfile() {
+    return """
+     mutation UpdateVetUser(\$data: UpdateVetOfficerInput!) {
+         updateVetOfficer(data: \$data){
+                  id,
+         }
+    }
     """;
   }
 }

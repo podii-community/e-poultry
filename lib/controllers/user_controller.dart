@@ -4,6 +4,9 @@ class UserController extends GetxController {
   final userName = "".obs;
   final phoneNumber = "".obs;
   final userRole = "".obs;
+  final userId = "".obs;
+  final vetNumber = "".obs;
+  final loc = "".obs;
 
   updateName(name) {
     userName(name);
@@ -15,5 +18,17 @@ class UserController extends GetxController {
 
   updateRole(role) {
     userRole(role);
+  }
+
+  updateVetNumber(number) {
+    vetNumber(number);
+  }
+
+  updateId(id) {
+    userId(id);
+  }
+
+  updateLoc(location) {
+    loc(location);
   }
 }

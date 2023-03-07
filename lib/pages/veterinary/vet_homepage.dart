@@ -58,6 +58,8 @@ class _VeterinaryHomePageState extends State<VeterinaryHomePage> {
 
       userController.updateName(name);
       userController.updatePhone(fetchDetails.data!['user']['phoneNumber']);
+      userController.updateLoc(
+          fetchDetails.data!['user']["vetOfficer"]['address']['county']);
 
       box.put('name',
           "${fetchDetails.data!['user']['firstName']} ${fetchDetails.data!['user']['lastName']}");
@@ -99,7 +101,7 @@ class _VeterinaryHomePageState extends State<VeterinaryHomePage> {
               ))
         ],
         title: Text(
-          name ?? "E-Poultry Farming",
+          userController.userName.value,
           style: const TextStyle(color: Colors.black),
         ),
       ),

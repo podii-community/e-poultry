@@ -1,20 +1,59 @@
+import 'package:epoultry/graphql/query_document_provider.dart';
 import 'package:epoultry/pages/extensions/extension_homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:hive/hive.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../controllers/user_controller.dart';
+import '../../data/models/error.dart';
 import '../../theme/colors.dart';
 import '../../theme/spacing.dart';
 import '../../widgets/gradient_widget.dart';
+import '../../widgets/loading_spinner.dart';
+import '../../widgets/success_widget.dart';
 
-class ExtensionOfficerProfile extends StatelessWidget {
-  ExtensionOfficerProfile({super.key});
+class ExtensionOfficerProfile extends StatefulWidget {
+  const ExtensionOfficerProfile({super.key});
 
-  final lastName = TextEditingController();
-  final firstName = TextEditingController();
-  final location = TextEditingController();
-  final idNumber = TextEditingController();
-  final phoneNumber = TextEditingController();
+  @override
+  State<ExtensionOfficerProfile> createState() =>
+      _ExtensionOfficerProfileState();
+}
+
+class _ExtensionOfficerProfileState extends State<ExtensionOfficerProfile> {
+  final box = Hive.box('appData');
+  final userController = Get.find<UserController>();
+
+  // late final name = box.get('name');
+
+  TextEditingController lastName = TextEditingController();
+
+  TextEditingController firstName = TextEditingController();
+
+  TextEditingController location = TextEditingController();
+
+  TextEditingController idNumber = TextEditingController();
+
+  TextEditingController phoneNumber = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    String names = userController.userName.value;
+    int idx = names.indexOf(" ");
+    List parts = [
+      names.substring(0, idx).trim(),
+      names.substring(idx + 1).trim()
+    ];
+    firstName = TextEditingController(text: parts[0]);
+    lastName = TextEditingController(text: parts[1]);
+    phoneNumber = TextEditingController(text: userController.phoneNumber.value);
+
+    idNumber = TextEditingController(text: userController.userId.value);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -89,6 +128,7 @@ class ExtensionOfficerProfile extends StatelessWidget {
               ),
               TextFormField(
                 keyboardType: TextInputType.text,
+                enabled: false,
                 controller: firstName,
                 validator: (String? value) {
                   if (value!.isEmpty) {
@@ -112,6 +152,7 @@ class ExtensionOfficerProfile extends StatelessWidget {
               ),
               TextFormField(
                 keyboardType: TextInputType.text,
+                enabled: false,
                 controller: lastName,
                 validator: (String? value) {
                   if (value!.isEmpty) {
@@ -135,6 +176,7 @@ class ExtensionOfficerProfile extends StatelessWidget {
               ),
               TextFormField(
                 keyboardType: TextInputType.text,
+                enabled: false,
                 controller: idNumber,
                 validator: (String? value) {
                   if (value!.isEmpty) {
@@ -158,6 +200,7 @@ class ExtensionOfficerProfile extends StatelessWidget {
               ),
               TextFormField(
                 keyboardType: TextInputType.text,
+                enabled: false,
                 controller: phoneNumber,
                 validator: (String? value) {
                   if (value!.isEmpty) {
@@ -202,34 +245,96 @@ class ExtensionOfficerProfile extends StatelessWidget {
               const SizedBox(
                 height: CustomSpacing.s3,
               ),
-              GradientWidget(
-                child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const ExtensionHomePage()));
-                    },
-                    style: ElevatedButton.styleFrom(
-                        foregroundColor: CustomColors.background,
-                        backgroundColor: Colors.transparent,
-                        disabledForegroundColor:
-                            Colors.transparent.withOpacity(0.38),
-                        disabledBackgroundColor:
-                            Colors.transparent.withOpacity(0.12),
-                        shadowColor: Colors.transparent,
-                        fixedSize: Size(100.w, 6.h)),
-                    child: Text(
-                      'Update Profile',
-                      style: TextStyle(
-                        fontSize: 2.4.h,
+              Mutation(
+                options: MutationOptions(
+                  document: gql(context.queries.updateExtProfile()),
+                  onCompleted: (data) => _onCompleted(data, context),
+                ),
+                builder: (RunMutation runMutation, QueryResult? result) {
+                  if (result != null) {
+                    if (result.isLoading) {
+                      return const LoadingSpinner();
+                    }
+
+                    if (result.hasException) {
+                      context.showError(
+                        ErrorModel.fromGraphError(
+                          result.exception?.graphqlErrors ?? [],
+                        ),
+                      );
+                    }
+                  }
+
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: GradientWidget(
+                      child: ElevatedButton(
+                        onPressed: () =>
+                            _updateButtonPressed(context, runMutation),
+                        style: ElevatedButton.styleFrom(
+                            foregroundColor: CustomColors.background,
+                            backgroundColor: Colors.transparent,
+                            disabledForegroundColor:
+                                Colors.transparent.withOpacity(0.38),
+                            disabledBackgroundColor:
+                                Colors.transparent.withOpacity(0.12),
+                            shadowColor: Colors.transparent,
+                            fixedSize: Size(100.w, 6.h)),
+                        child: Text(
+                          'Update Profile',
+                          style: TextStyle(
+                            fontSize: 2.4.h,
+                          ),
+                        ),
                       ),
-                    )),
-              )
+                    ),
+                  );
+                },
+              ),
+              const SizedBox(
+                height: CustomSpacing.s3,
+              ),
+              const SizedBox(
+                height: CustomSpacing.s3,
+              ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  void _onCompleted(data, BuildContext context) {
+    /// If they do, move to home page. If not, take them to select artist page for them to select artists.
+    ///;
+    ///
+
+    if (data["updateExtensionOfficer"]["id"].toString().isNotEmpty) {
+      userController.updateLoc(location.text);
+      Get.to(
+        () => const SuccessWidget(
+          message: 'You have successfully updated your profile',
+          route: 'extension',
+        ),
+      );
+    } else {
+      Get.to(() => const ExtensionHomePage());
+    }
+  }
+
+  Future<void> _updateButtonPressed(
+      BuildContext context, RunMutation runMutation) async {
+    runMutation({
+      "data": {
+        "address": {
+          "county": location.text,
+          "subcounty": "Kisumu East",
+          "ward": "Kisumu"
+        },
+        "firstName": firstName.text,
+        "lastName": lastName.text,
+        "phoneNumber": phoneNumber.text,
+      }
+    });
   }
 }

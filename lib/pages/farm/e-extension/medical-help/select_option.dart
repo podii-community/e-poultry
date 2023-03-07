@@ -57,7 +57,7 @@ class SelectOption extends StatelessWidget {
                       leading: Icon(PhosphorIcons.phoneCall),
                       title: Text("Call us on 0700 111 111"),
                       onTap: () {
-                        launch('tel:+0700 111 111');
+                        launch('tel:+254742088393');
                       },
                     ),
                     Divider(),

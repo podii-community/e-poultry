@@ -6,6 +6,8 @@ class FarmsController extends GetxController {
   final farms = [].obs;
   final selectedFarmId = "".obs;
   final batchesList = [].obs;
+  List foundBatches = [].obs;
+  Iterable<dynamic> results = [].obs;
   final reportsList = [].obs;
   final requestsList = [].obs;
   final filteredReports = [].obs;
@@ -101,6 +103,26 @@ class FarmsController extends GetxController {
   final farmReport = {}.obs;
 
   var fetchedReports = [].obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    foundBatches = batchesList;
+  }
+
+  void filterBatches(String batchName) {
+    if (batchName.isEmpty) {
+      results = batchesList;
+    } else {
+      results = batchesList
+          .where((element) => element["name"]
+              .toString()
+              .toLowerCase()
+              .startsWith(batchName.toLowerCase()))
+          .toList();
+    }
+    foundBatches = results as List;
+  }
 
   applySubCounties(List<String> subCounties) {
     filteredSubCounties(subCounties);
