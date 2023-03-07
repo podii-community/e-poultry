@@ -75,7 +75,8 @@ class _ListRequestState extends State<ListRequest> {
             padding: const EdgeInsets.symmetric(horizontal: CustomSpacing.s2),
             child: controller.extensionRequests.isEmpty
                 ? const Center(
-                    child: Text("No Extension Service Requests"),
+                    child: Text(
+                        "You have not made any extension service requests"),
                   )
                 : Obx((() => ListView.builder(
                     itemCount: controller.extensionRequests.length,
