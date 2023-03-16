@@ -178,9 +178,6 @@ class DrawerPage extends StatelessWidget {
                   box.clear();
 
                   Get.to(() => const LandingPage());
-
-                  // await Get.deleteAll(force: true)
-                  //     .then((value) => Get.to(() => LandingPage()));
                 },
               )
             ],

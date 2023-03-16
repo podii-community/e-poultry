@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:epoultry/graphql/query_document_provider.dart';
 import 'package:flutter/material.dart';
@@ -136,9 +138,15 @@ class _RequestQuotationPageState extends State<RequestQuotationPage> {
                                           width: 0.3.w,
                                           color: CustomColors.secondary)))),
                           onChanged: (val) {
-                            setState(() {
-                              layerBirds.text = val!;
-                            });
+                            if (val == "More than 1000") {
+                              setState(() {
+                                layerBirds.text = "1001";
+                              });
+                            } else {
+                              setState(() {
+                                layerBirds.text = val!;
+                              });
+                            }
                           },
                         )
                       : Container(),
