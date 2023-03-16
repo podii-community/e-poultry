@@ -107,6 +107,9 @@ class EpoultryQueries {
                   managingFarms{
                     id,
                     name
+                    contractor {
+                      name
+                    },
                     batches{
                         id,
                 name,
@@ -151,6 +154,9 @@ class EpoultryQueries {
                   ownedFarms{
                     id,
                     name,
+                      contractor {
+                      name
+                    },
                       batches{
                           id,
                 name,

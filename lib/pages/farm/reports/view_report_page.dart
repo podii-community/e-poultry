@@ -1,4 +1,3 @@
-
 import 'package:epoultry/graphql/query_document_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -97,34 +96,6 @@ class ViewReportPage extends StatelessWidget {
                                   style: TextStyle(fontSize: 2.1.h))
                             ],
                           ),
-                          const SizedBox(
-                            height: CustomSpacing.s1,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Contractor",
-                                style: TextStyle(fontSize: 2.1.h),
-                              ),
-                              Text("Chicken Basket",
-                                  style: TextStyle(fontSize: 2.1.h))
-                            ],
-                          ),
-                          const SizedBox(
-                            height: CustomSpacing.s1,
-                          ),
-                          // Row(
-                          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          //   children: [
-                          //     Text(
-                          //       "Farm Manager",
-                          //       style: TextStyle(fontSize: 2.1.h),
-                          //     ),
-                          //     Text("John Otieno",
-                          //         style: TextStyle(fontSize: 2.1.h))
-                          //   ],
-                          // ),
                           const SizedBox(
                             height: CustomSpacing.s1,
                           ),
@@ -233,66 +204,6 @@ class ViewReportPage extends StatelessWidget {
                                   ),
                                 ),
                               )
-                              // Column(
-                              //   children: [
-
-                              //     Card(
-                              //       color: Colors.white,
-                              //       elevation: 0.2,
-                              //       child: Padding(
-                              //         padding: EdgeInsets.symmetric(
-                              //             vertical: 2.h, horizontal: 3.w),
-                              //         child: Row(
-                              //           mainAxisAlignment:
-                              //               MainAxisAlignment.spaceBetween,
-                              //           children: [
-                              //             Column(
-                              //               crossAxisAlignment:
-                              //                   CrossAxisAlignment.start,
-                              //               children: [
-                              //                 Text(
-                              //                   "Layers",
-                              //                   style: TextStyle(
-                              //                       fontSize: 2.4.h),
-                              //                 ),
-                              //                 Row(
-                              //                   mainAxisAlignment:
-                              //                       MainAxisAlignment
-                              //                           .spaceEvenly,
-                              //                   children: [
-                              //                     const Text("Batch 1"),
-                              //                     SizedBox(
-                              //                       width: 1.w,
-                              //                     ),
-                              //                     const Text("Batch 2")
-                              //                   ],
-                              //                 )
-                              //               ],
-                              //             ),
-                              //             Column(
-                              //               crossAxisAlignment:
-                              //                   CrossAxisAlignment.start,
-                              //               children: [
-                              //                 Text("1053",
-                              //                     style: TextStyle(
-                              //                         fontSize: 2.4.h)),
-                              //                 Row(
-                              //                   children: [
-                              //                     const Text("0 New"),
-                              //                     SizedBox(
-                              //                       width: 1.w,
-                              //                     ),
-                              //                     const Text("7 Dead")
-                              //                   ],
-                              //                 )
-                              //               ],
-                              //             )
-                              //           ],
-                              //         ),
-                              //       ),
-                              //     )
-                              //   ],
-                              // ),
                             ],
                           )
                         : Container(),
