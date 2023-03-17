@@ -40,6 +40,7 @@ class _GetMedicalHelpState extends State<GetMedicalHelp> {
 
   bool agree = false;
   bool uploaded = false;
+  bool loading = false;
 
   final dio = Dio();
 
@@ -205,26 +206,28 @@ class _GetMedicalHelpState extends State<GetMedicalHelp> {
                   SizedBox(
                     height: 4.h,
                   ),
-                  GradientWidget(
-                    child: ElevatedButton(
-                      onPressed: () => agree ? submit() : null,
-                      style: ElevatedButton.styleFrom(
-                          foregroundColor: CustomColors.background,
-                          backgroundColor: Colors.transparent,
-                          disabledForegroundColor:
-                              Colors.transparent.withOpacity(0.38),
-                          disabledBackgroundColor:
-                              Colors.transparent.withOpacity(0.12),
-                          shadowColor: Colors.transparent,
-                          fixedSize: Size(100.w, 6.h)),
-                      child: Text(
-                        'REQUEST',
-                        style: TextStyle(
-                          fontSize: 1.8.h,
-                        ),
-                      ),
-                    ),
-                  )
+                  loading
+                      ? const LoadingSpinner()
+                      : GradientWidget(
+                          child: ElevatedButton(
+                            onPressed: () => agree ? submit() : null,
+                            style: ElevatedButton.styleFrom(
+                                foregroundColor: CustomColors.background,
+                                backgroundColor: Colors.transparent,
+                                disabledForegroundColor:
+                                    Colors.transparent.withOpacity(0.38),
+                                disabledBackgroundColor:
+                                    Colors.transparent.withOpacity(0.12),
+                                shadowColor: Colors.transparent,
+                                fixedSize: Size(100.w, 6.h)),
+                            child: Text(
+                              'REQUEST',
+                              style: TextStyle(
+                                fontSize: 1.8.h,
+                              ),
+                            ),
+                          ),
+                        )
                 ],
               ),
             )),
@@ -262,6 +265,9 @@ class _GetMedicalHelpState extends State<GetMedicalHelp> {
   }
 
   submit() async {
+    setState(() {
+      loading = true;
+    });
     final formData = FormData.fromMap({
       'batchId': selectedBatch.text,
       'description': issue.text,
@@ -288,6 +294,9 @@ class _GetMedicalHelpState extends State<GetMedicalHelp> {
     );
 
     if (response.statusCode == 200) {
+      setState(() {
+        loading = false;
+      });
       Get.to(() => const SuccessWidget(
             message:
                 'You have sucessfully requested for medical help. We’ll notify you as soon as there is a Vetinary officer available.',
