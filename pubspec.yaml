@@ -54,6 +54,9 @@ dependencies:
   url_launcher: ^6.1.7
   mockito:
   flutter_svg: ^1.1.6
+  dotted_border: ^2.0.0+3
+  file_picker: ^5.2.6
+  dio: ^5.0.2
 
 dev_dependencies:
   flutter_test:

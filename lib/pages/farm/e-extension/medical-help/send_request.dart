@@ -1,13 +1,17 @@
-import 'dart:developer';
+import 'dart:io';
 
+import 'package:dio/dio.dart';
+import 'package:dotted_border/dotted_border.dart';
 import 'package:epoultry/graphql/query_document_provider.dart';
 import 'package:epoultry/pages/farm/batch/create_batch_page.dart';
 import 'package:epoultry/theme/spacing.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide FormData, MultipartFile;
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:hive/hive.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
@@ -32,7 +36,13 @@ class _GetMedicalHelpState extends State<GetMedicalHelp> {
 
   final issue = TextEditingController();
 
+  FilePickerResult? file;
+
   bool agree = false;
+  bool uploaded = false;
+  bool loading = false;
+
+  final dio = Dio();
 
   @override
   Widget build(BuildContext context) {
@@ -65,10 +75,10 @@ class _GetMedicalHelpState extends State<GetMedicalHelp> {
               child: Center(
                 child: Column(
                   children: [
-                    Text('You dont have any batches.Create one'),
+                    const Text('You dont have any batches.Create one'),
                     TextButton(
-                        onPressed: (() => Get.to(CreateBatchPage())),
-                        child: Text('Create Batch'))
+                        onPressed: (() => Get.to(const CreateBatchPage())),
+                        child: const Text('Create Batch'))
                   ],
                 ),
               ),
@@ -145,6 +155,40 @@ class _GetMedicalHelpState extends State<GetMedicalHelp> {
                                 width: 0.3.w, color: CustomColors.secondary))),
                   ),
                   const SizedBox(
+                    height: CustomSpacing.s3,
+                  ),
+                  DottedBorder(
+                    color: CustomColors.secondary,
+                    strokeWidth: 1,
+                    child: uploaded
+                        ? Container(
+                            height: 20.h,
+                            width: 100.w,
+                            color: CustomColors.drawerBackground,
+                            child: const Center(child: Text('File Uploaded')))
+                        : InkWell(
+                            onTap: () => pickFiles(),
+                            child: Container(
+                                height: 20.h,
+                                width: 100.w,
+                                color: CustomColors.drawerBackground,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      PhosphorIcons.plusCircleFill,
+                                      color: CustomColors.secondary,
+                                      size: 10.h,
+                                    ),
+                                    const SizedBox(
+                                      height: CustomSpacing.s1,
+                                    ),
+                                    const Text("Upload an image")
+                                  ],
+                                )),
+                          ),
+                  ),
+                  const SizedBox(
                     height: CustomSpacing.s2,
                   ),
                   CheckboxListTile(
@@ -160,34 +204,13 @@ class _GetMedicalHelpState extends State<GetMedicalHelp> {
                         .leading, //  <-- leading Checkbox
                   ),
                   SizedBox(
-                    height: 10.h,
+                    height: 4.h,
                   ),
-                  Mutation(
-                      options: MutationOptions(
-                        document: gql(context.queries.requestMedicalVisit()),
-                        onCompleted: (data) => _onCompleted(data, context),
-                      ),
-                      builder: (RunMutation runMutation, QueryResult? result) {
-                        if (result != null) {
-                          if (result.isLoading) {
-                            return const LoadingSpinner();
-                          }
-
-                          if (result.hasException) {
-                            context.showError(
-                              ErrorModel.fromGraphError(
-                                result.exception?.graphqlErrors ?? [],
-                              ),
-                            );
-                          }
-                        }
-
-                        return GradientWidget(
+                  loading
+                      ? const LoadingSpinner()
+                      : GradientWidget(
                           child: ElevatedButton(
-                            onPressed: () => agree
-                                ? _requestMedicalVisitPressed(
-                                    context, runMutation)
-                                : null,
+                            onPressed: () => agree ? submit() : null,
                             style: ElevatedButton.styleFrom(
                                 foregroundColor: CustomColors.background,
                                 backgroundColor: Colors.transparent,
@@ -204,8 +227,7 @@ class _GetMedicalHelpState extends State<GetMedicalHelp> {
                               ),
                             ),
                           ),
-                        );
-                      })
+                        )
                 ],
               ),
             )),
@@ -227,5 +249,59 @@ class _GetMedicalHelpState extends State<GetMedicalHelp> {
     runMutation({
       "data": {'batchId': selectedBatch.text, "description": issue.text},
     });
+  }
+
+  pickFiles() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['jpg', 'png'],
+    );
+
+    setState(() {
+      uploaded = true;
+    });
+
+    file = result!;
+  }
+
+  submit() async {
+    setState(() {
+      loading = true;
+    });
+    final formData = FormData.fromMap({
+      'batchId': selectedBatch.text,
+      'description': issue.text,
+      'attachments[0]': await MultipartFile.fromFile(file!.files.first.path!,
+          filename: file!.files.first.name),
+    });
+    final box = Hive.box('appData');
+
+    final response = await dio.post(
+      'https://cbsmartfarm.herokuapp.com/api/extension_services/medical_visit',
+      data: formData,
+      options: Options(
+        headers: {
+          "authorization": "Bearer ${box.get("token")}",
+        },
+      ),
+      onSendProgress: (int sent, int total) {
+        if (sent == total) {
+          setState(() {
+            uploaded = true;
+          });
+        }
+      },
+    );
+
+    if (response.statusCode == 200) {
+      setState(() {
+        loading = false;
+      });
+      Get.to(() => const SuccessWidget(
+            message:
+                'You have sucessfully requested for medical help. We’ll notify you as soon as there is a Vetinary officer available.',
+            route: 'dashboard',
+          ));
+    }
   }
 }
