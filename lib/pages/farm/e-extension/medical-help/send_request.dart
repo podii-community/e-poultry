@@ -1,5 +1,4 @@
-import 'dart:developer';
-import 'dart:typed_data';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -37,6 +36,8 @@ class _GetMedicalHelpState extends State<GetMedicalHelp> {
 
   final issue = TextEditingController();
 
+  FilePickerResult? file;
+
   bool agree = false;
   bool uploaded = false;
 
@@ -73,10 +74,10 @@ class _GetMedicalHelpState extends State<GetMedicalHelp> {
               child: Center(
                 child: Column(
                   children: [
-                    Text('You dont have any batches.Create one'),
+                    const Text('You dont have any batches.Create one'),
                     TextButton(
-                        onPressed: (() => Get.to(CreateBatchPage())),
-                        child: Text('Create Batch'))
+                        onPressed: (() => Get.to(const CreateBatchPage())),
+                        child: const Text('Create Batch'))
                   ],
                 ),
               ),
@@ -155,33 +156,36 @@ class _GetMedicalHelpState extends State<GetMedicalHelp> {
                   const SizedBox(
                     height: CustomSpacing.s3,
                   ),
-                  InkWell(
-                    onTap: (() => pickFiles()),
-                    child: DottedBorder(
-                      color: CustomColors.secondary,
-                      strokeWidth: 1,
-                      child: Container(
-                        height: 20.h,
-                        width: 100.w,
-                        color: CustomColors.drawerBackground,
-                        child: uploaded
-                            ? Center(child: Text('File Uploaded'))
-                            : Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    PhosphorIcons.plusCircleFill,
-                                    color: CustomColors.secondary,
-                                    size: 10.h,
-                                  ),
-                                  const SizedBox(
-                                    height: CustomSpacing.s1,
-                                  ),
-                                  Text("Upload an image")
-                                ],
-                              ),
-                      ),
-                    ),
+                  DottedBorder(
+                    color: CustomColors.secondary,
+                    strokeWidth: 1,
+                    child: uploaded
+                        ? Container(
+                            height: 20.h,
+                            width: 100.w,
+                            color: CustomColors.drawerBackground,
+                            child: const Center(child: Text('File Uploaded')))
+                        : InkWell(
+                            onTap: () => pickFiles(),
+                            child: Container(
+                                height: 20.h,
+                                width: 100.w,
+                                color: CustomColors.drawerBackground,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      PhosphorIcons.plusCircleFill,
+                                      color: CustomColors.secondary,
+                                      size: 10.h,
+                                    ),
+                                    const SizedBox(
+                                      height: CustomSpacing.s1,
+                                    ),
+                                    const Text("Upload an image")
+                                  ],
+                                )),
+                          ),
                   ),
                   const SizedBox(
                     height: CustomSpacing.s2,
@@ -201,50 +205,26 @@ class _GetMedicalHelpState extends State<GetMedicalHelp> {
                   SizedBox(
                     height: 4.h,
                   ),
-                  Mutation(
-                      options: MutationOptions(
-                        document: gql(context.queries.requestMedicalVisit()),
-                        onCompleted: (data) => _onCompleted(data, context),
+                  GradientWidget(
+                    child: ElevatedButton(
+                      onPressed: () => agree ? submit() : null,
+                      style: ElevatedButton.styleFrom(
+                          foregroundColor: CustomColors.background,
+                          backgroundColor: Colors.transparent,
+                          disabledForegroundColor:
+                              Colors.transparent.withOpacity(0.38),
+                          disabledBackgroundColor:
+                              Colors.transparent.withOpacity(0.12),
+                          shadowColor: Colors.transparent,
+                          fixedSize: Size(100.w, 6.h)),
+                      child: Text(
+                        'REQUEST',
+                        style: TextStyle(
+                          fontSize: 1.8.h,
+                        ),
                       ),
-                      builder: (RunMutation runMutation, QueryResult? result) {
-                        if (result != null) {
-                          if (result.isLoading) {
-                            return const LoadingSpinner();
-                          }
-
-                          if (result.hasException) {
-                            context.showError(
-                              ErrorModel.fromGraphError(
-                                result.exception?.graphqlErrors ?? [],
-                              ),
-                            );
-                          }
-                        }
-
-                        return GradientWidget(
-                          child: ElevatedButton(
-                            onPressed: () => agree
-                                ? _requestMedicalVisitPressed(
-                                    context, runMutation)
-                                : null,
-                            style: ElevatedButton.styleFrom(
-                                foregroundColor: CustomColors.background,
-                                backgroundColor: Colors.transparent,
-                                disabledForegroundColor:
-                                    Colors.transparent.withOpacity(0.38),
-                                disabledBackgroundColor:
-                                    Colors.transparent.withOpacity(0.12),
-                                shadowColor: Colors.transparent,
-                                fixedSize: Size(100.w, 6.h)),
-                            child: Text(
-                              'REQUEST',
-                              style: TextStyle(
-                                fontSize: 1.8.h,
-                              ),
-                            ),
-                          ),
-                        );
-                      })
+                    ),
+                  )
                 ],
               ),
             )),
@@ -274,31 +254,45 @@ class _GetMedicalHelpState extends State<GetMedicalHelp> {
       allowedExtensions: ['jpg', 'png'],
     );
 
-    if (result != null) {
-      final formData = FormData.fromMap({
-        'batchId': selectedBatch.text,
-        'description': issue.text,
-        'attachments[0]': await MultipartFile.fromFile(result.files.first.path!,
-            filename: result.files.first.name),
-      });
-      final box = Hive.box('appData');
+    setState(() {
+      uploaded = true;
+    });
 
-      final response = await dio.post(
-        'https://cbsmartfarm.herokuapp.com/api/extension_services/medical_visit',
-        data: formData,
-        options: Options(
-          headers: {
-            "authorization": "Bearer ${box.get("token")}",
-          },
-        ),
-        onSendProgress: (int sent, int total) {
-          if (sent == total) {
-            setState(() {
-              uploaded = true;
-            });
-          }
+    file = result!;
+  }
+
+  submit() async {
+    final formData = FormData.fromMap({
+      'batchId': selectedBatch.text,
+      'description': issue.text,
+      'attachments[0]': await MultipartFile.fromFile(file!.files.first.path!,
+          filename: file!.files.first.name),
+    });
+    final box = Hive.box('appData');
+
+    final response = await dio.post(
+      'https://cbsmartfarm.herokuapp.com/api/extension_services/medical_visit',
+      data: formData,
+      options: Options(
+        headers: {
+          "authorization": "Bearer ${box.get("token")}",
         },
-      );
+      ),
+      onSendProgress: (int sent, int total) {
+        if (sent == total) {
+          setState(() {
+            uploaded = true;
+          });
+        }
+      },
+    );
+
+    if (response.statusCode == 200) {
+      Get.to(() => const SuccessWidget(
+            message:
+                'You have sucessfully requested for medical help. We’ll notify you as soon as there is a Vetinary officer available.',
+            route: 'dashboard',
+          ));
     }
   }
 }
