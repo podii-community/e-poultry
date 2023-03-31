@@ -68,6 +68,10 @@ class _SelectBatchPageState extends State<SelectBatchPage> {
               height: CustomSpacing.s1,
             ),
             TextField(
+              onChanged: (value) {
+                controller.filterBatches(value);
+                setState(() {});
+              },
               decoration: InputDecoration(
                   isDense: true,
                   contentPadding: EdgeInsets.symmetric(vertical: 5.w),
@@ -155,14 +159,14 @@ class _SelectBatchPageState extends State<SelectBatchPage> {
                   )
                 : Expanded(
                     child: ListView.builder(
-                        itemCount: controller.batchesList.length,
+                        itemCount: controller.foundBatches.length,
                         itemBuilder: (context, position) {
                           String title =
-                              controller.batchesList[position]["name"];
+                              controller.foundBatches[position]["name"];
                           String birdType =
-                              controller.batchesList[position]["birdType"]!;
+                              controller.foundBatches[position]["birdType"]!;
                           int birdCount =
-                              controller.batchesList[position]["birdCount"];
+                              controller.foundBatches[position]["birdCount"];
                           return Card(
                               elevation: 0,
                               child: ListTile(
@@ -171,19 +175,19 @@ class _SelectBatchPageState extends State<SelectBatchPage> {
                                         ? Get.to(() => FeedStore(
                                               batchDetails: BatchModel.fromMap(
                                                   controller
-                                                      .batchesList[position]),
+                                                      .foundBatches[position]),
                                               report: "",
                                             ))
                                         : Get.to(() => NumberOfBirdsReportPage(
                                               batchDetails: BatchModel.fromMap(
                                                   controller
-                                                      .batchesList[position]),
+                                                      .foundBatches[position]),
                                             ));
                                   },
                                   title: Text(title),
                                   subtitle: Text(
                                       "${birdType.capitalize!},$birdCount Birds"),
-                                  trailing: controller.batchesList[position]
+                                  trailing: controller.foundBatches[position]
                                               ['todaysSubmission'] !=
                                           null
                                       ? SizedBox(

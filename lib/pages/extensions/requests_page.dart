@@ -1,12 +1,8 @@
 import 'dart:ui';
-
 import 'package:epoultry/graphql/query_document_provider.dart';
-import 'package:epoultry/pages/extensions/dashboard_page.dart';
-import 'package:epoultry/pages/onboarding/group_registration/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -48,6 +44,7 @@ class _RequestsPageState extends State<RequestsPage> {
             ["subcounty"] ??
         "Kisumu East";
     String? visitPorpose = "Medical Help";
+    String imageUrl = controller.requestsList[0]["attachments"][0]["url"];
     String? description = filteredList[0]["medicalVisit"]["description"] ??
         "No description available";
 
@@ -110,7 +107,23 @@ class _RequestsPageState extends State<RequestsPage> {
             const SizedBox(
               height: 18,
             ),
-            Image.asset("assets/rectangle.png"),
+            Container(
+              width: 250,
+              height: 250,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: const Color.fromRGBO(255, 255, 255, 1),
+                  width: 2,
+                ),
+                image: DecorationImage(
+                  image: NetworkImage(imageUrl), // replace with your image URL
+                  fit: BoxFit.cover,
+                ),
+                // borderRadius: const BorderRadius.all(
+                //   Radius.elliptical(88, 88),
+                // ),
+              ),
+            ),
             const SizedBox(
               height: 18,
             ),

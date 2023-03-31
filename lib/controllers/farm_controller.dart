@@ -1,4 +1,3 @@
-import 'package:epoultry/pages/extensions/farm_visit_report.dart';
 import 'package:get/get.dart';
 
 class FarmsController extends GetxController {
@@ -7,8 +6,8 @@ class FarmsController extends GetxController {
   final selectedFarmId = "".obs;
   final batchesList = [].obs;
   List foundBatches = [].obs;
-  Iterable<dynamic> results = [].obs;
   final reportsList = [].obs;
+  List foundReports = [].obs;
   final requestsList = [].obs;
   final filteredReports = [].obs;
   final selectedBatch = {}.obs;
@@ -108,20 +107,39 @@ class FarmsController extends GetxController {
   void onInit() {
     super.onInit();
     foundBatches = batchesList;
+    foundReports = reportsList;
   }
 
   void filterBatches(String batchName) {
     if (batchName.isEmpty) {
-      results = batchesList;
+      foundBatches = batchesList;
     } else {
-      results = batchesList
-          .where((element) => element["name"]
-              .toString()
-              .toLowerCase()
-              .startsWith(batchName.toLowerCase()))
+      final lowerCaseReportName = batchName.toLowerCase();
+      foundBatches = batchesList
+          .where(
+            (element) => element["name"]
+                .toString()
+                .toLowerCase()
+                .startsWith(lowerCaseReportName),
+          )
           .toList();
     }
-    foundBatches = results as List;
+  }
+
+  void filterReports(String reportName) {
+    if (reportName.isEmpty) {
+      foundReports = reportsList;
+    } else {
+      final lowerCaseReportName = reportName.toLowerCase();
+      foundReports = reportsList
+          .where(
+            (element) => element["name"]
+                .toString()
+                .toLowerCase()
+                .startsWith(lowerCaseReportName),
+          )
+          .toList();
+    }
   }
 
   applySubCounties(List<String> subCounties) {

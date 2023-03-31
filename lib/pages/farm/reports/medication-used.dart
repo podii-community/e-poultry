@@ -189,7 +189,7 @@ class _MedicationUsedState extends State<MedicationUsed> {
                                 },
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
-                                  suffixText: 'L',
+                                  suffixText: 'DF',
                                   prefixStyle: TextStyle(fontSize: 1.8.h),
                                   border: OutlineInputBorder(
                                       borderSide: BorderSide(
@@ -199,7 +199,7 @@ class _MedicationUsedState extends State<MedicationUsed> {
                                       borderSide: BorderSide(
                                           width: 0.3.w,
                                           color: CustomColors.secondary)),
-                                  labelText: "How many litres were used",
+                                  labelText: "How many doses were used",
                                   labelStyle: TextStyle(
                                       fontSize: 2.2.h,
                                       color: CustomColors.secondary),
@@ -220,7 +220,7 @@ class _MedicationUsedState extends State<MedicationUsed> {
                                 },
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
-                                  suffixText: 'L',
+                                  suffixText: 'DF',
                                   prefixStyle: TextStyle(fontSize: 1.8.h),
                                   border: OutlineInputBorder(
                                       borderSide: BorderSide(
@@ -230,7 +230,7 @@ class _MedicationUsedState extends State<MedicationUsed> {
                                       borderSide: BorderSide(
                                           width: 0.3.w,
                                           color: CustomColors.secondary)),
-                                  labelText: "How many litres were used",
+                                  labelText: "How many doses were used",
                                   labelStyle: TextStyle(
                                       fontSize: 2.2.h,
                                       color: CustomColors.secondary),

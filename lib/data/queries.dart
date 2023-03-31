@@ -84,6 +84,9 @@ class EpoultryQueries {
     return """
     query GetUserDetails{
                      user{
+                      avatar{
+                        url
+                      }
                   id,
                   farmer{
                     gender
@@ -658,6 +661,9 @@ class EpoultryQueries {
     query FarmRequests(\$filter: ExtensionServiceFilterInput!){
       extensionServiceRequests(filter: \$filter){
         createdAt
+        attachments{
+      url
+    }
     id
         farmId
     farmVisitReport{
@@ -704,6 +710,7 @@ class EpoultryQueries {
         status
         id
         farmVisit{
+          description
           report{
             id
             
@@ -713,6 +720,7 @@ class EpoultryQueries {
         }
         
         medicalVisit{
+          description
           ageType
           birdAge
           birdCount

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:hive/hive.dart';
+
+import '../../controllers/user_controller.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -11,7 +14,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   // final controller = Get.find<FarmsController>();
-  // final userController = Get.find<UserController>();
+  final userController = Get.find<UserController>();
   final box = Hive.box('appData');
   late final name = box.get('name');
 
@@ -48,25 +51,51 @@ class _ProfilePageState extends State<ProfilePage> {
                         Padding(
                           padding: const EdgeInsets.all(15.0),
                           child: SizedBox(
+                            width: 88,
+                            height: 88,
+                            child: Container(
                               width: 88,
                               height: 88,
-                              child: Container(
-                                  width: 88,
-                                  height: 88,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: const Color.fromRGBO(
-                                          255, 255, 255, 1),
-                                      width: 2,
-                                    ),
-                                    image: const DecorationImage(
-                                        image: AssetImage(
-                                            'assets/placeholder.png'),
-                                        fit: BoxFit.fitWidth),
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.elliptical(88, 88)),
-                                  ))),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: const Color.fromRGBO(255, 255, 255, 1),
+                                  width: 2,
+                                ),
+                                image: DecorationImage(
+                                  image: NetworkImage(userController
+                                      .profileImage
+                                      .value), // replace with your image URL
+                                  fit: BoxFit.cover,
+                                ),
+                                borderRadius: const BorderRadius.all(
+                                  Radius.elliptical(88, 88),
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
+                        // Padding(
+                        //   padding: const EdgeInsets.all(15.0),
+                        //   child: SizedBox(
+                        //       width: 88,
+                        //       height: 88,
+                        //       child: Container(
+                        //           width: 88,
+                        //           height: 88,
+                        //           decoration: BoxDecoration(
+                        //             border: Border.all(
+                        //               color: const Color.fromRGBO(
+                        //                   255, 255, 255, 1),
+                        //               width: 2,
+                        //             ),
+                        //             image: const DecorationImage(
+                        //                 image: AssetImage(
+                        //                     'assets/placeholder.png'),
+                        //                 fit: BoxFit.fitWidth),
+                        //             borderRadius: const BorderRadius.all(
+                        //                 Radius.elliptical(88, 88)),
+                        //           ))),
+                        // ),
                         const SizedBox(width: 16),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

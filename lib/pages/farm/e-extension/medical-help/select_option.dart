@@ -2,8 +2,6 @@ import 'package:epoultry/pages/farm/e-extension/medical-help/send_request.dart';
 import 'package:epoultry/theme/colors.dart';
 import 'package:epoultry/theme/spacing.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
@@ -54,19 +52,19 @@ class SelectOption extends StatelessWidget {
                   shrinkWrap: true,
                   children: [
                     ListTile(
-                      leading: Icon(PhosphorIcons.phoneCall),
-                      title: Text("Call us on 0700 111 111"),
+                      leading: const Icon(PhosphorIcons.phoneCall),
+                      title: const Text("Call us on 0742088393"),
                       onTap: () {
                         launch('tel:+254742088393');
                       },
                     ),
-                    Divider(),
+                    const Divider(),
                     ListTile(
                       onTap: () {
                         Get.to(() => GetMedicalHelp());
                       },
-                      leading: Icon(PhosphorIcons.clipboardText),
-                      title: Text("Send a request on app"),
+                      leading: const Icon(PhosphorIcons.clipboardText),
+                      title: const Text("Send a request on app"),
                     ),
                   ],
                 )

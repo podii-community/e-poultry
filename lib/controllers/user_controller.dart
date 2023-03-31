@@ -7,6 +7,7 @@ class UserController extends GetxController {
   final userId = "".obs;
   final vetNumber = "".obs;
   final loc = "".obs;
+  final profileImage = "".obs;
 
   updateName(name) {
     userName(name);
@@ -30,5 +31,9 @@ class UserController extends GetxController {
 
   updateLoc(location) {
     loc(location);
+  }
+
+  updateProfile(profile) {
+    profileImage(profile);
   }
 }

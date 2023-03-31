@@ -1,10 +1,13 @@
+import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:epoultry/graphql/query_document_provider.dart';
 import 'package:epoultry/pages/extensions/extension_homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide FormData, MultipartFile;
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hive/hive.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../controllers/user_controller.dart';
@@ -38,6 +41,21 @@ class _ExtensionOfficerProfileState extends State<ExtensionOfficerProfile> {
   TextEditingController idNumber = TextEditingController();
 
   TextEditingController phoneNumber = TextEditingController();
+
+  final dio = Dio();
+
+  File? _imageFile;
+
+  // function to pick an image from gallery or camera
+  Future<void> _pickImage(ImageSource source) async {
+    final pickedFile = await ImagePicker().pickImage(source: source);
+
+    if (pickedFile != null) {
+      setState(() {
+        _imageFile = File(pickedFile.path);
+      });
+    }
+  }
 
   @override
   void initState() {
@@ -83,44 +101,70 @@ class _ExtensionOfficerProfileState extends State<ExtensionOfficerProfile> {
                 height: 185,
                 child: Column(
                   children: [
-                    Container(
-                      width: double.infinity,
-                      height: 160,
-                      decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.only(),
-                        boxShadow: const [
-                          BoxShadow(
-                              color:
-                                  Color.fromRGBO(0, 0, 0, 0.05000000074505806),
-                              offset: Offset(0, 17.549407958984375),
-                              blurRadius: 17.549407958984375)
-                        ],
-                        color: const Color.fromRGBO(246, 251, 255, 1),
-                        border: Border.all(
-                          color: const Color.fromRGBO(56, 78, 183, 1),
-                          width: 0.731225311756134,
-                        ),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset('assets/Vector.svg',
-                              semanticsLabel: 'vector'),
-                          const SizedBox(height: 8),
-                          Text(
-                            'Upload Profile Photo',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 2.2.h, color: CustomColors.secondary
-                                // color: Color.fromRGBO(1, 33, 56, 0.6000000238418579),
-                                // fontFamily: 'DM Sans',
-                                // fontSize: 14,
-                                // letterSpacing: 0,
-                                // fontWeight: FontWeight.normal,
-                                // height: 1.2535291399274553
+                    GestureDetector(
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return SimpleDialog(
+                              children: [
+                                ListTile(
+                                  leading: const Icon(Icons.camera_alt),
+                                  title: const Text('Take a picture'),
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                    _pickImage(ImageSource.camera);
+                                  },
                                 ),
-                          ),
-                        ],
+                                ListTile(
+                                  leading: const Icon(Icons.photo_library),
+                                  title: const Text('Choose from gallery'),
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                    _pickImage(ImageSource.gallery);
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                      child: Container(
+                        width: 160,
+                        height: 160,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.grey[200],
+                        ),
+                        child: _imageFile == null
+                            ? Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SvgPicture.asset(
+                                    'assets/Vector.svg',
+                                    semanticsLabel: 'vector',
+                                    width: 64,
+                                    height: 64,
+                                  ),
+                                  const SizedBox(height: 8),
+                                  const Text(
+                                    'Add Profile Photo',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : ClipOval(
+                                child: Image.file(
+                                  _imageFile!,
+                                  fit: BoxFit.cover,
+                                  width: 160,
+                                  height: 160,
+                                ),
+                              ),
                       ),
                     ),
                   ],
@@ -269,8 +313,12 @@ class _ExtensionOfficerProfileState extends State<ExtensionOfficerProfile> {
                     padding: const EdgeInsets.all(8.0),
                     child: GradientWidget(
                       child: ElevatedButton(
-                        onPressed: () =>
-                            _updateButtonPressed(context, runMutation),
+                        onPressed: () {
+                          if (_imageFile != null) {
+                            submit();
+                          }
+                          _updateButtonPressed(context, runMutation);
+                        },
                         style: ElevatedButton.styleFrom(
                             foregroundColor: CustomColors.background,
                             backgroundColor: Colors.transparent,
@@ -319,6 +367,36 @@ class _ExtensionOfficerProfileState extends State<ExtensionOfficerProfile> {
       );
     } else {
       Get.to(() => const ExtensionHomePage());
+    }
+  }
+
+  submit() async {
+    final formData = FormData.fromMap({
+      'avatar': await MultipartFile.fromFile(
+        _imageFile!.path,
+      ),
+    });
+    final box = Hive.box('appData');
+
+    final response = await dio.post(
+      'https://cbsmartfarm.herokuapp.com/api/users/avatar',
+      data: formData,
+      options: Options(
+        headers: {
+          "authorization": "Bearer ${box.get("token")}",
+        },
+      ),
+    );
+
+    if (response.statusCode == 200) {
+      Get.snackbar('Success', 'Image uploaded successfully');
+      // Get.to(() => const SuccessWidget(
+      //       message:
+      //           'You have sucessfully requested for medical help. We’ll notify you as soon as there is a Vetinary officer available.',
+      //       route: 'dashboard',
+      //     ));
+    } else {
+      Get.snackbar('Error', 'Failed to upload image');
     }
   }
 

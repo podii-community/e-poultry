@@ -57,6 +57,10 @@ class _ExtensionHomePageState extends State<ExtensionHomePage> {
 
       userController.updateName(name);
       userController.updatePhone(fetchDetails.data!['user']['phoneNumber']);
+      if (fetchDetails.data!['user']['avatar'] != null) {
+        userController
+            .profileImage(fetchDetails.data!['user']['avatar']['url']);
+      }
       userController.updateLoc(
           fetchDetails.data!['user']["extensionOfficer"]['address']['county']);
 
