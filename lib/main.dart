@@ -2,10 +2,10 @@ import 'package:epoultry/core/data/queries.dart';
 import 'package:epoultry/core/graphql/graphql_config.dart';
 
 import 'package:epoultry/core/graphql/query_document_provider.dart';
-import 'package:epoultry/features/pages/extensions/extension_homepage.dart';
-import 'package:epoultry/features/pages/farm/dashboard/farm_dashboard_page.dart';
-import 'package:epoultry/features/pages/landing_page.dart';
-import 'package:epoultry/features/pages/veterinary/vet_homepage.dart';
+import 'package:epoultry/features/extensions/extension_homepage.dart';
+import 'package:epoultry/features/farm/dashboard/farm_dashboard_page.dart';
+import 'package:epoultry/features/auth/landing_page.dart';
+import 'package:epoultry/features/veterinary/vet_homepage.dart';
 import 'package:epoultry/core/theme/custom_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';

@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:epoultry/core/controllers/user_controller.dart';
-import 'package:epoultry/features/pages/farm/batch/list_batches_page.dart';
-import 'package:epoultry/features/pages/farm/dashboard/farm_dashboard_page.dart';
-import 'package:epoultry/features/pages/farm/farm-managers/manage_farm_managers_page.dart';
-import 'package:epoultry/features/pages/farm/join-farm/join_farm_page.dart';
+import 'package:epoultry/features/farm/batch/list_batches_page.dart';
+import 'package:epoultry/features/farm/dashboard/farm_dashboard_page.dart';
+import 'package:epoultry/features/farm/farm-managers/manage_farm_managers_page.dart';
+import 'package:epoultry/features/farm/join-farm/join_farm_page.dart';
 import 'package:epoultry/core/theme/colors.dart';
 import 'package:epoultry/core/theme/spacing.dart';
 import 'package:flutter/material.dart';
@@ -13,10 +13,10 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
 import '../controllers/farm_controller.dart';
-import '../../features/pages/extensions/extension_homepage.dart';
-import '../../features/pages/extensions/extension_officer_profile.dart';
-import '../../features/pages/veterinary/vet_homepage.dart';
-import '../../features/pages/veterinary/vet_profile.dart';
+import '../../features/extensions/extension_homepage.dart';
+import '../../features/extensions/extension_officer_profile.dart';
+import '../../features/veterinary/vet_homepage.dart';
+import '../../features/veterinary/vet_profile.dart';
 
 class SuccessWidget extends StatefulWidget {
   const SuccessWidget({

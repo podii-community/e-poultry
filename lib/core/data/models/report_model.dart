@@ -1,4 +1,4 @@
-import '../../../features/pages/farm/reports/number_birds_page.dart';
+import '../../../features/farm/reports/number_birds_page.dart';
 
 class ReportModel {
   final int? id;
