@@ -1,29 +1,22 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:dotted_border/dotted_border.dart';
-import 'package:epoultry/graphql/query_document_provider.dart';
 import 'package:epoultry/pages/farm/batch/create_batch_page.dart';
 import 'package:epoultry/theme/spacing.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart' hide FormData, MultipartFile;
-import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hive/hive.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../controllers/farm_controller.dart';
-import '../../../../data/models/error.dart';
 import '../../../../theme/colors.dart';
 import '../../../../widgets/gradient_widget.dart';
 import '../../../../widgets/loading_spinner.dart';
 import '../../../../widgets/success_widget.dart';
 
 class GetMedicalHelp extends StatefulWidget {
-  GetMedicalHelp({super.key});
+  const GetMedicalHelp({super.key});
 
   @override
   State<GetMedicalHelp> createState() => _GetMedicalHelpState();
@@ -71,16 +64,14 @@ class _GetMedicalHelpState extends State<GetMedicalHelp> {
         ),
       ),
       body: controller.batchesList.isEmpty
-          ? Container(
-              child: Center(
-                child: Column(
-                  children: [
-                    const Text('You dont have any batches.Create one'),
-                    TextButton(
-                        onPressed: (() => Get.to(const CreateBatchPage())),
-                        child: const Text('Create Batch'))
-                  ],
-                ),
+          ? Center(
+              child: Column(
+                children: [
+                  const Text('You dont have any batches.Create one'),
+                  TextButton(
+                      onPressed: (() => Get.to(const CreateBatchPage())),
+                      child: const Text('Create Batch'))
+                ],
               ),
             )
           : SingleChildScrollView(
@@ -159,7 +150,6 @@ class _GetMedicalHelpState extends State<GetMedicalHelp> {
                   ),
                   DottedBorder(
                     color: CustomColors.secondary,
-                    strokeWidth: 1,
                     child: uploaded
                         ? Container(
                             height: 20.h,
@@ -234,22 +224,22 @@ class _GetMedicalHelpState extends State<GetMedicalHelp> {
     );
   }
 
-  Future<void> _onCompleted(data, BuildContext context) async {
-    if ((data['requestMedicalVisit']['farmId']).toString().isNotEmpty) {
-      Get.to(() => const SuccessWidget(
-            message:
-                'You have sucessfully requested for medical help. We’ll notify you as soon as there is a Vetinary officer available.',
-            route: 'dashboard',
-          ));
-    }
-  }
+  // Future<void> _onCompleted(data, BuildContext context) async {
+  //   if ((data['requestMedicalVisit']['farmId']).toString().isNotEmpty) {
+  //     Get.to(() => const SuccessWidget(
+  //           message:
+  //               'You have sucessfully requested for medical help. We’ll notify you as soon as there is a Vetinary officer available.',
+  //           route: 'dashboard',
+  //         ));
+  //   }
+  // }
 
-  Future<void> _requestMedicalVisitPressed(
-      BuildContext context, RunMutation runMutation) async {
-    runMutation({
-      "data": {'batchId': selectedBatch.text, "description": issue.text},
-    });
-  }
+  // Future<void> _requestMedicalVisitPressed(
+  //     BuildContext context, RunMutation runMutation) async {
+  //   runMutation({
+  //     "data": {'batchId': selectedBatch.text, "description": issue.text},
+  //   });
+  // }
 
   pickFiles() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(

@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:epoultry/controllers/farm_controller.dart';
 import 'package:epoultry/graphql/query_document_provider.dart';
-import 'package:epoultry/pages/farm/dashboard/dashboard_page.dart';
 import 'package:epoultry/pages/farm/dashboard/farm_dashboard_page.dart';
 import 'package:epoultry/pages/farm/e-extension/vaccination/vaccine_details.dart';
 import 'package:epoultry/theme/spacing.dart';
@@ -19,8 +18,9 @@ import '../../../../widgets/error_widget.dart';
 import '../../../../widgets/loading_spinner.dart';
 
 class VaccinationList extends StatefulWidget {
-  VaccinationList({super.key, this.batchId});
+  const VaccinationList({super.key, this.batchId});
 
+  // ignore: prefer_typing_uninitialized_variables
   final batchId;
 
   @override
@@ -33,7 +33,6 @@ class _VaccinationListState extends State<VaccinationList> {
 
   @override
   void didChangeDependencies() {
-    // getVaccinationList(context);
     super.didChangeDependencies();
   }
 
@@ -110,7 +109,7 @@ class _VaccinationListState extends State<VaccinationList> {
                           vaccine['status'].toString() == "PENDING")
                       .toList();
 
-                  log("${pending}");
+                  log("$pending");
 
                   return Expanded(
                     child: ListView.builder(
@@ -269,7 +268,7 @@ class _VaccinationListState extends State<VaccinationList> {
 
   void _onCompleted(data, BuildContext context) {
     if ((data != null)) {
-      Get.to(() => FarmDashboardPage());
+      Get.to(() => const FarmDashboardPage());
     }
   }
 

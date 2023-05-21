@@ -11,11 +11,12 @@ import 'package:sizer/sizer.dart';
 class RequestDetails extends StatelessWidget {
   RequestDetails({super.key, this.request});
 
+  // ignore: prefer_typing_uninitialized_variables
   final request;
   final DateFormat formatter = DateFormat('yyyy-MM-dd');
   @override
   Widget build(BuildContext context) {
-    log("${this.request}");
+    log("$request");
     return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
@@ -64,8 +65,8 @@ class RequestDetails extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('DATE OF VISIT'),
-                  SizedBox(
+                  const Text('DATE OF VISIT'),
+                  const SizedBox(
                     height: CustomSpacing.s1,
                   ),
                   Text(

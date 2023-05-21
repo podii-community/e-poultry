@@ -15,8 +15,8 @@ import '../../widgets/loading_spinner.dart';
 import '../../widgets/success_widget.dart';
 
 class RequestsPage extends StatefulWidget {
-  const RequestsPage({Key? key, required this.extensionServiceId})
-      : super(key: key);
+  const RequestsPage({Key? key, this.extensionServiceId}) : super(key: key);
+  // ignore: prefer_typing_uninitialized_variables
   final extensionServiceId;
 
   @override
@@ -230,6 +230,7 @@ class _RequestsPageState extends State<RequestsPage> {
                       Expanded(
                         child: TextButton.icon(
                           onPressed: () {
+                            // ignore: deprecated_member_use
                             launch('tel:+254742088393');
 
                             setState(() {
@@ -299,7 +300,6 @@ class _RequestsPageState extends State<RequestsPage> {
                   onCompleted: (data) => _onCompleted(data, context),
                 ),
                 builder: (RunMutation runMutation, QueryResult? result) {
-                  print("$result");
                   if (result != null) {
                     if (result.isLoading) {
                       return const LoadingSpinner();

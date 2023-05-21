@@ -1,8 +1,6 @@
-import 'dart:developer';
-
 import 'package:epoultry/controllers/user_controller.dart';
 import 'package:epoultry/graphql/query_document_provider.dart';
-import 'package:epoultry/pages/farm/farm-managers/manage-farm-managers_page.dart';
+import 'package:epoultry/pages/farm/farm-managers/manage_farm_managers_page.dart';
 import 'package:epoultry/pages/farm/farm-managers/profile_page.dart';
 import 'package:epoultry/pages/farm/quotation/request_quotation_page.dart';
 import 'package:epoultry/pages/landing_page.dart';
@@ -17,9 +15,6 @@ import 'package:sizer/sizer.dart';
 
 import '../../../controllers/farm_controller.dart';
 import '../../../controllers/managers_controller.dart';
-import '../../../data/models/error.dart';
-import '../../../widgets/error_widget.dart';
-import '../../../widgets/loading_spinner.dart';
 import '../create-farm/create_farm_page.dart';
 
 class DrawerPage extends StatelessWidget {
@@ -31,9 +26,8 @@ class DrawerPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final box = Hive.box('appData');
-    final selectedFarmId =
-        TextEditingController(text: controller.farm.value['id']);
+    // final box = Hive.box('appData');
+    final selectedFarmId = TextEditingController(text: controller.farm['id']);
 
     // final role = box.get('role');
     return Drawer(
@@ -45,7 +39,7 @@ class DrawerPage extends StatelessWidget {
       ),
       child: ListView(
         children: [
-          Container(
+          SizedBox(
             height: 15.h,
             child: Image.asset('assets/logo.png'),
           ),
@@ -99,7 +93,7 @@ class DrawerPage extends StatelessWidget {
           const SizedBox(
             height: CustomSpacing.s1,
           ),
-          Divider(),
+          const Divider(),
           userController.userRole.value == 'farmer'
               ? ListTile(
                   leading: Icon(
@@ -212,7 +206,7 @@ class DrawerPage extends StatelessWidget {
         fetchPolicy: FetchPolicy.networkOnly,
         operationName: "GetFarmManagers",
         document: gql(context.queries.getFarmManagers()),
-        variables: {"farmId": controller.farm.value['id']}));
+        variables: {"farmId": controller.farm['id']}));
 
     if (fetchManagers.data?["farmManagers"] != null) {
       List farmManagers = fetchManagers.data?["farmManagers"];

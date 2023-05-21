@@ -1,16 +1,14 @@
-import 'dart:developer';
-
-import 'package:epoultry/pages/farm/farm-managers/edit-profile_page.dart';
 import 'package:epoultry/theme/spacing.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hive/hive.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../controllers/farm_controller.dart';
 import '../../../controllers/user_controller.dart';
 import '../../../theme/colors.dart';
+
+import 'edit_profile_page.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key, this.showAppbar = true}) : super(key: key);
@@ -27,11 +25,11 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    final box = Hive.box('appData');
-    final name = box.get('name');
-    final phone = box.get('phone');
-    final role = box.get('role');
-    log("Profile ${controller.farm.value['id']}");
+    // final box = Hive.box('appData');
+    // final name = box.get('name');
+    // final phone = box.get('phone');
+    // final role = box.get('role');
+    // log("Profile ${controller.farm.value['id']}");
 
     return Scaffold(
         appBar: widget.showAppbar

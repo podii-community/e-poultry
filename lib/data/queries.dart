@@ -875,8 +875,8 @@ class EpoultryQueries {
 
   String updateExtProfile() {
     return """
-     mutation UpdateExtUser(\$data: UpdateExtensionOfficerInput!) {
-         updateExtensionOfficer(data: \$data){
+    mutation UpdateExtUser(\$data: UpdateExtensionOfficerInput!) {
+       updateExtensionOfficer(data: \$data){
                   id,
          }
     }

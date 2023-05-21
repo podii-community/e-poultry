@@ -28,8 +28,6 @@ class _FarmerRegistrationState extends State<FarmerRegistration> {
   final firstName = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   final location = TextEditingController();
-  final name_of_contact_person = TextEditingController();
-  final groupName = TextEditingController();
   final groupType = TextEditingController();
   final phoneNumber = TextEditingController();
   final password = TextEditingController();
@@ -344,19 +342,19 @@ class _FarmerRegistrationState extends State<FarmerRegistration> {
     }
   }
 
-  Future<void> _registerButtonPressed(
-      BuildContext context, RunMutation runMutation) async {
-    runMutation(
-      {
-        "data": {
-          'name_of_contact_person': name_of_contact_person,
-          'location': location.text,
-          'phoneNumber': phoneNumber.text,
-          "groupName": groupName.text,
-          "lastName": groupType.text,
-          "password": password.text
-        }
-      },
-    );
-  }
+  // Future<void> _registerButtonPressed(
+  //     BuildContext context, RunMutation runMutation) async {
+  //   runMutation(
+  //     {
+  //       "data": {
+  //         'name_of_contact_person': name_of_contact_person,
+  //         'location': location.text,
+  //         'phoneNumber': phoneNumber.text,
+  //         "groupName": groupName.text,
+  //         "lastName": groupType.text,
+  //         "password": password.text
+  //       }
+  //     },
+  //   );
+  // }
 }

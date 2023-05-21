@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'package:epoultry/data/data_export.dart';
 import 'package:epoultry/pages/farm/batch/confirm_batch_page.dart';
 import 'package:flutter/material.dart';
@@ -238,7 +240,7 @@ class _CreateBatchPageState extends State<CreateBatchPage> {
                           birdCount: int.parse(number.text),
                           ageType: ageType!,
                           date: ("${day.text}-$s-${year.text}"),
-                          farmId: controller.farm.value['id']);
+                          farmId: controller.farm['id']);
 
                       Get.to(() => ConfirmBatchPage(
                             newBatch: newBatch,

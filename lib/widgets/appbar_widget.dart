@@ -1,8 +1,6 @@
-import 'package:epoultry/controllers/user_controller.dart';
-import 'package:epoultry/pages/farm/notifications/view-notification.dart';
+import 'package:epoultry/pages/farm/notifications/view_notification.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hive/hive.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
@@ -14,17 +12,14 @@ class AppbarWidget extends StatelessWidget implements PreferredSizeWidget {
       : preferredSize = const Size.fromHeight(60.0),
         super(key: key);
 
+  // ignore: prefer_typing_uninitialized_variables
   final drawerKey;
   @override
   final Size preferredSize;
 
   @override
   Widget build(BuildContext context) {
-    final box = Hive.box('appData');
-    final name = box.get('name');
-
     final controller = Get.find<FarmsController>();
-    final userController = Get.find<UserController>();
 
     return AppBar(
       automaticallyImplyLeading: false,
@@ -52,7 +47,7 @@ class AppbarWidget extends StatelessWidget implements PreferredSizeWidget {
       ],
       title: Obx(
         (() => Text(
-              controller.farm.value['name'] ?? 'E-Poultry Farming',
+              controller.farm['name'] ?? 'E-Poultry Farming',
               style: const TextStyle(color: Colors.black),
             )),
       ),

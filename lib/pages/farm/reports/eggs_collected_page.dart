@@ -15,6 +15,7 @@ class EggsCollectedPage extends StatefulWidget {
       : super(key: key);
 
   final BatchModel batchDetails;
+  // ignore: prefer_typing_uninitialized_variables
   final report;
 
   @override

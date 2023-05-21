@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:epoultry/graphql/query_document_provider.dart';
 import 'package:epoultry/pages/farm/e-extension/request-status/request_details.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +36,7 @@ class _ListRequestState extends State<ListRequest> {
       fetchPolicy: FetchPolicy.networkOnly,
       operationName: "ExtensionServiceRequest",
       variables: {
-        "filter": {"farmId": controller.farm.value['id']}
+        "filter": {"farmId": controller.farm['id']}
       },
       document: gql(context.queries.getExtensionServiceRequests()),
     ));
@@ -82,7 +80,7 @@ class _ListRequestState extends State<ListRequest> {
                   fetchPolicy: FetchPolicy.networkOnly,
                   operationName: "ExtensionServiceRequest",
                   variables: {
-                    "filter": {"farmId": controller.farm.value['id']}
+                    "filter": {"farmId": controller.farm['id']}
                   },
                 ),
                 builder: (QueryResult result,
@@ -163,10 +161,10 @@ class _ListRequestState extends State<ListRequest> {
                                         children: [
                                           Text(
                                             '#${controller.extensionRequests[index]["status"]}',
-                                            style:
-                                                TextStyle(color: Colors.yellow),
+                                            style: const TextStyle(
+                                                color: Colors.yellow),
                                           ),
-                                          Icon(PhosphorIcons.arrowRight)
+                                          const Icon(PhosphorIcons.arrowRight)
                                         ],
                                       ),
                                     ],

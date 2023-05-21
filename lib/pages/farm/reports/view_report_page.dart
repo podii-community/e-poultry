@@ -92,7 +92,7 @@ class ViewReportPage extends StatelessWidget {
                                 "Farm Name",
                                 style: TextStyle(fontSize: 2.1.h),
                               ),
-                              Text(controller.farm.value["name"],
+                              Text(controller.farm["name"],
                                   style: TextStyle(fontSize: 2.1.h))
                             ],
                           ),
@@ -300,70 +300,67 @@ class ViewReportPage extends StatelessWidget {
                               const SizedBox(
                                 height: CustomSpacing.s2,
                               ),
-                              Container(
-                                // padding: EdgeInsets.symmetric(horizontal: 1.5.h),
-                                child: Column(
-                                  children: [
-                                    Card(
-                                      color: Colors.white,
-                                      elevation: 0.2,
-                                      child: Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            vertical: 2.h, horizontal: 3.w),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  "Good Eggs",
+                              Column(
+                                children: [
+                                  Card(
+                                    color: Colors.white,
+                                    elevation: 0.2,
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 2.h, horizontal: 3.w),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                "Good Eggs",
+                                                style:
+                                                    TextStyle(fontSize: 2.4.h),
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                children: [
+                                                  const Text("Batch 1"),
+                                                  SizedBox(
+                                                    width: 1.w,
+                                                  ),
+                                                  const Text("Batch 2")
+                                                ],
+                                              )
+                                            ],
+                                          ),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                  (farmReport["eggCollection"]
+                                                          ["goodCount"])
+                                                      .toString(),
                                                   style: TextStyle(
-                                                      fontSize: 2.4.h),
-                                                ),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceEvenly,
-                                                  children: [
-                                                    const Text("Batch 1"),
-                                                    SizedBox(
-                                                      width: 1.w,
-                                                    ),
-                                                    const Text("Batch 2")
-                                                  ],
-                                                )
-                                              ],
-                                            ),
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                    (farmReport["eggCollection"]
-                                                            ["goodCount"])
-                                                        .toString(),
-                                                    style: TextStyle(
-                                                        fontSize: 2.4.h)),
-                                                Row(
-                                                  children: [
-                                                    Text(
-                                                        "${(farmReport["eggCollection"]?["deformedCount"]).toString()} Deformed",
-                                                        style: const TextStyle(
-                                                            color: CustomColors
-                                                                .red))
-                                                  ],
-                                                )
-                                              ],
-                                            )
-                                          ],
-                                        ),
+                                                      fontSize: 2.4.h)),
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                      "${(farmReport["eggCollection"]?["deformedCount"]).toString()} Deformed",
+                                                      style: const TextStyle(
+                                                          color:
+                                                              CustomColors.red))
+                                                ],
+                                              )
+                                            ],
+                                          )
+                                        ],
                                       ),
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               )
                             ],
                           )

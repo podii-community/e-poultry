@@ -1,21 +1,15 @@
-import 'dart:developer';
-
 import 'package:epoultry/controllers/farm_controller.dart';
 import 'package:epoultry/pages/farm/e-extension/vaccination/vaccination_list.dart';
 import 'package:epoultry/theme/colors.dart';
 import 'package:epoultry/theme/spacing.dart';
 import 'package:epoultry/widgets/gradient_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../batch/create_batch_page.dart';
-
 class SelectBatch extends StatefulWidget {
-  SelectBatch({super.key});
+  const SelectBatch({super.key});
 
   @override
   State<SelectBatch> createState() => _SelectBatchState();
@@ -28,7 +22,6 @@ class _SelectBatchState extends State<SelectBatch> {
 
   @override
   void initState() {
-    // TODO: implement initState
     selectedBatch.text = controller.batchesList.first['id'];
     super.initState();
   }

@@ -46,7 +46,7 @@ class _DashboardPageState extends State<DashboardPage> {
             () => Query(
               options: QueryOptions(
                 document: gql(context.queries.getFarm()),
-                variables: {'farmId': controller.farm.value['id']},
+                variables: {'farmId': controller.farm['id']},
                 fetchPolicy: FetchPolicy.noCache,
                 // pollInterval: const Duration(seconds: 2),
               ),
@@ -315,7 +315,7 @@ class _DashboardPageState extends State<DashboardPage> {
         operationName: "GetFarmReports",
         document: gql(context.queries.getFarmReports()),
         variables: {
-          "filter": {"farmId": controller.farm.value['id']}
+          "filter": {"farmId": controller.farm['id']}
         }));
 
     List reports = [];
@@ -334,7 +334,7 @@ class _DashboardPageState extends State<DashboardPage> {
         operationName: "StoreItems",
         document: gql(context.queries.storeItems()),
         variables: {
-          "filter": {"farmId": controller.farm.value['id']}
+          "filter": {"farmId": controller.farm['id']}
         }));
 
     // log("${}");

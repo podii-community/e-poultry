@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:epoultry/graphql/query_document_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -32,8 +31,8 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
   final subcountyName = TextEditingController();
   final wardName = TextEditingController();
   String contractorManaged = "";
-  List<String> _currentWards = [];
-  String _chosenSubCounty = "";
+  // final List<String> _currentWards = [];
+  // final String _chosenSubCounty = "";
   late Position farmCoordinates;
   final contractorName = TextEditingController();
   final county = TextEditingController();
@@ -54,7 +53,7 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
   List subcounties = [];
   List wards = [];
 
-  Object? _selectedCounty;
+  // Object? _selectedCounty;
 
   final controller = Get.find<FarmsController>();
 
@@ -62,7 +61,6 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -216,7 +214,7 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
                         DropdownButtonFormField<Object>(
                             value: subcountyName.text,
                             onChanged: (value) {
-                              log("${value}");
+                              log("$value");
                               // setState(
                               //     () => subcountyName.text = value!['name'].toString());
                               var selectedSubcounty = subcounties.firstWhere(
@@ -462,7 +460,7 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
         "id": data['createFarm']['id'],
         "name": data['createFarm']['name']
       };
-      controller.farms.value.add(farm);
+      controller.farms.add(farm);
 
       Get.to(() => const SuccessWidget(
             message: 'Farm Created',

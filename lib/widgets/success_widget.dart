@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:epoultry/controllers/user_controller.dart';
 import 'package:epoultry/pages/farm/batch/list_batches_page.dart';
 import 'package:epoultry/pages/farm/dashboard/farm_dashboard_page.dart';
-import 'package:epoultry/pages/farm/farm-managers/manage-farm-managers_page.dart';
+import 'package:epoultry/pages/farm/farm-managers/manage_farm_managers_page.dart';
 import 'package:epoultry/pages/farm/join-farm/join_farm_page.dart';
 import 'package:epoultry/theme/colors.dart';
 import 'package:epoultry/theme/spacing.dart';

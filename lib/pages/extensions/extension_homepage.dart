@@ -1,8 +1,5 @@
 import 'package:epoultry/graphql/query_document_provider.dart';
-import 'package:epoultry/pages/extensions/dashboard_page.dart';
-import 'package:epoultry/pages/extensions/farm_visits.dart';
-import 'package:epoultry/pages/extensions/profile_page.dart';
-import 'package:epoultry/pages/landing_page.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -13,6 +10,10 @@ import 'package:sizer/sizer.dart';
 import '../../controllers/farm_controller.dart';
 import '../../controllers/user_controller.dart';
 import '../../theme/colors.dart';
+import '../landing_page.dart';
+import 'dashboard_page.dart';
+import 'farm_visit/farm_visits.dart';
+import 'profile_page.dart';
 
 class ExtensionHomePage extends StatefulWidget {
   const ExtensionHomePage({super.key});
@@ -23,7 +24,6 @@ class ExtensionHomePage extends StatefulWidget {
 
 class _ExtensionHomePageState extends State<ExtensionHomePage> {
   int _selectedIndex = 0;
-  final GlobalKey<ScaffoldState> _dashboardkey = GlobalKey();
   static final List<Widget> _pages = <Widget>[
     const DashboardPage(),
     const FarmVisits(),

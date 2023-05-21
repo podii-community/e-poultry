@@ -8,11 +8,12 @@ import '../../../theme/colors.dart';
 import '../../../theme/spacing.dart';
 import '../../../widgets/gradient_widget.dart';
 import '../../controllers/farm_controller.dart';
-import 'housing_inspection.dart';
+import 'housing_inspection/housing_inspection.dart';
 
 class ConfirmFarmInformation extends StatelessWidget {
   ConfirmFarmInformation({Key? key, this.report}) : super(key: key);
 
+  // ignore: prefer_typing_uninitialized_variables
   final report;
   final controller = Get.find<FarmsController>();
 

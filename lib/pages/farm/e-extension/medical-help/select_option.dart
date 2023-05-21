@@ -55,13 +55,14 @@ class SelectOption extends StatelessWidget {
                       leading: const Icon(PhosphorIcons.phoneCall),
                       title: const Text("Call us on 0742088393"),
                       onTap: () {
+                        // ignore: deprecated_member_use
                         launch('tel:+254742088393');
                       },
                     ),
                     const Divider(),
                     ListTile(
                       onTap: () {
-                        Get.to(() => GetMedicalHelp());
+                        Get.to(() => const GetMedicalHelp());
                       },
                       leading: const Icon(PhosphorIcons.clipboardText),
                       title: const Text("Send a request on app"),

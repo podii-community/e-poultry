@@ -1,13 +1,14 @@
+// ignore_for_file: constant_identifier_names
+
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:epoultry/data/data_export.dart';
-import 'package:epoultry/pages/farm/reports/received/feed-received.dart';
-import 'package:epoultry/pages/farm/reports/sawdust-used.dart';
+import 'package:epoultry/pages/farm/reports/received/feed_received.dart';
+import 'package:epoultry/pages/farm/reports/sawdust_used.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
@@ -21,13 +22,14 @@ class FeedsUsedPage extends StatefulWidget {
       : super(key: key);
 
   final BatchModel batchDetails;
+  // ignore: prefer_typing_uninitialized_variables
   final report;
   @override
   State<FeedsUsedPage> createState() => _FeedsUsedPageState();
 }
 
+// ignore: camel_case_types
 enum FEED_TYPE {
-  // ignore: constant_identifier_names
   CHICKEN_DUCK_MASH,
   FINISHER_PELLETS,
   GROWERS_MASH,
@@ -205,7 +207,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                                   width: 0.3.w,
                                                   color: CustomColors
                                                       .secondary)))),
-                                  items: controller.layersFeeds.value,
+                                  items: controller.layersFeeds,
                                   popupProps:
                                       const PopupPropsMultiSelection.menu(
                                     showSelectedItems: true,
@@ -281,7 +283,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                                   width: 0.3.w,
                                                   color: CustomColors
                                                       .secondary)))),
-                                  items: controller.kienyejiFeed.value,
+                                  items: controller.kienyejiFeed,
                                   popupProps:
                                       const PopupPropsMultiSelection.menu(
                                     showSelectedItems: true,
@@ -559,10 +561,10 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                   GradientWidget(
                     child: ElevatedButton(
                         onPressed: () {
-                          final DateFormat formatter = DateFormat('yyyy-MM-dd');
-                          DateTime now = DateTime.now();
-                          DateTime date =
-                              DateTime(now.year, now.month, now.day);
+                          // final DateFormat formatter = DateFormat('yyyy-MM-dd');
+                          // DateTime now = DateTime.now();
+                          // DateTime date =
+                          //     DateTime(now.year, now.month, now.day);
                           var feedsUsageReports = [
                             {
                               "feedType": "CHICK & DUCK_MASH",

@@ -1,7 +1,8 @@
+// ignore_for_file: constant_identifier_names
 
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:epoultry/data/data_export.dart';
-import 'package:epoultry/pages/farm/reports/broiler-weight.dart';
+import 'package:epoultry/pages/farm/reports/broiler_weight.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -21,6 +22,7 @@ class NumberOfBirdsReportPage extends StatefulWidget {
       : super(key: key);
 
   final BatchModel batchDetails;
+  // ignore: prefer_typing_uninitialized_variables
   final report;
   @override
   State<NumberOfBirdsReportPage> createState() =>

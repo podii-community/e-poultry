@@ -12,7 +12,7 @@ import '../../controllers/farm_controller.dart';
 import '../../controllers/user_controller.dart';
 import '../../theme/colors.dart';
 import '../landing_page.dart';
-import 'farm_visits.dart';
+import 'farm_visit/farm_visits.dart';
 
 class VeterinaryHomePage extends StatefulWidget {
   const VeterinaryHomePage({super.key});
@@ -29,7 +29,6 @@ class _VeterinaryHomePageState extends State<VeterinaryHomePage> {
     const FarmVisits(),
     const ProfilePage()
   ];
-  final GlobalKey<ScaffoldState> _dashboardkey = GlobalKey();
 
   final controller = Get.find<FarmsController>();
   final userController = Get.find<UserController>();

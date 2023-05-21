@@ -17,7 +17,7 @@ import '../../../../widgets/loading_spinner.dart';
 import '../../../../widgets/success_widget.dart';
 
 class RequestFarmVisit extends StatefulWidget {
-  RequestFarmVisit({super.key});
+  const RequestFarmVisit({super.key});
 
   @override
   State<RequestFarmVisit> createState() => _RequestFarmVisitState();
@@ -200,7 +200,7 @@ class _RequestFarmVisitState extends State<RequestFarmVisit> {
   }
 
   Future<void> _onCompleted(data, BuildContext context) async {
-    log("${data}");
+    log("$data");
     if ((data['requestFarmVisit']['farmId']).toString().isNotEmpty) {
       Get.to(() => const SuccessWidget(
             message:
@@ -212,10 +212,10 @@ class _RequestFarmVisitState extends State<RequestFarmVisit> {
 
   Future<void> _requestVisitPressed(
       BuildContext context, RunMutation runMutation) async {
-    final DateFormat formatter = DateFormat('yyyy-MM-dd');
+    // final DateFormat formatter = DateFormat('yyyy-MM-dd');
     log("${{
       "data": {
-        "farmId": controller.farm.value['id'],
+        "farmId": controller.farm['id'],
         "visitDate": date.text,
         "visitPurpose": purpose.text
       },
@@ -223,7 +223,7 @@ class _RequestFarmVisitState extends State<RequestFarmVisit> {
 
     runMutation({
       "data": {
-        "farmId": controller.farm.value['id'],
+        "farmId": controller.farm['id'],
         "visitDate": date.text,
         "visitPurpose": purpose.text
       },

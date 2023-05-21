@@ -4,8 +4,6 @@ import 'package:epoultry/pages/farm/e-extension/farm-visit/farm_visit.dart';
 import 'package:epoultry/pages/farm/e-extension/vaccination/select_batch.dart';
 import 'package:epoultry/theme/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
@@ -25,16 +23,16 @@ class ExtensionService extends StatelessWidget {
               size: 3.h,
             ),
             onTap: () {
-              Get.to(() => SelectBatch());
+              Get.to(() => const SelectBatch());
             },
             title: Text('Vaccination',
                 style: TextStyle(
                     color: CustomColors.textPrimary, fontSize: 2.2.h)),
           ),
-          Divider(),
+          const Divider(),
           ListTile(
             onTap: () {
-              Get.to(() => SelectOption());
+              Get.to(() => const SelectOption());
             },
             leading: Icon(
               PhosphorIcons.prescriptionBold,
@@ -45,7 +43,7 @@ class ExtensionService extends StatelessWidget {
                 style: TextStyle(
                     color: CustomColors.textPrimary, fontSize: 2.2.h)),
           ),
-          Divider(),
+          const Divider(),
           ListTile(
             leading: Icon(
               PhosphorIcons.clipboardBold,
@@ -53,13 +51,13 @@ class ExtensionService extends StatelessWidget {
               size: 3.h,
             ),
             onTap: () {
-              Get.to(() => RequestFarmVisit());
+              Get.to(() => const RequestFarmVisit());
             },
             title: Text('Request Farm Visit',
                 style: TextStyle(
                     color: CustomColors.textPrimary, fontSize: 2.2.h)),
           ),
-          Divider(),
+          const Divider(),
           ListTile(
             leading: Icon(
               PhosphorIcons.presentationBold,
@@ -70,10 +68,10 @@ class ExtensionService extends StatelessWidget {
                 style: TextStyle(
                     color: CustomColors.textPrimary, fontSize: 2.2.h)),
             onTap: () {
-              Get.to(() => ListRequest());
+              Get.to(() => const ListRequest());
             },
           ),
-          Divider(),
+          const Divider(),
         ],
       ),
     );

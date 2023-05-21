@@ -1,6 +1,6 @@
 import 'package:epoultry/data/data_export.dart';
 import 'package:epoultry/pages/farm/reports/number_birds_page.dart';
-import 'package:epoultry/pages/farm/reports/store/feeds-store.dart';
+import 'package:epoultry/pages/farm/reports/store/feeds_store.dart';
 import 'package:epoultry/theme/spacing.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

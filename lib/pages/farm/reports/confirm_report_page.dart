@@ -1,8 +1,7 @@
-
 import 'package:epoultry/data/data_export.dart';
 import 'package:epoultry/graphql/query_document_provider.dart';
-import 'package:epoultry/pages/farm/reports/briquettes-used.dart';
-import 'package:epoultry/pages/farm/reports/broiler-weight.dart';
+import 'package:epoultry/pages/farm/reports/briquettes_used.dart';
+import 'package:epoultry/pages/farm/reports/broiler_weight.dart';
 import 'package:epoultry/pages/farm/reports/eggs_collected_page.dart';
 import 'package:epoultry/pages/farm/reports/number_birds_page.dart';
 import 'package:epoultry/theme/spacing.dart';
@@ -25,6 +24,7 @@ class ConfirmReportPage extends StatefulWidget {
   const ConfirmReportPage({Key? key, this.report, required this.batchDetails})
       : super(key: key);
 
+  // ignore: prefer_typing_uninitialized_variables
   final report;
   final BatchModel batchDetails;
 
@@ -72,7 +72,7 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
                 height: CustomSpacing.s3,
               ),
               Obx((() => Text(
-                    controller.farm.value['name'],
+                    controller.farm['name'],
                     style: TextStyle(color: Colors.black, fontSize: 3.h),
                   ))),
               const SizedBox(
@@ -501,12 +501,12 @@ class _ConfirmReportPageState extends State<ConfirmReportPage> {
         "reportDate": data['createBatchReport']["reportDate"],
       };
 
-      bool addReport = controller.reportsList.value.where((p0) {
+      bool addReport = controller.reportsList.where((p0) {
         return p0['reportDate'] == report['reportDate'];
       }).isEmpty;
 
       if (addReport) {
-        controller.reportsList.value.add(report);
+        controller.reportsList.add(report);
       }
       // controller.reportsList.value.addIf(condition, report)
 

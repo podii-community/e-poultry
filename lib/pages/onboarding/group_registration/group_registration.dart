@@ -6,7 +6,6 @@ import 'package:epoultry/widgets/gradient_widget.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../data/models/error.dart';
@@ -22,14 +21,10 @@ class GroupRegistrationPage extends StatefulWidget {
 }
 
 class _GroupRegistrationPageState extends State<GroupRegistrationPage> {
-  bool _obscurePassword = true;
-  bool _obscureConfirmPassword = true;
-
   final _formKey = GlobalKey<FormState>();
   final location = TextEditingController();
   final firstName = TextEditingController();
   final lastName = TextEditingController();
-  final name_of_contact_person = TextEditingController();
   final groupName = TextEditingController();
   final groupType = TextEditingController();
   final phoneNumber = TextEditingController();
@@ -40,18 +35,6 @@ class _GroupRegistrationPageState extends State<GroupRegistrationPage> {
   void dispose() {
     phoneNumber.dispose();
     super.dispose();
-  }
-
-  void _togglePasswordStatus() {
-    setState(() {
-      _obscurePassword = !_obscurePassword;
-    });
-  }
-
-  void _togglePasswordConfirmStatus() {
-    setState(() {
-      _obscureConfirmPassword = !_obscureConfirmPassword;
-    });
   }
 
   @override
@@ -467,19 +450,18 @@ class _GroupRegistrationPageState extends State<GroupRegistrationPage> {
     }
   }
 
-  Future<void> _registerButtonPressed(
-      BuildContext context, RunMutation runMutation) async {
-    runMutation(
-      {
-        "data": {
-          'name_of_contact_person': name_of_contact_person,
-          'location': location.text,
-          'phoneNumber': phoneNumber.text,
-          "groupName": groupName.text,
-          "lastName": groupType.text,
-          "password": password.text
-        }
-      },
-    );
-  }
+  // Future<void> _registerButtonPressed(
+  //     BuildContext context, RunMutation runMutation) async {
+  //   runMutation(
+  //     {
+  //       "data": {
+  //         'location': location.text,
+  //         'phoneNumber': phoneNumber.text,
+  //         "groupName": groupName.text,
+  //         "lastName": groupType.text,
+  //         "password": password.text
+  //       }
+  //     },
+  //   );
+  // }
 }

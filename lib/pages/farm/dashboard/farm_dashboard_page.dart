@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:epoultry/graphql/query_document_provider.dart';
 import 'package:epoultry/pages/farm/batch/list_batches_page.dart';

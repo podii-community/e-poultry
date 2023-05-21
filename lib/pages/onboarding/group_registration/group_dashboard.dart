@@ -1,6 +1,3 @@
-import 'package:epoultry/pages/farm/batch/list_batches_page.dart';
-import 'package:epoultry/pages/farm/dashboard/dashboard_page.dart';
-import 'package:epoultry/pages/farm/farm-managers/profile_page.dart';
 import 'package:epoultry/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -20,21 +17,12 @@ class GroupDashboardPage extends StatefulWidget {
 class _GroupDashboardPageState extends State<GroupDashboardPage> {
   int _selectedIndex = 0;
 
-  static final List<Widget> _pages = <Widget>[
-    const DashboardPage(),
-    const ListBatchPage(),
-    const ProfilePage(
-      showAppbar: false,
-    )
-  ];
   final GlobalKey<ScaffoldState> _dashboardkey = GlobalKey();
   final FarmsController controller = Get.put(FarmsController());
   final UserController userController = Get.put(UserController());
 
   @override
   void initState() {
-    // TODO: implement initState
-
     super.initState();
   }
 
