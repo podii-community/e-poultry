@@ -1,12 +1,12 @@
-import 'package:epoultry/data/queries.dart';
-import 'package:epoultry/graphql/graphql_config.dart';
+import 'package:epoultry/core/data/queries.dart';
+import 'package:epoultry/core/graphql/graphql_config.dart';
 
-import 'package:epoultry/graphql/query_document_provider.dart';
-import 'package:epoultry/pages/extensions/extension_homepage.dart';
-import 'package:epoultry/pages/farm/dashboard/farm_dashboard_page.dart';
-import 'package:epoultry/pages/landing_page.dart';
-import 'package:epoultry/pages/veterinary/vet_homepage.dart';
-import 'package:epoultry/theme/custom_theme.dart';
+import 'package:epoultry/core/graphql/query_document_provider.dart';
+import 'package:epoultry/features/pages/extensions/extension_homepage.dart';
+import 'package:epoultry/features/pages/farm/dashboard/farm_dashboard_page.dart';
+import 'package:epoultry/features/pages/landing_page.dart';
+import 'package:epoultry/features/pages/veterinary/vet_homepage.dart';
+import 'package:epoultry/core/theme/custom_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
@@ -15,8 +15,8 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:sizer/sizer.dart';
 
-import 'controllers/farm_controller.dart';
-import 'controllers/user_controller.dart';
+import 'core/controllers/farm_controller.dart';
+import 'core/controllers/user_controller.dart';
 
 void main() async {
   await Hive.initFlutter();
