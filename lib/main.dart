@@ -21,6 +21,7 @@ import 'core/controllers/user_controller.dart';
 void main() async {
   await Hive.initFlutter();
   await Hive.openBox('appData');
+  final box = Hive.box('appData');
   runApp(const Epoultry());
 }
 

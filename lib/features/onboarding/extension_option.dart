@@ -1,5 +1,4 @@
 import 'package:epoultry/features/onboarding/reg_forms/extension_officer.dart';
-import 'package:epoultry/features/onboarding/reg_forms/farm_manager.dart';
 import 'package:epoultry/features/onboarding/reg_forms/veterinary_officer.dart';
 // import 'package:epoultry/pages/onboarding/reg_forms/farmer.dart';
 import 'package:epoultry/core/theme/colors.dart';
@@ -59,7 +58,7 @@ class _ChooseExtensionState extends State<ChooseExtension> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const FarmerRegistration()));
+                            builder: (context) => const RegistrationPage()));
                   },
                   child: Container(
                     padding: const EdgeInsets.all(20),

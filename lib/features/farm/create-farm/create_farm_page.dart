@@ -27,7 +27,6 @@ class CreateFarmPage extends StatefulWidget {
 class _CreateFarmPageState extends State<CreateFarmPage> {
   final _formKey = GlobalKey<FormState>();
   final farmName = TextEditingController();
-  final countyName = TextEditingController();
   final subcountyName = TextEditingController();
   final wardName = TextEditingController();
   String contractorManaged = "";
@@ -474,11 +473,11 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
     runMutation({
       "data": {
         "address": {
-          'county': countyName.text,
+          'county': county.text,
           'subcounty': subcountyName.text,
           'ward': wardName.text
         },
-        "contractorId": contractorName.text,
+        // "contractorId": contractorName.text,
         "name": farmName.text
       },
     });
