@@ -1,5 +1,6 @@
 import 'package:epoultry/core/widgets/lottie_animation.dart';
 import 'package:epoultry/features/farm/create-farm/create_farm_page.dart';
+import 'package:epoultry/features/farm/join-farm/join_farm_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -31,7 +32,7 @@ class FarmErrorMessage extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () {
                   //  navigate to Create Farm page
-                  Get.to(() => const CreateFarmPage());
+                  Get.to(() => const JoinFarmPage());
                 },
                 style: ElevatedButton.styleFrom(
                     foregroundColor: CustomColors.background,
