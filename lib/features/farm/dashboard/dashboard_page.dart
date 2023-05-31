@@ -52,9 +52,15 @@ class _DashboardPageState extends State<DashboardPage> {
               ),
               builder: (QueryResult result,
                   {VoidCallback? refetch, FetchMore? fetchMore}) {
+
                 if (result.isLoading) {
                   return const LoadingSpinner();
                 }
+
+                if (result.data == null) {
+                  return Text("No data found");
+                }
+
                 if (result.hasException) {
                   return AppErrorWidget(
                     error: ErrorModel.fromString(

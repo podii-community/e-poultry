@@ -60,6 +60,8 @@ dependencies:
   dio: ^5.0.2
   # google nav bar
   google_nav_bar: ^5.0.6
+  # lottie animations
+  lottie: ^2.3.2
 
 dev_dependencies:
   flutter_test:

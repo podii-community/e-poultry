@@ -31,15 +31,9 @@ class _FarmDashboardPageState extends State<FarmDashboardPage> {
   int _selectedIndex = 0;
   bool isLoading = false;
   late List<GButton> _bottomNavTabs;
+  late List<Widget> _pages;
 
-  static final List<Widget> _pages = <Widget>[
-    const DashboardPage(),
-    const ExtensionService(),
-    const ListBatchPage(),
-    const ProfilePage(
-      showAppbar: false,
-    )
-  ];
+
   final GlobalKey<ScaffoldState> _dashboardkey = GlobalKey();
 
   final controller = Get.find<FarmsController>();
@@ -49,6 +43,16 @@ class _FarmDashboardPageState extends State<FarmDashboardPage> {
   @override
   void initState() {
     super.initState();
+
+    _pages = [
+      const DashboardPage(),
+      const ExtensionService(),
+      const ListBatchPage(),
+      const ProfilePage(
+        showAppbar: false,
+      )
+    ];
+
     _bottomNavTabs = const [
       GButton(
         icon: PhosphorIcons.houseLine,
@@ -130,8 +134,9 @@ class _FarmDashboardPageState extends State<FarmDashboardPage> {
         ),
         builder: (QueryResult result,
             {VoidCallback? refetch, FetchMore? fetchMore}) {
+
           if (result.isLoading) {
-            return const LoadingSpinner();
+            return Container(color: CustomColors.background, child: const LoadingSpinner(),);
           }
           if (result.hasException) {
             return AppErrorWidget(
