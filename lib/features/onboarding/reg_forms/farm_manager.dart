@@ -208,6 +208,10 @@ class _FarmerRegistrationState extends State<FarmerRegistration> {
                           keyboardType: TextInputType.text,
                           obscureText: _obscureConfirmPassword,
                           validator: (String? value) {
+                            if(value!.isEmpty){
+                              return "Confirm password is required";
+                            }
+
                             if (value != password.text) {
                               return "Passwords must match";
                             }
@@ -264,11 +268,13 @@ class _FarmerRegistrationState extends State<FarmerRegistration> {
                     return GradientWidget(
                       child: ElevatedButton(
                           onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const GroupDashboardPage()));
+                           if(phoneNumber.text.startsWith("+254")){
+                            phoneNumber.text=phoneNumber.text.replaceFirst("+254", "0");
+                           }
+
+                           if(_formKey.currentState!.validate()){
+                              _registerButtonPressed(context, runMutation);
+                           }
                           },
                           style: ElevatedButton.styleFrom(
                               foregroundColor: CustomColors.background,
@@ -342,19 +348,17 @@ class _FarmerRegistrationState extends State<FarmerRegistration> {
     }
   }
 
-  // Future<void> _registerButtonPressed(
-  //     BuildContext context, RunMutation runMutation) async {
-  //   runMutation(
-  //     {
-  //       "data": {
-  //         'name_of_contact_person': name_of_contact_person,
-  //         'location': location.text,
-  //         'phoneNumber': phoneNumber.text,
-  //         "groupName": groupName.text,
-  //         "lastName": groupType.text,
-  //         "password": password.text
-  //       }
-  //     },
-  //   );
-  // }
+  Future<void> _registerButtonPressed(
+      BuildContext context, RunMutation runMutation) async {
+    runMutation(
+      {
+        "data": {
+          'firstName':firstName.text,
+          "lastName": lastName.text,
+          'phoneNumber': phoneNumber.text,
+          "password": password.text
+        }
+      },
+    );
+  }
 }

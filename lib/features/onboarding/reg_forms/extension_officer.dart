@@ -234,6 +234,10 @@ class _ExtensionOfficerState extends State<ExtensionOfficer> {
                           keyboardType: TextInputType.text,
                           obscureText: _obscureConfirmPassword,
                           validator: (String? value) {
+                            if(value!.isEmpty){
+                              return "Confirm password is required";
+                            }
+
                             if (value != password.text) {
                               return "Passwords must match";
                             }

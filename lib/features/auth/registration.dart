@@ -195,6 +195,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
                           keyboardType: TextInputType.text,
                           obscureText: _obscureConfirmPassword,
                           validator: (String? value) {
+                            if(value!.isEmpty){
+                              return "Confirm password is required";
+                            }
+
                             if (value != password.text) {
                               return "Passwords must match";
                             }
