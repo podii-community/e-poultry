@@ -9,6 +9,7 @@ import 'package:epoultry/core/widgets/appbar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hive/hive.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -29,6 +30,7 @@ class FarmDashboardPage extends StatefulWidget {
 class _FarmDashboardPageState extends State<FarmDashboardPage> {
   int _selectedIndex = 0;
   bool isLoading = false;
+  late List<GButton> _bottomNavTabs;
 
   static final List<Widget> _pages = <Widget>[
     const DashboardPage(),
@@ -43,6 +45,29 @@ class _FarmDashboardPageState extends State<FarmDashboardPage> {
   final controller = Get.find<FarmsController>();
   final userController = Get.find<UserController>();
   final box = Hive.box('appData');
+
+  @override
+  void initState() {
+    super.initState();
+    _bottomNavTabs = const [
+      GButton(
+        icon: PhosphorIcons.houseLine,
+        text: "Home",
+      ),
+      GButton(
+        icon: PhosphorIcons.person,
+        text: "E-extension",
+      ),
+      GButton(
+        icon: PhosphorIcons.plus,
+        text: "Manage Batch",
+      ),
+      GButton(
+        icon: PhosphorIcons.userPlus,
+        text: "Profile",
+      ),
+    ];
+  }
 
   @override
   void didChangeDependencies() {
@@ -119,9 +144,8 @@ class _FarmDashboardPageState extends State<FarmDashboardPage> {
           //  setting the navbar background color
           return AnnotatedRegion(
             value: const SystemUiOverlayStyle(
-              systemNavigationBarColor: CustomColors.background,
-              systemNavigationBarIconBrightness: Brightness.dark
-            ),
+                systemNavigationBarColor: CustomColors.background,
+                systemNavigationBarIconBrightness: Brightness.dark),
             child: Scaffold(
               key: _dashboardkey,
               appBar: AppbarWidget(
@@ -133,28 +157,18 @@ class _FarmDashboardPageState extends State<FarmDashboardPage> {
                 index: _selectedIndex,
                 children: _pages,
               ),
-              bottomNavigationBar: BottomNavigationBar(
-                backgroundColor: CustomColors.background,
-                selectedItemColor: CustomColors.primary,
-                unselectedItemColor: CustomColors.secondary,
-                currentIndex: _selectedIndex, //New
-                onTap: _onItemTapped,
-                items: const [
-                  BottomNavigationBarItem(
-                    icon: Icon(PhosphorIcons.houseLine),
-                    label: "Home",
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(PhosphorIcons.person),
-                    label: "E-extension",
-                  ),
-                  BottomNavigationBarItem(
-                      icon: Icon(PhosphorIcons.plus), label: "Manage Batch"),
-                  BottomNavigationBarItem(
-                      icon: Icon(PhosphorIcons.userPlus), label: "Profile"),
-                  // BottomNavigationBarItem(
-                  //     icon: Icon(PhosphorIcons.shoppingCart), label: "Ecommerce"),
-                ],
+              bottomNavigationBar: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: GNav(
+                  tabs: _bottomNavTabs,
+                  onTabChange: _onItemTapped,
+                  backgroundColor: CustomColors.background,
+                  tabBackgroundColor: CustomColors.primary.withOpacity(0.05),
+                  color: CustomColors.secondary,
+                  activeColor: CustomColors.primary,
+                  gap: 8,
+                  padding: const EdgeInsets.all(16),
+                ),
               ),
             ),
           );

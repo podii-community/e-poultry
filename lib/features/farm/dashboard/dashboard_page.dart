@@ -227,8 +227,13 @@ class _DashboardPageState extends State<DashboardPage> {
                           onTap: () {
                             Get.to(() => const AllReportsPage());
                           },
-                          child: Text('SEE ALL',
-                              style: TextStyle(fontSize: 2.0.h)),
+                          child: Row(
+                            children: [
+                              Text('SEE ALL',
+                                  style: TextStyle(fontSize: 2.0.h)),
+                              const Icon(Icons.arrow_right)
+                            ],
+                          ),
                         )
                       ],
                     ),
