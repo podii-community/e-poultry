@@ -1,5 +1,6 @@
 import 'package:epoultry/features/farm/notifications/view_notification.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
@@ -22,6 +23,10 @@ class AppbarWidget extends StatelessWidget implements PreferredSizeWidget {
     final controller = Get.find<FarmsController>();
 
     return AppBar(
+      systemOverlayStyle: const SystemUiOverlayStyle(
+        statusBarColor: CustomColors.background,
+        statusBarIconBrightness: Brightness.dark
+      ),
       automaticallyImplyLeading: false,
       leadingWidth: 80,
       toolbarHeight: 8.h,

@@ -7,6 +7,7 @@ import 'package:epoultry/features/farm/farm-managers/profile_page.dart';
 import 'package:epoultry/core/theme/colors.dart';
 import 'package:epoultry/core/widgets/appbar_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hive/hive.dart';
@@ -115,39 +116,46 @@ class _FarmDashboardPageState extends State<FarmDashboardPage> {
             );
           }
 
-          return Scaffold(
-            key: _dashboardkey,
-            appBar: AppbarWidget(
-              drawerKey: _dashboardkey,
+          //  setting the navbar background color
+          return AnnotatedRegion(
+            value: const SystemUiOverlayStyle(
+              systemNavigationBarColor: CustomColors.background,
+              systemNavigationBarIconBrightness: Brightness.dark
             ),
-            drawer: DrawerPage(),
-            body: IndexedStack(
-              key: UniqueKey(),
-              index: _selectedIndex,
-              children: _pages,
-            ),
-            bottomNavigationBar: BottomNavigationBar(
-              backgroundColor: CustomColors.background,
-              selectedItemColor: CustomColors.primary,
-              unselectedItemColor: CustomColors.secondary,
-              currentIndex: _selectedIndex, //New
-              onTap: _onItemTapped,
-              items: const [
-                BottomNavigationBarItem(
-                  icon: Icon(PhosphorIcons.houseLine),
-                  label: "Home",
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(PhosphorIcons.person),
-                  label: "E-extension",
-                ),
-                BottomNavigationBarItem(
-                    icon: Icon(PhosphorIcons.plus), label: "Manage Batch"),
-                BottomNavigationBarItem(
-                    icon: Icon(PhosphorIcons.userPlus), label: "Profile"),
-                // BottomNavigationBarItem(
-                //     icon: Icon(PhosphorIcons.shoppingCart), label: "Ecommerce"),
-              ],
+            child: Scaffold(
+              key: _dashboardkey,
+              appBar: AppbarWidget(
+                drawerKey: _dashboardkey,
+              ),
+              drawer: DrawerPage(),
+              body: IndexedStack(
+                key: UniqueKey(),
+                index: _selectedIndex,
+                children: _pages,
+              ),
+              bottomNavigationBar: BottomNavigationBar(
+                backgroundColor: CustomColors.background,
+                selectedItemColor: CustomColors.primary,
+                unselectedItemColor: CustomColors.secondary,
+                currentIndex: _selectedIndex, //New
+                onTap: _onItemTapped,
+                items: const [
+                  BottomNavigationBarItem(
+                    icon: Icon(PhosphorIcons.houseLine),
+                    label: "Home",
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(PhosphorIcons.person),
+                    label: "E-extension",
+                  ),
+                  BottomNavigationBarItem(
+                      icon: Icon(PhosphorIcons.plus), label: "Manage Batch"),
+                  BottomNavigationBarItem(
+                      icon: Icon(PhosphorIcons.userPlus), label: "Profile"),
+                  // BottomNavigationBarItem(
+                  //     icon: Icon(PhosphorIcons.shoppingCart), label: "Ecommerce"),
+                ],
+              ),
             ),
           );
         });
