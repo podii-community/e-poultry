@@ -1,3 +1,4 @@
+import 'package:epoultry/core/widgets/lottie_animation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -21,7 +22,7 @@ class _ViewNotificationState extends State<ViewNotification> {
         centerTitle: true,
         toolbarHeight: 8.h,
         backgroundColor: CustomColors.white,
-        elevation: 0.5,
+        elevation: 0,
         leading: IconButton(
           icon: const Icon(
             PhosphorIcons.arrowLeft,
@@ -34,6 +35,29 @@ class _ViewNotificationState extends State<ViewNotification> {
         title: const Text(
           "Notifications",
           style: TextStyle(color: Colors.black),
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 100),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            Expanded(
+              child: SizedBox(
+                  width: double.infinity,
+                  height: 250,
+                  child: Center(
+                      child: LottieAnimation(
+                    lottie: "assets/lottie/blue_bell.json",
+                  ))),
+            ),
+            Expanded(
+                child: SizedBox(
+                    width: double.infinity,
+                    child: Align(
+                        alignment: AlignmentDirectional.center,
+                        child: Text("No Notifications yet."))))
+          ],
         ),
       ),
     );
