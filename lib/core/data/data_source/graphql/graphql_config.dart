@@ -1,13 +1,14 @@
+import 'package:epoultry/core/utils/core_constants.dart';
 import 'package:flutter/material.dart';
 import "package:graphql_flutter/graphql_flutter.dart";
 
 class GraphQLConfiguration {
   static Link? link;
   static HttpLink authentication =
-      HttpLink("https://cbsmartfarm.herokuapp.com/api/graphql/auth");
+      HttpLink(CoreConstants.authHttpLink);
 
   static HttpLink authorised =
-      HttpLink("https://cbsmartfarm.herokuapp.com/api/graphql");
+      HttpLink(CoreConstants.authorisedHttpLink);
 
   static void setToken(String token) {
     AuthLink alink = AuthLink(getToken: () async => 'Bearer $token');

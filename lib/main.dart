@@ -2,6 +2,7 @@ import 'package:epoultry/core/data/data_source/queries.dart';
 import 'package:epoultry/core/data/data_source/graphql/graphql_config.dart';
 
 import 'package:epoultry/core/data/data_source/graphql/query_document_provider.dart';
+import 'package:epoultry/core/utils/core_constants.dart';
 import 'package:epoultry/features/extensions/extension_homepage.dart';
 import 'package:epoultry/features/farm/dashboard/presentation/farm_dashboard_page.dart';
 import 'package:epoultry/features/auth/landing_page.dart';
@@ -38,11 +39,10 @@ class _EpoultryState extends State<Epoultry> {
   GraphQLConfiguration graphQLConfig = GraphQLConfiguration();
 
   HttpLink authentication = HttpLink(
-    "https://cbsmartfarm.herokuapp.com/api/graphql/auth",
+    CoreConstants.authHttpLink,
   );
 
-  HttpLink authorised =
-      HttpLink("https://cbsmartfarm.herokuapp.com/api/graphql");
+  HttpLink authorised = HttpLink(CoreConstants.authorisedHttpLink);
 
   final box = Hive.box('appData');
 
@@ -91,6 +91,7 @@ class _EpoultryState extends State<Epoultry> {
 
   late final token = box.get("token");
   late final role = box.get("tokenRole");
+
   // print(role);
   final FarmsController controller =
       Get.put(FarmsController(), permanent: true);
