@@ -3,7 +3,7 @@ import 'package:epoultry/features/farm/dashboard/presentation/screens/list_batch
 import 'package:epoultry/features/farm/dashboard/presentation/screens/dashboard_page.dart';
 import 'package:epoultry/features/farm/dashboard/presentation/screens/drawer_page.dart';
 import 'package:epoultry/features/farm/e-extension/extension_services.dart';
-import 'package:epoultry/features/farm/farm-managers/profile_page.dart';
+import 'package:epoultry/features/farm/dashboard/presentation/screens/profile_page.dart';
 import 'package:epoultry/core/theme/colors.dart';
 import 'package:epoultry/core/widgets/appbar_widget.dart';
 import 'package:flutter/material.dart';

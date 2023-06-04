@@ -9,7 +9,7 @@ import 'package:sizer/sizer.dart';
 
 import '../../../core/controllers/farm_controller.dart';
 import '../../../core/theme/colors.dart';
-import '../dashboard/presentation/components/create_batch_page.dart';
+import '../dashboard/presentation/components/batch_page/create_batch_page.dart';
 
 class SelectBatchPage extends StatefulWidget {
   const SelectBatchPage({Key? key}) : super(key: key);

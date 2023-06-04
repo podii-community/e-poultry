@@ -1,4 +1,4 @@
-import 'package:epoultry/features/farm/dashboard/presentation/components/create_batch_page.dart';
+import 'package:epoultry/features/farm/dashboard/presentation/components/batch_page/create_batch_page.dart';
 
 class BatchModel {
   final String? id;

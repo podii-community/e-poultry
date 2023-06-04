@@ -7,12 +7,12 @@ import 'package:hive/hive.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../core/controllers/user_controller.dart';
-import '../../../core/data/models/error.dart';
-import '../../../core/theme/colors.dart';
-import '../../../core/theme/spacing.dart';
-import '../../../core/widgets/loading_spinner.dart';
-import '../../../core/widgets/success_widget.dart';
+import '../../../../../core/controllers/user_controller.dart';
+import '../../../../../core/data/models/error.dart';
+import '../../../../../core/theme/colors.dart';
+import '../../../../../core/theme/spacing.dart';
+import '../../../../../core/widgets/loading_spinner.dart';
+import '../../../../../core/widgets/success_widget.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({Key? key}) : super(key: key);

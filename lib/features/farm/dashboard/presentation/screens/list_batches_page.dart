@@ -1,4 +1,4 @@
-import 'package:epoultry/features/farm/dashboard/presentation/components/create_batch_page.dart';
+import 'package:epoultry/features/farm/dashboard/presentation/components/batch_page/create_batch_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';

@@ -1,7 +1,6 @@
 import 'package:epoultry/core/controllers/user_controller.dart';
 import 'package:epoultry/core/graphql/query_document_provider.dart';
 import 'package:epoultry/features/farm/farm-managers/manage_farm_managers_page.dart';
-import 'package:epoultry/features/farm/farm-managers/profile_page.dart';
 import 'package:epoultry/features/farm/quotation/request_quotation_page.dart';
 import 'package:epoultry/features/auth/landing_page.dart';
 import 'package:epoultry/core/theme/colors.dart';
