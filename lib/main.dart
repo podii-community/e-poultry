@@ -1,4 +1,4 @@
-import 'package:epoultry/core/data/queries.dart';
+import 'package:epoultry/core/data/data_source/queries.dart';
 import 'package:epoultry/core/graphql/graphql_config.dart';
 
 import 'package:epoultry/core/graphql/query_document_provider.dart';
@@ -15,8 +15,8 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:sizer/sizer.dart';
 
-import 'core/controllers/farm_controller.dart';
-import 'core/controllers/user_controller.dart';
+import 'core/presentation/controllers/farm_controller.dart';
+import 'core/presentation/controllers/user_controller.dart';
 
 void main() async {
   await Hive.initFlutter();

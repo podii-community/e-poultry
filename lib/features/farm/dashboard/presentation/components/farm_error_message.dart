@@ -1,4 +1,4 @@
-import 'package:epoultry/core/widgets/lottie_animation.dart';
+import 'package:epoultry/core/presentation/components/lottie_animation.dart';
 import 'package:epoultry/features/farm/create-farm/create_farm_page.dart';
 import 'package:epoultry/features/farm/join-farm/join_farm_page.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +7,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../../core/theme/colors.dart';
-import '../../../../../core/widgets/gradient_widget.dart';
+import '../../../../../core/presentation/components/gradient_widget.dart';
 
 /// To be implement if the farm input is null
 class FarmErrorMessage extends StatelessWidget {

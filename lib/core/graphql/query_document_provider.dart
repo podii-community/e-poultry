@@ -1,4 +1,4 @@
-import 'package:epoultry/core/data/queries.dart';
+import 'package:epoultry/core/data/data_source/queries.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:fluttertoast/fluttertoast.dart';

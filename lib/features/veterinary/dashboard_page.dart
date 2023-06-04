@@ -5,8 +5,8 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-import '../../core/controllers/farm_controller.dart';
-import '../../core/controllers/user_controller.dart';
+import '../../core/presentation/controllers/farm_controller.dart';
+import '../../core/presentation/controllers/user_controller.dart';
 import '../../core/theme/spacing.dart';
 import '../extensions/requests_page.dart';
 

@@ -7,12 +7,12 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../core/data/models/error.dart';
+import '../../../core/domain/models/error.dart';
 import '../../../core/theme/colors.dart';
 import '../../../core/theme/spacing.dart';
-import '../../../core/widgets/gradient_widget.dart';
-import '../../../core/widgets/loading_spinner.dart';
-import '../../../core/widgets/success_widget.dart';
+import '../../../core/presentation/components/gradient_widget.dart';
+import '../../../core/presentation/components/loading_spinner.dart';
+import '../../../core/presentation/components/success_widget.dart';
 
 class RequestQuotationPage extends StatefulWidget {
   const RequestQuotationPage({Key? key, this.isUnAssignedRole = false})

@@ -1,4 +1,4 @@
-import 'package:epoultry/features/farm/notifications/view_notification.dart';
+import 'package:epoultry/features/farm/dashboard/presentation/screens/view_notification.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -6,7 +6,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
 import '../controllers/farm_controller.dart';
-import '../theme/colors.dart';
+import '../../theme/colors.dart';
 
 class AppbarWidget extends StatelessWidget implements PreferredSizeWidget {
   const AppbarWidget({Key? key, @required this.drawerKey})

@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../../core/data/models/batch_model.dart';
+import '../../../../core/domain/models/batch_model.dart';
 import '../../../../core/theme/colors.dart';
 
 class MedicationReceived extends StatefulWidget {

@@ -1,13 +1,13 @@
 import 'package:epoultry/features/farm/reports/export-reports/filter_reports.dart';
 import 'package:epoultry/features/farm/reports/view_report_page.dart';
 import 'package:epoultry/core/theme/spacing.dart';
-import 'package:epoultry/core/widgets/gradient_text.dart';
+import 'package:epoultry/core/presentation/components/gradient_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../core/controllers/farm_controller.dart';
+import '../../../core/presentation/controllers/farm_controller.dart';
 import '../../../core/theme/colors.dart';
 
 class AllReportsPage extends StatefulWidget {

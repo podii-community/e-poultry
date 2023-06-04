@@ -5,7 +5,7 @@ import 'package:epoultry/features/farm/dashboard/presentation/screens/drawer_pag
 import 'package:epoultry/features/farm/e-extension/extension_services.dart';
 import 'package:epoultry/features/farm/dashboard/presentation/screens/profile_page.dart';
 import 'package:epoultry/core/theme/colors.dart';
-import 'package:epoultry/core/widgets/appbar_widget.dart';
+import 'package:epoultry/core/presentation/components/appbar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -14,11 +14,11 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hive/hive.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-import '../../../../core/controllers/farm_controller.dart';
-import '../../../../core/controllers/user_controller.dart';
-import '../../../../core/data/models/error.dart';
-import '../../../../core/widgets/error_widget.dart';
-import '../../../../core/widgets/loading_spinner.dart';
+import '../../../../core/presentation/controllers/farm_controller.dart';
+import '../../../../core/presentation/controllers/user_controller.dart';
+import '../../../../core/domain/models/error.dart';
+import '../../../../core/presentation/components/error_widget.dart';
+import '../../../../core/presentation/components/loading_spinner.dart';
 import 'controller/dashboard_controller.dart';
 
 class FarmDashboardPage extends StatefulWidget {

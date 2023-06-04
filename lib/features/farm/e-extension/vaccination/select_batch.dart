@@ -1,8 +1,8 @@
-import 'package:epoultry/core/controllers/farm_controller.dart';
+import 'package:epoultry/core/presentation/controllers/farm_controller.dart';
 import 'package:epoultry/features/farm/e-extension/vaccination/vaccination_list.dart';
 import 'package:epoultry/core/theme/colors.dart';
 import 'package:epoultry/core/theme/spacing.dart';
-import 'package:epoultry/core/widgets/gradient_widget.dart';
+import 'package:epoultry/core/presentation/components/gradient_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';

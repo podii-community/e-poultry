@@ -6,8 +6,8 @@ import 'package:string_extensions/string_extensions.dart';
 
 import '../../../core/theme/colors.dart';
 import '../../../core/theme/spacing.dart';
-import '../../../core/widgets/gradient_widget.dart';
-import '../../../core/controllers/farm_controller.dart';
+import '../../../core/presentation/components/gradient_widget.dart';
+import '../../../core/presentation/controllers/farm_controller.dart';
 import '../store_compound/store_compound.dart';
 
 class ConfirmHousingInspection extends StatelessWidget {

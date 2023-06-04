@@ -5,12 +5,12 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../core/controllers/farm_controller.dart';
-import '../../../core/data/models/error.dart';
+import '../../../core/presentation/controllers/farm_controller.dart';
+import '../../../core/domain/models/error.dart';
 import '../../../core/theme/colors.dart';
 import '../../../core/theme/spacing.dart';
-import '../../../core/widgets/error_widget.dart';
-import '../../../core/widgets/loading_spinner.dart';
+import '../../../core/presentation/components/error_widget.dart';
+import '../../../core/presentation/components/loading_spinner.dart';
 
 class ViewReportPage extends StatelessWidget {
   ViewReportPage({

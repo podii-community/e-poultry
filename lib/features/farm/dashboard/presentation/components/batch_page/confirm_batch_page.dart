@@ -1,4 +1,4 @@
-import 'package:epoultry/core/data/models/batch_model.dart';
+import 'package:epoultry/core/domain/models/batch_model.dart';
 import 'package:epoultry/core/graphql/query_document_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -7,12 +7,12 @@ import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../../../../core/data/models/error.dart';
+import '../../../../../../core/domain/models/error.dart';
 import '../../../../../../core/theme/colors.dart';
 import '../../../../../../core/theme/spacing.dart';
-import '../../../../../../core/widgets/gradient_widget.dart';
-import '../../../../../../core/widgets/loading_spinner.dart';
-import '../../../../../../core/widgets/success_widget.dart';
+import '../../../../../../core/presentation/components/gradient_widget.dart';
+import '../../../../../../core/presentation/components/loading_spinner.dart';
+import '../../../../../../core/presentation/components/success_widget.dart';
 
 class ConfirmBatchPage extends StatelessWidget {
   const ConfirmBatchPage({Key? key, required this.newBatch}) : super(key: key);

@@ -4,8 +4,8 @@ import 'package:get/get.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../../../core/controllers/farm_controller.dart';
-import '../../../../../core/controllers/user_controller.dart';
+import '../../../../../core/presentation/controllers/farm_controller.dart';
+import '../../../../../core/presentation/controllers/user_controller.dart';
 import '../../../../../core/theme/colors.dart';
 
 import 'edit_profile_page.dart';

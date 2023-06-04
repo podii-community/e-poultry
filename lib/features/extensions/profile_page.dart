@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 
-import '../../core/controllers/user_controller.dart';
+import '../../core/presentation/controllers/user_controller.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});

@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:epoultry/core/controllers/farm_controller.dart';
+import 'package:epoultry/core/presentation/controllers/farm_controller.dart';
 import 'package:epoultry/core/graphql/query_document_provider.dart';
 import 'package:epoultry/features/farm/dashboard/presentation/farm_dashboard_page.dart';
 import 'package:epoultry/features/farm/e-extension/vaccination/vaccine_details.dart';
@@ -12,10 +12,10 @@ import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../../core/data/models/error.dart';
+import '../../../../core/domain/models/error.dart';
 import '../../../../core/theme/colors.dart';
-import '../../../../core/widgets/error_widget.dart';
-import '../../../../core/widgets/loading_spinner.dart';
+import '../../../../core/presentation/components/error_widget.dart';
+import '../../../../core/presentation/components/loading_spinner.dart';
 
 class VaccinationList extends StatefulWidget {
   const VaccinationList({super.key, this.batchId});

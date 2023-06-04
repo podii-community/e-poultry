@@ -4,10 +4,10 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 import 'package:string_extensions/string_extensions.dart';
 
-import '../../../core/controllers/farm_controller.dart';
+import '../../../core/presentation/controllers/farm_controller.dart';
 import '../../../core/theme/colors.dart';
 import '../../../core/theme/spacing.dart';
-import '../../../core/widgets/gradient_widget.dart';
+import '../../../core/presentation/components/gradient_widget.dart';
 import '../store_compound/store_compound.dart';
 
 class ConfirmHousingInspection extends StatelessWidget {

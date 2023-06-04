@@ -6,12 +6,12 @@ import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../core/controllers/user_controller.dart';
-import '../../../core/data/models/error.dart';
+import '../../../core/presentation/controllers/user_controller.dart';
+import '../../../core/domain/models/error.dart';
 import '../../../core/theme/colors.dart';
 import '../../../core/theme/spacing.dart';
-import '../../../core/widgets/error_widget.dart';
-import '../../../core/widgets/loading_spinner.dart';
+import '../../../core/presentation/components/error_widget.dart';
+import '../../../core/presentation/components/loading_spinner.dart';
 import '../quotation/request_quotation_page.dart';
 
 class JoinFarmPage extends StatefulWidget {

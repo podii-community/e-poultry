@@ -1,4 +1,4 @@
-import 'package:epoultry/core/controllers/user_controller.dart';
+import 'package:epoultry/core/presentation/controllers/user_controller.dart';
 import 'package:epoultry/core/graphql/query_document_provider.dart';
 import 'package:epoultry/features/farm/farm-managers/manage_farm_managers_page.dart';
 import 'package:epoultry/features/farm/quotation/request_quotation_page.dart';
@@ -12,8 +12,8 @@ import 'package:hive/hive.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../../../core/controllers/farm_controller.dart';
-import '../../../../../core/controllers/managers_controller.dart';
+import '../../../../../core/presentation/controllers/farm_controller.dart';
+import '../../../../../core/presentation/controllers/managers_controller.dart';
 import '../../../create-farm/create_farm_page.dart';
 import '../controller/dashboard_controller.dart';
 

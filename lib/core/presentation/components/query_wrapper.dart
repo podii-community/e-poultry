@@ -1,5 +1,5 @@
 import 'package:epoultry/core/data/data_export.dart';
-import 'package:epoultry/core/widgets/error_widget.dart';
+import 'package:epoultry/core/presentation/components/error_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 

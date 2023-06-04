@@ -5,11 +5,11 @@ import 'package:get/get.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../../core/controllers/farm_controller.dart';
-import '../../../../core/data/models/batch_model.dart';
+import '../../../../core/presentation/controllers/farm_controller.dart';
+import '../../../../core/domain/models/batch_model.dart';
 import '../../../../core/theme/colors.dart';
 import '../../../../core/theme/spacing.dart';
-import '../../../../core/widgets/gradient_widget.dart';
+import '../../../../core/presentation/components/gradient_widget.dart';
 
 class FeedStore extends StatefulWidget {
   const FeedStore({Key? key, required this.batchDetails, required this.report})
