@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:epoultry/core/controllers/farm_controller.dart';
-import 'package:epoultry/features/farm/dashboard/components/farm_error_message.dart';
+import 'package:epoultry/features/farm/dashboard/presentation/components/farm_error_message.dart';
 import 'package:epoultry/features/farm/reports/all_reports_page.dart';
 import 'package:epoultry/features/farm/reports/select_batch_page.dart';
 import 'package:epoultry/core/graphql/query_document_provider.dart';
@@ -12,14 +12,14 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../../core/controllers/user_controller.dart';
-import '../../../../core/data/models/error.dart';
-import '../../../../core/theme/colors.dart';
-import '../../../../core/theme/spacing.dart';
-import '../../../../core/widgets/error_widget.dart';
-import '../../../../core/widgets/gradient_text.dart';
-import '../../../../core/widgets/gradient_widget.dart';
-import '../../../../core/widgets/loading_spinner.dart';
+import '../../../../../core/controllers/user_controller.dart';
+import '../../../../../core/data/models/error.dart';
+import '../../../../../core/theme/colors.dart';
+import '../../../../../core/theme/spacing.dart';
+import '../../../../../core/widgets/error_widget.dart';
+import '../../../../../core/widgets/gradient_text.dart';
+import '../../../../../core/widgets/gradient_widget.dart';
+import '../../../../../core/widgets/loading_spinner.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({

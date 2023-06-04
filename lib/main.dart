@@ -3,7 +3,7 @@ import 'package:epoultry/core/graphql/graphql_config.dart';
 
 import 'package:epoultry/core/graphql/query_document_provider.dart';
 import 'package:epoultry/features/extensions/extension_homepage.dart';
-import 'package:epoultry/features/farm/dashboard/farm_dashboard_page.dart';
+import 'package:epoultry/features/farm/dashboard/presentation/farm_dashboard_page.dart';
 import 'package:epoultry/features/auth/landing_page.dart';
 import 'package:epoultry/features/veterinary/vet_homepage.dart';
 import 'package:epoultry/core/theme/custom_theme.dart';

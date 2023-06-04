@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:epoultry/core/controllers/user_controller.dart';
-import 'package:epoultry/features/farm/dashboard/screens/list_batches_page.dart';
-import 'package:epoultry/features/farm/dashboard/farm_dashboard_page.dart';
+import 'package:epoultry/features/farm/dashboard/presentation/screens/list_batches_page.dart';
+import 'package:epoultry/features/farm/dashboard/presentation/farm_dashboard_page.dart';
 import 'package:epoultry/features/farm/farm-managers/manage_farm_managers_page.dart';
 import 'package:epoultry/features/farm/join-farm/join_farm_page.dart';
 import 'package:epoultry/core/theme/colors.dart';

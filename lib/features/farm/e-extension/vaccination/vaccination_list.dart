@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:epoultry/core/controllers/farm_controller.dart';
 import 'package:epoultry/core/graphql/query_document_provider.dart';
-import 'package:epoultry/features/farm/dashboard/farm_dashboard_page.dart';
+import 'package:epoultry/features/farm/dashboard/presentation/farm_dashboard_page.dart';
 import 'package:epoultry/features/farm/e-extension/vaccination/vaccine_details.dart';
 import 'package:epoultry/core/theme/spacing.dart';
 import 'package:flutter/material.dart';

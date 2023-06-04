@@ -1,7 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
 import 'package:epoultry/core/data/data_export.dart';
-import 'package:epoultry/features/farm/dashboard/components/batch/confirm_batch_page.dart';
+import 'package:epoultry/features/farm/dashboard/presentation/components/confirm_batch_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
