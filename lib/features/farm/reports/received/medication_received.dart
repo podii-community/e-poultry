@@ -4,7 +4,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../core/domain/models/batch_model.dart';
-import '../../../../core/theme/colors.dart';
+import '../../../../theme/colors.dart';
 
 class MedicationReceived extends StatefulWidget {
   const MedicationReceived(

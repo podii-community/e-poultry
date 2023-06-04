@@ -1,10 +1,10 @@
 import 'package:epoultry/core/presentation/controllers/user_controller.dart';
-import 'package:epoultry/core/graphql/query_document_provider.dart';
+import 'package:epoultry/core/data/data_source/graphql/query_document_provider.dart';
 import 'package:epoultry/features/farm/farm-managers/manage_farm_managers_page.dart';
 import 'package:epoultry/features/farm/quotation/request_quotation_page.dart';
 import 'package:epoultry/features/auth/landing_page.dart';
-import 'package:epoultry/core/theme/colors.dart';
-import 'package:epoultry/core/theme/spacing.dart';
+import 'package:epoultry/theme/colors.dart';
+import 'package:epoultry/theme/spacing.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';

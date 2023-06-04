@@ -1,6 +1,6 @@
 import 'package:epoultry/features/auth/login.dart';
-import 'package:epoultry/core/theme/colors.dart';
-import 'package:epoultry/core/theme/spacing.dart';
+import 'package:epoultry/theme/colors.dart';
+import 'package:epoultry/theme/spacing.dart';
 import 'package:epoultry/core/presentation/components/gradient_widget.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';

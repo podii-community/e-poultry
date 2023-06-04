@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-import '../../../core/theme/colors.dart';
+import '../../../theme/colors.dart';
 
 class ExtensionDashboard extends StatelessWidget {
   const ExtensionDashboard({super.key});

@@ -2,7 +2,7 @@ import 'package:epoultry/features/farm/e-extension/medical-help/select_option.da
 import 'package:epoultry/features/farm/e-extension/request-status/list_requests.dart';
 import 'package:epoultry/features/farm/e-extension/farm-visit/farm_visit.dart';
 import 'package:epoultry/features/farm/e-extension/vaccination/select_batch.dart';
-import 'package:epoultry/core/theme/colors.dart';
+import 'package:epoultry/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';

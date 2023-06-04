@@ -1,6 +1,6 @@
 import 'package:epoultry/features/farm/create-farm/create_farm_page.dart';
 import 'package:epoultry/features/farm/join-farm/join_farm_otp.dart';
-import 'package:epoultry/core/graphql/query_document_provider.dart';
+import 'package:epoultry/core/data/data_source/graphql/query_document_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -8,8 +8,8 @@ import 'package:sizer/sizer.dart';
 
 import '../../../core/presentation/controllers/user_controller.dart';
 import '../../../core/domain/models/error.dart';
-import '../../../core/theme/colors.dart';
-import '../../../core/theme/spacing.dart';
+import '../../../theme/colors.dart';
+import '../../../theme/spacing.dart';
 import '../../../core/presentation/components/error_widget.dart';
 import '../../../core/presentation/components/loading_spinner.dart';
 import '../quotation/request_quotation_page.dart';

@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:epoultry/core/graphql/query_document_provider.dart';
+import 'package:epoultry/core/data/data_source/graphql/query_document_provider.dart';
 import 'package:epoultry/features/veterinary/vet_homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -13,8 +13,8 @@ import 'package:sizer/sizer.dart';
 
 import '../../core/presentation/controllers/user_controller.dart';
 import '../../core/domain/models/error.dart';
-import '../../core/theme/colors.dart';
-import '../../core/theme/spacing.dart';
+import '../../theme/colors.dart';
+import '../../theme/spacing.dart';
 import '../../core/presentation/components/gradient_widget.dart';
 import '../../core/presentation/components/loading_spinner.dart';
 import '../../core/presentation/components/success_widget.dart';

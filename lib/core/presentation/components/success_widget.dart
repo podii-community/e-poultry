@@ -5,8 +5,8 @@ import 'package:epoultry/features/farm/dashboard/presentation/screens/list_batch
 import 'package:epoultry/features/farm/dashboard/presentation/farm_dashboard_page.dart';
 import 'package:epoultry/features/farm/farm-managers/manage_farm_managers_page.dart';
 import 'package:epoultry/features/farm/join-farm/join_farm_page.dart';
-import 'package:epoultry/core/theme/colors.dart';
-import 'package:epoultry/core/theme/spacing.dart';
+import 'package:epoultry/theme/colors.dart';
+import 'package:epoultry/theme/spacing.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';

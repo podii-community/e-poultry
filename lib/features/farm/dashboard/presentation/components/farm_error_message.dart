@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../../../core/theme/colors.dart';
+import '../../../../../theme/colors.dart';
 import '../../../../../core/presentation/components/gradient_widget.dart';
 
 /// To be implement if the farm input is null

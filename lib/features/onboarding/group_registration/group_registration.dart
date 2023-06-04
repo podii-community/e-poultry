@@ -1,7 +1,7 @@
 import 'package:epoultry/features/auth/login.dart';
 import 'package:epoultry/features/auth/otp_page.dart';
-import 'package:epoultry/core/graphql/query_document_provider.dart';
-import 'package:epoultry/core/theme/spacing.dart';
+import 'package:epoultry/core/data/data_source/graphql/query_document_provider.dart';
+import 'package:epoultry/theme/spacing.dart';
 import 'package:epoultry/core/presentation/components/gradient_widget.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +9,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../core/domain/models/error.dart';
-import '../../../core/theme/colors.dart';
+import '../../../theme/colors.dart';
 import '../../../core/presentation/components/loading_spinner.dart';
 import 'group_dashboard.dart';
 

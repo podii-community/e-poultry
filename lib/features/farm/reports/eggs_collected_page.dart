@@ -5,8 +5,8 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../core/presentation/controllers/farm_controller.dart';
-import '../../../core/theme/colors.dart';
-import '../../../core/theme/spacing.dart';
+import '../../../theme/colors.dart';
+import '../../../theme/spacing.dart';
 import '../../../core/presentation/components/gradient_widget.dart';
 import 'feeds_used_page.dart';
 

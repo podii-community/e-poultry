@@ -1,7 +1,7 @@
 import 'package:epoultry/core/presentation/controllers/farm_controller.dart';
 import 'package:epoultry/features/farm/e-extension/vaccination/vaccination_list.dart';
-import 'package:epoultry/core/theme/colors.dart';
-import 'package:epoultry/core/theme/spacing.dart';
+import 'package:epoultry/theme/colors.dart';
+import 'package:epoultry/theme/spacing.dart';
 import 'package:epoultry/core/presentation/components/gradient_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

@@ -1,14 +1,14 @@
 import 'package:epoultry/core/data/data_export.dart';
 import 'package:epoultry/features/farm/reports/number_birds_page.dart';
 import 'package:epoultry/features/farm/reports/store/feeds_store.dart';
-import 'package:epoultry/core/theme/spacing.dart';
+import 'package:epoultry/theme/spacing.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../core/presentation/controllers/farm_controller.dart';
-import '../../../core/theme/colors.dart';
+import '../../../theme/colors.dart';
 import '../dashboard/presentation/components/batch_page/create_batch_page.dart';
 
 class SelectBatchPage extends StatefulWidget {

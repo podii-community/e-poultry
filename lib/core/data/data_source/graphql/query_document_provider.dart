@@ -4,7 +4,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
-import '../data/data_export.dart';
+import '../../data_export.dart';
 
 class QueriesDocumentProvider extends InheritedWidget {
   const QueriesDocumentProvider(

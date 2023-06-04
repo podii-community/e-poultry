@@ -1,10 +1,10 @@
 import 'package:epoultry/core/data/data_export.dart';
-import 'package:epoultry/core/graphql/query_document_provider.dart';
+import 'package:epoultry/core/data/data_source/graphql/query_document_provider.dart';
 import 'package:epoultry/features/farm/reports/briquettes_used.dart';
 import 'package:epoultry/features/farm/reports/broiler_weight.dart';
 import 'package:epoultry/features/farm/reports/eggs_collected_page.dart';
 import 'package:epoultry/features/farm/reports/number_birds_page.dart';
-import 'package:epoultry/core/theme/spacing.dart';
+import 'package:epoultry/theme/spacing.dart';
 import 'package:epoultry/core/presentation/components/gradient_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,7 +16,7 @@ import 'package:string_extensions/string_extensions.dart';
 
 import '../../../core/presentation/controllers/farm_controller.dart';
 import '../../../core/presentation/controllers/user_controller.dart';
-import '../../../core/theme/colors.dart';
+import '../../../theme/colors.dart';
 import '../../../core/presentation/components/loading_spinner.dart';
 import '../../../core/presentation/components/success_widget.dart';
 

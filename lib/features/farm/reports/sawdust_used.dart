@@ -1,5 +1,5 @@
 import 'package:epoultry/features/farm/reports/briquettes_used.dart';
-import 'package:epoultry/core/theme/colors.dart';
+import 'package:epoultry/theme/colors.dart';
 import 'package:epoultry/core/presentation/components/gradient_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,7 +9,7 @@ import 'package:string_extensions/string_extensions.dart';
 
 import '../../../core/presentation/controllers/farm_controller.dart';
 import '../../../core/domain/models/batch_model.dart';
-import '../../../core/theme/spacing.dart';
+import '../../../theme/spacing.dart';
 
 class SawdustUsed extends StatefulWidget {
   const SawdustUsed({Key? key, required this.batchDetails, this.report})

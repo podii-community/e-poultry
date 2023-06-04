@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
-import '../presentation/controllers/farm_controller.dart';
+import '../../presentation/controllers/farm_controller.dart';
 
 class FarmService {
   final controller = Get.find<FarmsController>();

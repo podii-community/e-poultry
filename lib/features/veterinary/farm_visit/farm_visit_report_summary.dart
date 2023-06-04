@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 import '../../../core/presentation/controllers/farm_controller.dart';
-import '../../../core/theme/colors.dart';
-import '../../../core/theme/spacing.dart';
+import '../../../theme/colors.dart';
+import '../../../theme/spacing.dart';
 
 class FarmVisitReportSummary extends StatelessWidget {
   const FarmVisitReportSummary({Key? key, required this.extensionServiceId})

@@ -5,8 +5,8 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../core/domain/models/batch_model.dart';
-import '../../../core/theme/colors.dart';
-import '../../../core/theme/spacing.dart';
+import '../../../theme/colors.dart';
+import '../../../theme/spacing.dart';
 import '../../../core/presentation/components/gradient_widget.dart';
 
 class MedicationUsed extends StatefulWidget {

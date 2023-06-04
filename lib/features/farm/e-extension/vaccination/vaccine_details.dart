@@ -1,5 +1,5 @@
-import 'package:epoultry/core/theme/colors.dart';
-import 'package:epoultry/core/theme/spacing.dart';
+import 'package:epoultry/theme/colors.dart';
+import 'package:epoultry/theme/spacing.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';

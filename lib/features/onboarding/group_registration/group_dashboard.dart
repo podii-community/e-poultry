@@ -1,4 +1,4 @@
-import 'package:epoultry/core/theme/colors.dart';
+import 'package:epoultry/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';

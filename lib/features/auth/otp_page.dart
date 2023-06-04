@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:epoultry/core/graphql/query_document_provider.dart';
+import 'package:epoultry/core/data/data_source/graphql/query_document_provider.dart';
 import 'package:epoultry/core/presentation/components/gradient_widget.dart';
 import 'package:epoultry/core/presentation/components/success_widget.dart';
 import 'package:flutter/gestures.dart';
@@ -14,9 +14,9 @@ import 'package:sizer/sizer.dart';
 import '../../core/presentation/controllers/farm_controller.dart';
 import '../../core/presentation/controllers/user_controller.dart';
 import '../../core/domain/models/error.dart';
-import '../../core/graphql/graphql_config.dart';
-import '../../core/theme/colors.dart';
-import '../../core/theme/spacing.dart';
+import '../../core/data/data_source/graphql/graphql_config.dart';
+import '../../theme/colors.dart';
+import '../../theme/spacing.dart';
 import '../../core/presentation/components/loading_spinner.dart';
 import '../farm/join-farm/join_farm_page.dart';
 

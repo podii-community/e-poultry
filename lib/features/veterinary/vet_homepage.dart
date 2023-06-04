@@ -1,4 +1,4 @@
-import 'package:epoultry/core/graphql/query_document_provider.dart';
+import 'package:epoultry/core/data/data_source/graphql/query_document_provider.dart';
 import 'package:epoultry/features/veterinary/dashboard_page.dart';
 import 'package:epoultry/features/veterinary/profile_page.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +10,7 @@ import 'package:sizer/sizer.dart';
 
 import '../../core/presentation/controllers/farm_controller.dart';
 import '../../core/presentation/controllers/user_controller.dart';
-import '../../core/theme/colors.dart';
+import '../../theme/colors.dart';
 import '../auth/landing_page.dart';
 import 'farm_visit/farm_visits.dart';
 

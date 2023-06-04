@@ -1,7 +1,7 @@
 import 'package:epoultry/features/onboarding/reg_forms/extension_officer.dart';
 import 'package:epoultry/features/onboarding/reg_forms/veterinary_officer.dart';
 // import 'package:epoultry/pages/onboarding/reg_forms/farmer.dart';
-import 'package:epoultry/core/theme/colors.dart';
+import 'package:epoultry/theme/colors.dart';
 import 'package:flutter/material.dart';
 
 import '../auth/registration.dart';
