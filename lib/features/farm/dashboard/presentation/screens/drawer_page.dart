@@ -144,7 +144,7 @@ class DrawerPage extends StatelessWidget {
               : Container(),
           ListTile(
             leading: Icon(
-              PhosphorIcons.pencilFill,
+              PhosphorIcons.userPlus,
               color: CustomColors.textPrimary,
               size: 3.h,
             ),
