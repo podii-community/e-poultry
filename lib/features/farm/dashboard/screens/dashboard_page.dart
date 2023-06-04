@@ -12,14 +12,14 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../core/controllers/user_controller.dart';
-import '../../../core/data/models/error.dart';
-import '../../../core/theme/colors.dart';
-import '../../../core/theme/spacing.dart';
-import '../../../core/widgets/error_widget.dart';
-import '../../../core/widgets/gradient_text.dart';
-import '../../../core/widgets/gradient_widget.dart';
-import '../../../core/widgets/loading_spinner.dart';
+import '../../../../core/controllers/user_controller.dart';
+import '../../../../core/data/models/error.dart';
+import '../../../../core/theme/colors.dart';
+import '../../../../core/theme/spacing.dart';
+import '../../../../core/widgets/error_widget.dart';
+import '../../../../core/widgets/gradient_text.dart';
+import '../../../../core/widgets/gradient_widget.dart';
+import '../../../../core/widgets/loading_spinner.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({

@@ -1,13 +1,13 @@
-import 'package:epoultry/features/farm/batch/create_batch_page.dart';
+import 'package:epoultry/features/farm/dashboard/components/batch/create_batch_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../core/controllers/farm_controller.dart';
-import '../../../core/theme/colors.dart';
-import '../../../core/theme/spacing.dart';
-import '../../../core/widgets/gradient_widget.dart';
+import '../../../../core/controllers/farm_controller.dart';
+import '../../../../core/theme/colors.dart';
+import '../../../../core/theme/spacing.dart';
+import '../../../../core/widgets/gradient_widget.dart';
 
 class ListBatchPage extends StatefulWidget {
   const ListBatchPage({Key? key}) : super(key: key);

@@ -1,7 +1,7 @@
 import 'package:epoultry/core/graphql/query_document_provider.dart';
-import 'package:epoultry/features/farm/batch/list_batches_page.dart';
-import 'package:epoultry/features/farm/dashboard/dashboard_page.dart';
-import 'package:epoultry/features/farm/dashboard/components/drawer_page.dart';
+import 'package:epoultry/features/farm/dashboard/screens/list_batches_page.dart';
+import 'package:epoultry/features/farm/dashboard/screens/dashboard_page.dart';
+import 'package:epoultry/features/farm/dashboard/screens/drawer_page.dart';
 import 'package:epoultry/features/farm/e-extension/extension_services.dart';
 import 'package:epoultry/features/farm/farm-managers/profile_page.dart';
 import 'package:epoultry/core/theme/colors.dart';
