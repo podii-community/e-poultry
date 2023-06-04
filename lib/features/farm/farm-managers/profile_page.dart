@@ -11,9 +11,7 @@ import '../../../core/theme/colors.dart';
 import 'edit_profile_page.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key? key, this.showAppbar = true}) : super(key: key);
-
-  final bool showAppbar;
+  const ProfilePage({Key? key}) : super(key: key);
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -32,31 +30,6 @@ class _ProfilePageState extends State<ProfilePage> {
     // log("Profile ${controller.farm.value['id']}");
 
     return Scaffold(
-        appBar: widget.showAppbar
-            ? AppBar(
-                automaticallyImplyLeading: false,
-                centerTitle: true,
-                toolbarHeight: 8.h,
-                backgroundColor: CustomColors.white,
-                elevation: 0.5,
-                leading: IconButton(
-                  icon: const Icon(
-                    PhosphorIcons.arrowLeft,
-                    color: Colors.black,
-                  ),
-                  onPressed: () {
-                    Get.back();
-                  },
-                ),
-                title: const Text(
-                  "Profile",
-                  style: TextStyle(color: Colors.black),
-                ),
-              )
-            : const PreferredSize(
-                preferredSize: Size.fromHeight(0),
-                child: SizedBox.shrink(),
-              ),
         body: Container(
           padding: const EdgeInsets.symmetric(horizontal: CustomSpacing.s2),
           child:

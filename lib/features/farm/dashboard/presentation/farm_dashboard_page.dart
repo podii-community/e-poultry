@@ -19,6 +19,7 @@ import '../../../../core/controllers/user_controller.dart';
 import '../../../../core/data/models/error.dart';
 import '../../../../core/widgets/error_widget.dart';
 import '../../../../core/widgets/loading_spinner.dart';
+import 'controller/dashboard_controller.dart';
 
 class FarmDashboardPage extends StatefulWidget {
   const FarmDashboardPage({Key? key}) : super(key: key);
@@ -33,7 +34,6 @@ class _FarmDashboardPageState extends State<FarmDashboardPage> {
   late List<GButton> _bottomNavTabs;
   late List<Widget> _pages;
 
-
   final GlobalKey<ScaffoldState> _dashboardkey = GlobalKey();
 
   final controller = Get.find<FarmsController>();
@@ -44,13 +44,14 @@ class _FarmDashboardPageState extends State<FarmDashboardPage> {
   void initState() {
     super.initState();
 
+    //  put the dashboard controller
+    Get.lazyPut(() => DashboardController());
+
     _pages = [
       const DashboardPage(),
       const ExtensionService(),
       const ListBatchPage(),
-      const ProfilePage(
-        showAppbar: false,
-      )
+      const ProfilePage()
     ];
 
     _bottomNavTabs = const [
@@ -127,6 +128,9 @@ class _FarmDashboardPageState extends State<FarmDashboardPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    final dashboardController = Get.find<DashboardController>();
+
     return Query(
         options: QueryOptions(
           document: gql(context.queries.getContractors()),
@@ -134,9 +138,11 @@ class _FarmDashboardPageState extends State<FarmDashboardPage> {
         ),
         builder: (QueryResult result,
             {VoidCallback? refetch, FetchMore? fetchMore}) {
-
           if (result.isLoading) {
-            return Container(color: CustomColors.background, child: const LoadingSpinner(),);
+            return Container(
+              color: CustomColors.background,
+              child: const LoadingSpinner(),
+            );
           }
           if (result.hasException) {
             return AppErrorWidget(
@@ -157,22 +163,28 @@ class _FarmDashboardPageState extends State<FarmDashboardPage> {
                 drawerKey: _dashboardkey,
               ),
               drawer: DrawerPage(),
-              body: IndexedStack(
-                key: UniqueKey(),
-                index: _selectedIndex,
-                children: _pages,
+              body: Obx(
+                  () => IndexedStack(
+                  key: UniqueKey(),
+                  index: dashboardController.selectedTabIndex.value,
+                  children: _pages,
+                ),
               ),
               bottomNavigationBar: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                child: GNav(
-                  tabs: _bottomNavTabs,
-                  onTabChange: _onItemTapped,
-                  backgroundColor: CustomColors.background,
-                  tabBackgroundColor: CustomColors.primary.withOpacity(0.05),
-                  color: CustomColors.secondary,
-                  activeColor: CustomColors.primary,
-                  gap: 8,
-                  padding: const EdgeInsets.all(16),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: Obx(() => GNav(
+                    tabs: _bottomNavTabs,
+                    selectedIndex: dashboardController.selectedTabIndex.value,
+                    onTabChange: (index) =>
+                        dashboardController.onTabSelected(index: index),
+                    backgroundColor: CustomColors.background,
+                    tabBackgroundColor: CustomColors.primary.withOpacity(0.05),
+                    color: CustomColors.secondary,
+                    activeColor: CustomColors.primary,
+                    gap: 8,
+                    padding: const EdgeInsets.all(16),
+                  ),
                 ),
               ),
             ),

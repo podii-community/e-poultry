@@ -16,12 +16,14 @@ import 'package:sizer/sizer.dart';
 import '../../../../../core/controllers/farm_controller.dart';
 import '../../../../../core/controllers/managers_controller.dart';
 import '../../../create-farm/create_farm_page.dart';
+import '../controller/dashboard_controller.dart';
 
 class DrawerPage extends StatelessWidget {
   DrawerPage({Key? key}) : super(key: key);
 
   final controller = Get.find<FarmsController>();
   final userController = Get.find<UserController>();
+  final dashboardController = Get.find<DashboardController>();
   final ManagersController managersController = ManagersController();
 
   @override
@@ -151,7 +153,10 @@ class DrawerPage extends StatelessWidget {
                 style: TextStyle(
                     color: CustomColors.textPrimary, fontSize: 2.2.h)),
             onTap: () {
-              Get.to(() => const ProfilePage());
+              //  change the selected tab index and go to the same profile page
+              dashboardController.onTabSelected(index: 3);
+              //  pop the drawer
+              Get.back();
             },
           ),
           Column(
