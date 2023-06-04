@@ -13,9 +13,9 @@ import 'package:hive/hive.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../core/controllers/farm_controller.dart';
-import '../../../core/controllers/managers_controller.dart';
-import '../create-farm/create_farm_page.dart';
+import '../../../../core/controllers/farm_controller.dart';
+import '../../../../core/controllers/managers_controller.dart';
+import '../../create-farm/create_farm_page.dart';
 
 class DrawerPage extends StatelessWidget {
   DrawerPage({Key? key}) : super(key: key);
