@@ -5,9 +5,9 @@
 import FlutterMacOS
 import Foundation
 
-import connectivity_plus_macos
+import connectivity_plus
 import geolocator_apple
-import path_provider_macos
+import path_provider_foundation
 import smart_auth
 import url_launcher_macos
 
