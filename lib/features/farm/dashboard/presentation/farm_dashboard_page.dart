@@ -1,4 +1,5 @@
 import 'package:epoultry/core/data/data_source/graphql/query_document_provider.dart';
+import 'package:epoultry/features/farm/dashboard/presentation/components/bottom_app_bar/dashboard_app_bar.dart';
 import 'package:epoultry/features/farm/dashboard/presentation/screens/list_batches_page.dart';
 import 'package:epoultry/features/farm/dashboard/presentation/screens/dashboard_page.dart';
 import 'package:epoultry/features/farm/dashboard/presentation/screens/drawer_page.dart';
@@ -19,6 +20,7 @@ import '../../../../core/presentation/controllers/user_controller.dart';
 import '../../../../core/domain/models/error.dart';
 import '../../../../core/presentation/components/error_widget.dart';
 import '../../../../core/presentation/components/loading_spinner.dart';
+import 'components/bottom_app_bar/bottom_app_bar_icon.dart';
 import 'controller/dashboard_controller.dart';
 
 class FarmDashboardPage extends StatefulWidget {
@@ -29,10 +31,10 @@ class FarmDashboardPage extends StatefulWidget {
 }
 
 class _FarmDashboardPageState extends State<FarmDashboardPage> {
-  int _selectedIndex = 0;
   bool isLoading = false;
-  late List<GButton> _bottomNavTabs;
+  late List<Widget> _bottomNavTabs;
   late List<Widget> _pages;
+  late final DashboardController _dashboardController;
 
   final GlobalKey<ScaffoldState> _dashboardkey = GlobalKey();
 
@@ -46,6 +48,7 @@ class _FarmDashboardPageState extends State<FarmDashboardPage> {
 
     //  put the dashboard controller
     Get.lazyPut(() => DashboardController());
+    _dashboardController = Get.find<DashboardController>();
 
     _pages = [
       const DashboardPage(),
@@ -54,22 +57,44 @@ class _FarmDashboardPageState extends State<FarmDashboardPage> {
       const ProfilePage()
     ];
 
-    _bottomNavTabs = const [
-      GButton(
-        icon: PhosphorIcons.houseLine,
-        text: "Home",
+    _bottomNavTabs = [
+      Obx(
+        () => Expanded(
+            child: bottomAppBarIcon(
+                title: "Home",
+                icon: PhosphorIcons.houseLineFill,
+                isActive: _dashboardController.selectedTabIndex.value == 0,
+                onTap: () => _dashboardController.onTabSelected(index: 0))),
       ),
-      GButton(
-        icon: PhosphorIcons.person,
-        text: "E-extension",
+      Obx(
+        () => Expanded(
+          child: bottomAppBarIcon(
+              title: "E-Extension",
+              icon: PhosphorIcons.personFill,
+              isActive: _dashboardController.selectedTabIndex.value == 1,
+              onTap: () => _dashboardController.onTabSelected(index: 1)),
+        ),
       ),
-      GButton(
-        icon: PhosphorIcons.plus,
-        text: "Manage Batch",
+      const SizedBox(
+        width: 8,
       ),
-      GButton(
-        icon: PhosphorIcons.userPlus,
-        text: "Profile",
+      Obx(
+        () => Expanded(
+          child: bottomAppBarIcon(
+              title: "Manage Batch",
+              icon: PhosphorIcons.plus,
+              isActive: _dashboardController.selectedTabIndex.value == 2,
+              onTap: () => _dashboardController.onTabSelected(index: 2)),
+        ),
+      ),
+      Obx(
+        () => Expanded(
+          child: bottomAppBarIcon(
+              title: "Profile",
+              icon: PhosphorIcons.userPlusFill,
+              isActive: _dashboardController.selectedTabIndex.value == 3,
+              onTap: () => _dashboardController.onTabSelected(index: 3)),
+        ),
       ),
     ];
   }
@@ -128,9 +153,6 @@ class _FarmDashboardPageState extends State<FarmDashboardPage> {
 
   @override
   Widget build(BuildContext context) {
-
-    final dashboardController = Get.find<DashboardController>();
-
     return Query(
         options: QueryOptions(
           document: gql(context.queries.getContractors()),
@@ -164,37 +186,15 @@ class _FarmDashboardPageState extends State<FarmDashboardPage> {
               ),
               drawer: DrawerPage(),
               body: Obx(
-                  () => IndexedStack(
+                () => IndexedStack(
                   key: UniqueKey(),
-                  index: dashboardController.selectedTabIndex.value,
+                  index: _dashboardController.selectedTabIndex.value,
                   children: _pages,
                 ),
               ),
-              bottomNavigationBar: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                child: Obx(() => GNav(
-                    tabs: _bottomNavTabs,
-                    selectedIndex: dashboardController.selectedTabIndex.value,
-                    onTabChange: (index) =>
-                        dashboardController.onTabSelected(index: index),
-                    backgroundColor: CustomColors.background,
-                    tabBackgroundColor: CustomColors.primary.withOpacity(0.05),
-                    color: CustomColors.secondary,
-                    activeColor: CustomColors.primary,
-                    gap: 8,
-                    padding: const EdgeInsets.all(16),
-                  ),
-                ),
-              ),
+              bottomNavigationBar: mainBottomAppBar(tabs: _bottomNavTabs),
             ),
           );
         });
-  }
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
   }
 }
