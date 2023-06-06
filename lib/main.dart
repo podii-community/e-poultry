@@ -18,8 +18,12 @@ import 'package:sizer/sizer.dart';
 
 import 'core/presentation/controllers/farm_controller.dart';
 import 'core/presentation/controllers/user_controller.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 void main() async {
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+
   await Hive.initFlutter();
   await Hive.openBox('appData');
   final box = Hive.box('appData');
@@ -100,6 +104,8 @@ class _EpoultryState extends State<Epoultry> {
 
   @override
   Widget build(BuildContext context) {
+    FlutterNativeSplash.remove();
+
     return Sizer(
       builder: (context, orientation, deviceType) {
         return QueriesDocumentProvider(
