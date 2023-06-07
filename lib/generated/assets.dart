@@ -2,6 +2,7 @@
 class Assets {
   Assets._();
 
+  static const String android12+IcLanding = 'assets/android_12+/ic_landing.png';
   static const String assetsChicken = 'assets/chicken.png';
   static const String assetsEllipse 1 = 'assets/ellipse 1.png';
   static const String assetsGreater = 'assets/greater.svg';
