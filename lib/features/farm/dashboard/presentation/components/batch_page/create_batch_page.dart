@@ -76,187 +76,222 @@ class _CreateBatchPageState extends State<CreateBatchPage> {
         ),
         body: Container(
             padding: const EdgeInsets.symmetric(horizontal: CustomSpacing.s2),
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              const SizedBox(
-                height: CustomSpacing.s2,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  "Create a New Batch",
-                  style: TextStyle(fontSize: 3.h),
-                ),
-              ),
-              const SizedBox(
-                height: CustomSpacing.s2,
-              ),
-              Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      TextFormField(
-                        controller: name,
-                        keyboardType: TextInputType.name,
-                        decoration: InputDecoration(
-                            labelText: "Batch Name",
-                            labelStyle: TextStyle(
-                                fontSize: 2.2.h, color: CustomColors.secondary),
-                            border: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    width: 0.3.w,
-                                    color: CustomColors.secondary)),
-                            focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    width: 0.3.w,
-                                    color: CustomColors.secondary))),
+            child: SingleChildScrollView(
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: CustomSpacing.s2,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        "Create a New Batch",
+                        style: TextStyle(fontSize: 3.h),
                       ),
-                      const SizedBox(
-                        height: CustomSpacing.s3,
-                      ),
-                      GridView(
-                        shrinkWrap: true,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          childAspectRatio: 2.5,
-                          mainAxisSpacing: CustomSpacing.s3,
-                          crossAxisSpacing: CustomSpacing.s2,
-                        ),
-                        children: [
-                          DropdownButtonFormField<BirdTypes>(
-                            // Initial Value
-                            key: UniqueKey(),
-                            value: birdType,
-                            isExpanded: true,
-                            elevation: 0,
-                            decoration: InputDecoration(
-                                hintText: "--select--",
-                                labelText: "Type of Birds",
-                                labelStyle: TextStyle(
-                                    fontSize: 2.2.h,
-                                    color: CustomColors.secondary),
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        width: 0.3.w,
-                                        color: CustomColors.secondary)),
-                                focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        width: 0.3.w,
-                                        color: CustomColors.secondary))),
+                    ),
+                    const SizedBox(
+                      height: CustomSpacing.s2,
+                    ),
+                    Form(
+                        key: _formKey,
+                        child: Column(
+                          children: [
+                            TextFormField(
+                              controller: name,
+                              keyboardType: TextInputType.name,
+                              decoration: InputDecoration(
+                                  labelText: "Batch Name",
+                                  labelStyle: TextStyle(
+                                      fontSize: 2.2.h,
+                                      color: CustomColors.secondary),
+                                  border: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          width: 0.3.w,
+                                          color: CustomColors.secondary)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          width: 0.3.w,
+                                          color: CustomColors.secondary))),
+                              validator: (String? value) {
+                                if (value!.isEmpty) {
+                                  return "Batch name is required";
+                                }
+                              },
+                            ),
+                            const SizedBox(
+                              height: CustomSpacing.s3,
+                            ),
+                            GridView(
+                              shrinkWrap: true,
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                childAspectRatio: 2.5,
+                                mainAxisSpacing: CustomSpacing.s3,
+                                crossAxisSpacing: CustomSpacing.s2,
+                              ),
+                              children: [
+                                DropdownButtonFormField<BirdTypes>(
+                                  // Initial Value
+                                  key: UniqueKey(),
+                                  validator: (value) => value == null
+                                      ? 'Please select type of bird'
+                                      : null,
+                                  value: birdType,
+                                  isExpanded: true,
+                                  elevation: 0,
+                                  decoration: InputDecoration(
+                                      hintText: "--select--",
+                                      labelText: "Type of Birds",
+                                      labelStyle: TextStyle(
+                                          fontSize: 2.2.h,
+                                          color: CustomColors.secondary),
+                                      border: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 0.3.w,
+                                              color: CustomColors.secondary)),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 0.3.w,
+                                              color: CustomColors.secondary))),
 
-                            onChanged: (val) {
-                              setState(() {
-                                birdType = val;
-                              });
-                            },
-                            items: BirdTypes.values.map((BirdTypes birdType) {
-                              return DropdownMenuItem<BirdTypes>(
-                                value: birdType,
-                                child: Text(birdType.name.toString()),
-                              );
-                            }).toList(),
-                          ),
-                          TextFormField(
-                            controller: number,
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                                labelText: "Number of Birds",
-                                labelStyle: TextStyle(
-                                    fontSize: 2.2.h,
-                                    color: CustomColors.secondary),
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        width: 0.3.w,
-                                        color: CustomColors.secondary)),
-                                focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        width: 0.3.w,
-                                        color: CustomColors.secondary))),
-                          ),
-                          TextFormField(
-                            controller: age,
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                                labelText: "Age",
-                                labelStyle: TextStyle(
-                                    fontSize: 2.2.h,
-                                    color: CustomColors.secondary),
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        width: 0.3.w,
-                                        color: CustomColors.secondary)),
-                                focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        width: 0.3.w,
-                                        color: CustomColors.secondary))),
-                          ),
-                          DropdownButtonFormField<AgeTypes>(
-                            // Initial Value
-                            key: UniqueKey(),
-                            value: ageType,
-                            isExpanded: true,
-                            elevation: 0,
-                            decoration: InputDecoration(
-                                hintText: "--select--",
-                                labelText: "Days/Weeks/Months",
-                                labelStyle: TextStyle(
-                                    fontSize: 2.2.h,
-                                    color: CustomColors.secondary),
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        width: 0.3.w,
-                                        color: CustomColors.secondary)),
-                                focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        width: 0.3.w,
-                                        color: CustomColors.secondary))),
+                                  onChanged: (val) {
+                                    setState(() {
+                                      birdType = val;
+                                    });
+                                  },
+                                  items: BirdTypes.values
+                                      .map((BirdTypes birdType) {
+                                    return DropdownMenuItem<BirdTypes>(
+                                      value: birdType,
+                                      child: Text(birdType.name.toString()),
+                                    );
+                                  }).toList(),
+                                ),
+                                TextFormField(
+                                  controller: number,
+                                  keyboardType: TextInputType.number,
+                                  decoration: InputDecoration(
+                                      labelText: "Number of Birds",
+                                      labelStyle: TextStyle(
+                                          fontSize: 2.2.h,
+                                          color: CustomColors.secondary),
+                                      border: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 0.3.w,
+                                              color: CustomColors.secondary)),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 0.3.w,
+                                              color: CustomColors.secondary))),
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return "Number of birds is required";
+                                    }
+                                  },
+                                ),
+                                TextFormField(
+                                  controller: age,
+                                  keyboardType: TextInputType.number,
+                                  decoration: InputDecoration(
+                                      labelText: "Age",
+                                      labelStyle: TextStyle(
+                                          fontSize: 2.2.h,
+                                          color: CustomColors.secondary),
+                                      border: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 0.3.w,
+                                              color: CustomColors.secondary)),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 0.3.w,
+                                              color: CustomColors.secondary))),
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return "Age of birds is required";
+                                    }
+                                  },
+                                ),
+                                DropdownButtonFormField<AgeTypes>(
+                                  // Initial Value
+                                  key: UniqueKey(),
+                                  value: ageType,
+                                  isExpanded: true,
+                                  elevation: 0,
+                                  decoration: InputDecoration(
+                                      hintText: "--select--",
+                                      labelText: "Days/Weeks/Months",
+                                      labelStyle: TextStyle(
+                                          fontSize: 2.2.h,
+                                          color: CustomColors.secondary),
+                                      border: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 0.3.w,
+                                              color: CustomColors.secondary)),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 0.3.w,
+                                              color: CustomColors.secondary))),
+                                  validator: (value) => value == null
+                                      ? 'Please select Days/Weeks/Months'
+                                      : null,
 
-                            onChanged: (val) {
-                              setState(() {
-                                ageType = val;
-                              });
-                            },
-                            items: AgeTypes.values.map((AgeTypes ageType) {
-                              return DropdownMenuItem<AgeTypes>(
-                                value: ageType,
-                                child: Text(ageType.name.toString()),
-                              );
-                            }).toList(),
-                          ),
-                        ],
-                      ),
-                    ],
-                  )),
-              GradientWidget(
-                child: ElevatedButton(
-                    onPressed: () {
-                      final index = months.indexOf(initialMonth);
-                      String s = index.toString().padLeft(2, '0');
-                      BatchModel newBatch = BatchModel(
-                          name: name.text,
-                          type: birdType!,
-                          birdAge: int.parse(age.text),
-                          birdCount: int.parse(number.text),
-                          ageType: ageType!,
-                          date: ("${day.text}-$s-${year.text}"),
-                          farmId: controller.farm['id']);
+                                  onChanged: (val) {
+                                    setState(() {
+                                      ageType = val;
+                                    });
+                                  },
+                                  items:
+                                      AgeTypes.values.map((AgeTypes ageType) {
+                                    return DropdownMenuItem<AgeTypes>(
+                                      value: ageType,
+                                      child: Text(ageType.name.toString()),
+                                    );
+                                  }).toList(),
+                                ),
+                              ],
+                            ),
+                          ],
+                        )),
+                    const SizedBox(
+                      height: 25,
+                    ),
+                    GradientWidget(
+                      child: ElevatedButton(
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              final index = months.indexOf(initialMonth);
+                              String s = index.toString().padLeft(2, '0');
+                              BatchModel newBatch = BatchModel(
+                                  name: name.text,
+                                  type: birdType!,
+                                  birdAge: int.parse(age.text),
+                                  birdCount: int.parse(number.text),
+                                  ageType: ageType!,
+                                  date: ("${day.text}-$s-${year.text}"),
+                                  farmId: controller.farm['id']);
 
-                      Get.to(() => ConfirmBatchPage(
-                            newBatch: newBatch,
-                          ));
-                    },
-                    style: ElevatedButton.styleFrom(
-                        foregroundColor: CustomColors.background,
-                        backgroundColor: Colors.transparent,
-                        disabledForegroundColor:
-                            Colors.transparent.withOpacity(0.38),
-                        disabledBackgroundColor:
-                            Colors.transparent.withOpacity(0.12),
-                        shadowColor: Colors.transparent,
-                        fixedSize: Size(100.w, 6.h)),
-                    child: const Text('CREATE BATCH')),
-              ),
-            ])));
+                              Get.to(() => ConfirmBatchPage(
+                                    newBatch: newBatch,
+                                  ));
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                              foregroundColor: CustomColors.background,
+                              backgroundColor: Colors.transparent,
+                              disabledForegroundColor:
+                                  Colors.transparent.withOpacity(0.38),
+                              disabledBackgroundColor:
+                                  Colors.transparent.withOpacity(0.12),
+                              shadowColor: Colors.transparent,
+                              fixedSize: Size(100.w, 6.h)),
+                          child: const Text('CREATE BATCH')),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                  ]),
+            )));
   }
 }
