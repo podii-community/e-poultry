@@ -183,16 +183,8 @@ class _GetMedicalHelpState extends State<GetMedicalHelp> {
                                         shape: BoxShape.circle,
                                         border: Border.all(
                                             color: Colors.white, width: 4),
-                                        color: Colors.red),
-                                    child: const Center(
-                                      child: Text(
-                                        "X",
-                                        style: TextStyle(
-                                            fontSize: 23,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                    ),
+                                        color: Colors.white,
+                                        image:const  DecorationImage(image: AssetImage("assets/cancel.png"))),
                                   ),
                                 ),
                               ),
