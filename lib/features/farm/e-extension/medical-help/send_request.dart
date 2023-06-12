@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:epoultry/features/farm/dashboard/presentation/components/batch_page/create_batch_page.dart';
@@ -30,6 +32,7 @@ class _GetMedicalHelpState extends State<GetMedicalHelp> {
   final issue = TextEditingController();
 
   FilePickerResult? file;
+  PlatformFile? pickedFile;
 
   bool agree = false;
   bool uploaded = false;
@@ -148,6 +151,56 @@ class _GetMedicalHelpState extends State<GetMedicalHelp> {
                   const SizedBox(
                     height: CustomSpacing.s3,
                   ),
+                  uploaded
+                      ? IndexedStack(
+                          children: [
+                            Positioned(
+                                right: -13,
+                                top: 10,
+                                child: GestureDetector(
+                                  onTap: (){},
+                                  child: Container(
+                                    width: 30,
+                                    height: 30,
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                            color: Colors.white, width: 4),
+                                        color: Colors.red),
+                                    child: const Text(
+                                      "X",
+                                      style: TextStyle(
+                                          fontSize: 23,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                  ),
+                                )),
+                            Container(
+                              height: 20.h,
+                              width: 80.w,
+                              decoration: BoxDecoration(
+                              color: CustomColors.drawerBackground,
+                              borderRadius: BorderRadius.circular(10)
+                              ),
+                            
+                              child: Image.file(
+                                File(pickedFile!.path!),
+                                width: double.infinity,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ],
+                        )
+                      : Container(
+                          height: 20.h,
+                          width: 100.w,
+                          color: CustomColors.drawerBackground,
+                          child: const Center(
+                              child: Text('No image uploaded yet'))),
+                  const SizedBox(
+                    height: CustomSpacing.s3,
+                  ),
                   DottedBorder(
                     color: CustomColors.secondary,
                     child: uploaded
@@ -217,7 +270,10 @@ class _GetMedicalHelpState extends State<GetMedicalHelp> {
                               ),
                             ),
                           ),
-                        )
+                        ),
+                  const SizedBox(
+                    height: CustomSpacing.s3,
+                  ),
                 ],
               ),
             )),
@@ -252,6 +308,7 @@ class _GetMedicalHelpState extends State<GetMedicalHelp> {
     });
 
     file = result!;
+    pickedFile = result.files.first;
   }
 
   submit() async {
