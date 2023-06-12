@@ -151,53 +151,60 @@ class _GetMedicalHelpState extends State<GetMedicalHelp> {
                   const SizedBox(
                     height: CustomSpacing.s3,
                   ),
-                  uploaded
-                      ? IndexedStack(
-                          children: [
-                            Positioned(
-                                right: -13,
-                                top: 10,
+                  SizedBox(
+                    height: 34.h,
+                    width: 90.w,
+                    child: uploaded
+                        ? Stack(
+                            clipBehavior: Clip.none,
+                            children: [
+                              Container(
+                                height: 33.h,
+                                width: 100.w,
+                                decoration: BoxDecoration(
+                                    color: CustomColors.drawerBackground,
+                                    borderRadius: BorderRadius.circular(20),
+                                    image: DecorationImage(
+                                        image:
+                                            FileImage(File(pickedFile!.path!)),
+                                        fit: BoxFit.cover)),
+                              ),
+                              Positioned(
+                                right: -15,
+                                top: -10,
                                 child: GestureDetector(
-                                  onTap: (){},
+                                  onTap: () {
+                                    resetImage();
+                                  },
                                   child: Container(
-                                    width: 30,
-                                    height: 30,
+                                    width: 50,
+                                    height: 50,
                                     decoration: BoxDecoration(
                                         shape: BoxShape.circle,
                                         border: Border.all(
                                             color: Colors.white, width: 4),
                                         color: Colors.red),
-                                    child: const Text(
-                                      "X",
-                                      style: TextStyle(
-                                          fontSize: 23,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w600),
+                                    child: const Center(
+                                      child: Text(
+                                        "X",
+                                        style: TextStyle(
+                                            fontSize: 23,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w600),
+                                      ),
                                     ),
                                   ),
-                                )),
-                            Container(
-                              height: 20.h,
-                              width: 80.w,
-                              decoration: BoxDecoration(
-                              color: CustomColors.drawerBackground,
-                              borderRadius: BorderRadius.circular(10)
+                                ),
                               ),
-                            
-                              child: Image.file(
-                                File(pickedFile!.path!),
-                                width: double.infinity,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ],
-                        )
-                      : Container(
-                          height: 20.h,
-                          width: 100.w,
-                          color: CustomColors.drawerBackground,
-                          child: const Center(
-                              child: Text('No image uploaded yet'))),
+                            ],
+                          )
+                        : Container(
+                            height: 20.h,
+                            width: 100.w,
+                            color: CustomColors.drawerBackground,
+                            child: const Center(
+                                child: Text('No image uploaded yet'))),
+                  ),
                   const SizedBox(
                     height: CustomSpacing.s3,
                   ),
@@ -309,6 +316,14 @@ class _GetMedicalHelpState extends State<GetMedicalHelp> {
 
     file = result!;
     pickedFile = result.files.first;
+  }
+
+  resetImage() {
+    setState(() {
+      uploaded = false;
+      file = null;
+      pickedFile = null;
+    });
   }
 
   submit() async {
