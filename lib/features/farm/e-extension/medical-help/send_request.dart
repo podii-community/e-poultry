@@ -190,7 +190,7 @@ class _GetMedicalHelpState extends State<GetMedicalHelp> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: const[
-                              Text("Image not uploaded yet", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),)
+                              Text("Click the button below to upload image", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),)
                             ],
                           ),
                         ),
