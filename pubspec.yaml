@@ -62,6 +62,8 @@ dependencies:
   google_nav_bar: ^5.0.6
   # lottie animations
   lottie: ^2.3.2
+  # continuously check for internet connection
+  internet_connection_checker: ^1.0.0+1
 
 dev_dependencies:
   flutter_test:
