@@ -56,10 +56,7 @@ class _EpoultryState extends State<Epoultry> {
     userController = Get.put(UserController(), permanent: true);
 
     //  Observe internet connection
-    internetSubscription =
-        InternetConnectionChecker().onStatusChange.listen((status) {
-          userController.hasInternet.value = status == InternetConnectionStatus.connected;
-        });
+    userController.checkInternetConnection();
   }
 
   GraphQLConfiguration graphQLConfig = GraphQLConfiguration();
@@ -135,9 +132,7 @@ class _EpoultryState extends State<Epoultry> {
                 localizationsDelegates: const [
                   FormBuilderLocalizations.delegate,
                 ],
-                home: Obx(() => userController.hasInternet.value
-                    ? checkAuth(token, role)
-                    : const NoInternetScreen())),
+                home: checkAuth(token, role)),
           ),
         );
       },

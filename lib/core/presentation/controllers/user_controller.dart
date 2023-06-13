@@ -44,10 +44,7 @@ class UserController extends GetxController {
     profileImage(profile);
   }
 
-  void observeInternetConnection() {
-    internetSubscription =
-        InternetConnectionChecker().onStatusChange.listen((status) {
-      hasInternet.value = status == InternetConnectionStatus.connected;
-    });
+  Future<void> checkInternetConnection() async {
+    hasInternet.value = await InternetConnectionChecker().hasConnection;
   }
 }

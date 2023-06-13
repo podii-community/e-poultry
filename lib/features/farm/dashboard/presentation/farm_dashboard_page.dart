@@ -15,6 +15,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hive/hive.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
+import '../../../../core/presentation/components/no_internet_screen.dart';
 import '../../../../core/presentation/controllers/farm_controller.dart';
 import '../../../../core/presentation/controllers/user_controller.dart';
 import '../../../../core/domain/models/error.dart';
@@ -153,48 +154,53 @@ class _FarmDashboardPageState extends State<FarmDashboardPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Query(
-        options: QueryOptions(
-          document: gql(context.queries.getContractors()),
-          fetchPolicy: FetchPolicy.noCache,
-        ),
-        builder: (QueryResult result,
-            {VoidCallback? refetch, FetchMore? fetchMore}) {
-          if (result.isLoading) {
-            return Container(
-              color: CustomColors.background,
-              child: const LoadingSpinner(),
-            );
-          }
-          if (result.hasException) {
-            return AppErrorWidget(
-              error: ErrorModel.fromString(
-                result.exception.toString(),
-              ),
-            );
-          }
-
-          //  setting the navbar background color
-          return AnnotatedRegion(
-            value: const SystemUiOverlayStyle(
-                systemNavigationBarColor: CustomColors.background,
-                systemNavigationBarIconBrightness: Brightness.dark),
-            child: Scaffold(
-              key: _dashboardkey,
-              appBar: AppbarWidget(
-                drawerKey: _dashboardkey,
-              ),
-              drawer: DrawerPage(),
-              body: Obx(
-                () => IndexedStack(
-                  key: UniqueKey(),
-                  index: _dashboardController.selectedTabIndex.value,
-                  children: _pages,
-                ),
-              ),
-              bottomNavigationBar: mainBottomAppBar(tabs: _bottomNavTabs),
+    return userController.hasInternet.value
+        ? Query(
+            options: QueryOptions(
+              document: gql(context.queries.getContractors()),
+              fetchPolicy: FetchPolicy.noCache,
             ),
-          );
-        });
+            builder: (QueryResult result,
+                {VoidCallback? refetch, FetchMore? fetchMore}) {
+              if (result.isLoading) {
+                return Container(
+                  color: CustomColors.background,
+                  child: const LoadingSpinner(),
+                );
+              }
+              if (result.hasException) {
+                return AppErrorWidget(
+                  error: ErrorModel.fromString(
+                    result.exception.toString(),
+                  ),
+                );
+              }
+
+              //  setting the navbar background color
+              return AnnotatedRegion(
+                value: const SystemUiOverlayStyle(
+                    systemNavigationBarColor: CustomColors.background,
+                    systemNavigationBarIconBrightness: Brightness.dark),
+                child: Scaffold(
+                  key: _dashboardkey,
+                  appBar: AppbarWidget(
+                    drawerKey: _dashboardkey,
+                  ),
+                  drawer: DrawerPage(),
+                  body: Obx(
+                    () => IndexedStack(
+                      key: UniqueKey(),
+                      index: _dashboardController.selectedTabIndex.value,
+                      children: _pages,
+                    ),
+                  ),
+                  bottomNavigationBar: mainBottomAppBar(tabs: _bottomNavTabs),
+                ),
+              );
+            })
+        : NoInternetScreen(onRefresh: () async {
+            await userController.checkInternetConnection();
+            setState(() {});
+          });
   }
 }
