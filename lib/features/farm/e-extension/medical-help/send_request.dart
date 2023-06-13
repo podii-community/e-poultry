@@ -180,7 +180,16 @@ class _GetMedicalHelpState extends State<GetMedicalHelp> {
                                       border: Border.all(
                                           color: Colors.white, width: 4),
                                       color: Colors.white,
-                                      image:const  DecorationImage(image: AssetImage("assets/cancel.png"))),
+                                      image:const  DecorationImage(image: AssetImage("assets/cancel.png"))
+                                      ),
+                                //       child:  Container(
+                                //         width: 48,
+                                //         height: 48,
+                                //         decoration: BoxDecoration(
+                                //           shape: BoxShape.circle,
+                                //           color: Color(0xF44336)
+                                //         ),
+                                //       ),
                                 ),
                               ),
                             ),
