@@ -109,7 +109,9 @@ class _VaccinationListState extends State<VaccinationList> {
                           vaccine['status'].toString() == "PENDING")
                       .toList();
 
-                  log("$pending");
+                  if (pending.isEmpty) {
+                    return const Expanded(child: Align(child: Text("No pending vaccines")));
+                  }
 
                   return Expanded(
                     child: ListView.builder(
@@ -193,7 +195,8 @@ class _VaccinationListState extends State<VaccinationList> {
                     children: [
                       Text('SEE ALL',
                           style: TextStyle(
-                            fontSize: 2.2.h,
+                            fontSize: 2.0.h,
+                            color: CustomColors.secondary
                           )),
                     ],
                   ),
@@ -228,6 +231,10 @@ class _VaccinationListState extends State<VaccinationList> {
                       .where((vaccine) =>
                           vaccine['status'].toString() == "COMPLETED")
                       .toList();
+
+                  if (completed.isEmpty) {
+                    return const Expanded(child: Align(child: Text("No completed vaccines")));
+                  }
 
                   return Expanded(
                     child: ListView.builder(
