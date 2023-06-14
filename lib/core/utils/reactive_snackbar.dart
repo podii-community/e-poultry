@@ -15,6 +15,7 @@ void reactiveSnackbar({required UserController userController}) =>
                 color: CustomColors.green, fontWeight: FontWeight.bold, fontSize: 16),
           ),
           message: "Internet connection established",
+          backgroundColor: CustomColors.snackbarBackground,
           icon: Icon(
             Icons.wifi,
             color: CustomColors.green,
@@ -29,15 +30,15 @@ void reactiveSnackbar({required UserController userController}) =>
           titleText: Text(
             "Disconnected",
             style: TextStyle(
-                color: CustomColors.red, fontWeight: FontWeight.bold, fontSize: 16),
+                color: CustomColors.redLight, fontWeight: FontWeight.bold, fontSize: 16),
           ),
           message: "Internet connection lost",
+          backgroundColor: CustomColors.snackbarBackground,
           icon: Icon(
             Icons.wifi_off,
-            color: CustomColors.red,
+            color: CustomColors.redLight,
           ),
           dismissDirection: DismissDirection.down,
-          duration: Duration(seconds: 3),
           margin: EdgeInsets.all(16),
           borderRadius: 16,
         ));
