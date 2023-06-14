@@ -30,7 +30,7 @@ class _NoInternetScreenState extends State<NoInternetScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: CustomColors.background,
+      color: Theme.of(context).scaffoldBackgroundColor,
       padding: const EdgeInsets.all(24),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
