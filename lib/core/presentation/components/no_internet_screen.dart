@@ -30,7 +30,7 @@ class _NoInternetScreenState extends State<NoInternetScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: CustomColors.background,
+      color: Theme.of(context).scaffoldBackgroundColor,
       padding: const EdgeInsets.all(24),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -42,23 +42,14 @@ class _NoInternetScreenState extends State<NoInternetScreen> {
           const SizedBox(
             height: 48,
           ),
-          const Text("Couldn't retrieve data",
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                  decoration: TextDecoration.none,
-                  color: Colors.black)),
+          Text("Couldn't retrieve data",
+              style: Theme.of(context).textTheme.titleLarge),
           const SizedBox(
             height: 16,
           ),
-          const Text(
+          Text(
             "Check your internet connection and try again",
-            style: TextStyle(
-              fontWeight: FontWeight.w500,
-              fontSize: 14,
-              decoration: TextDecoration.none,
-              color: Color(0xff272727),
-            ),
+            style: Theme.of(context).textTheme.bodyMedium,
             textAlign: TextAlign.center,
           ),
           const SizedBox(
