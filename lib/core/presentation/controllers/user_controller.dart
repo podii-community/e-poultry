@@ -15,6 +15,7 @@ class UserController extends GetxController {
   //  Observe Internet connectivity
   late StreamSubscription internetSubscription;
   final hasInternet = true.obs;
+  final hasInternetObservable = true.obs;
 
   updateName(name) {
     userName(name);
@@ -46,5 +47,9 @@ class UserController extends GetxController {
 
   Future<void> checkInternetConnection() async {
     hasInternet.value = await InternetConnectionChecker().hasConnection;
+    internetSubscription =
+        InternetConnectionChecker().onStatusChange.listen((status) {
+          hasInternetObservable.value = status == InternetConnectionStatus.connected;
+        });
   }
 }

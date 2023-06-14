@@ -24,6 +24,8 @@ import 'core/presentation/controllers/farm_controller.dart';
 import 'core/presentation/controllers/user_controller.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
+import 'core/utils/reactive_snackbar.dart';
+
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);

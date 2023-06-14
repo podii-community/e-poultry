@@ -21,6 +21,7 @@ import '../../../../core/presentation/controllers/user_controller.dart';
 import '../../../../core/domain/models/error.dart';
 import '../../../../core/presentation/components/error_widget.dart';
 import '../../../../core/presentation/components/loading_spinner.dart';
+import '../../../../core/utils/reactive_snackbar.dart';
 import 'components/bottom_app_bar/bottom_app_bar_icon.dart';
 import 'controller/dashboard_controller.dart';
 
@@ -50,6 +51,9 @@ class _FarmDashboardPageState extends State<FarmDashboardPage> {
     //  put the dashboard controller
     Get.lazyPut(() => DashboardController());
     _dashboardController = Get.find<DashboardController>();
+
+    //  observe internet connection
+    reactiveSnackbar(userController: userController);
 
     _pages = [
       const DashboardPage(),
