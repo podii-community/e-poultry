@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:epoultry/features/farm/dashboard/presentation/components/batch_page/create_batch_page.dart';
@@ -30,6 +32,7 @@ class _GetMedicalHelpState extends State<GetMedicalHelp> {
   final issue = TextEditingController();
 
   FilePickerResult? file;
+  PlatformFile? pickedFile;
 
   bool agree = false;
   bool uploaded = false;
@@ -148,6 +151,62 @@ class _GetMedicalHelpState extends State<GetMedicalHelp> {
                   const SizedBox(
                     height: CustomSpacing.s3,
                   ),
+                  uploaded? Stack(
+                          clipBehavior: Clip.none,
+                          children: [
+                            Container(
+                              height: 33.h,
+                              width: 100.w,
+                              decoration: BoxDecoration(
+                                  color: CustomColors.drawerBackground,
+                                  borderRadius: BorderRadius.circular(20),
+                                  image: DecorationImage(
+                                      image:
+                                          FileImage(File(pickedFile!.path!)),
+                                      fit: BoxFit.cover)),
+                            ),
+                            Positioned(
+                              right: -15,
+                              top: -10,
+                              child: GestureDetector(
+                                onTap: () {
+                                  resetImage();
+                                },
+                                child: Container(
+                                  width: 50,
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                          color: Colors.white, width: 4),
+                                      color: Colors.white,
+                                      image:const  DecorationImage(image: AssetImage("assets/cancel.png"))
+                                      ),
+                                //       child:  Container(
+                                //         width: 48,
+                                //         height: 48,
+                                //         decoration: BoxDecoration(
+                                //           shape: BoxShape.circle,
+                                //           color: Color(0xF44336)
+                                //         ),
+                                //       ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ):SizedBox(
+                          width: 100.w,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const[
+                              Text("Click the button below to upload image", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),)
+                            ],
+                          ),
+                        ),
+                     
+                  const SizedBox(
+                    height: CustomSpacing.s3,
+                  ),
                   DottedBorder(
                     color: CustomColors.secondary,
                     child: uploaded
@@ -217,7 +276,10 @@ class _GetMedicalHelpState extends State<GetMedicalHelp> {
                               ),
                             ),
                           ),
-                        )
+                        ),
+                  const SizedBox(
+                    height: CustomSpacing.s3,
+                  ),
                 ],
               ),
             )),
@@ -251,7 +313,20 @@ class _GetMedicalHelpState extends State<GetMedicalHelp> {
       uploaded = true;
     });
 
-    file = result!;
+    if(result!=null){
+      file = result;
+      pickedFile = result.files.first;
+    }else{
+      resetImage();
+    }
+  }
+
+  resetImage() {
+    setState(() {
+      uploaded = false;
+      file = null;
+      pickedFile = null;
+    });
   }
 
   submit() async {

@@ -148,110 +148,112 @@ class _MedicationStoreState extends State<MedicationStore> {
                     ),
                     SizedBox(
                       height: 50.h,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(
-                            height: CustomSpacing.s2,
-                          ),
-                          DropdownSearch<String>.multiSelection(
-                            dropdownDecoratorProps: DropDownDecoratorProps(
-                                dropdownSearchDecoration: InputDecoration(
-                                    hintText: "--select--",
-                                    labelText:
-                                        "What medication do you have in store?",
-                                    labelStyle: TextStyle(
-                                        fontSize: 2.0.h,
-                                        color: CustomColors.secondary),
-                                    border: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            width: 0.3.w,
-                                            color: CustomColors.secondary)),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            width: 0.3.w,
-                                            color: CustomColors.secondary)))),
-                            items: typeOfMedication,
-                            popupProps: const PopupPropsMultiSelection.menu(
-                              showSelectedItems: true,
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(
+                              height: CustomSpacing.s2,
                             ),
-                            onChanged: (val) {
-                              setState(() {
-                                _selectedMedication = val;
-                              });
-                            },
-                          ),
-                          const SizedBox(
-                            height: CustomSpacing.s3,
-                          ),
-                          _selectedMedication.contains("New Castle")
-                              ? TextFormField(
-                                  controller: newCastleStore,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Enter amount';
-                                    }
-                                    return null;
-                                  },
-                                  keyboardType: TextInputType.number,
-                                  decoration: InputDecoration(
-                                    suffixText: 'L',
-                                    prefixStyle: TextStyle(fontSize: 1.8.h),
-                                    border: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            width: 0.3.w,
-                                            color: CustomColors.secondary)),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            width: 0.3.w,
-                                            color: CustomColors.secondary)),
-                                    labelText:
-                                        "What quantity is in store(Newcastle)",
-                                    labelStyle: TextStyle(
-                                        fontSize: 2.2.h,
-                                        color: CustomColors.secondary),
-                                  ),
-                                )
-                              : Container(),
-                          const SizedBox(
-                            height: CustomSpacing.s3,
-                          ),
-                          _selectedMedication.contains("Gumboro")
-                              ? TextFormField(
-                                  controller: gumboroStore,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Enter amount';
-                                    }
-                                    return null;
-                                  },
-                                  keyboardType: TextInputType.number,
-                                  decoration: InputDecoration(
-                                    suffixText: 'L',
-                                    prefixStyle: TextStyle(fontSize: 1.8.h),
-                                    border: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            width: 0.3.w,
-                                            color: CustomColors.secondary)),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            width: 0.3.w,
-                                            color: CustomColors.secondary)),
-                                    labelText:
-                                        "What quantity is in store(Gumboro)",
-                                    labelStyle: TextStyle(
-                                        fontSize: 2.2.h,
-                                        color: CustomColors.secondary),
-                                  ),
-                                )
-                              : Container(),
-                          const SizedBox(
-                            height: CustomSpacing.s3,
-                          ),
-                          const SizedBox(
-                            height: CustomSpacing.s3,
-                          ),
-                        ],
+                            DropdownSearch<String>.multiSelection(
+                              dropdownDecoratorProps: DropDownDecoratorProps(
+                                  dropdownSearchDecoration: InputDecoration(
+                                      hintText: "--select--",
+                                      labelText:
+                                          "What medication do you have in store?",
+                                      labelStyle: TextStyle(
+                                          fontSize: 2.0.h,
+                                          color: CustomColors.secondary),
+                                      border: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 0.3.w,
+                                              color: CustomColors.secondary)),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 0.3.w,
+                                              color: CustomColors.secondary)))),
+                              items: typeOfMedication,
+                              popupProps: const PopupPropsMultiSelection.menu(
+                                showSelectedItems: true,
+                              ),
+                              onChanged: (val) {
+                                setState(() {
+                                  _selectedMedication = val;
+                                });
+                              },
+                            ),
+                            const SizedBox(
+                              height: CustomSpacing.s3,
+                            ),
+                            _selectedMedication.contains("New Castle")
+                                ? TextFormField(
+                                    controller: newCastleStore,
+                                    validator: (value) {
+                                      if (value!.isEmpty) {
+                                        return 'Enter amount';
+                                      }
+                                      return null;
+                                    },
+                                    keyboardType: TextInputType.number,
+                                    decoration: InputDecoration(
+                                      suffixText: 'L',
+                                      prefixStyle: TextStyle(fontSize: 1.8.h),
+                                      border: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 0.3.w,
+                                              color: CustomColors.secondary)),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 0.3.w,
+                                              color: CustomColors.secondary)),
+                                      labelText:
+                                          "What quantity is in store(Newcastle)",
+                                      labelStyle: TextStyle(
+                                          fontSize: 2.2.h,
+                                          color: CustomColors.secondary),
+                                    ),
+                                  )
+                                : Container(),
+                            const SizedBox(
+                              height: CustomSpacing.s3,
+                            ),
+                            _selectedMedication.contains("Gumboro")
+                                ? TextFormField(
+                                    controller: gumboroStore,
+                                    validator: (value) {
+                                      if (value!.isEmpty) {
+                                        return 'Enter amount';
+                                      }
+                                      return null;
+                                    },
+                                    keyboardType: TextInputType.number,
+                                    decoration: InputDecoration(
+                                      suffixText: 'L',
+                                      prefixStyle: TextStyle(fontSize: 1.8.h),
+                                      border: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 0.3.w,
+                                              color: CustomColors.secondary)),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 0.3.w,
+                                              color: CustomColors.secondary)),
+                                      labelText:
+                                          "What quantity is in store(Gumboro)",
+                                      labelStyle: TextStyle(
+                                          fontSize: 2.2.h,
+                                          color: CustomColors.secondary),
+                                    ),
+                                  )
+                                : Container(),
+                            const SizedBox(
+                              height: CustomSpacing.s3,
+                            ),
+                            const SizedBox(
+                              height: CustomSpacing.s3,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     const SizedBox(
