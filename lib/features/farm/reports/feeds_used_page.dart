@@ -567,7 +567,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                         //     DateTime(now.year, now.month, now.day);
                         var feedsUsageReports = [
                           {
-                            "feedType": "CHICK & DUCK_MASH",
+                            "feedType": "CHICKEN_DUCK_MASH",
                             "quantity": chickDuckMashUsed.text.isEmpty
                                 ? 0
                                 : int.parse(chickDuckMashUsed.text)

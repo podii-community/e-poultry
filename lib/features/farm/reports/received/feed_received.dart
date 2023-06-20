@@ -512,7 +512,7 @@ class _FeedReceivedState extends State<FeedReceived> {
                           //     DateTime(now.year, now.month, now.day);
                           var feedsReceivedReports = [
                             {
-                              "feedType": "CHICK & DUCK_MASH",
+                              "feedType": "CHICKEN_DUCK_MASH",
                               "quantity": chickDuckMashReceived.text.isEmpty
                                   ? 0
                                   : int.parse(chickDuckMashReceived.text)
