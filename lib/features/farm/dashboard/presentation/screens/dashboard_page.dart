@@ -137,7 +137,6 @@ class _DashboardPageState extends State<DashboardPage> {
                         controller.batchesList(data["batches"]);
                         // controller.reportsList(reports);
                         controller.setStoreItems(data["storeItems"]);
-                        controller.setFarmCreatedStatus(isFarmCreated: true);
                       });
 
                       return Column(
