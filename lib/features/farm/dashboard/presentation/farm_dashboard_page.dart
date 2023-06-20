@@ -1,4 +1,5 @@
 import 'package:epoultry/core/data/data_source/graphql/query_document_provider.dart';
+import 'package:epoultry/features/farm/create-farm/create_farm_page.dart';
 import 'package:epoultry/features/farm/dashboard/presentation/components/bottom_app_bar/dashboard_app_bar.dart';
 import 'package:epoultry/features/farm/dashboard/presentation/screens/list_batches_page.dart';
 import 'package:epoultry/features/farm/dashboard/presentation/screens/dashboard_page.dart';
@@ -22,6 +23,7 @@ import '../../../../core/domain/models/error.dart';
 import '../../../../core/presentation/components/error_widget.dart';
 import '../../../../core/presentation/components/loading_spinner.dart';
 import '../../../../core/utils/reactive_snackbar.dart';
+import '../../join-farm/join_farm_page.dart';
 import 'components/bottom_app_bar/bottom_app_bar_icon.dart';
 import 'controller/dashboard_controller.dart';
 
@@ -181,25 +183,31 @@ class _FarmDashboardPageState extends State<FarmDashboardPage> {
               }
 
               //  setting the navbar background color
-              return AnnotatedRegion(
-                value: const SystemUiOverlayStyle(
-                    systemNavigationBarColor: CustomColors.background,
-                    systemNavigationBarIconBrightness: Brightness.dark),
-                child: Scaffold(
-                  key: _dashboardkey,
-                  appBar: AppbarWidget(
-                    drawerKey: _dashboardkey,
-                  ),
-                  drawer: DrawerPage(),
-                  body: Obx(
-                    () => IndexedStack(
-                      key: UniqueKey(),
-                      index: _dashboardController.selectedTabIndex.value,
-                      children: _pages,
-                    ),
-                  ),
-                  bottomNavigationBar: mainBottomAppBar(tabs: _bottomNavTabs),
-                ),
+              return Obx(
+                () => controller.isFarmCreated.value
+                    ? AnnotatedRegion(
+                        value: const SystemUiOverlayStyle(
+                            systemNavigationBarColor: CustomColors.background,
+                            systemNavigationBarIconBrightness: Brightness.dark),
+                        child: Scaffold(
+                          key: _dashboardkey,
+                          appBar: AppbarWidget(
+                            drawerKey: _dashboardkey,
+                          ),
+                          drawer: DrawerPage(),
+                          body: Obx(
+                            () => IndexedStack(
+                              key: UniqueKey(),
+                              index:
+                                  _dashboardController.selectedTabIndex.value,
+                              children: _pages,
+                            ),
+                          ),
+                          bottomNavigationBar:
+                              mainBottomAppBar(tabs: _bottomNavTabs),
+                        ),
+                      )
+                    : const JoinFarmPage(),
               );
             })
         : NoInternetScreen(onRefresh: () async {

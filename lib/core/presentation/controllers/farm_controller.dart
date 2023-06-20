@@ -26,6 +26,10 @@ class FarmsController extends GetxController {
   final filteredSubCounties = [""].obs;
   final filteredWards = [""].obs;
 
+  final isFarmCreated = true.obs;
+
+  void setFarmCreatedStatus({required bool isFarmCreated}) => this.isFarmCreated.value = isFarmCreated;
+
   final report = {
     "data": {
       "batchId": "".obs,

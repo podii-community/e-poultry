@@ -111,11 +111,14 @@ class _DashboardPageState extends State<DashboardPage> {
                     builder: (QueryResult result,
                         {VoidCallback? refetch, FetchMore? fetchMore}) {
                       if (result.isLoading) {
-                        return const Expanded(child: LoadingSpinner());
+                        return const Center(child: LoadingSpinner());
                       }
 
                       if (result.data == null) {
-                        return const FarmErrorMessage();
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          controller.setFarmCreatedStatus(isFarmCreated: false);
+                        });
+                        return const SizedBox.shrink();
                       }
 
                       if (result.hasException) {
@@ -134,6 +137,7 @@ class _DashboardPageState extends State<DashboardPage> {
                         controller.batchesList(data["batches"]);
                         // controller.reportsList(reports);
                         controller.setStoreItems(data["storeItems"]);
+                        controller.setFarmCreatedStatus(isFarmCreated: true);
                       });
 
                       return Column(
