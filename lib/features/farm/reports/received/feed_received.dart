@@ -33,10 +33,10 @@ class _FeedReceivedState extends State<FeedReceived> {
   final kienyejiGrowersReceived = TextEditingController();
   // final chickMashReceived = TextEditingController();
 
-  var kienyejiFeeds = ["CHICK & DUCK Mash", "Kienyeji Growers Mash"];
+  var kienyejiFeeds = ["Chick & Duck Mash", "Kienyeji Growers Mash"];
 
   var layersFeeds = [
-    "CHICK & DUCK Mash",
+    "Chick & Duck Mash",
     "Growers Mash",
     "Layers Mash",
   ];
