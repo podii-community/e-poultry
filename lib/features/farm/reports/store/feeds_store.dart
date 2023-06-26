@@ -73,11 +73,10 @@ class _FeedStoreState extends State<FeedStore> {
           children: [
             SizedBox(
               height: MediaQuery.of(context).size.height,
-              child: SingleChildScrollView(
-                physics: const ClampingScrollPhysics(),
-                child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: CustomSpacing.s2),
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: CustomSpacing.s2),
+                child: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
