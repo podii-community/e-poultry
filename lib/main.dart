@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:epoultry/core/data/data_source/queries.dart';
 import 'package:epoultry/core/data/data_source/graphql/graphql_config.dart';
 
 import 'package:epoultry/core/data/data_source/graphql/query_document_provider.dart';
+import 'package:epoultry/core/presentation/components/no_internet_screen.dart';
 import 'package:epoultry/core/utils/core_constants.dart';
 import 'package:epoultry/features/extensions/extension_homepage.dart';
 import 'package:epoultry/features/farm/dashboard/presentation/farm_dashboard_page.dart';
@@ -14,11 +17,14 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:sizer/sizer.dart';
 
 import 'core/presentation/controllers/farm_controller.dart';
 import 'core/presentation/controllers/user_controller.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+
+import 'core/utils/reactive_snackbar.dart';
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -40,6 +46,21 @@ class Epoultry extends StatefulWidget {
 }
 
 class _EpoultryState extends State<Epoultry> {
+  late final FarmsController controller;
+  late final UserController userController;
+  late StreamSubscription internetSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+
+    controller = Get.put(FarmsController(), permanent: true);
+    userController = Get.put(UserController(), permanent: true);
+
+    //  Observe internet connection
+    userController.checkInternetConnection();
+  }
+
   GraphQLConfiguration graphQLConfig = GraphQLConfiguration();
 
   HttpLink authentication = HttpLink(
@@ -95,12 +116,6 @@ class _EpoultryState extends State<Epoultry> {
 
   late final token = box.get("token");
   late final role = box.get("tokenRole");
-
-  // print(role);
-  final FarmsController controller =
-      Get.put(FarmsController(), permanent: true);
-  final UserController userController =
-      Get.put(UserController(), permanent: true);
 
   @override
   Widget build(BuildContext context) {
