@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:epoultry/core/presentation/components/no_internet_screen.dart';
 import 'package:epoultry/core/presentation/controllers/farm_controller.dart';
-import 'package:epoultry/features/farm/dashboard/presentation/components/farm_error_message.dart';
 import 'package:epoultry/features/farm/reports/all_reports_page.dart';
 import 'package:epoultry/features/farm/reports/select_batch_page.dart';
 import 'package:epoultry/core/data/data_source/graphql/query_document_provider.dart';
@@ -111,11 +110,14 @@ class _DashboardPageState extends State<DashboardPage> {
                     builder: (QueryResult result,
                         {VoidCallback? refetch, FetchMore? fetchMore}) {
                       if (result.isLoading) {
-                        return const Expanded(child: LoadingSpinner());
+                        return const Center(child: LoadingSpinner());
                       }
 
                       if (result.data == null) {
-                        return const FarmErrorMessage();
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          controller.setFarmCreatedStatus(isFarmCreated: false);
+                        });
+                        return const SizedBox.shrink();
                       }
 
                       if (result.hasException) {
