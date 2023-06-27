@@ -71,6 +71,16 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
   final quantity = TextEditingController();
   final controller = Get.find<FarmsController>();
 
+
+  String capitalizeFirstLetter(String word){
+    List<String> wordelemnts=word.split(" ");
+    List<String> capitalizedfirstletter=[];
+    wordelemnts.forEach((element) {
+      capitalizedfirstletter.add(element.substring(0,1)+element.substring(1).toLowerCase());
+    });
+    return capitalizedfirstletter.join(" ");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -207,7 +217,9 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                                 width: 0.3.w,
                                                 color: CustomColors
                                                     .secondary)))),
-                                items: controller.layersFeeds.map((element) =>element.replaceAll('_', " ")).toList(),
+                                items: controller.layersFeeds.map((element){
+                                  return capitalizeFirstLetter(element.replaceAll('_', " "));
+                                }).toList(),
                                 popupProps:
                                     const PopupPropsMultiSelection.menu(
                                   showSelectedItems: true,
@@ -245,7 +257,9 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                                 width: 0.3.w,
                                                 color: CustomColors
                                                     .secondary)))),
-                                items: controller.broilerFeeds.map((element) =>element.replaceAll('_', " ")).toList(),
+                                items: controller.broilerFeeds.map((element){
+                                  return capitalizeFirstLetter(element.replaceAll('_', " "));
+                                }).toList(),
                                 popupProps:
                                     const PopupPropsMultiSelection.menu(
                                   showSelectedItems: true,
@@ -283,7 +297,9 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                                 width: 0.3.w,
                                                 color: CustomColors
                                                     .secondary)))),
-                                items: controller.kienyejiFeed.map((element) =>element.replaceAll('_', " ")).toList(),
+                                items: controller.kienyejiFeed.map((element){
+                                  return capitalizeFirstLetter(element.replaceAll('_', " "));
+                                }).toList(),
                                 popupProps:
                                     const PopupPropsMultiSelection.menu(
                                   showSelectedItems: true,
@@ -374,7 +390,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                         const SizedBox(
                           height: CustomSpacing.s3,
                         ),
-                        _selectedFeeds.contains("CHICK & DUCK MASH") ||
+                        _selectedFeeds.contains("Chicken Duck Mash") ||
                                 _selectedFeeds
                                         .contains("Chick & Duck Mash") &&
                                     ((widget.batchDetails.type!.name) ==
