@@ -207,7 +207,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                                 width: 0.3.w,
                                                 color: CustomColors
                                                     .secondary)))),
-                                items: controller.layersFeeds,
+                                items: controller.layersFeeds.map((element) =>element.replaceAll('_', " ")).toList(),
                                 popupProps:
                                     const PopupPropsMultiSelection.menu(
                                   showSelectedItems: true,
@@ -245,7 +245,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                                 width: 0.3.w,
                                                 color: CustomColors
                                                     .secondary)))),
-                                items: controller.broilerFeeds,
+                                items: controller.broilerFeeds.map((element) =>element.replaceAll('_', " ")).toList(),
                                 popupProps:
                                     const PopupPropsMultiSelection.menu(
                                   showSelectedItems: true,
@@ -283,7 +283,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                                 width: 0.3.w,
                                                 color: CustomColors
                                                     .secondary)))),
-                                items: controller.kienyejiFeed,
+                                items: controller.kienyejiFeed.map((element) =>element.replaceAll('_', " ")).toList(),
                                 popupProps:
                                     const PopupPropsMultiSelection.menu(
                                   showSelectedItems: true,
