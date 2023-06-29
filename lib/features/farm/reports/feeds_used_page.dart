@@ -30,14 +30,25 @@ class FeedsUsedPage extends StatefulWidget {
 }
 
 // ignore: camel_case_types
-enum FEED_TYPE {
-  CHICKEN_DUCK_MASH,
-  FINISHER_PELLETS,
-  GROWERS_MASH,
-  KIENYEJI_GROWERS_MASH,
-  LAYERS_MASH,
-  STARTER_CRUMBS
-}
+// enum FEED_TYPE {
+//   CHICKEN_DUCK_MASH,
+//   FINISHER_PELLETS,
+//   GROWERS_MASH,
+//   KIENYEJI_GROWERS_MASH,
+//   LAYERS_MASH,
+//   STARTER_CRUMBS
+// }
+
+final Map<String, String>feed_types={
+  "CHICKEN_DUCK_MASH":"Chick & Duck Mash",
+  "GROWERS_MASH":"Growers Mash",
+  "LAYERS_MASH":"Layers Mash",
+  "KIENYEJI_GROWERS_MASH":"Kienyeji Growers Mash",
+  "STARTER_CRUMBS":"Starter Crumbs",
+  "FINISHER_PELLETS":"Finisher Pellets"
+};
+final List<String> humanize=feed_types.entries.map((e) => e.value).toList();
+// final List<String> machinelize=feed_types.entries.map((e) => e.key).toList();
 
 class _FeedsUsedPageState extends State<FeedsUsedPage> {
   final _formKey = GlobalKey<FormState>();
@@ -72,14 +83,6 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
   final controller = Get.find<FarmsController>();
 
 
-  String capitalizeFirstLetter(String word){
-    List<String> wordelemnts=word.split(" ");
-    List<String> capitalizedfirstletter=[];
-    wordelemnts.forEach((element) {
-      capitalizedfirstletter.add(element.substring(0,1)+element.substring(1).toLowerCase());
-    });
-    return capitalizedfirstletter.join(" ");
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -217,9 +220,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                                 width: 0.3.w,
                                                 color: CustomColors
                                                     .secondary)))),
-                                items: controller.layersFeeds.map((element){
-                                  return capitalizeFirstLetter(element.replaceAll('_', " "));
-                                }).toList(),
+                                items: humanize,
                                 popupProps:
                                     const PopupPropsMultiSelection.menu(
                                   showSelectedItems: true,
@@ -257,9 +258,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                                 width: 0.3.w,
                                                 color: CustomColors
                                                     .secondary)))),
-                                items: controller.broilerFeeds.map((element){
-                                  return capitalizeFirstLetter(element.replaceAll('_', " "));
-                                }).toList(),
+                                items: humanize,
                                 popupProps:
                                     const PopupPropsMultiSelection.menu(
                                   showSelectedItems: true,
@@ -297,9 +296,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                                 width: 0.3.w,
                                                 color: CustomColors
                                                     .secondary)))),
-                                items: controller.kienyejiFeed.map((element){
-                                  return capitalizeFirstLetter(element.replaceAll('_', " "));
-                                }).toList(),
+                                items: humanize,
                                 popupProps:
                                     const PopupPropsMultiSelection.menu(
                                   showSelectedItems: true,
