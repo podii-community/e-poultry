@@ -48,7 +48,7 @@ final Map<String, String>feed_types={
   "FINISHER_PELLETS":"Finisher Pellets"
 };
 final List<String> humanize=feed_types.entries.map((e) => e.value).toList();
-final List<String> machinelize=feed_types.entries.map((e) => e.key).toList();
+// final List<String> machinelize=feed_types.entries.map((e) => e.key).toList();
 
 class _FeedsUsedPageState extends State<FeedsUsedPage> {
   final _formKey = GlobalKey<FormState>();
@@ -82,6 +82,17 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
   final quantity = TextEditingController();
   final controller = Get.find<FarmsController>();
 
+  List<String> getFeedsWithoutUnderscores(List<String> feeds){
+    if(feeds.isEmpty){
+      return [];
+    }else if(feeds[0].contains(" ")){
+      return feeds;
+    }else{
+      List<String?> f= feeds.map((key) => feed_types[key]).toList();
+      return f.whereType<String>().toList();
+    }
+  }
+  
 
 
   @override
@@ -220,7 +231,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                                 width: 0.3.w,
                                                 color: CustomColors
                                                     .secondary)))),
-                                items: controller.layersFeeds,
+                                items: getFeedsWithoutUnderscores(controller.layersFeeds),
                                 popupProps:
                                     const PopupPropsMultiSelection.menu(
                                   showSelectedItems: true,
@@ -258,7 +269,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                                 width: 0.3.w,
                                                 color: CustomColors
                                                     .secondary)))),
-                                items: controller.broilerFeeds,
+                                items: getFeedsWithoutUnderscores(controller.broilerFeeds),
                                 popupProps:
                                     const PopupPropsMultiSelection.menu(
                                   showSelectedItems: true,
