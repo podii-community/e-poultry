@@ -30,14 +30,25 @@ class FeedsUsedPage extends StatefulWidget {
 }
 
 // ignore: camel_case_types
-enum FEED_TYPE {
-  CHICKEN_DUCK_MASH,
-  FINISHER_PELLETS,
-  GROWERS_MASH,
-  KIENYEJI_GROWERS_MASH,
-  LAYERS_MASH,
-  STARTER_CRUMBS
-}
+// enum FEED_TYPE {
+//   CHICKEN_DUCK_MASH,
+//   FINISHER_PELLETS,
+//   GROWERS_MASH,
+//   KIENYEJI_GROWERS_MASH,
+//   LAYERS_MASH,
+//   STARTER_CRUMBS
+// }
+
+final Map<String, String>feed_types={
+  "CHICKEN_DUCK_MASH":"Chick & Duck Mash",
+  "GROWERS_MASH":"Growers Mash",
+  "LAYERS_MASH":"Layers Mash",
+  "KIENYEJI_GROWERS_MASH":"Kienyeji Growers Mash",
+  "STARTER_CRUMBS":"Starter Crumbs",
+  "FINISHER_PELLETS":"Finisher Pellets"
+};
+final List<String> humanize=feed_types.entries.map((e) => e.value).toList();
+// final List<String> machinelize=feed_types.entries.map((e) => e.key).toList();
 
 class _FeedsUsedPageState extends State<FeedsUsedPage> {
   final _formKey = GlobalKey<FormState>();
@@ -70,6 +81,19 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
 
   final quantity = TextEditingController();
   final controller = Get.find<FarmsController>();
+
+  List<String> getFeedsWithoutUnderscores(List<String> feeds){
+    if(feeds.isEmpty){
+      return [];
+    }else if(feeds[0].contains(" ")){
+      return feeds;
+    }else{
+      List<String?> f= feeds.map((key) => feed_types[key]).toList();
+      return f.whereType<String>().toList();
+    }
+  }
+  
+
 
   @override
   Widget build(BuildContext context) {
@@ -207,7 +231,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                                 width: 0.3.w,
                                                 color: CustomColors
                                                     .secondary)))),
-                                items: controller.layersFeeds,
+                                items: getFeedsWithoutUnderscores(controller.layersFeeds),
                                 popupProps:
                                     const PopupPropsMultiSelection.menu(
                                   showSelectedItems: true,
@@ -245,7 +269,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                                 width: 0.3.w,
                                                 color: CustomColors
                                                     .secondary)))),
-                                items: controller.broilerFeeds,
+                                items: getFeedsWithoutUnderscores(controller.broilerFeeds),
                                 popupProps:
                                     const PopupPropsMultiSelection.menu(
                                   showSelectedItems: true,
@@ -283,7 +307,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                                 width: 0.3.w,
                                                 color: CustomColors
                                                     .secondary)))),
-                                items: controller.kienyejiFeed,
+                                items: getFeedsWithoutUnderscores(controller.broilerFeeds), //I addressed in the same concept addressing the of under scores
                                 popupProps:
                                     const PopupPropsMultiSelection.menu(
                                   showSelectedItems: true,
@@ -374,7 +398,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                         const SizedBox(
                           height: CustomSpacing.s3,
                         ),
-                        _selectedFeeds.contains("CHICK & DUCK MASH") ||
+                        _selectedFeeds.contains("Chicken Duck Mash") ||
                                 _selectedFeeds
                                         .contains("Chick & Duck Mash") &&
                                     ((widget.batchDetails.type!.name) ==
@@ -551,58 +575,55 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                               .toList(growable: false),
                           controlAffinity: ControlAffinity.trailing,
                         ),
-                      ],
-                    ),
+                     
+                  const SizedBox(
+                    height: CustomSpacing.s3,
                   ),
-                ),
-                const SizedBox(
-                  height: CustomSpacing.s3,
-                ),
-                GradientWidget(
-                  child: ElevatedButton(
-                      onPressed: () {
-                        // final DateFormat formatter = DateFormat('yyyy-MM-dd');
-                        // DateTime now = DateTime.now();
-                        // DateTime date =
-                        //     DateTime(now.year, now.month, now.day);
-                        var feedsUsageReports = [
-                          {
-                            "feedType": "CHICK & DUCK_MASH",
-                            "quantity": chickDuckMashUsed.text.isEmpty
-                                ? 0
-                                : int.parse(chickDuckMashUsed.text)
-                          },
-                          {
-                            "feedType": "GROWERS_MASH",
-                            "quantity": growersMashUsed.text.isEmpty
-                                ? 0
-                                : int.parse(growersMashUsed.text)
-                          },
-                          {
-                            "feedType": "LAYERS_MASH",
-                            "quantity": layersMashUsed.text.isEmpty
-                                ? 0
-                                : int.parse(layersMashUsed.text)
-                          },
-                          {
-                            "feedType": "KIENYEJI_GROWERS_MASH",
-                            "quantity": kienyejiGrowersUsed.text.isEmpty
-                                ? 0
-                                : int.parse(kienyejiGrowersUsed.text)
-                          },
-                          {
-                            "feedType": "STARTER_CRUMBS",
-                            "quantity": starterCrumbsUsed.text.isEmpty
-                                ? 0
-                                : int.parse(starterCrumbsUsed.text)
-                          },
-                          {
-                            "feedType": "FINISHER_PELLETS",
-                            "quantity": finisherPelletsUsed.text.isEmpty
-                                ? 0
-                                : int.parse(finisherPelletsUsed.text)
-                          },
-                        ];
+                  GradientWidget(
+                    child: ElevatedButton(
+                        onPressed: () {
+                          // final DateFormat formatter = DateFormat('yyyy-MM-dd');
+                          // DateTime now = DateTime.now();
+                          // DateTime date =
+                          //     DateTime(now.year, now.month, now.day);
+                          var feedsUsageReports = [
+                            {
+                              "feedType": "CHICKEN_DUCK_MASH",
+                              "quantity": chickDuckMashUsed.text.isEmpty
+                                  ? 0
+                                  : int.parse(chickDuckMashUsed.text)
+                            },
+                            {
+                              "feedType": "GROWERS_MASH",
+                              "quantity": growersMashUsed.text.isEmpty
+                                  ? 0
+                                  : int.parse(growersMashUsed.text)
+                            },
+                            {
+                              "feedType": "LAYERS_MASH",
+                              "quantity": layersMashUsed.text.isEmpty
+                                  ? 0
+                                  : int.parse(layersMashUsed.text)
+                            },
+                            {
+                              "feedType": "KIENYEJI_GROWERS_MASH",
+                              "quantity": kienyejiGrowersUsed.text.isEmpty
+                                  ? 0
+                                  : int.parse(kienyejiGrowersUsed.text)
+                            },
+                            {
+                              "feedType": "STARTER_CRUMBS",
+                              "quantity": starterCrumbsUsed.text.isEmpty
+                                  ? 0
+                                  : int.parse(starterCrumbsUsed.text)
+                            },
+                            {
+                              "feedType": "FINISHER_PELLETS",
+                              "quantity": finisherPelletsUsed.text.isEmpty
+                                  ? 0
+                                  : int.parse(finisherPelletsUsed.text)
+                            },
+                          ];
 
                         (controller.report["data"]!["feedsReport"]!
                             as Map)["used"](feedsUsageReports);
@@ -635,9 +656,13 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                 const SizedBox(
                   height: CustomSpacing.s1,
                 ),
-              ],
+                      ]
             ),
+  
           ),
-        ));
+        )
+              ]
+        )
+        )));
   }
 }
