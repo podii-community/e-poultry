@@ -27,7 +27,7 @@ class _FeedStoreState extends State<FeedStore> {
   final _formKey = GlobalKey<FormState>();
 
   var feedsInStore = [
-    "Chicken Duck Mash",
+    "Chick & Duck Mash",
     "Growers Mash",
     "Layers Mash",
     "Kienyeji Growers Mash",
@@ -73,11 +73,10 @@ class _FeedStoreState extends State<FeedStore> {
           children: [
             SizedBox(
               height: MediaQuery.of(context).size.height,
-              child: SingleChildScrollView(
-                physics: const ClampingScrollPhysics(),
-                child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: CustomSpacing.s2),
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: CustomSpacing.s2),
+                child: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -205,7 +204,7 @@ class _FeedStoreState extends State<FeedStore> {
                               const SizedBox(
                                 height: CustomSpacing.s3,
                               ),
-                              _selectedFeeds.contains("Chicken Duck Mash")
+                              _selectedFeeds.contains("Chick & Duck Mash")
                                   ? TextFormField(
                                       controller: chickDuckMashStore,
                                       validator: (value) {
