@@ -189,8 +189,8 @@ class _RequestFarmVisitState extends State<RequestFarmVisit> {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(), // Refer step 1
-      lastDate: DateTime(2030),
       firstDate: DateTime.now(),
+      lastDate: DateTime(DateTime.now().year+1),
     );
     if (picked != null &&
         DateFormat('yyyy-MM-dd').format(picked) != date.text) {
