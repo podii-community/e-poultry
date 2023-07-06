@@ -307,7 +307,7 @@ class _FeedsUsedPageState extends State<FeedsUsedPage> {
                                                 width: 0.3.w,
                                                 color: CustomColors
                                                     .secondary)))),
-                                items: controller.broilerFeeds,
+                                items: getFeedsWithoutUnderscores(controller.broilerFeeds), //I addressed in the same concept addressing the of under scores
                                 popupProps:
                                     const PopupPropsMultiSelection.menu(
                                   showSelectedItems: true,
