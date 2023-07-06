@@ -33,10 +33,10 @@ class _FeedReceivedState extends State<FeedReceived> {
   final kienyejiGrowersReceived = TextEditingController();
   // final chickMashReceived = TextEditingController();
 
-  var kienyejiFeeds = ["CHICK & DUCK Mash", "Kienyeji Growers Mash"];
+  var kienyejiFeeds = ["Chick & Duck Mash", "Kienyeji Growers Mash"];
 
   var layersFeeds = [
-    "CHICK & DUCK Mash",
+    "Chick & Duck Mash",
     "Growers Mash",
     "Layers Mash",
   ];
@@ -162,341 +162,343 @@ class _FeedReceivedState extends State<FeedReceived> {
                     height: 50.h,
                     child: Form(
                       key: _formKey,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(
-                            height: CustomSpacing.s2,
-                          ),
-                          widget.batchDetails.type!.name == "LAYERS"
-                              ? DropdownSearch<String>.multiSelection(
-                                  dropdownDecoratorProps: DropDownDecoratorProps(
-                                      dropdownSearchDecoration: InputDecoration(
-                                          hintText: "--select--",
-                                          labelText:
-                                              "What feeds have you received for your birds?",
-                                          labelStyle: TextStyle(
-                                              fontSize: 2.0.h,
-                                              color: CustomColors.secondary),
-                                          border: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  width: 0.3.w,
-                                                  color:
-                                                      CustomColors.secondary)),
-                                          focusedBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  width: 0.3.w,
-                                                  color: CustomColors
-                                                      .secondary)))),
-                                  items: layersFeeds,
-                                  popupProps:
-                                      const PopupPropsMultiSelection.menu(
-                                    showSelectedItems: true,
-                                  ),
-                                  onChanged: (val) {
-                                    setState(() {
-                                      _selectedFeeds = val;
-                                    });
-                                  },
-                                  validator: (value) {
-                                    if (_selectedFeeds.isEmpty) {
-                                      return "Please choose a feed";
-                                    }
-                                    return null;
-                                  },
-                                )
-                              : Container(),
-                          widget.batchDetails.type!.name == "BROILERS"
-                              ? DropdownSearch<String>.multiSelection(
-                                  dropdownDecoratorProps: DropDownDecoratorProps(
-                                      dropdownSearchDecoration: InputDecoration(
-                                          hintText: "--select--",
-                                          labelText:
-                                              "What feeds have you received for your birds?",
-                                          labelStyle: TextStyle(
-                                              fontSize: 2.0.h,
-                                              color: CustomColors.secondary),
-                                          border: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  width: 0.3.w,
-                                                  color:
-                                                      CustomColors.secondary)),
-                                          focusedBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  width: 0.3.w,
-                                                  color: CustomColors
-                                                      .secondary)))),
-                                  items: broilersFeeds,
-                                  popupProps:
-                                      const PopupPropsMultiSelection.menu(
-                                    showSelectedItems: true,
-                                  ),
-                                  onChanged: (val) {
-                                    setState(() {
-                                      _selectedFeeds = val;
-                                    });
-                                  },
-                                  validator: (value) {
-                                    if (_selectedFeeds.isEmpty) {
-                                      return "Please choose a feed";
-                                    }
-                                    return null;
-                                  },
-                                )
-                              : Container(),
-                          widget.batchDetails.type!.name == "KIENYEJI"
-                              ? DropdownSearch<String>.multiSelection(
-                                  dropdownDecoratorProps: DropDownDecoratorProps(
-                                      dropdownSearchDecoration: InputDecoration(
-                                          hintText: "--select--",
-                                          labelText:
-                                              "What feeds have you received for your birds?",
-                                          labelStyle: TextStyle(
-                                              fontSize: 2.0.h,
-                                              color: CustomColors.secondary),
-                                          border: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  width: 0.3.w,
-                                                  color:
-                                                      CustomColors.secondary)),
-                                          focusedBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  width: 0.3.w,
-                                                  color: CustomColors
-                                                      .secondary)))),
-                                  items: kienyejiFeeds,
-                                  popupProps:
-                                      const PopupPropsMultiSelection.menu(
-                                    showSelectedItems: true,
-                                  ),
-                                  onChanged: (val) {
-                                    setState(() {
-                                      _selectedFeeds = val;
-                                    });
-                                  },
-                                  validator: (value) {
-                                    if (_selectedFeeds.isEmpty) {
-                                      return "Please choose a feed";
-                                    }
-                                    return null;
-                                  },
-                                )
-                              : Container(),
-                          const SizedBox(
-                            height: CustomSpacing.s3,
-                          ),
-                          _selectedFeeds.contains("LAYERS_MASH") ||
-                                  _selectedFeeds.contains("Layers Mash") &&
-                                      (widget.batchDetails.type!.name) ==
-                                          "LAYERS"
-                              ? TextFormField(
-                                  controller: layersMashReceived,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Enter amount of layers mash received';
-                                    }
-                                    return null;
-                                  },
-                                  keyboardType: TextInputType.number,
-                                  decoration: InputDecoration(
-                                    suffixText: 'Kgs',
-                                    prefixStyle: TextStyle(fontSize: 1.8.h),
-                                    border: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            width: 0.3.w,
-                                            color: CustomColors.secondary)),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            width: 0.3.w,
-                                            color: CustomColors.secondary)),
-                                    labelText:
-                                        "How many Kgs of layers mash were received today?",
-                                    labelStyle: TextStyle(
-                                        fontSize: 2.2.h,
-                                        color: CustomColors.secondary),
-                                  ),
-                                )
-                              : Container(),
-                          const SizedBox(
-                            height: CustomSpacing.s3,
-                          ),
-                          _selectedFeeds.contains("GROWERS_MASH") ||
-                                  _selectedFeeds.contains("Growers Mash") &&
-                                      (widget.batchDetails.type!.name) ==
-                                          "LAYERS"
-                              ? TextFormField(
-                                  controller: growersMashReceived,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Enter amount of growers mash received';
-                                    }
-                                    return null;
-                                  },
-                                  keyboardType: TextInputType.number,
-                                  decoration: InputDecoration(
-                                    suffixText: 'Kgs',
-                                    prefixStyle: TextStyle(fontSize: 1.8.h),
-                                    border: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            width: 0.3.w,
-                                            color: CustomColors.secondary)),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            width: 0.3.w,
-                                            color: CustomColors.secondary)),
-                                    labelText:
-                                        "How many Kgs of growers mash were received today?",
-                                    labelStyle: TextStyle(
-                                        fontSize: 2.2.h,
-                                        color: CustomColors.secondary),
-                                  ),
-                                )
-                              : Container(),
-                          const SizedBox(
-                            height: CustomSpacing.s3,
-                          ),
-                          _selectedFeeds.contains("CHICK & DUCK MASH") ||
-                                  _selectedFeeds
-                                          .contains("Chick & Duck Mash") &&
-                                      ((widget.batchDetails.type!.name) ==
-                                              "LAYERS" ||
-                                          (widget.batchDetails.type!.name) ==
-                                              "KIENYEJI")
-                              ? TextFormField(
-                                  controller: chickDuckMashReceived,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Enter amount of chick duck mash received';
-                                    }
-                                    return null;
-                                  },
-                                  keyboardType: TextInputType.number,
-                                  decoration: InputDecoration(
-                                    suffixText: 'Kgs',
-                                    prefixStyle: TextStyle(fontSize: 1.8.h),
-                                    border: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            width: 0.3.w,
-                                            color: CustomColors.secondary)),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            width: 0.3.w,
-                                            color: CustomColors.secondary)),
-                                    labelText:
-                                        "How many Kgs of chick mash were received today?",
-                                    labelStyle: TextStyle(
-                                        fontSize: 2.2.h,
-                                        color: CustomColors.secondary),
-                                  ),
-                                )
-                              : Container(),
-                          const SizedBox(
-                            height: CustomSpacing.s3,
-                          ),
-                          _selectedFeeds.contains("STARTER_CRUMBS") ||
-                                  _selectedFeeds.contains("Starter Crumbs") &&
-                                      (widget.batchDetails.type!.name) ==
-                                          "BROILERS"
-                              ? TextFormField(
-                                  controller: starterCrumbsReceived,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Enter amount of starter crumbs received';
-                                    }
-                                    return null;
-                                  },
-                                  keyboardType: TextInputType.number,
-                                  decoration: InputDecoration(
-                                    suffixText: 'Kgs',
-                                    prefixStyle: TextStyle(fontSize: 1.8.h),
-                                    border: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            width: 0.3.w,
-                                            color: CustomColors.secondary)),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            width: 0.3.w,
-                                            color: CustomColors.secondary)),
-                                    labelText:
-                                        "How many Kgs of starter crumbs were received today?",
-                                    labelStyle: TextStyle(
-                                        fontSize: 2.2.h,
-                                        color: CustomColors.secondary),
-                                  ),
-                                )
-                              : Container(),
-                          const SizedBox(
-                            height: CustomSpacing.s3,
-                          ),
-                          _selectedFeeds.contains("FINISHER_PELLETS") ||
-                                  _selectedFeeds.contains("Finisher Pellets") &&
-                                      (widget.batchDetails.type!.name) ==
-                                          "BROILERS"
-                              ? TextFormField(
-                                  controller: finisherPelletsReceived,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Enter amount of finisher pellets received';
-                                    }
-                                    return null;
-                                  },
-                                  keyboardType: TextInputType.number,
-                                  decoration: InputDecoration(
-                                    suffixText: 'Kgs',
-                                    prefixStyle: TextStyle(fontSize: 1.8.h),
-                                    border: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            width: 0.3.w,
-                                            color: CustomColors.secondary)),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            width: 0.3.w,
-                                            color: CustomColors.secondary)),
-                                    labelText:
-                                        "How many Kgs of finisher pellets were received today?",
-                                    labelStyle: TextStyle(
-                                        fontSize: 2.2.h,
-                                        color: CustomColors.secondary),
-                                  ),
-                                )
-                              : Container(),
-                          const SizedBox(
-                            height: CustomSpacing.s3,
-                          ),
-                          _selectedFeeds.contains("KIENYEJI_GROWERS_MASH") ||
-                                  _selectedFeeds
-                                          .contains("Kienyeji Growers Mash") &&
-                                      (widget.batchDetails.type!.name) ==
-                                          "KIENYEJI"
-                              ? TextFormField(
-                                  controller: kienyejiGrowersReceived,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Enter amount of kienyeji growers mash received';
-                                    }
-                                    return null;
-                                  },
-                                  keyboardType: TextInputType.number,
-                                  decoration: InputDecoration(
-                                    suffixText: 'Kgs',
-                                    prefixStyle: TextStyle(fontSize: 1.8.h),
-                                    border: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            width: 0.3.w,
-                                            color: CustomColors.secondary)),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            width: 0.3.w,
-                                            color: CustomColors.secondary)),
-                                    labelText:
-                                        "How many Kgs of kienyeji growers mash were received today?",
-                                    labelStyle: TextStyle(
-                                        fontSize: 2.2.h,
-                                        color: CustomColors.secondary),
-                                  ),
-                                )
-                              : Container(),
-                        ],
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(
+                              height: CustomSpacing.s2,
+                            ),
+                            widget.batchDetails.type!.name == "LAYERS"
+                                ? DropdownSearch<String>.multiSelection(
+                                    dropdownDecoratorProps: DropDownDecoratorProps(
+                                        dropdownSearchDecoration: InputDecoration(
+                                            hintText: "--select--",
+                                            labelText:
+                                                "What feeds have you received for your birds?",
+                                            labelStyle: TextStyle(
+                                                fontSize: 2.0.h,
+                                                color: CustomColors.secondary),
+                                            border: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    width: 0.3.w,
+                                                    color:
+                                                        CustomColors.secondary)),
+                                            focusedBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    width: 0.3.w,
+                                                    color: CustomColors
+                                                        .secondary)))),
+                                    items: layersFeeds,
+                                    popupProps:
+                                        const PopupPropsMultiSelection.menu(
+                                      showSelectedItems: true,
+                                    ),
+                                    onChanged: (val) {
+                                      setState(() {
+                                        _selectedFeeds = val;
+                                      });
+                                    },
+                                    validator: (value) {
+                                      if (_selectedFeeds.isEmpty) {
+                                        return "Please choose a feed";
+                                      }
+                                      return null;
+                                    },
+                                  )
+                                : Container(),
+                            widget.batchDetails.type!.name == "BROILERS"
+                                ? DropdownSearch<String>.multiSelection(
+                                    dropdownDecoratorProps: DropDownDecoratorProps(
+                                        dropdownSearchDecoration: InputDecoration(
+                                            hintText: "--select--",
+                                            labelText:
+                                                "What feeds have you received for your birds?",
+                                            labelStyle: TextStyle(
+                                                fontSize: 2.0.h,
+                                                color: CustomColors.secondary),
+                                            border: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    width: 0.3.w,
+                                                    color:
+                                                        CustomColors.secondary)),
+                                            focusedBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    width: 0.3.w,
+                                                    color: CustomColors
+                                                        .secondary)))),
+                                    items: broilersFeeds,
+                                    popupProps:
+                                        const PopupPropsMultiSelection.menu(
+                                      showSelectedItems: true,
+                                    ),
+                                    onChanged: (val) {
+                                      setState(() {
+                                        _selectedFeeds = val;
+                                      });
+                                    },
+                                    validator: (value) {
+                                      if (_selectedFeeds.isEmpty) {
+                                        return "Please choose a feed";
+                                      }
+                                      return null;
+                                    },
+                                  )
+                                : Container(),
+                            widget.batchDetails.type!.name == "KIENYEJI"
+                                ? DropdownSearch<String>.multiSelection(
+                                    dropdownDecoratorProps: DropDownDecoratorProps(
+                                        dropdownSearchDecoration: InputDecoration(
+                                            hintText: "--select--",
+                                            labelText:
+                                                "What feeds have you received for your birds?",
+                                            labelStyle: TextStyle(
+                                                fontSize: 2.0.h,
+                                                color: CustomColors.secondary),
+                                            border: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    width: 0.3.w,
+                                                    color:
+                                                        CustomColors.secondary)),
+                                            focusedBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    width: 0.3.w,
+                                                    color: CustomColors
+                                                        .secondary)))),
+                                    items: kienyejiFeeds,
+                                    popupProps:
+                                        const PopupPropsMultiSelection.menu(
+                                      showSelectedItems: true,
+                                    ),
+                                    onChanged: (val) {
+                                      setState(() {
+                                        _selectedFeeds = val;
+                                      });
+                                    },
+                                    validator: (value) {
+                                      if (_selectedFeeds.isEmpty) {
+                                        return "Please choose a feed";
+                                      }
+                                      return null;
+                                    },
+                                  )
+                                : Container(),
+                            const SizedBox(
+                              height: CustomSpacing.s3,
+                            ),
+                            _selectedFeeds.contains("LAYERS_MASH") ||
+                                    _selectedFeeds.contains("Layers Mash") &&
+                                        (widget.batchDetails.type!.name) ==
+                                            "LAYERS"
+                                ? TextFormField(
+                                    controller: layersMashReceived,
+                                    validator: (value) {
+                                      if (value!.isEmpty) {
+                                        return 'Enter amount of layers mash received';
+                                      }
+                                      return null;
+                                    },
+                                    keyboardType: TextInputType.number,
+                                    decoration: InputDecoration(
+                                      suffixText: 'Kgs',
+                                      prefixStyle: TextStyle(fontSize: 1.8.h),
+                                      border: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 0.3.w,
+                                              color: CustomColors.secondary)),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 0.3.w,
+                                              color: CustomColors.secondary)),
+                                      labelText:
+                                          "How many Kgs of layers mash were received today?",
+                                      labelStyle: TextStyle(
+                                          fontSize: 2.2.h,
+                                          color: CustomColors.secondary),
+                                    ),
+                                  )
+                                : Container(),
+                            const SizedBox(
+                              height: CustomSpacing.s3,
+                            ),
+                            _selectedFeeds.contains("GROWERS_MASH") ||
+                                    _selectedFeeds.contains("Growers Mash") &&
+                                        (widget.batchDetails.type!.name) ==
+                                            "LAYERS"
+                                ? TextFormField(
+                                    controller: growersMashReceived,
+                                    validator: (value) {
+                                      if (value!.isEmpty) {
+                                        return 'Enter amount of growers mash received';
+                                      }
+                                      return null;
+                                    },
+                                    keyboardType: TextInputType.number,
+                                    decoration: InputDecoration(
+                                      suffixText: 'Kgs',
+                                      prefixStyle: TextStyle(fontSize: 1.8.h),
+                                      border: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 0.3.w,
+                                              color: CustomColors.secondary)),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 0.3.w,
+                                              color: CustomColors.secondary)),
+                                      labelText:
+                                          "How many Kgs of growers mash were received today?",
+                                      labelStyle: TextStyle(
+                                          fontSize: 2.2.h,
+                                          color: CustomColors.secondary),
+                                    ),
+                                  )
+                                : Container(),
+                            const SizedBox(
+                              height: CustomSpacing.s3,
+                            ),
+                            _selectedFeeds.contains("CHICK & DUCK MASH") ||
+                                    _selectedFeeds
+                                            .contains("Chick & Duck Mash") &&
+                                        ((widget.batchDetails.type!.name) ==
+                                                "LAYERS" ||
+                                            (widget.batchDetails.type!.name) ==
+                                                "KIENYEJI")
+                                ? TextFormField(
+                                    controller: chickDuckMashReceived,
+                                    validator: (value) {
+                                      if (value!.isEmpty) {
+                                        return 'Enter amount of chick duck mash received';
+                                      }
+                                      return null;
+                                    },
+                                    keyboardType: TextInputType.number,
+                                    decoration: InputDecoration(
+                                      suffixText: 'Kgs',
+                                      prefixStyle: TextStyle(fontSize: 1.8.h),
+                                      border: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 0.3.w,
+                                              color: CustomColors.secondary)),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 0.3.w,
+                                              color: CustomColors.secondary)),
+                                      labelText:
+                                          "How many Kgs of chick mash were received today?",
+                                      labelStyle: TextStyle(
+                                          fontSize: 2.2.h,
+                                          color: CustomColors.secondary),
+                                    ),
+                                  )
+                                : Container(),
+                            const SizedBox(
+                              height: CustomSpacing.s3,
+                            ),
+                            _selectedFeeds.contains("STARTER_CRUMBS") ||
+                                    _selectedFeeds.contains("Starter Crumbs") &&
+                                        (widget.batchDetails.type!.name) ==
+                                            "BROILERS"
+                                ? TextFormField(
+                                    controller: starterCrumbsReceived,
+                                    validator: (value) {
+                                      if (value!.isEmpty) {
+                                        return 'Enter amount of starter crumbs received';
+                                      }
+                                      return null;
+                                    },
+                                    keyboardType: TextInputType.number,
+                                    decoration: InputDecoration(
+                                      suffixText: 'Kgs',
+                                      prefixStyle: TextStyle(fontSize: 1.8.h),
+                                      border: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 0.3.w,
+                                              color: CustomColors.secondary)),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 0.3.w,
+                                              color: CustomColors.secondary)),
+                                      labelText:
+                                          "How many Kgs of starter crumbs were received today?",
+                                      labelStyle: TextStyle(
+                                          fontSize: 2.2.h,
+                                          color: CustomColors.secondary),
+                                    ),
+                                  )
+                                : Container(),
+                            const SizedBox(
+                              height: CustomSpacing.s3,
+                            ),
+                            _selectedFeeds.contains("FINISHER_PELLETS") ||
+                                    _selectedFeeds.contains("Finisher Pellets") &&
+                                        (widget.batchDetails.type!.name) ==
+                                            "BROILERS"
+                                ? TextFormField(
+                                    controller: finisherPelletsReceived,
+                                    validator: (value) {
+                                      if (value!.isEmpty) {
+                                        return 'Enter amount of finisher pellets received';
+                                      }
+                                      return null;
+                                    },
+                                    keyboardType: TextInputType.number,
+                                    decoration: InputDecoration(
+                                      suffixText: 'Kgs',
+                                      prefixStyle: TextStyle(fontSize: 1.8.h),
+                                      border: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 0.3.w,
+                                              color: CustomColors.secondary)),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 0.3.w,
+                                              color: CustomColors.secondary)),
+                                      labelText:
+                                          "How many Kgs of finisher pellets were received today?",
+                                      labelStyle: TextStyle(
+                                          fontSize: 2.2.h,
+                                          color: CustomColors.secondary),
+                                    ),
+                                  )
+                                : Container(),
+                            const SizedBox(
+                              height: CustomSpacing.s3,
+                            ),
+                            _selectedFeeds.contains("KIENYEJI_GROWERS_MASH") ||
+                                    _selectedFeeds
+                                            .contains("Kienyeji Growers Mash") &&
+                                        (widget.batchDetails.type!.name) ==
+                                            "KIENYEJI"
+                                ? TextFormField(
+                                    controller: kienyejiGrowersReceived,
+                                    validator: (value) {
+                                      if (value!.isEmpty) {
+                                        return 'Enter amount of kienyeji growers mash received';
+                                      }
+                                      return null;
+                                    },
+                                    keyboardType: TextInputType.number,
+                                    decoration: InputDecoration(
+                                      suffixText: 'Kgs',
+                                      prefixStyle: TextStyle(fontSize: 1.8.h),
+                                      border: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 0.3.w,
+                                              color: CustomColors.secondary)),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 0.3.w,
+                                              color: CustomColors.secondary)),
+                                      labelText:
+                                          "How many Kgs of kienyeji growers mash were received today?",
+                                      labelStyle: TextStyle(
+                                          fontSize: 2.2.h,
+                                          color: CustomColors.secondary),
+                                    ),
+                                  )
+                                : Container(),
+                          ],
+                        ),
                       ),
                     ),
                   ),
