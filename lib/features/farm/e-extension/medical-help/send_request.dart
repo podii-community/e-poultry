@@ -8,6 +8,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide FormData, MultipartFile;
 import 'package:hive/hive.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
@@ -30,10 +31,11 @@ class _GetMedicalHelpState extends State<GetMedicalHelp> {
   final selectedBatch = TextEditingController();
 
   final issue = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   FilePickerResult? file;
   PlatformFile? pickedFile;
-
+  List<PlatformFile> pickedFiles = [];
   bool agree = false;
   bool uploaded = false;
   bool loading = false;
@@ -68,13 +70,16 @@ class _GetMedicalHelpState extends State<GetMedicalHelp> {
       ),
       body: controller.batchesList.isEmpty
           ? Center(
-              child: Column(
-                children: [
-                  const Text('You dont have any batches.Create one'),
-                  TextButton(
-                      onPressed: (() => Get.to(const CreateBatchPage())),
-                      child: const Text('Create Batch'))
-                ],
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    const Text('You dont have any batches.Create one'),
+                    TextButton(
+                        onPressed: (() => Get.to(const CreateBatchPage())),
+                        child: const Text('Create Batch'))
+                  ],
+                ),
               ),
             )
           : SingleChildScrollView(
@@ -151,59 +156,80 @@ class _GetMedicalHelpState extends State<GetMedicalHelp> {
                   const SizedBox(
                     height: CustomSpacing.s3,
                   ),
-                  uploaded? Stack(
-                          clipBehavior: Clip.none,
-                          children: [
-                            Container(
-                              height: 33.h,
-                              width: 100.w,
-                              decoration: BoxDecoration(
-                                  color: CustomColors.drawerBackground,
-                                  borderRadius: BorderRadius.circular(20),
-                                  image: DecorationImage(
-                                      image:
-                                          FileImage(File(pickedFile!.path!)),
-                                      fit: BoxFit.cover)),
+                  pickedFiles.isNotEmpty
+                      ? SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 30),
+                            child: Row(
+                              children: List.generate(
+                                  pickedFiles.length,
+                                  (index) => Container(
+                                        margin: const EdgeInsets.only(right: 30),
+                                        child: Stack(
+                                          clipBehavior: Clip.none,
+                                          children: [
+                                            Container(
+                                              height: 30.h,
+                                              width: pickedFiles.length == 1
+                                                  ? 90.w
+                                                  : 70.w,
+                                              decoration: BoxDecoration(
+                                                  color: CustomColors
+                                                      .drawerBackground,
+                                                  borderRadius:
+                                                      BorderRadius.circular(20),
+                                                  image: DecorationImage(
+                                                      image: FileImage(File(
+                                                          pickedFiles[index]
+                                                              .path!)),
+                                                      fit: BoxFit.cover)),
+                                            ),
+                                            Positioned(
+                                              right: -20,
+                                              top: -15,
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  deleteImageAtIndex(index);
+                                                  if (pickedFiles.isEmpty) {
+                                                    resetImage();
+                                                  }
+                                                  // pickedFiles.removeAt(index);
+                                                },
+                                                child: Container(
+                                                  width: 50,
+                                                  height: 50,
+                                                  decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      border: Border.all(
+                                                          color: Colors.white,
+                                                          width: 4),
+                                                      color: Colors.white,
+                                                      image: const DecorationImage(
+                                                          image: AssetImage(
+                                                              "assets/cancel.png"))),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      )),
                             ),
-                            Positioned(
-                              right: -15,
-                              top: -10,
-                              child: GestureDetector(
-                                onTap: () {
-                                  resetImage();
-                                },
-                                child: Container(
-                                  width: 50,
-                                  height: 50,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      border: Border.all(
-                                          color: Colors.white, width: 4),
-                                      color: Colors.white,
-                                      image:const  DecorationImage(image: AssetImage("assets/cancel.png"))
-                                      ),
-                                //       child:  Container(
-                                //         width: 48,
-                                //         height: 48,
-                                //         decoration: BoxDecoration(
-                                //           shape: BoxShape.circle,
-                                //           color: Color(0xF44336)
-                                //         ),
-                                //       ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ):SizedBox(
+                          ),
+                        )
+                      : SizedBox(
                           width: 100.w,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: const[
-                              Text("Click the button below to upload image", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),)
+                            children: const [
+                              Text(
+                                "Click the button below to upload image",
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.w500),
+                              )
                             ],
                           ),
                         ),
-                     
                   const SizedBox(
                     height: CustomSpacing.s3,
                   ),
@@ -249,6 +275,12 @@ class _GetMedicalHelpState extends State<GetMedicalHelp> {
                         agree = newValue!;
                       });
                     },
+                    subtitle: agree
+                        ? null
+                        : const Text(
+                            "Agree to terms and conditions",
+                            style: TextStyle(color: Colors.red),
+                          ),
                     controlAffinity: ListTileControlAffinity
                         .leading, //  <-- leading Checkbox
                   ),
@@ -259,7 +291,12 @@ class _GetMedicalHelpState extends State<GetMedicalHelp> {
                       ? const LoadingSpinner()
                       : GradientWidget(
                           child: ElevatedButton(
-                            onPressed: () => agree ? submit() : null,
+                            onPressed: () {
+                              // if (_formKey.currentState!.validate()) {
+                              //   submit();
+                              // }
+                              submit();
+                            },
                             style: ElevatedButton.styleFrom(
                                 foregroundColor: CustomColors.background,
                                 backgroundColor: Colors.transparent,
@@ -305,27 +342,44 @@ class _GetMedicalHelpState extends State<GetMedicalHelp> {
 
   pickFiles() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['jpg', 'png'],
-    );
+        type: FileType.custom,
+        allowedExtensions: ['jpg', 'png'],
+        allowMultiple: true);
 
+    if (result != null) {
+      pickedFiles = result.files
+          .map((file) =>
+              PlatformFile(name: file.name, size: file.size, path: file.path))
+          .toList();
+    } else {
+      resetImage();
+      return;
+    }
     setState(() {
       uploaded = true;
     });
 
-    if(result!=null){
-      file = result;
-      pickedFile = result.files.first;
-    }else{
-      resetImage();
-    }
+    // if (result != null) {
+    //   file = result;
+    //   pickedFile = result.files.first;
+    // } else {
+    //   resetImage();
+    // }
   }
 
   resetImage() {
     setState(() {
       uploaded = false;
-      file = null;
-      pickedFile = null;
+      // file = null;
+      pickedFiles = [];
+      // pickedFile = null;
+    });
+  }
+
+  deleteImageAtIndex(int index) {
+    setState(() {
+      pickedFiles.removeAt(index);
+      pickedFiles;
     });
   }
 
@@ -333,12 +387,28 @@ class _GetMedicalHelpState extends State<GetMedicalHelp> {
     setState(() {
       loading = true;
     });
-    final formData = FormData.fromMap({
-      'batchId': selectedBatch.text,
-      'description': issue.text,
-      'attachments[0]': await MultipartFile.fromFile(file!.files.first.path!,
-          filename: file!.files.first.name),
-    });
+
+    // final formData = FormData.fromMap({
+    //   'batchId': selectedBatch.text,
+    //   'description': issue.text,
+    //   'attachments[0]':await MultipartFile.fromFile(file!.files.first.path!,
+    //       filename: file!.files.first.name),
+    // });
+
+    final formData = FormData();
+    formData.fields.addAll([
+      MapEntry('batchId', selectedBatch.text),
+      MapEntry('description', issue.text)
+    ]);
+
+    for (int i = 0; i < pickedFiles.length; i++) {
+      final file = pickedFiles[i];
+      formData.files.add(MapEntry(
+        'attachments[$i]',
+        await MultipartFile.fromFile(file.path!, filename: file.name),
+      ));
+    }
+
     final box = Hive.box('appData');
 
     final response = await dio.post(
