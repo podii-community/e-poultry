@@ -30,6 +30,13 @@ class _RequestFarmVisitState extends State<RequestFarmVisit> {
   bool agree = false;
 
   @override
+  void initState() {
+    super.initState();
+
+    date.text = DateFormat('yyyy-MM-dd').format(DateTime.now());
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
@@ -63,6 +70,36 @@ class _RequestFarmVisitState extends State<RequestFarmVisit> {
                       height: CustomSpacing.s3,
                     ),
                     Text(
+                      "Select farm",
+                      style: TextStyle(fontSize: 2.1.h),
+                    ),
+                    const SizedBox(
+                      height: CustomSpacing.s2,
+                    ),
+                    DropdownButtonFormField<String>(
+                        value: controller.farms[0]['id'],
+                        items: controller.farms
+                            .map((farm) => DropdownMenuItem<String>(
+                                value: farm['id'].toString(),
+                                child: Text(farm['name'])))
+                            .toList(),
+                        decoration: InputDecoration(
+                            labelText: "Name of farm",
+                            labelStyle: TextStyle(
+                                fontSize: 2.2.h, color: CustomColors.secondary),
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    width: 0.3.w,
+                                    color: CustomColors.secondary)),
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    width: 0.3.w,
+                                    color: CustomColors.secondary))),
+                        onChanged: (s) {}),
+                    const SizedBox(
+                      height: CustomSpacing.s2,
+                    ),
+                    Text(
                       "Select the date for the visit",
                       style: TextStyle(fontSize: 2.1.h),
                     ),
@@ -81,8 +118,11 @@ class _RequestFarmVisitState extends State<RequestFarmVisit> {
                         }
                         return null;
                       },
+                      showCursor: false,
+                      readOnly: true,
                       decoration: InputDecoration(
                           labelText: "Date",
+                          suffixIcon: const Icon(Icons.calendar_today_outlined),
                           labelStyle: TextStyle(
                               fontSize: 2.2.h, color: CustomColors.secondary),
                           border: OutlineInputBorder(
