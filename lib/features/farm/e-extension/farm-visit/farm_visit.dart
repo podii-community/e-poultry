@@ -27,7 +27,9 @@ class _RequestFarmVisitState extends State<RequestFarmVisit> {
   final date = TextEditingController();
   final purpose = TextEditingController();
   final controller = Get.find<FarmsController>();
-  bool agree = false;
+  var selectedFarm = {};
+  bool agreeFirstCondition = false;
+  bool agreeSecondCondition = false;
 
   @override
   void initState() {
@@ -80,8 +82,7 @@ class _RequestFarmVisitState extends State<RequestFarmVisit> {
                         value: controller.farm['id'],
                         items: controller.farms
                             .map((farm) => DropdownMenuItem<String>(
-                                value: farm['id'],
-                                child: Text(farm['name'])))
+                                value: farm['id'], child: Text(farm['name'])))
                             .toList(),
                         decoration: InputDecoration(
                             labelText: "Name of farm",
@@ -96,7 +97,8 @@ class _RequestFarmVisitState extends State<RequestFarmVisit> {
                                     width: 0.3.w,
                                     color: CustomColors.secondary))),
                         onChanged: (s) {
-                          controller.updateFarm(controller.farms.firstWhere((farm) => farm['id'] == s));
+                          controller.updateFarmForVisit(controller.farms
+                              .firstWhere((farm) => farm['id'] == s));
                         }),
                     const SizedBox(
                       height: CustomSpacing.s2,
@@ -165,18 +167,33 @@ class _RequestFarmVisitState extends State<RequestFarmVisit> {
                     ),
                     CheckboxListTile(
                       title: const Text(
-                          "I understand that this service may accrue a charge that will be agreed upon by both the officer and I"),
-                      value: agree,
+                          "I understand that this service may accrue a charge that will be agreed upon by both the officer and I."),
+                      value: agreeFirstCondition,
                       onChanged: (newValue) {
                         setState(() {
-                          agree = newValue!;
+                          agreeFirstCondition = newValue!;
                         });
                       },
                       controlAffinity: ListTileControlAffinity
                           .leading, //  <-- leading Checkbox
                     ),
-                    SizedBox(
-                      height: 10.h,
+                    const SizedBox(
+                      height: CustomSpacing.s2,
+                    ),
+                    CheckboxListTile(
+                      title: const Text(
+                          "I understand that any incidents, outcomes, or consequences taht may arise during the farm visit are the sole responsibility of the officer and I."),
+                      value: agreeSecondCondition,
+                      onChanged: (newValue) {
+                        setState(() {
+                          agreeSecondCondition = newValue!;
+                        });
+                      },
+                      controlAffinity: ListTileControlAffinity
+                          .leading, //  <-- leading Checkbox
+                    ),
+                    const SizedBox(
+                      height: CustomSpacing.s2,
                     ),
                     Mutation(
                         options: MutationOptions(
@@ -201,7 +218,7 @@ class _RequestFarmVisitState extends State<RequestFarmVisit> {
 
                           return GradientWidget(
                             child: ElevatedButton(
-                              onPressed: () => agree
+                              onPressed: () => agreeFirstCondition && agreeSecondCondition
                                   ? _requestVisitPressed(context, runMutation)
                                   : null,
                               style: ElevatedButton.styleFrom(
@@ -257,7 +274,7 @@ class _RequestFarmVisitState extends State<RequestFarmVisit> {
     // final DateFormat formatter = DateFormat('yyyy-MM-dd');
     log("${{
       "data": {
-        "farmId": controller.farm['id'],
+        "farmId": controller.selectedFarmForVisit['id'],
         "visitDate": date.text,
         "visitPurpose": purpose.text
       },

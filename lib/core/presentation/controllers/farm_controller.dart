@@ -22,6 +22,7 @@ class FarmsController extends GetxController {
   final selectedCountyName = "".obs;
   final selectedSubCountyName = "Choose subcounty".obs;
   final selectedWardName = "Choose ward".obs;
+  final selectedFarmForVisit = {}.obs;
 
   final filteredSubCounties = [""].obs;
   final filteredWards = [""].obs;
@@ -156,6 +157,10 @@ class FarmsController extends GetxController {
 
   updateFarm(selectedFarm) {
     farm(selectedFarm);
+  }
+
+  updateFarmForVisit(selectedFarm) {
+    selectedFarmForVisit(selectedFarm);
   }
 
   updateFarms(farmsList) {
