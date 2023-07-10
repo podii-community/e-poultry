@@ -111,6 +111,7 @@ class _RequestFarmVisitState extends State<RequestFarmVisit> {
                         _selectDate(context);
                       },
                       controller: date,
+                      readOnly: true,
                       keyboardType: TextInputType.text,
                       validator: (value) {
                         if (value!.isEmpty) {
@@ -228,8 +229,8 @@ class _RequestFarmVisitState extends State<RequestFarmVisit> {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(), // Refer step 1
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2025),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(DateTime.now().year+2),
     );
     if (picked != null &&
         DateFormat('yyyy-MM-dd').format(picked) != date.text) {
