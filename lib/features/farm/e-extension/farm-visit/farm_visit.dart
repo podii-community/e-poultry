@@ -190,7 +190,7 @@ class _RequestFarmVisitState extends State<RequestFarmVisit> {
       context: context,
       initialDate: DateTime.now(), // Refer step 1
       firstDate: DateTime.now(),
-      lastDate: DateTime(DateTime.now().year+1),
+      lastDate: DateTime(DateTime.now().year+2),
     );
     if (picked != null &&
         DateFormat('yyyy-MM-dd').format(picked) != date.text) {
