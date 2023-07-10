@@ -27,7 +27,6 @@ class _RequestFarmVisitState extends State<RequestFarmVisit> {
   final date = TextEditingController();
   final purpose = TextEditingController();
   final controller = Get.find<FarmsController>();
-  var selectedFarm = {};
   bool agreeFirstCondition = false;
   bool agreeSecondCondition = false;
 
