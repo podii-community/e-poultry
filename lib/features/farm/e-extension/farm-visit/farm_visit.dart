@@ -77,10 +77,10 @@ class _RequestFarmVisitState extends State<RequestFarmVisit> {
                       height: CustomSpacing.s2,
                     ),
                     DropdownButtonFormField<String>(
-                        value: controller.farms[0]['id'],
+                        value: controller.farm['id'],
                         items: controller.farms
                             .map((farm) => DropdownMenuItem<String>(
-                                value: farm['id'].toString(),
+                                value: farm['id'],
                                 child: Text(farm['name'])))
                             .toList(),
                         decoration: InputDecoration(
@@ -95,7 +95,9 @@ class _RequestFarmVisitState extends State<RequestFarmVisit> {
                                 borderSide: BorderSide(
                                     width: 0.3.w,
                                     color: CustomColors.secondary))),
-                        onChanged: (s) {}),
+                        onChanged: (s) {
+                          controller.updateFarm(controller.farms.firstWhere((farm) => farm['id'] == s));
+                        }),
                     const SizedBox(
                       height: CustomSpacing.s2,
                     ),
@@ -120,7 +122,6 @@ class _RequestFarmVisitState extends State<RequestFarmVisit> {
                         return null;
                       },
                       showCursor: false,
-                      readOnly: true,
                       decoration: InputDecoration(
                           labelText: "Date",
                           suffixIcon: const Icon(Icons.calendar_today_outlined),
@@ -230,7 +231,7 @@ class _RequestFarmVisitState extends State<RequestFarmVisit> {
       context: context,
       initialDate: DateTime.now(), // Refer step 1
       firstDate: DateTime.now(),
-      lastDate: DateTime(DateTime.now().year+2),
+      lastDate: DateTime(DateTime.now().year + 2),
     );
     if (picked != null &&
         DateFormat('yyyy-MM-dd').format(picked) != date.text) {
