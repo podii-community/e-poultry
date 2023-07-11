@@ -4,6 +4,7 @@ import 'package:epoultry/core/data/data_source/graphql/query_document_provider.d
 import 'package:epoultry/theme/spacing.dart';
 import 'package:epoultry/core/presentation/components/gradient_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:intl/intl.dart';
@@ -27,7 +28,21 @@ class _RequestFarmVisitState extends State<RequestFarmVisit> {
   final date = TextEditingController();
   final purpose = TextEditingController();
   final controller = Get.find<FarmsController>();
-  bool agree = false;
+  late final FToast _toast;
+  bool agreeFirstCondition = false;
+  bool agreeSecondCondition = false;
+  Map selectedFarmForVisit = {};
+  bool purposeHasFocus = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _toast = FToast();
+    _toast.init(context);
+
+    date.text = DateFormat('yyyy-MM-dd').format(DateTime.now());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +78,40 @@ class _RequestFarmVisitState extends State<RequestFarmVisit> {
                       height: CustomSpacing.s3,
                     ),
                     Text(
+                      "Select farm",
+                      style: TextStyle(fontSize: 2.1.h),
+                    ),
+                    const SizedBox(
+                      height: CustomSpacing.s2,
+                    ),
+                    DropdownButtonFormField<String>(
+                        items: controller.farms
+                            .map((farm) => DropdownMenuItem<String>(
+                                value: farm['id'], child: Text(farm['name'])))
+                            .toList(),
+                        decoration: InputDecoration(
+                            labelText: "Enter the name of your farm",
+                            labelStyle: TextStyle(fontSize: 2.2.h),
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    width: 0.3.w,
+                                    color: CustomColors.secondary)),
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    width: 0.3.w,
+                                    color: CustomColors.secondary))),
+                        onChanged: (s) {
+                          setState(() {
+                            selectedFarmForVisit = controller.farms
+                                .firstWhere((farm) => farm['id'] == s);
+
+                            print('SELECTED FARM FOR VISIT : $selectedFarmForVisit');
+                          });
+                        }),
+                    const SizedBox(
+                      height: CustomSpacing.s2,
+                    ),
+                    Text(
                       "Select the date for the visit",
                       style: TextStyle(fontSize: 2.1.h),
                     ),
@@ -82,8 +131,10 @@ class _RequestFarmVisitState extends State<RequestFarmVisit> {
                         }
                         return null;
                       },
+                      showCursor: false,
                       decoration: InputDecoration(
                           labelText: "Date",
+                          suffixIcon: const Icon(Icons.calendar_today_outlined),
                           labelStyle: TextStyle(
                               fontSize: 2.2.h, color: CustomColors.secondary),
                           border: OutlineInputBorder(
@@ -97,45 +148,104 @@ class _RequestFarmVisitState extends State<RequestFarmVisit> {
                     const SizedBox(
                       height: CustomSpacing.s2,
                     ),
-                    TextFormField(
-                      controller: purpose,
-                      maxLines: 5,
-                      keyboardType: TextInputType.text,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Purpose is required';
-                        }
-                        return null;
-                      },
-                      decoration: InputDecoration(
-                          labelText: "Purpose of the visit",
-                          labelStyle: TextStyle(
-                              fontSize: 2.2.h, color: CustomColors.secondary),
-                          border: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  width: 0.3.w, color: CustomColors.secondary)),
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  width: 0.3.w,
-                                  color: CustomColors.secondary))),
+                    Focus(
+                      child: TextFormField(
+                        controller: purpose,
+                        minLines: 1,
+                        maxLines: purposeHasFocus ? 5 : 1,
+                        keyboardType: TextInputType.text,
+                        decoration: InputDecoration(
+                            labelText: "Purpose of the visit*",
+                            hintText:
+                                'Include any specific concerns, objectives, or areas of focus that you would like the officer to address during the visit.',
+                            labelStyle: TextStyle(fontSize: 2.2.h),
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    width: 0.3.w,
+                                    color: CustomColors.secondary)),
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    width: 0.3.w,
+                                    color: CustomColors.secondary))),
+                      ),
+                      onFocusChange: (hasFocus) => setState(() {
+                        purposeHasFocus = hasFocus;
+                      }),
                     ),
                     const SizedBox(
                       height: CustomSpacing.s2,
                     ),
-                    CheckboxListTile(
-                      title: const Text(
-                          "I understand that this service may accrue a charge that will be agreed upon by both the officer and I"),
-                      value: agree,
-                      onChanged: (newValue) {
-                        setState(() {
-                          agree = newValue!;
-                        });
-                      },
-                      controlAffinity: ListTileControlAffinity
-                          .leading, //  <-- leading Checkbox
+                    InkWell(
+                      onTap: () => setState(() {
+                        agreeFirstCondition = !agreeFirstCondition;
+                      }),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: Checkbox(
+                                  materialTapTargetSize:
+                                      MaterialTapTargetSize.shrinkWrap,
+                                  value: agreeFirstCondition,
+                                  onChanged: (newValue) {
+                                    setState(() {
+                                      agreeFirstCondition = newValue!;
+                                    });
+                                  },
+                                )),
+                            const SizedBox(
+                              width: 16,
+                            ),
+                            Flexible(
+                              child: Text(
+                                  "I understand that this service may accrue a charge that will be agreed upon by both the officer and I.",
+                                  style: TextStyle(fontSize: 2.h)),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                    SizedBox(
-                      height: 10.h,
+                    const SizedBox(
+                      height: CustomSpacing.s2,
+                    ),
+                    InkWell(
+                      onTap: () => setState(() {
+                        agreeSecondCondition = !agreeSecondCondition;
+                      }),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: Checkbox(
+                                  materialTapTargetSize:
+                                      MaterialTapTargetSize.shrinkWrap,
+                                  value: agreeSecondCondition,
+                                  onChanged: (newValue) {
+                                    setState(() {
+                                      agreeSecondCondition = newValue!;
+                                    });
+                                  },
+                                )),
+                            const SizedBox(
+                              width: 16,
+                            ),
+                            Flexible(
+                              child: Text(
+                                  "I understand that any incidents, outcomes, or consequences that may arise during the farm visit are the sole responsibility of the officer and I.",
+                                  style: TextStyle(fontSize: 2.h)),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: CustomSpacing.s2,
                     ),
                     Mutation(
                         options: MutationOptions(
@@ -160,9 +270,22 @@ class _RequestFarmVisitState extends State<RequestFarmVisit> {
 
                           return GradientWidget(
                             child: ElevatedButton(
-                              onPressed: () => agree
-                                  ? _requestVisitPressed(context, runMutation)
-                                  : null,
+                              onPressed: () {
+                                if (selectedFarmForVisit.isEmpty) {
+                                  Fluttertoast.showToast(
+                                      msg: 'Select the name of your farm');
+                                } else if (purpose.text.isEmpty) {
+                                  Fluttertoast.showToast(
+                                      msg: "Visit purpose can't be blank");
+                                } else if (!agreeFirstCondition ||
+                                    !agreeSecondCondition) {
+                                  Fluttertoast.showToast(
+                                      msg:
+                                          'Please accept all terms and conditions.');
+                                } else {
+                                  _requestVisitPressed(context, runMutation);
+                                }
+                              },
                               style: ElevatedButton.styleFrom(
                                   foregroundColor: CustomColors.background,
                                   backgroundColor: Colors.transparent,
@@ -190,7 +313,7 @@ class _RequestFarmVisitState extends State<RequestFarmVisit> {
       context: context,
       initialDate: DateTime.now(), // Refer step 1
       firstDate: DateTime.now(),
-      lastDate: DateTime(DateTime.now().year+2),
+      lastDate: DateTime(DateTime.now().year + 2),
     );
     if (picked != null &&
         DateFormat('yyyy-MM-dd').format(picked) != date.text) {
@@ -216,7 +339,7 @@ class _RequestFarmVisitState extends State<RequestFarmVisit> {
     // final DateFormat formatter = DateFormat('yyyy-MM-dd');
     log("${{
       "data": {
-        "farmId": controller.farm['id'],
+        "farmId": selectedFarmForVisit['id'],
         "visitDate": date.text,
         "visitPurpose": purpose.text
       },
