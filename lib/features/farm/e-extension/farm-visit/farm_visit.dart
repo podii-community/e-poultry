@@ -31,6 +31,7 @@ class _RequestFarmVisitState extends State<RequestFarmVisit> {
   late final FToast _toast;
   bool agreeFirstCondition = false;
   bool agreeSecondCondition = false;
+  Map selectedFarmForVisit = {};
   bool purposeHasFocus = false;
 
   @override
@@ -100,8 +101,12 @@ class _RequestFarmVisitState extends State<RequestFarmVisit> {
                                     width: 0.3.w,
                                     color: CustomColors.secondary))),
                         onChanged: (s) {
-                          controller.updateFarmForVisit(controller.farms
-                              .firstWhere((farm) => farm['id'] == s));
+                          setState(() {
+                            selectedFarmForVisit = controller.farms
+                                .firstWhere((farm) => farm['id'] == s);
+
+                            print('SELECTED FARM FOR VISIT : $selectedFarmForVisit');
+                          });
                         }),
                     const SizedBox(
                       height: CustomSpacing.s2,
@@ -266,14 +271,13 @@ class _RequestFarmVisitState extends State<RequestFarmVisit> {
                           return GradientWidget(
                             child: ElevatedButton(
                               onPressed: () {
-                                if (controller.selectedFarmForVisit.isEmpty) {
+                                if (selectedFarmForVisit.isEmpty) {
                                   Fluttertoast.showToast(
                                       msg: 'Select the name of your farm');
                                 } else if (purpose.text.isEmpty) {
                                   Fluttertoast.showToast(
                                       msg: "Visit purpose can't be blank");
-                                }
-                                else if (!agreeFirstCondition ||
+                                } else if (!agreeFirstCondition ||
                                     !agreeSecondCondition) {
                                   Fluttertoast.showToast(
                                       msg:
@@ -335,7 +339,7 @@ class _RequestFarmVisitState extends State<RequestFarmVisit> {
     // final DateFormat formatter = DateFormat('yyyy-MM-dd');
     log("${{
       "data": {
-        "farmId": controller.selectedFarmForVisit['id'],
+        "farmId": selectedFarmForVisit['id'],
         "visitDate": date.text,
         "visitPurpose": purpose.text
       },
