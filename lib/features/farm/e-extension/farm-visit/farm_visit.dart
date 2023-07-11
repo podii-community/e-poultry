@@ -164,32 +164,76 @@ class _RequestFarmVisitState extends State<RequestFarmVisit> {
                     const SizedBox(
                       height: CustomSpacing.s2,
                     ),
-                    CheckboxListTile(
-                      title: const Text(
-                          "I understand that this service may accrue a charge that will be agreed upon by both the officer and I."),
-                      value: agreeFirstCondition,
-                      onChanged: (newValue) {
-                        setState(() {
-                          agreeFirstCondition = newValue!;
-                        });
-                      },
-                      controlAffinity: ListTileControlAffinity
-                          .leading, //  <-- leading Checkbox
+                    InkWell(
+                      onTap: () => setState(() {
+                        agreeFirstCondition = !agreeFirstCondition;
+                      }),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: Checkbox(
+                                  materialTapTargetSize:
+                                      MaterialTapTargetSize.shrinkWrap,
+                                  value: agreeFirstCondition,
+                                  onChanged: (newValue) {
+                                    setState(() {
+                                      agreeFirstCondition = newValue!;
+                                    });
+                                  },
+                                )),
+
+                            const SizedBox(width: 16,),
+
+                            Flexible(
+                              child: Text(
+                                  "I understand that this service may accrue a charge that will be agreed upon by both the officer and I.",
+                                  style: TextStyle(
+                                      fontSize: 2.h)),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                     const SizedBox(
                       height: CustomSpacing.s2,
                     ),
-                    CheckboxListTile(
-                      title: const Text(
-                          "I understand that any incidents, outcomes, or consequences taht may arise during the farm visit are the sole responsibility of the officer and I."),
-                      value: agreeSecondCondition,
-                      onChanged: (newValue) {
-                        setState(() {
-                          agreeSecondCondition = newValue!;
-                        });
-                      },
-                      controlAffinity: ListTileControlAffinity
-                          .leading, //  <-- leading Checkbox
+                    InkWell(
+                      onTap: () => setState(() {
+                        agreeSecondCondition = !agreeSecondCondition;
+                      }),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: Checkbox(
+                                  materialTapTargetSize:
+                                  MaterialTapTargetSize.shrinkWrap,
+                                  value: agreeSecondCondition,
+                                  onChanged: (newValue) {
+                                    setState(() {
+                                      agreeSecondCondition = newValue!;
+                                    });
+                                  },
+                                )),
+
+                            const SizedBox(width: 16,),
+
+                            Flexible(
+                              child: Text(
+                                  "I understand that any incidents, outcomes, or consequences that may arise during the farm visit are the sole responsibility of the officer and I.",
+                                  style: TextStyle(
+                                      fontSize: 2.h)),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                     const SizedBox(
                       height: CustomSpacing.s2,
@@ -217,7 +261,8 @@ class _RequestFarmVisitState extends State<RequestFarmVisit> {
 
                           return GradientWidget(
                             child: ElevatedButton(
-                              onPressed: () => agreeFirstCondition && agreeSecondCondition
+                              onPressed: () => agreeFirstCondition &&
+                                      agreeSecondCondition
                                   ? _requestVisitPressed(context, runMutation)
                                   : null,
                               style: ElevatedButton.styleFrom(
