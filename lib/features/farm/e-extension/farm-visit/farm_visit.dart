@@ -4,6 +4,7 @@ import 'package:epoultry/core/data/data_source/graphql/query_document_provider.d
 import 'package:epoultry/theme/spacing.dart';
 import 'package:epoultry/core/presentation/components/gradient_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:intl/intl.dart';
@@ -27,12 +28,16 @@ class _RequestFarmVisitState extends State<RequestFarmVisit> {
   final date = TextEditingController();
   final purpose = TextEditingController();
   final controller = Get.find<FarmsController>();
+  late final FToast _toast;
   bool agreeFirstCondition = false;
   bool agreeSecondCondition = false;
 
   @override
   void initState() {
     super.initState();
+
+    _toast = FToast();
+    _toast.init(context);
 
     date.text = DateFormat('yyyy-MM-dd').format(DateTime.now());
   }
@@ -78,15 +83,13 @@ class _RequestFarmVisitState extends State<RequestFarmVisit> {
                       height: CustomSpacing.s2,
                     ),
                     DropdownButtonFormField<String>(
-                        value: controller.farm['id'],
                         items: controller.farms
                             .map((farm) => DropdownMenuItem<String>(
                                 value: farm['id'], child: Text(farm['name'])))
                             .toList(),
                         decoration: InputDecoration(
-                            labelText: "Name of farm",
-                            labelStyle: TextStyle(
-                                fontSize: 2.2.h, color: CustomColors.secondary),
+                            labelText: "Enter the name of your farm",
+                            labelStyle: TextStyle(fontSize: 2.2.h),
                             border: OutlineInputBorder(
                                 borderSide: BorderSide(
                                     width: 0.3.w,
@@ -151,6 +154,8 @@ class _RequestFarmVisitState extends State<RequestFarmVisit> {
                       },
                       decoration: InputDecoration(
                           labelText: "Purpose of the visit",
+                          hintText:
+                              'Include any specific concerns, objectives, or areas of focus that you would like the officer to address during the visit.',
                           labelStyle: TextStyle(
                               fontSize: 2.2.h, color: CustomColors.secondary),
                           border: OutlineInputBorder(
@@ -185,14 +190,13 @@ class _RequestFarmVisitState extends State<RequestFarmVisit> {
                                     });
                                   },
                                 )),
-
-                            const SizedBox(width: 16,),
-
+                            const SizedBox(
+                              width: 16,
+                            ),
                             Flexible(
                               child: Text(
                                   "I understand that this service may accrue a charge that will be agreed upon by both the officer and I.",
-                                  style: TextStyle(
-                                      fontSize: 2.h)),
+                                  style: TextStyle(fontSize: 2.h)),
                             ),
                           ],
                         ),
@@ -214,7 +218,7 @@ class _RequestFarmVisitState extends State<RequestFarmVisit> {
                                 height: 20,
                                 child: Checkbox(
                                   materialTapTargetSize:
-                                  MaterialTapTargetSize.shrinkWrap,
+                                      MaterialTapTargetSize.shrinkWrap,
                                   value: agreeSecondCondition,
                                   onChanged: (newValue) {
                                     setState(() {
@@ -222,14 +226,13 @@ class _RequestFarmVisitState extends State<RequestFarmVisit> {
                                     });
                                   },
                                 )),
-
-                            const SizedBox(width: 16,),
-
+                            const SizedBox(
+                              width: 16,
+                            ),
                             Flexible(
                               child: Text(
                                   "I understand that any incidents, outcomes, or consequences that may arise during the farm visit are the sole responsibility of the officer and I.",
-                                  style: TextStyle(
-                                      fontSize: 2.h)),
+                                  style: TextStyle(fontSize: 2.h)),
                             ),
                           ],
                         ),
@@ -261,10 +264,19 @@ class _RequestFarmVisitState extends State<RequestFarmVisit> {
 
                           return GradientWidget(
                             child: ElevatedButton(
-                              onPressed: () => agreeFirstCondition &&
-                                      agreeSecondCondition
-                                  ? _requestVisitPressed(context, runMutation)
-                                  : null,
+                              onPressed: () {
+                                if (controller.selectedFarmForVisit.isEmpty) {
+                                  Fluttertoast.showToast(
+                                      msg: 'Select the name of your farm');
+                                } else if (!agreeFirstCondition ||
+                                    !agreeSecondCondition) {
+                                  Fluttertoast.showToast(
+                                      msg:
+                                          'Please accept all terms and conditions.');
+                                } else {
+                                  _requestVisitPressed(context, runMutation);
+                                }
+                              },
                               style: ElevatedButton.styleFrom(
                                   foregroundColor: CustomColors.background,
                                   backgroundColor: Colors.transparent,
