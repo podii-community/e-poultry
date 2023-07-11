@@ -149,12 +149,6 @@ class _RequestFarmVisitState extends State<RequestFarmVisit> {
                         minLines: 1,
                         maxLines: purposeHasFocus ? 5 : 1,
                         keyboardType: TextInputType.text,
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Purpose is required';
-                          }
-                          return null;
-                        },
                         decoration: InputDecoration(
                             labelText: "Purpose of the visit*",
                             hintText:
@@ -275,7 +269,11 @@ class _RequestFarmVisitState extends State<RequestFarmVisit> {
                                 if (controller.selectedFarmForVisit.isEmpty) {
                                   Fluttertoast.showToast(
                                       msg: 'Select the name of your farm');
-                                } else if (!agreeFirstCondition ||
+                                } else if (purpose.text.isEmpty) {
+                                  Fluttertoast.showToast(
+                                      msg: "Visit purpose can't be blank");
+                                }
+                                else if (!agreeFirstCondition ||
                                     !agreeSecondCondition) {
                                   Fluttertoast.showToast(
                                       msg:
