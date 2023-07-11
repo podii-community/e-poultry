@@ -31,6 +31,7 @@ class _RequestFarmVisitState extends State<RequestFarmVisit> {
   late final FToast _toast;
   bool agreeFirstCondition = false;
   bool agreeSecondCondition = false;
+  bool purposeHasFocus = false;
 
   @override
   void initState() {
@@ -142,29 +143,35 @@ class _RequestFarmVisitState extends State<RequestFarmVisit> {
                     const SizedBox(
                       height: CustomSpacing.s2,
                     ),
-                    TextFormField(
-                      controller: purpose,
-                      maxLines: 5,
-                      keyboardType: TextInputType.text,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Purpose is required';
-                        }
-                        return null;
-                      },
-                      decoration: InputDecoration(
-                          labelText: "Purpose of the visit",
-                          hintText:
-                              'Include any specific concerns, objectives, or areas of focus that you would like the officer to address during the visit.',
-                          labelStyle: TextStyle(
-                              fontSize: 2.2.h, color: CustomColors.secondary),
-                          border: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  width: 0.3.w, color: CustomColors.secondary)),
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  width: 0.3.w,
-                                  color: CustomColors.secondary))),
+                    Focus(
+                      child: TextFormField(
+                        controller: purpose,
+                        minLines: 1,
+                        maxLines: purposeHasFocus ? 5 : 1,
+                        keyboardType: TextInputType.text,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Purpose is required';
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                            labelText: "Purpose of the visit*",
+                            hintText:
+                                'Include any specific concerns, objectives, or areas of focus that you would like the officer to address during the visit.',
+                            labelStyle: TextStyle(fontSize: 2.2.h),
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    width: 0.3.w,
+                                    color: CustomColors.secondary)),
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    width: 0.3.w,
+                                    color: CustomColors.secondary))),
+                      ),
+                      onFocusChange: (hasFocus) => setState(() {
+                        purposeHasFocus = hasFocus;
+                      }),
                     ),
                     const SizedBox(
                       height: CustomSpacing.s2,
