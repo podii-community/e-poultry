@@ -15,9 +15,9 @@ import '../../../../../../core/presentation/components/gradient_widget.dart';
 
 class CreateBatchPage extends StatefulWidget {
 
-  final bool isUpdate;
+  final BatchModel? batchModel;
 
-  const CreateBatchPage({Key? key, this.isUpdate = false}) : super(key: key);
+  const CreateBatchPage({Key? key, this.batchModel}) : super(key: key);
 
   @override
   State<CreateBatchPage> createState() => _CreateBatchPageState();
@@ -60,6 +60,25 @@ class _CreateBatchPageState extends State<CreateBatchPage> {
   String initialMonth = "";
 
   @override
+  void initState() {
+    super.initState();
+
+    //  if batch is not null, update the controllers
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (widget.batchModel != null) {
+        name.text = widget.batchModel!.name;
+        number.text = widget.batchModel!.birdCount.toString();
+        age.text = widget.batchModel!.birdAge.toString();
+
+        setState(() {
+          birdType = widget.batchModel!.type;
+          ageType = widget.batchModel!.ageType;
+        });
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: false,
@@ -91,7 +110,7 @@ class _CreateBatchPageState extends State<CreateBatchPage> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8),
                       child: Text(
-                        "Create New Batch",
+                        widget.batchModel == null ? "Create New Batch" : 'Edit ${widget.batchModel?.name}',
                         style: TextStyle(fontSize: 3.h),
                       ),
                     ),

@@ -1,4 +1,5 @@
 import 'package:epoultry/core/data/data_export.dart';
+import 'package:epoultry/features/farm/dashboard/presentation/components/batch_page/create_batch_page.dart';
 import 'package:epoultry/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -54,7 +55,10 @@ class BatchCard extends StatelessWidget {
 
             //  edit icon
             FilledButton(
-                onPressed: () {},
+                onPressed: () {
+                  //  open edit page
+                  Get.to(() => CreateBatchPage(batchModel: batch,));
+                },
                 style: ButtonStyle(
                     backgroundColor:
                         MaterialStateProperty.all(CustomColors.white),
