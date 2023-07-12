@@ -14,7 +14,10 @@ import '../../../../../../theme/spacing.dart';
 import '../../../../../../core/presentation/components/gradient_widget.dart';
 
 class CreateBatchPage extends StatefulWidget {
-  const CreateBatchPage({Key? key}) : super(key: key);
+
+  final bool isUpdate;
+
+  const CreateBatchPage({Key? key, this.isUpdate = false}) : super(key: key);
 
   @override
   State<CreateBatchPage> createState() => _CreateBatchPageState();
@@ -248,7 +251,7 @@ class _CreateBatchPageState extends State<CreateBatchPage> {
                                       AgeTypes.values.map((AgeTypes ageType) {
                                     return DropdownMenuItem<AgeTypes>(
                                       value: ageType,
-                                      child: Text(ageType.name.toString()),
+                                      child: Text(ageType.name.toLowerCase().capitalizeFirst.toString()),
                                     );
                                   }).toList(),
                                 ),

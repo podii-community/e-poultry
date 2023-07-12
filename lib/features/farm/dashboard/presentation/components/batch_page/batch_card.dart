@@ -1,20 +1,15 @@
+import 'package:epoultry/core/data/data_export.dart';
 import 'package:epoultry/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
 class BatchCard extends StatelessWidget {
-  final String batchName;
-  final int batchBirdCount;
-  final int birdAge;
-  final String birdAgeType;
+  final BatchModel batch;
 
   const BatchCard(
       {super.key,
-      required this.batchName,
-      required this.batchBirdCount,
-      required this.birdAge,
-      required this.birdAgeType});
+        required this.batch});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +26,7 @@ class BatchCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    batchName,
+                    batch.name,
                     style: TextStyle(fontSize: 2.2.h),
                   ),
                   const SizedBox(
@@ -40,7 +35,7 @@ class BatchCard extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        "$batchBirdCount Layers",
+                        "${batch.birdCount} ${batch.type?.name.toLowerCase().capitalizeFirst}",
                         style: TextStyle(fontSize: 1.8.h),
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -48,7 +43,7 @@ class BatchCard extends StatelessWidget {
                         width: 16,
                       ),
                       Text(
-                        "$birdAge ${birdAgeType.toLowerCase().capitalizeFirst} old",
+                        "${batch.birdAge} ${batch.ageType?.name.toLowerCase()} old",
                         style: TextStyle(fontSize: 1.8.h),
                       ),
                     ],

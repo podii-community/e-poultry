@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../../../core/domain/models/batch_model.dart';
 import '../../../../../core/presentation/controllers/farm_controller.dart';
 import '../../../../../theme/colors.dart';
 import '../../../../../theme/spacing.dart';
@@ -80,12 +81,21 @@ class _ListBatchPageState extends State<ListBatchPage> {
                     itemCount: controller.batchesList.length,
                     itemBuilder: (context, position) {
                       return BatchCard(
-                        batchName: controller.batchesList[position]["name"],
-                        batchBirdCount: controller.batchesList[position]
-                            ["birdCount"],
-                        birdAge: controller.batchesList[position]["birdAge"],
-                        birdAgeType: controller.batchesList[position]
-                            ["ageType"],
+                        batch: BatchModel(
+                            name: controller.batchesList[position]["name"],
+                            type: BirdTypes.values.firstWhere((type) =>
+                                type.toString() ==
+                                'BirdTypes.${controller.batchesList[position]["birdType"]}'),
+                            birdAge: controller.batchesList[position]
+                                ["birdAge"],
+                            birdCount: controller.batchesList[position]
+                                ["birdCount"],
+                            ageType: AgeTypes.values.firstWhere((ageType) =>
+                                ageType.toString() ==
+                                'AgeTypes.${controller.batchesList[position]["ageType"]}'),
+                            date: controller.batchesList[position]
+                                ["acquiredDate"],
+                            farmId: controller.batchesList[position]["farmId"]),
                       );
                     },
                   ),
