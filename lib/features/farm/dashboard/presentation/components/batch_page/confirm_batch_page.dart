@@ -24,7 +24,9 @@ class ConfirmBatchPage extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: CustomColors.background,
-          centerTitle: true,
+          centerTitle: false,
+          title: Text("Back", style: TextStyle(fontSize: 2.3.h, color: Colors.black),),
+          titleSpacing: 0,
           elevation: 0,
           leading: IconButton(
             icon: const Icon(
@@ -46,7 +48,7 @@ class ConfirmBatchPage extends StatelessWidget {
                     height: CustomSpacing.s2,
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.only(bottom: 24.0, top: 8),
                     child: Text(
                       "Confirm this Batch",
                       style: TextStyle(fontSize: 3.h),
@@ -72,7 +74,7 @@ class ConfirmBatchPage extends StatelessWidget {
                           ],
                         ),
                         const SizedBox(
-                          height: CustomSpacing.s1,
+                          height: CustomSpacing.s2,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -90,7 +92,7 @@ class ConfirmBatchPage extends StatelessWidget {
                           ],
                         ),
                         const SizedBox(
-                          height: CustomSpacing.s1,
+                          height: CustomSpacing.s2,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -108,7 +110,7 @@ class ConfirmBatchPage extends StatelessWidget {
                           ],
                         ),
                         const SizedBox(
-                          height: CustomSpacing.s1,
+                          height: CustomSpacing.s2,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -120,14 +122,13 @@ class ConfirmBatchPage extends StatelessWidget {
                                   fontSize: 2.4.h),
                             ),
                             Text(
-                              newBatch.birdAge.toString() +
-                                  newBatch.ageType!.name.toString(),
+                              '${newBatch.birdAge.toString()} ${newBatch.ageType!.name.toString()}',
                               style: TextStyle(fontSize: 2.1.h),
                             )
                           ],
                         ),
                         const SizedBox(
-                          height: CustomSpacing.s1,
+                          height: CustomSpacing.s2,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,

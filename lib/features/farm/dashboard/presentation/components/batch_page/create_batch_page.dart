@@ -62,7 +62,9 @@ class _CreateBatchPageState extends State<CreateBatchPage> {
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
           backgroundColor: CustomColors.background,
-          centerTitle: true,
+          centerTitle: false,
+          title: Text("Back", style: TextStyle(fontSize: 2.3.h, color: Colors.black),),
+          titleSpacing: 0,
           elevation: 0,
           leading: IconButton(
             icon: const Icon(
@@ -84,9 +86,9 @@ class _CreateBatchPageState extends State<CreateBatchPage> {
                       height: CustomSpacing.s2,
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.symmetric(vertical: 8),
                       child: Text(
-                        "Create a New Batch",
+                        "Create New Batch",
                         style: TextStyle(fontSize: 3.h),
                       ),
                     ),
