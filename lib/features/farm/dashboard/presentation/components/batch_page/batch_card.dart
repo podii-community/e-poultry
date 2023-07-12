@@ -1,11 +1,20 @@
 import 'package:epoultry/theme/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
 class BatchCard extends StatelessWidget {
   final String batchName;
+  final int batchBirdCount;
+  final int birdAge;
+  final String birdAgeType;
 
-  const BatchCard({super.key, required this.batchName});
+  const BatchCard(
+      {super.key,
+      required this.batchName,
+      required this.batchBirdCount,
+      required this.birdAge,
+      required this.birdAgeType});
 
   @override
   Widget build(BuildContext context) {
@@ -25,17 +34,21 @@ class BatchCard extends StatelessWidget {
                     batchName,
                     style: TextStyle(fontSize: 2.2.h),
                   ),
-                  const SizedBox(height: 4,),
+                  const SizedBox(
+                    height: 4,
+                  ),
                   Row(
                     children: [
                       Text(
-                        "2000 Layers",
+                        "$batchBirdCount Layers",
                         style: TextStyle(fontSize: 1.8.h),
                         overflow: TextOverflow.ellipsis,
                       ),
-                      const SizedBox(width: 16,),
+                      const SizedBox(
+                        width: 16,
+                      ),
                       Text(
-                        "1 day old",
+                        "$birdAge ${birdAgeType.toLowerCase().capitalizeFirst} old",
                         style: TextStyle(fontSize: 1.8.h),
                       ),
                     ],
@@ -57,7 +70,9 @@ class BatchCard extends StatelessWidget {
                       Icons.edit_rounded,
                       color: CustomColors.yellow,
                     ),
-                    const SizedBox(width: 8,),
+                    const SizedBox(
+                      width: 8,
+                    ),
                     Text(
                       "Edit",
                       style: TextStyle(fontSize: 2.2.h),

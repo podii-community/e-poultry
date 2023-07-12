@@ -76,11 +76,19 @@ class _ListBatchPageState extends State<ListBatchPage> {
                 )
               : Expanded(
                   child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: controller.batchesList.length,
-                      itemBuilder: (context, position) {
-                        return BatchCard(batchName: controller.batchesList[position]["name"]);
-                      },),
+                    shrinkWrap: true,
+                    itemCount: controller.batchesList.length,
+                    itemBuilder: (context, position) {
+                      return BatchCard(
+                        batchName: controller.batchesList[position]["name"],
+                        batchBirdCount: controller.batchesList[position]
+                            ["birdCount"],
+                        birdAge: controller.batchesList[position]["birdAge"],
+                        birdAgeType: controller.batchesList[position]
+                            ["ageType"],
+                      );
+                    },
+                  ),
                 )),
         ],
       ),
