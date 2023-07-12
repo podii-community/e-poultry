@@ -1,3 +1,4 @@
+import 'package:epoultry/features/farm/dashboard/presentation/components/batch_page/batch_card.dart';
 import 'package:epoultry/features/farm/dashboard/presentation/components/batch_page/create_batch_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -78,14 +79,8 @@ class _ListBatchPageState extends State<ListBatchPage> {
                       shrinkWrap: true,
                       itemCount: controller.batchesList.length,
                       itemBuilder: (context, position) {
-                        return Card(
-                          elevation: 0.2,
-                          child: ListTile(
-                            title: Text(
-                                "${controller.batchesList[position]["name"]}"),
-                          ),
-                        );
-                      }),
+                        return BatchCard(batchName: controller.batchesList[position]["name"]);
+                      },),
                 )),
         ],
       ),
