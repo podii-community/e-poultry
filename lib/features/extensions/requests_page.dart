@@ -47,6 +47,7 @@ class _RequestsPageState extends State<RequestsPage> {
     String? visitPorpose = "Medical Help";
     String? description = filteredList[0]["medicalVisit"]["description"] ??
         "No description available";
+
     String? ageType = filteredList[0]["medicalVisit"]["ageType"];
     String? birdAge = filteredList[0]["medicalVisit"]["birdAge"].toString();
     String? birdCount = filteredList[0]["medicalVisit"]["birdCount"].toString();
@@ -74,184 +75,181 @@ class _RequestsPageState extends State<RequestsPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(
-                height: 10,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(
+              height: 10,
+            ),
+            Text(
+              "#$visitPorpose",
+              style: TextStyle(
+                fontSize: 18,
+                color:
+                    visitPorpose == "Medical Help" ? Colors.red : Colors.blue,
               ),
-              Text(
-                "#$visitPorpose",
-                style: TextStyle(
+              // style: TextStyelsjn,
+            ),
+            const SizedBox(
+              height: 18,
+            ),
+            Text(
+              description!,
+              textAlign: TextAlign.left,
+              style: const TextStyle(
+                  color: Color.fromRGBO(1, 33, 56, 1),
+                  fontFamily: 'Roboto',
                   fontSize: 18,
-                  color:
-                      visitPorpose == "Medical Help" ? Colors.red : Colors.blue,
+                  letterSpacing: 0.15000000596046448,
+                  fontWeight: FontWeight.normal,
+                  height: 1),
+            ),
+            const SizedBox(
+              height: 18,
+            ),
+            Container(
+              width: 250,
+              height: 250,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: const Color.fromRGBO(255, 255, 255, 1),
+                  width: 2,
                 ),
-                // style: TextStyelsjn,
-              ),
-              const SizedBox(
-                height: 18,
-              ),
-              Text(
-                description!,
-                textAlign: TextAlign.left,
-                style: const TextStyle(
-                    color: Color.fromRGBO(1, 33, 56, 1),
-                    fontFamily: 'Roboto',
-                    fontSize: 18,
-                    letterSpacing: 0.15000000596046448,
-                    fontWeight: FontWeight.normal,
-                    height: 1),
-              ),
-              const SizedBox(
-                height: 18,
-              ),
-                Container(
-                  margin: const EdgeInsets.only(left: 10),
-                width: 250,
-                height: 250,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: const Color.fromRGBO(255, 255, 255, 1),
-                    width: 2,
-                  ),
-                  image: DecorationImage(
-                    image: NetworkImage(widget.url), // replace with your image URL
-                    fit: BoxFit.cover,
-                  ),
-                  // borderRadius: const BorderRadius.all(
-                  //   Radius.elliptical(88, 88),
-                  // ),
+                image: DecorationImage(
+                  image: NetworkImage(widget.url), // replace with your image URL
+                  fit: BoxFit.cover,
                 ),
+                // borderRadius: const BorderRadius.all(
+                //   Radius.elliptical(88, 88),
+                // ),
               ),
-              const SizedBox(
-                height: 18,
-              ),
-              Text(
-                'Type of bird: $birdType',
-                textAlign: TextAlign.left,
-                style: const TextStyle(
-                    color: Color.fromRGBO(1, 33, 56, 1),
-                    fontFamily: 'Roboto',
-                    fontSize: 18,
-                    letterSpacing: 0.15000000596046448,
-                    fontWeight: FontWeight.normal,
-                    height: 1),
-              ),
-              Text(
-                'Age of birds: $birdAge, $ageType',
-                textAlign: TextAlign.left,
-                style: const TextStyle(
-                    color: Color.fromRGBO(1, 33, 56, 1),
-                    fontFamily: 'Roboto',
-                    fontSize: 18,
-                    letterSpacing: 0.15000000596046448,
-                    fontWeight: FontWeight.normal,
-                    height: 1),
-              ),
-              Text(
-                'No of birds: $birdCount',
-                textAlign: TextAlign.left,
-                style: const TextStyle(
-                    color: Color.fromRGBO(1, 33, 56, 1),
-                    fontFamily: 'Roboto',
-                    fontSize: 18,
-                    letterSpacing: 0.15000000596046448,
-                    fontWeight: FontWeight.normal,
-                    height: 1),
-              ),
-              const SizedBox(
-                height: 18,
-              ),
-              Text(
-                'Request by $name',
-                textAlign: TextAlign.left,
-                style: const TextStyle(
-                    color: Color.fromRGBO(1, 33, 56, 1),
-                    fontFamily: 'Roboto',
-                    fontSize: 18,
-                    letterSpacing: 0.15000000596046448,
-                    fontWeight: FontWeight.normal,
-                    height: 1),
-              ),
-              Text(
-                '$farmName, $county, $subCounty',
-                textAlign: TextAlign.left,
-                style: const TextStyle(
-                    color: Color.fromRGBO(1, 33, 56, 1),
-                    fontFamily: 'Roboto',
-                    fontSize: 18,
-                    letterSpacing: 0.15000000596046448,
-                    fontWeight: FontWeight.normal,
-                    height: 1),
-              ),
-              // Text(
-              //   '$formattedDate, $formattedTime',
-              //   textAlign: TextAlign.left,
-              //   style: const TextStyle(
-              //       color: Color.fromRGBO(1, 33, 56, 1),
-              //       fontFamily: 'Roboto',
-              //       fontSize: 18,
-              //       letterSpacing: 0.15000000596046448,
-              //       fontWeight: FontWeight.normal,
-              //       height: 1),
-              // ),
-              const SizedBox(
-                height: 60,
-              ),
-              (status == "PENDING")
-                  ? Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: TextButton.icon(
-                            onPressed: () {
-                              setState(() {
-                                testid = id;
-                              });
-        
-                              acceptRequestDialog(
-                                context,
-                                id,
-                                farmName,
-                                county,
-                                subCounty,
-                              );
-                            },
-                            icon: const Icon(Icons.check),
-                            label: const Text('Accept'),
-                            style: TextButton.styleFrom(
-                              side: const BorderSide(
-                                  width: 3.0, color: Colors.green),
-                            ),
+            ),
+            const SizedBox(
+              height: 18,
+            ),
+            Text(
+              'Type of bird: $birdType',
+              textAlign: TextAlign.left,
+              style: const TextStyle(
+                  color: Color.fromRGBO(1, 33, 56, 1),
+                  fontFamily: 'Roboto',
+                  fontSize: 18,
+                  letterSpacing: 0.15000000596046448,
+                  fontWeight: FontWeight.normal,
+                  height: 1),
+            ),
+            Text(
+              'Age of birds: $birdAge, $ageType',
+              textAlign: TextAlign.left,
+              style: const TextStyle(
+                  color: Color.fromRGBO(1, 33, 56, 1),
+                  fontFamily: 'Roboto',
+                  fontSize: 18,
+                  letterSpacing: 0.15000000596046448,
+                  fontWeight: FontWeight.normal,
+                  height: 1),
+            ),
+            Text(
+              'No of birds: $birdCount',
+              textAlign: TextAlign.left,
+              style: const TextStyle(
+                  color: Color.fromRGBO(1, 33, 56, 1),
+                  fontFamily: 'Roboto',
+                  fontSize: 18,
+                  letterSpacing: 0.15000000596046448,
+                  fontWeight: FontWeight.normal,
+                  height: 1),
+            ),
+            const SizedBox(
+              height: 18,
+            ),
+            Text(
+              'Request by $name',
+              textAlign: TextAlign.left,
+              style: const TextStyle(
+                  color: Color.fromRGBO(1, 33, 56, 1),
+                  fontFamily: 'Roboto',
+                  fontSize: 18,
+                  letterSpacing: 0.15000000596046448,
+                  fontWeight: FontWeight.normal,
+                  height: 1),
+            ),
+            Text(
+              '$farmName, $county, $subCounty',
+              textAlign: TextAlign.left,
+              style: const TextStyle(
+                  color: Color.fromRGBO(1, 33, 56, 1),
+                  fontFamily: 'Roboto',
+                  fontSize: 18,
+                  letterSpacing: 0.15000000596046448,
+                  fontWeight: FontWeight.normal,
+                  height: 1),
+            ),
+            // Text(
+            //   '$formattedDate, $formattedTime',
+            //   textAlign: TextAlign.left,
+            //   style: const TextStyle(
+            //       color: Color.fromRGBO(1, 33, 56, 1),
+            //       fontFamily: 'Roboto',
+            //       fontSize: 18,
+            //       letterSpacing: 0.15000000596046448,
+            //       fontWeight: FontWeight.normal,
+            //       height: 1),
+            // ),
+            const SizedBox(
+              height: 60,
+            ),
+            (status == "PENDING")
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: TextButton.icon(
+                          onPressed: () {
+                            setState(() {
+                              testid = id;
+                            });
+
+                            acceptRequestDialog(
+                              context,
+                              id,
+                              farmName,
+                              county,
+                              subCounty,
+                            );
+                          },
+                          icon: const Icon(Icons.check),
+                          label: const Text('Accept'),
+                          style: TextButton.styleFrom(
+                            side: const BorderSide(
+                                width: 3.0, color: Colors.green),
                           ),
                         ),
-                        const SizedBox(width: 20),
-                        Expanded(
-                          child: TextButton.icon(
-                            onPressed: () {
-                              // ignore: deprecated_member_use
-                              launch('tel:+254742088393');
-        
-                              setState(() {
-                                testid = id;
-                              });
-                              Navigator.pop(context);
-                            },
-                            icon: const Icon(Icons.call),
-                            label: const Text('Call'),
-                            style: TextButton.styleFrom(
-                              side: const BorderSide(
-                                  width: 3.0, color: Colors.amber),
-                            ),
+                      ),
+                      const SizedBox(width: 20),
+                      Expanded(
+                        child: TextButton.icon(
+                          onPressed: () {
+                            // ignore: deprecated_member_use
+                            launch('tel:+254742088393');
+
+                            setState(() {
+                              testid = id;
+                            });
+                            Navigator.pop(context);
+                          },
+                          icon: const Icon(Icons.call),
+                          label: const Text('Call'),
+                          style: TextButton.styleFrom(
+                            side: const BorderSide(
+                                width: 3.0, color: Colors.amber),
                           ),
                         ),
-                      ],
-                    )
-                  : Container(),
-            ],
-          ),
+                      ),
+                    ],
+                  )
+                : Container(),
+          ],
         ),
       ),
     );

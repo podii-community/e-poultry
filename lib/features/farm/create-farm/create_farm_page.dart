@@ -461,6 +461,8 @@ class _CreateFarmPageState extends State<CreateFarmPage> {
       };
       controller.farms.add(farm);
 
+      controller.setFarmCreatedStatus(isFarmCreated: true);
+
       Get.to(() => const SuccessWidget(
             message: 'Farm Created',
             route: 'dashboard',
