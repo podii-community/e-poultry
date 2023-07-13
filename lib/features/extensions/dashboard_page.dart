@@ -207,6 +207,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                                 Get.to(
                                                   () => RequestsPage(
                                                     extensionServiceId: id,
+                                                    url: controller.requestsList[index]["attachments"][0]['url']
                                                   ),
                                                 );
                                                 // controller.requestsList[index];
