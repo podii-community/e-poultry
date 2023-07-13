@@ -204,9 +204,11 @@ class _DashboardPageState extends State<DashboardPage> {
                                           )),
                                           IconButton(
                                               onPressed: () {
+                                                // print(controller.requestsList[index]["attachments"]);
                                                 Get.to(
                                                   () => RequestsPage(
                                                     extensionServiceId: id,
+                                                    url: controller.requestsList[index]["attachments"][0]['url'],
                                                   ),
                                                 );
                                                 // controller.requestsList[index];

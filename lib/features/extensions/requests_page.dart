@@ -15,9 +15,10 @@ import '../../core/presentation/components/loading_spinner.dart';
 import '../../core/presentation/components/success_widget.dart';
 
 class RequestsPage extends StatefulWidget {
-  const RequestsPage({Key? key, this.extensionServiceId}) : super(key: key);
+  const RequestsPage({Key? key, this.extensionServiceId, required this.url}) : super(key: key);
   // ignore: prefer_typing_uninitialized_variables
   final extensionServiceId;
+  final String url;
 
   @override
   State<RequestsPage> createState() => _RequestsPageState();
@@ -44,7 +45,6 @@ class _RequestsPageState extends State<RequestsPage> {
             ["subcounty"] ??
         "Kisumu East";
     String? visitPorpose = "Medical Help";
-    String imageUrl = controller.requestsList[0]["attachments"][0]["url"];
     String? description = filteredList[0]["medicalVisit"]["description"] ??
         "No description available";
 
@@ -116,7 +116,7 @@ class _RequestsPageState extends State<RequestsPage> {
                   width: 2,
                 ),
                 image: DecorationImage(
-                  image: NetworkImage(imageUrl), // replace with your image URL
+                  image: NetworkImage(widget.url), // replace with your image URL
                   fit: BoxFit.cover,
                 ),
                 // borderRadius: const BorderRadius.all(
